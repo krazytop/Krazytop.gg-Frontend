@@ -1,0 +1,14 @@
+.summoner-icon {
+  border-radius: 10px;
+  border: #4b4b4b 2px solid;
+}
+
+.summoner-level {
+  margin-top: -15px;
+  background-color: #1D1D1D;
+  border: #4b4b4b 2px solid;
+  border-radius: 10px;
+  padding: 4px 8px;
+  color: #dcdcdc;
+  margin-bottom: 0;
+}

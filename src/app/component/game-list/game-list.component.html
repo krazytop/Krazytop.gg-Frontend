@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="global-form">
+    <div class="games">
+      <button (click)="selectGame('lol')"
+              [ngClass]="{'game-selected': selectedGame === 'lol', 'game-not-selected': selectedGame !== 'lol'}">
+        <img alt="LOL logo" draggable="false" src="assets/logo/lol_logo.png">
+      </button>
+      <button (click)="selectGame('tft')"
+              [ngClass]="{'game-selected': selectedGame === 'tft', 'game-not-selected': selectedGame !== 'tft'}">
+        <img alt="TFT logo" draggable="false" src="assets/logo/tft_logo.png">
+      </button>
+      <button (click)="selectGame('clash-royal')"
+              [ngClass]="{'game-selected': selectedGame === 'clash-royal', 'game-not-selected': selectedGame !== 'clash-royal'}">
+        <img alt="Clash Royal logo" draggable="false" src="assets/logo/clash-royal_logo.png">
+      </button>
+      <button (click)="selectGame('destiny')"
+              [ngClass]="{'game-selected': selectedGame === 'destiny', 'game-not-selected': selectedGame !== 'destiny'}">
+        <img alt="Destiny logo" draggable="false" src="assets/logo/destiny_logo.png" style="filter: invert(80%);">
+      </button>
+    </div>
+
+    <div *ngIf="selectedGame && selectedGame === 'tft' || selectedGame === 'lol'" class="player">
+      <form #riotForm="ngForm" (submit)="redirectToSummonerPage()">
+        <div class="player-information">
+          <select [(ngModel)]="selectedRegion" name="region">
+            <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
+          </select>
+          <input [(ngModel)]="riotName" name="riotName" type="text" placeholder="Riot Name">
+          <div class="hashtag">#</div>
+          <input [(ngModel)]="riotTag" name="riotTag" type="text" placeholder="EUW">
+        </div>
+        <div class="submit-button">
+          <button type="submit">Afficher</button>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="selectedGame && selectedGame === 'clash-royal'" class="player">
+      <form #supercellForm="ngForm" (submit)="redirectToSupercellPage()">
+        <div class="player-information">
+          <div class="hashtag">#</div>
+          <input [(ngModel)]="playerName" name="name" type="text" placeholder="Clash Royal ID">
+        </div>
+        <div class="submit-button">
+          <button type="submit">Afficher</button>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="selectedGame && selectedGame === 'destiny'" class="player">
+      <button>
+        <div (click)="this.loginToBungie()">Login to Bungie</div>
+        <!--<div (click)="this.logoutOfBungie()">Logout of Bungie</div>-->
+      </button>
+    </div>
+  </div>
+</div>

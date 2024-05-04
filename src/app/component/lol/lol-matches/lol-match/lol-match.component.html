@@ -1,0 +1,117 @@
+<div class="lol-match" >
+  <div class="less-data background-color-{{ getResult().toLowerCase() }}">
+    <div class="game-summary">
+      <div>
+        <div class="main-summary">{{ getResult() }}</div>
+      </div>
+      <div class="complementary-summary">{{ getDatetime() }}</div>
+      <hr>
+      <div class="complementary-summary">{{ getGameDuration() }}</div>
+      <img src="assets/data/tft/tft-queues/1100.png">
+    </div>
+
+    <div class="game-participant">
+      <div class="game-participant-main">
+        <div class="game-participant-main-champion">
+          <img src="assets/data/riot/riot-champions/{{ summonerParticipant!.champion.image }}">
+          <h4 class="champion-level">{{ summonerParticipant!.champLevel }}</h4>
+        </div>
+        <div class="game-participant-summoner-spells-and-runes">
+          <img src="assets/data/lol/lol-summoner-spells/{{ summonerParticipant!.summonerSpell1.image }}" *ngIf="summonerParticipant!.summonerSpell1.image else noItemImage">
+          <img src="assets/data/lol/lol-summoner-spells/{{ summonerParticipant!.summonerSpell2.image }}" *ngIf="summonerParticipant!.summonerSpell2.image else noItemImage">
+        </div>
+        <div class="game-participant-summoner-spells-and-runes">
+          <img src="assets/data/lol/lol-runes/{{ summonerParticipant!.runes.primaryRuneFirstPerk.image }}" *ngIf="summonerParticipant!.runes.primaryRuneFirstPerk else noItemImage">
+          <img src="assets/data/lol/lol-runes/{{ summonerParticipant!.runes.secondaryRuneCategory.image }}" *ngIf="summonerParticipant!.runes.secondaryRuneCategory else noItemImage">
+        </div>
+        <div>
+          <p class="scores">{{ summonerParticipant!.kills }} / {{ summonerParticipant!.deaths }} / {{ summonerParticipant!.assists }}</p>
+          <p class="minors-stats">{{ getKDA() }} KDA</p>
+          <p class="minors-stats">{{ summonerParticipant?.minions }} CS</p>
+        </div>
+
+      </div>
+      <div class="game-participant-items">
+        <img src="assets/data/lol/lol-items/{{ summonerParticipant?.item0?.image }}" *ngIf="summonerParticipant?.item0?.image; else noItemImage">
+        <img src="assets/data/lol/lol-items/{{ summonerParticipant?.item1?.image }}" *ngIf="summonerParticipant?.item1?.image; else noItemImage">
+        <img src="assets/data/lol/lol-items/{{ summonerParticipant?.item2?.image }}" *ngIf="summonerParticipant?.item2?.image; else noItemImage">
+        <img src="assets/data/lol/lol-items/{{ summonerParticipant?.item3?.image }}" *ngIf="summonerParticipant?.item3?.image; else noItemImage">
+        <img src="assets/data/lol/lol-items/{{ summonerParticipant?.item4?.image }}" *ngIf="summonerParticipant?.item4?.image; else noItemImage">
+        <img src="assets/data/lol/lol-items/{{ summonerParticipant?.item5?.image }}" *ngIf="summonerParticipant?.item5?.image; else noItemImage">
+        <img src="assets/data/lol/lol-items/{{ summonerParticipant?.ward?.image }}" *ngIf="summonerParticipant?.ward?.image; else noItemImage">
+      </div>
+    </div>
+
+    <div class="game-teams">
+      <div class="game-team first-team">
+        <div *ngFor="let participant of match.teams[0].participants" class="other-summoner">
+          <ng-container *ngIf="participant.summoner.puuid === summoner.puuid; else elseBlock">
+            <div class="participant-summoner-name">{{ participant.summoner.name }}</div>
+          </ng-container>
+          <ng-template #elseBlock>
+            <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, '/all-queues', '/all-roles']" class="other-summoner-name">
+              <div>{{ participant.summoner.name }}</div>
+            </a>
+          </ng-template>
+          <img class="game-participant-main-champion" src="assets/data/riot/riot-champions/{{ participant.champion.image }}">
+        </div>
+      </div>
+      <div class="game-team roles">
+        <img src="assets/data/lol/lol-roles/top.png">
+        <img src="assets/data/lol/lol-roles/jungle.png">
+        <img src="assets/data/lol/lol-roles/middle.png">
+        <img src="assets/data/lol/lol-roles/bot.png">
+        <img src="assets/data/lol/lol-roles/utility.png">
+      </div>
+      <div class="game-team">
+        <div *ngFor="let participant of match.teams[1].participants" class="other-summoner">
+          <img class="game-participant-main-champion" src="assets/data/riot/riot-champions/{{ participant.champion.image }}">
+          <ng-container *ngIf="participant.summoner.puuid === summoner.puuid; else elseBlock">
+            <div class="participant-summoner-name">{{ participant.summoner.name }}</div>
+          </ng-container>
+          <ng-template #elseBlock>
+            <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, '/all-queues', '/all-roles']" class="other-summoner-name">
+              <div>{{ participant.summoner.name }}</div>
+            </a>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div (click)="showAllMatchData()" class="all-game-stats-button">
+      <div [ngClass]="{'arrow-down': !allDataIsDisplayed, 'arrow-up': allDataIsDisplayed}" class="arrow-up"></div>
+    </div>
+  </div>
+
+  <div class="more-data" *ngIf="allDataIsDisplayed">
+    <div class="team-data">
+      <ng-container *ngTemplateOutlet="teamDataHeaderTemplate"></ng-container>
+      <div style="display: flex; flex-direction: column; gap: 5px">
+        <lol-match-participant *ngFor="let participant of summonerTeam?.participants" [participant]="participant" [topDamage]="topDamage" [summoner]="summoner" [hasWin]="summonerTeam.hasWin"></lol-match-participant>
+      </div>
+    </div>
+    <div class="team-data">
+      <ng-container *ngTemplateOutlet="teamDataHeaderTemplate"></ng-container>
+      <div style="display: flex; flex-direction: column; gap: 5px">
+        <lol-match-participant *ngFor="let participant of enemyTeam?.participants" [participant]="participant" [topDamage]="topDamage" [summoner]="summoner" [hasWin]="enemyTeam.hasWin"></lol-match-participant>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #teamDataHeaderTemplate>
+  <div class="team-data-header">
+    <p>Champion</p>
+    <p>Summoner</p>
+    <p>KDA</p>
+    <p>Damage</p>
+    <p>Golds</p>
+    <p>CS</p>
+    <p>Vision</p>
+    <p>Items</p>
+  </div>
+</ng-template>
+
+<ng-template #noItemImage>
+  <img src="assets/data/lol/lol-items/empty.png" style="opacity: 0.3;">
+</ng-template>

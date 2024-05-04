@@ -1,0 +1,13 @@
+<div *ngIf="latestMatchesPlacement.length == 0" class="no-matches-played-container">
+  <div class="no-matches-played-message">No matches played</div>
+</div>
+<div *ngIf="latestMatchesPlacement.length > 0">
+  <div class="average-placement-title">Avg. place : </div>
+  <div class="average-placement">{{ getLatestMatchesAveragePlacement() }} / 8</div>
+  <br>
+  <br>
+  <div class="latest-matches-placements">
+    <div *ngFor="let placement of latestMatchesPlacement"
+         class="placement background-color-placement-{{ placement }}">{{ placement }}</div>
+  </div>
+</div>

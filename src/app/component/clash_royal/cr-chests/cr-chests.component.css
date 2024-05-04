@@ -1,0 +1,29 @@
+.cr-chests {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.chests {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.chest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chest-index {
+  margin-top: -20px;
+  background-color: #1D1D1D;
+  border: #4b4b4b 1px solid;
+  border-radius: 10px;
+  padding: 4px 8px;
+  color: #dcdcdc;
+}

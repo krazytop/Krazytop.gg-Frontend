@@ -1,0 +1,37 @@
+<div class="tab-selectors">
+  <form #setSelectionForm="ngForm" id="setSelectionForm">
+    <div>
+      <select [(ngModel)]="selectedSet" name="set" class="set-selection" (ngModelChange)="selectSet()">
+        <option *ngFor="let set of availableSets" [ngValue]="set">{{ set }}</option>
+      </select>
+    </div>
+  </form>
+
+  <div class="tab-buttons">
+    <button (click)="selectQueue(TftSearchCriteriaComponent.all)"
+            [ngClass]="{'tab-selected': TftSearchCriteriaService.queue === undefined, 'tab-not-selected': TftSearchCriteriaService.queue !== undefined}">
+      <span>All</span>
+      <img draggable="false" src="assets/data/tft/tft-queues/1000.png">
+    </button>
+    <button (click)="selectQueue(TftSearchCriteriaComponent.normal)"
+            [ngClass]="{'tab-selected': TftSearchCriteriaService.queue === TftSearchCriteriaComponent.normal, 'tab-not-selected': TftSearchCriteriaService.queue !== TftSearchCriteriaComponent.normal}">
+      <span>Normal</span>
+      <img draggable="false" src="assets/data/tft/tft-queues/1090.png">
+    </button>
+    <button (click)="selectQueue(TftSearchCriteriaComponent.soloRanked)"
+            [ngClass]="{'tab-selected': TftSearchCriteriaService.queue === TftSearchCriteriaComponent.soloRanked, 'tab-not-selected': TftSearchCriteriaService.queue !== TftSearchCriteriaComponent.soloRanked}">
+      <span>Solo Ranked</span>
+      <img draggable="false" src="assets/data/tft/tft-queues/1100.png">
+    </button>
+    <button (click)="selectQueue(TftSearchCriteriaComponent.hyperRoll)"
+            [ngClass]="{'tab-selected': TftSearchCriteriaService.queue === TftSearchCriteriaComponent.hyperRoll, 'tab-not-selected': TftSearchCriteriaService.queue !== TftSearchCriteriaComponent.hyperRoll}">
+      <span>Hyper Roll</span>
+      <img draggable="false" src="assets/data/tft/tft-queues/1130.png">
+    </button>
+    <button (click)="selectQueue(TftSearchCriteriaComponent.doubleUp)"
+            [ngClass]="{'tab-selected': TftSearchCriteriaService.queue === TftSearchCriteriaComponent.doubleUp, 'tab-not-selected': TftSearchCriteriaService.queue !== TftSearchCriteriaComponent.doubleUp}">
+      <span>Double Up</span>
+      <img draggable="false" src="assets/data/tft/tft-queues/1160.png">
+    </button>
+  </div>
+</div>

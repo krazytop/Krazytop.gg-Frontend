@@ -1,0 +1,32 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  column-gap: 10px;
+  row-gap: 30px;
+}
+
+.card-image {
+  width: 100px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.level {
+  color: white;
+  margin-top: -29px;
+  padding: 4px 8px;
+  z-index: 1;
+}
+
+.level-container {
+  margin-top: -25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

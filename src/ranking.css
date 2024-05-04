@@ -1,0 +1,75 @@
+.rank-container {
+  background-color: #2c2c2c;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  text-align: center;
+}
+
+hr {
+  background-color: rgb(29, 29, 29);
+  height: 2px;
+  width: 100%;
+  border: none; /* Supprimez la bordure par défaut */
+}
+
+.rank-title {
+  color: white;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.dual-column-rank-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center; /* Centre horizontalement le contenu dans le conteneur */
+  align-items: center; /* Centre verticalement le contenu dans le conteneur */
+}
+
+.rank-content {
+  display: flex; /* Permet au contenu d'être centré verticalement et horizontalement */
+  flex-direction: column;
+  justify-content: center; /* Centre horizontalement le contenu dans le conteneur */
+  align-items: center; /* Centre verticalement le contenu dans le conteneur */
+  margin-bottom: 10px;
+}
+
+.rank-information {
+  color: darkgrey;
+  gap: 10px;
+}
+
+.rank-image-container {
+  border-radius: 50%;
+  display: flex; /* Permet au contenu d'être centré verticalement et horizontalement */
+  justify-content: center; /* Centre horizontalement le contenu dans le conteneur */
+  align-items: center; /* Centre verticalement le contenu dans le conteneur */
+  width: 90px; /* Largeur fixe souhaitée */
+  height: 90px; /* Hauteur fixe souhaitée */
+  background: #414141;
+  border: #4b4b4b 2px solid;
+}
+
+.rank-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  margin-top: 10px;
+}
+
+.cr-rank-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rank-text {
+  color: white;
+}
+
+.unranked-image {
+  width: 70px;
+}

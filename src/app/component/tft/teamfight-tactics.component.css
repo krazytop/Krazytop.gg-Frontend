@@ -1,0 +1,43 @@
+.tft-ranking {
+  grid-column: 1;
+}
+
+.tft-matches {
+  grid-column: 2;
+}
+
+.tft-latest-matches-placement {
+  grid-column: 3;
+}
+
+.background-color-placement-1 {
+  background-color: #987c1e;
+}
+
+.background-color-placement-2 {
+  background-color: #675824;
+}
+
+.background-color-placement-3 {
+  background-color: #42443b;
+}
+
+.background-color-placement-4 {
+  background-color: #303a46;
+}
+
+.background-color-placement-5 {
+  background-color: #303a46;
+}
+
+.background-color-placement-6 {
+  background-color: #3e2c35;
+}
+
+.background-color-placement-7 {
+  background-color: #4c1f25;
+}
+
+.background-color-placement-8 {
+  background-color: #680303;
+}

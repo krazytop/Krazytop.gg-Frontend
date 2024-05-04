@@ -1,0 +1,70 @@
+.vendor {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.vendor-details {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+}
+
+.icons {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 100px;
+}
+
+.icon {
+  position: absolute;
+  z-index: 1;
+}
+
+.icon-background {
+  height: 70%;
+  width: 70%;
+  position: absolute;
+  z-index: 0;
+}
+
+.progressions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.fill-progression {
+  position: relative;
+  background-color: #1D1D1D;
+  height: 18px;
+  width: 100%;
+  display: flex;
+  text-align: center;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progression {
+  position: absolute;
+  height: 18px;
+}
+
+.progression-stat {
+  z-index: 1;
+  margin: 0 auto;
+}
+
+.gap {
+  gap: 5px;
+  font-size: 15px;
+}
+
+.vendor-title {
+  color: white;
+  font-size: 16px;
+  justify-content: center;
+  display: flex;
+}

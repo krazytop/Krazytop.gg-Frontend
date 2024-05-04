@@ -1,0 +1,15 @@
+<div *ngIf="isParentComponentReady" class="cr-chests">
+  <div class="chests">
+    <div *ngFor="let chest of upcomingChests.slice(0,10)" class="chest">
+      <img alt="exp" ngSrc="assets/data/clash-royal/cr-chests/{{chest.name}}.png" height="80" width="80">
+      <div *ngIf="chest.index === 0" class="chest-index">Next</div>
+      <div *ngIf="chest.index !== 0" class="chest-index">+ {{ chest.index }}</div>
+    </div>
+  </div>
+  <div class="chests">
+    <div *ngFor="let chest of upcomingChests.slice(10)" class="chest">
+      <img alt="exp" ngSrc="assets/data/clash-royal/cr-chests/{{chest.name}}.png" height="80" width="80">
+      <div class="chest-index">+ {{ chest.index }}</div>
+    </div>
+  </div>
+</div>

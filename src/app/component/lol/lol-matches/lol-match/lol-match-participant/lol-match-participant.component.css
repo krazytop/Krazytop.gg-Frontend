@@ -1,0 +1,116 @@
+.lol-match-participant {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+  border-radius: 10px;
+  color: #c2c2c2;
+  text-align: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.participant-main-information {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.champion {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+
+  & img {
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.champion-level {
+  margin-top: -22px;
+  background-color: #1D1D1D;
+  border: #4b4b4b 1px solid;
+  border-radius: 25%;
+  padding: 1px 2px;
+  color: #dcdcdc;
+  margin-bottom: 0;
+}
+
+.rune-and-summoner-spells {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  & img {
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.scores {
+  font-size: 20px;
+
+}
+
+.minors-stats {
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.participant-damage {
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  background-color: #c2c2c2;
+  position: absolute;
+  z-index: 1;
+}
+
+.damage-bar {
+  border-radius: 10px;
+  width: 100px;
+  height: 7px;
+  background-color: #2c2c2c;
+  position: relative;
+  margin-top: 10px;
+  align-self: center;
+}
+
+.damage {
+  display: flex;
+  flex-direction: column;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+
+  & img {
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+a:hover {
+  color: white;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: #c2c2c2;
+}

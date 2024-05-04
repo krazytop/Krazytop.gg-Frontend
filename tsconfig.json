@@ -24,6 +24,9 @@
       "dom"
     ]
   },
+  "include": [
+    "src/external-librairies-declarations/*",
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

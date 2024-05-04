@@ -1,0 +1,16 @@
+.cr-ranking {
+  display: grid;
+  gap: 20px;
+}
+
+.trophies {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.rank-information {
+  font-size: 20px;
+}

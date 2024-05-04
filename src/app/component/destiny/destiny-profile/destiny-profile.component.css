@@ -1,0 +1,94 @@
+.destiny-profile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.characters-section {
+  grid-column: 1;
+  padding: 10px;
+}
+
+.other-section {
+  grid-column: 2;
+  padding: 10px;
+}
+
+.characters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.character {
+  position: relative;
+  display: flex;
+  border-radius: 5px;
+  background-color: #212121;
+  border: black solid 2px;
+}
+
+.unselected-character {
+  cursor: pointer;
+
+  & img {
+    filter: grayscale(100%);
+  }
+
+}
+
+.unselected-character:hover {
+
+  & img {
+    filter: grayscale(50%);
+  }
+}
+
+.banner {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.information {
+  display: grid;
+  grid-template-columns: 3fr 6fr 3fr;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.light {
+  grid-column: 3;
+  font-size: 20px;
+  color: #E8D986;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+}
+
+.class-and-title {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.class {
+  font-size: 24px;
+  text-align: left;
+  color: white;
+}
+
+.title {
+  font-size: 16px;
+  text-align: left;
+  color: white;
+}

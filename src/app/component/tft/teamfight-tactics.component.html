@@ -1,0 +1,30 @@
+<navbar></navbar>
+<div *ngIf="isThisComponentReady" class="game-component">
+  <riot-summoner
+    [isParentComponentReady]="isThisComponentReady"
+    [localSummoner]="localSummoner"
+    [remoteSummoner]="remoteSummoner" class="component">
+  </riot-summoner>
+  <tft-search-criteria
+    *ngIf="localSummoner"
+    [summoner]="localSummoner" class="component">
+  </tft-search-criteria>
+  <div *ngIf="localSummoner" class="game-data">
+    <tft-ranking
+      [isParentComponentReady]="isThisComponentReady"
+      [summoner]="localSummoner" class="tft-ranking component">
+    </tft-ranking>
+    <tft-matches
+      [isParentComponentReady]="isThisComponentReady"
+      [queue]="TftSearchCriteriaService.queue"
+      [set]="TftSearchCriteriaService.set"
+      [summoner]="localSummoner" class="tft-matches component">
+    </tft-matches>
+    <tft-latest-matches-placement
+      [isParentComponentReady]="isThisComponentReady"
+      [queue]="TftSearchCriteriaService.queue"
+      [set]="TftSearchCriteriaService.set"
+      [summoner]="localSummoner" class="tft-latest-matches-placement component">
+    </tft-latest-matches-placement>
+  </div>
+</div>

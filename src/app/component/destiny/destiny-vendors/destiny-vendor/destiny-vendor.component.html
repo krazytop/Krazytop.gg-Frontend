@@ -1,0 +1,36 @@
+<div style="background-color: {{ vendorColor }}44; border: 2px solid {{ vendorColor }}FF" class="vendor">
+  <div class="vendor-title">{{ vendor.progression.progressionNomenclature!.name }}</div>
+  <div style="color: white" class="vendor-details">
+    <div class="icons" title="{{ vendor.progression.progressionNomenclature?.description }}">
+      <img class="icon" src="{{ DestinyComponent.destinyAssetUrl + vendor.vendorNomenclature?.icon }}" alt="Vendor icon">
+      <img class="icon-background" id= "{{ vendor.vendorHash }}" src="{{ DestinyComponent.destinyAssetUrl + vendor.vendorNomenclature?.iconBackground }}" alt="Vendor icon background">
+    </div>
+    <ng-container *ngIf="vendor.progression.levelCap != -1">
+      <div class="progressions">
+        <div>Rang {{ vendor.progression.level }} / {{ vendor.progression.levelCap }} ({{ Math.round(vendor.progression.progressToNextLevel / vendor.progression.nextLevelAt * 100) }}%)</div>
+        <div>Prestige {{ vendor.progression.currentResetCount }} ({{ Math.round(vendor.progression.currentProgress / totalXP * 100) }}%)</div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="vendor.progression.levelCap === -1">
+      <div class="progressions">
+        <div>Rang {{ vendor.progression.level }}</div>
+      </div>
+    </ng-container>
+    <div class="progressions">
+      <div class="progression-separators">
+        <div class="fill-progression">
+          <span class="progression-stat">{{ vendor.progression.progressToNextLevel }} / {{ vendor.progression.nextLevelAt }}</span>
+          <div class="progression" style="width: {{ vendor.progression.progressToNextLevel / vendor.progression.nextLevelAt * 100 }}%; background-color: {{ vendorColor }}FF"></div>
+        </div>
+      </div>
+      <ng-container *ngIf="vendor.progression.levelCap != -1">
+        <div class="progression-separators">
+          <div class="fill-progression">
+            <span class="progression-stat">{{ vendor.progression.currentProgress }} / {{ totalXP! }}</span>
+            <div class="progression" style="width: {{ vendor.progression.currentProgress / totalXP! * 100 }}%; background-color: {{ vendorColor }}FF"></div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

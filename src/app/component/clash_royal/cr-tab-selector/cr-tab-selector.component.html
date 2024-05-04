@@ -1,0 +1,21 @@
+<div class="tab-selectors">
+  <div></div>
+  <div class="tab-buttons">
+    <button (click)="selectTab(CrTabSelectorComponent.battles)"
+            [ngClass]="{'tab-selected': CrTabSelectorService.tab === CrTabSelectorComponent.battles, 'tab-not-selected': CrTabSelectorService.tab !== CrTabSelectorComponent.battles}">
+      <span>Battles</span>
+    </button>
+    <button (click)="selectTab(CrTabSelectorComponent.cards)"
+            [ngClass]="{'tab-selected': CrTabSelectorService.tab === CrTabSelectorComponent.cards, 'tab-not-selected': CrTabSelectorService.tab !== CrTabSelectorComponent.cards}">
+      <span>Cards</span>
+    </button>
+    <button (click)="selectTab(CrTabSelectorComponent.chests)"
+            [ngClass]="{'tab-selected': CrTabSelectorService.tab === CrTabSelectorComponent.chests, 'tab-not-selected': CrTabSelectorService.tab !== CrTabSelectorComponent.chests}">
+      <span>Chests</span>
+    </button>
+    <button (click)="selectTab(CrTabSelectorComponent.badges)"
+            [ngClass]="{'tab-selected': CrTabSelectorService.tab === CrTabSelectorComponent.badges, 'tab-not-selected': CrTabSelectorService.tab !== CrTabSelectorComponent.badges}">
+      <span>Badges</span>
+    </button>
+  </div>
+</div>

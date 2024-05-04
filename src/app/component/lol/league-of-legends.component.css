@@ -1,0 +1,23 @@
+.lol-ranking {
+  grid-column: 1;
+}
+
+.lol-matches {
+  grid-column: 2;
+}
+
+.lol-latest-matches-placement {
+  grid-column: 3;
+}
+
+.background-color-victory {
+  background-color: #004281;
+}
+
+.background-color-defeat {
+  background-color: #770000;
+}
+
+.background-color-remake {
+  background-color: #4f4f4f;
+}

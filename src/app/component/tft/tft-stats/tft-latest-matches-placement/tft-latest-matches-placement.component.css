@@ -1,0 +1,27 @@
+@import "src/app/component/tft/teamfight-tactics.component.css";
+
+.latest-matches-placements {
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Crée 10 colonnes de largeur égale */
+  grid-gap: 5px; /* Espace entre les éléments (ajustez selon vos besoins) */
+}
+
+.placement {
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  padding: 10px; /* Espacement interne pour chaque élément (ajustez selon vos besoins) */
+  text-align: center; /* Centrage du texte horizontalement (facultatif) */
+}
+
+.win-rate {
+  color: white;
+  font-weight: bold;
+  display: inline;
+}
+
+.average-placement-title {
+  color: darkgrey;
+  display: inline;
+}

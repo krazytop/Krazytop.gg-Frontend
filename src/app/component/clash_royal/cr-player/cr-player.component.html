@@ -1,0 +1,39 @@
+<div *ngIf="isThisComponentReady && player" class="profile">
+  <div class="profile-icon-level">
+    <div class="player-level-component">
+      <img alt="exp"
+           ngSrc="assets/data/clash-royal/cr-exp.png" height="150" width="150" draggable="false"/>
+      <h3 class="player-level">{{ player.accountLevel?.level }}</h3>
+    </div>
+    <div class="progress-bar">
+      <div class="text-part">
+        {{ player.accountLevel!.currentExp! }}&nbsp;/&nbsp;{{ player.accountLevel!.expToNextLevel! }}
+      </div>
+      <div class="filled-progress-bar" [style.width.%]="player.accountLevel!.currentExp! / player.accountLevel!.expToNextLevel! * 100"></div>
+    </div>
+  </div>
+  <div class="profile-name-and-buttons">
+    <h1 class="profile-name">{{ player.name }} #{{ player.id }}</h1>
+    <div>
+      <div *ngIf="localPlayer">
+        <button (click)="updatePlayer()" [disabled]="nextAllowedUpdate > 0" [ngClass]="{'inactive-profile-update-button': nextAllowedUpdate > 0, 'active-profile-update-button': nextAllowedUpdate === 0}">Update</button>
+        <div *ngIf="nextAllowedUpdate > 0">
+          <p>Next possible update in {{ formatTime(nextAllowedUpdate) }}</p>
+        </div>
+        <div *ngIf="nextAllowedUpdate === 0">
+          <p>{{ getUpdateDateToString() }}</p>
+        </div>
+      </div>
+      <div *ngIf="remotePlayer">
+        <button (click)="updatePlayer()">Import</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isThisComponentReady && !player" class="no-profile">
+  <div *ngIf="!player">
+    <h1>Sorry, this player does not exist ...</h1>
+    <img ngSrc="assets/logo/oops.png" alt="oops" height="512" width="512">
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="destiny-profile" *ngIf="isThisComponentReady">
+  <div class="characters-section">
+    <div class="characters">
+      <div *ngFor="let character of characters" class="character" (click)="selectCharacter(character.characterId!)"
+        [ngClass]="{'unselected-character': character.characterId != this.selectedCharacterId}">
+        <img class="banner" src="{{ DestinyComponent.destinyAssetUrl + character.emblemBackgroundPath }}" alt="Character Emblem">
+        <div class="information">
+          <div class="class-and-title">
+            <span class="class">{{ character.classNomenclature!.nameByGender[character.genderHash] }}</span>
+            <span class="title">Tueur de Roi</span>
+          </div>
+          <div class="light">
+            <img src="/assets/data/destiny/light.png" alt="Light Level">
+            <span>{{ character.light }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="other-section tab-selectors">
+    <button class="tab-not-selected" (click)="destinyComponent.refreshData()">Update</button>
+  </div>
+</div>

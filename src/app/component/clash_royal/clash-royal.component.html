@@ -1,0 +1,33 @@
+<navbar></navbar>
+<div *ngIf="isThisComponentReady" class="game-component">
+  <cr-player
+    [isParentComponentReady]="isThisComponentReady"
+    [localPlayer]="localPlayer"
+    [remotePlayer]="remotePlayer" class="component">
+  </cr-player>
+  <cr-tab-selector
+    *ngIf="localPlayer"
+    [player]="localPlayer" class="component">
+  </cr-tab-selector>
+  <div *ngIf="localPlayer" class="game-data">
+    <cr-ranking
+      [isParentComponentReady]="isThisComponentReady"
+      [player]="localPlayer" class="component">
+    </cr-ranking>
+    <cr-cards
+      *ngIf="CrTabSelectorService.tab === CrTabSelectorComponent.cards"
+      [isParentComponentReady]="isThisComponentReady"
+      [cards]="localPlayer.cards!" class="component">
+    </cr-cards>
+    <cr-chests
+      *ngIf="CrTabSelectorService.tab === CrTabSelectorComponent.chests"
+      [isParentComponentReady]="isThisComponentReady"
+      [upcomingChests]="localPlayer.upcomingChests!" class="component">
+    </cr-chests>
+    <cr-badges
+      *ngIf="CrTabSelectorService.tab === CrTabSelectorComponent.badges"
+      [isParentComponentReady]="isThisComponentReady"
+      [badges]="localPlayer.badges!" class="component">
+    </cr-badges>
+  </div>
+</div>

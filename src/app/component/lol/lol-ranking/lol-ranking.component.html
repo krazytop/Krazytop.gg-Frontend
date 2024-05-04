@@ -1,0 +1,65 @@
+<div class="lol-ranking">
+  <div class="rank-container">
+    <div class="rank-title">Solo Ranked</div>
+    <hr>
+    <div class="dual-column-rank-content">
+      <div class="rank-content">
+        <div class="rank-image-container">
+          <div *ngIf="soloRank != null && soloRank.tier != ''; else elseBlockRankImage">
+            <img class="rank-image" src="assets/data/tft/tft-ranks/TFT_Regalia_{{ soloRank.tier }}.png">
+          </div>
+
+          <ng-template #elseBlockRankImage>
+            <img class="rank-image unranked-image"
+                 src="assets/data/tft/tft-ranks/TFT_Regalia_Provisional.png">
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="rank-content rank-information">
+        <div *ngIf="soloRank != null && soloRank.tier != ''; else elseBlockRankInformations">
+          <div>{{ soloRank.tier }} {{ soloRank.rank }}</div>
+          <div>{{ soloRank.leaguePoints }} LP</div>
+          <div>{{ soloRank.wins}}W / {{ soloRank.losses}}L</div>
+        </div>
+
+        <ng-template #elseBlockRankInformations>
+          <div>Unranked</div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="rank-container">
+    <div class="rank-title">Flex Ranked</div>
+    <hr>
+    <div class="dual-column-rank-content">
+      <div class="rank-content">
+        <div class="rank-image-container">
+          <div *ngIf="flexRank != null && flexRank.tier != ''; else elseBlockRankImage">
+            <img class="rank-image" src="assets/data/tft/tft-ranks/TFT_Regalia_{{ flexRank.tier }}.png">
+          </div>
+
+          <ng-template #elseBlockRankImage>
+            <img class="rank-image unranked-image"
+                 src="assets/data/tft/tft-ranks/TFT_Regalia_Provisional.png">
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="rank-content rank-information">
+        <div *ngIf="flexRank != null && flexRank.tier != ''; else elseBlockRankInformations">
+          <div>{{ flexRank.tier }} {{ flexRank.rank }}</div>
+          <div>{{ flexRank.leaguePoints }} LP</div>
+          <div>{{ soloRank.wins}}W / {{ soloRank.losses}}L</div>
+        </div>
+
+        <ng-template #elseBlockRankInformations>
+          <div>Unranked</div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

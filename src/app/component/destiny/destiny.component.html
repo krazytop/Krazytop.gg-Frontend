@@ -1,0 +1,16 @@
+<navbar></navbar>
+<div *ngIf="isThisComponentReady" class="game-component">
+  <destiny-profile
+    [isParentComponentReady]="isThisComponentReady"
+    [characters]="characters" class="component">
+    <!--[memberships]=""-->
+  </destiny-profile>
+</div>
+<div class="game-data">
+  <div></div>
+  <destiny-vendors *ngIf="componentToShow === 'vendors'" class="component"
+    [isParentComponentReady]="isThisComponentReady">
+  </destiny-vendors>
+  <div></div>
+</div>
+<!-- faire un chargement si les components sont en attente-->

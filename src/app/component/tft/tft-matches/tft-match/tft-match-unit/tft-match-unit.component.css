@@ -1,0 +1,89 @@
+.legendary-star {
+  font-size: 25px; /* Taille des étoiles */
+  color: #1de377; /* Couleur des étoiles */
+}
+
+.gold-star {
+  font-size: 25px; /* Taille des étoiles */
+  color: gold; /* Couleur des étoiles */
+}
+
+.silver-star {
+  font-size: 25px; /* Taille des étoiles */
+  color: silver; /* Couleur des étoiles */
+}
+
+.bronze-star {
+  font-size: 25px; /* Taille des étoiles */
+  color: #8f5252; /* Couleur des étoiles */
+}
+
+.stars {
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+}
+
+.unit-img {
+  position: absolute;
+  clip-path: polygon(
+    50% 5px, /* Coin supérieur (avec exclusion des 5 pixels en haut) */ 88% 30%, /* Coin supérieur droit */ 88% 70%, /* Coin inférieur droit */ 50% calc(100% - 5px), /* Coin inférieur (avec exclusion des 5 pixels en haut) */ 12% 70%, /* Coin inférieur gauche */ 12% 30% /* Coin supérieur gauche */
+  );
+  /* L'hexagone exclut une marge de 5 pixels autour de l'image */
+  width: 85px; /* Ajustez la taille en fonction de vos besoins */
+  height: 85px; /* Ajustez la taille en fonction de vos besoins */
+}
+
+.unit-bg {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  clip-path: polygon(
+    50% 5px, /* Coin supérieur (avec exclusion des 5 pixels en haut) */ 88% 30%, /* Coin supérieur droit */ 88% 70%, /* Coin inférieur droit */ 50% calc(100% - 5px), /* Coin inférieur (avec exclusion des 5 pixels en haut) */ 12% 70%, /* Coin inférieur gauche */ 12% 30% /* Coin supérieur gauche */
+  );
+}
+
+.units-container {
+  position: relative; /* Ajoutez ceci pour que les enfants soient positionnés par rapport à ce conteneur */
+  width: 90px /* Ajustez la largeur du conteneur */;
+  height: 90px /* Ajustez la hauteur du conteneur */;
+  display: flex; /* Utilisation de flexbox pour centrer le contenu */
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+}
+
+.rarity-0 {
+  background-color: grey;
+}
+
+.rarity-1 {
+  background-color: #19b419;
+}
+
+.rarity-2 {
+  background-color: #4599f8;
+}
+
+.rarity-4 {
+  background-color: #a90ba9;
+}
+
+.rarity-6 {
+  background-color: gold;
+}
+
+.rarity-9 {
+  background-color: white;
+}
+
+.items-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.item-image {
+  width: 20px;
+  height: 20px;
+}

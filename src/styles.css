@@ -1,1 +1,95 @@
-/* You can add global styles to this file, and also import other style files */
+.component {
+  background-color: #1D1D1D;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.game-component {
+  display: grid;
+  grid-gap: 10px;
+  margin: 10px;
+}
+
+.game-data {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-gap: 10px;
+}
+
+.filled-progress-bar {
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  background-color: #25aecb;
+  position: absolute;
+}
+
+.progress-bar {
+  border-radius: 10px;
+  width: 100px;
+  height: 15px;
+  background-color: darkgrey;
+  color: #1D1D1D;
+  font-size: 15px;
+  position: relative;
+  margin-top: 10px;
+}
+
+.text-progress-bar {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.no-matches-played-message {
+  color: darkgrey;
+  font-size: 30px;
+  align-content: center;
+}
+
+.no-matches-played-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.more-matches {
+  background-color: #424242;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.more-matches:hover {
+  background-color: #646464;
+}
+
+.arrow-down {
+  position: absolute;
+  top: 110px;
+  width: 15px;
+  height: 15px;
+  border: solid #1D1D1D;
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+  display: inline-block;
+}
+
+.arrow-up {
+  position: absolute;
+  top: 120px;
+  width: 15px;
+  height: 15px;
+  border: solid #1D1D1D;
+  border-width: 2px 2px 0 0;
+  rotate: -45deg;
+  display: inline-block;
+}

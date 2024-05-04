@@ -25,7 +25,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/profile.css",
+              "src/tab-selectors.css",
+              "src/ranking.css"
             ],
             "scripts": []
           },
@@ -87,7 +90,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/profile.css",
+              "src/tab-selectors.css",
+              "src/ranking.css"
             ],
             "scripts": []
           }
