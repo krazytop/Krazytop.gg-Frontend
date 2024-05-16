@@ -1,1 +1,12 @@
-<p>destiny-component-selector works!</p>
+<div class="tab-selectors">
+  <div class="tab-buttons">
+    <button (click)="selectComponent(DestinyComponentSelectorComponent.vendors)"
+            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.vendors, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.vendors}">
+      <span>Vendors</span>
+    </button>
+    <button (click)="selectComponent(DestinyComponentSelectorComponent.collections)"
+            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.collections, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.collections}">
+      <span>Collections</span>
+    </button>
+  </div>
+</div>

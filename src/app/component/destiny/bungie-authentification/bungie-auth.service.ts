@@ -68,37 +68,29 @@ export class BungieAuthService {
           characters.sort((a, b) => new Date(b.dateLastPlayed).getTime() - new Date(a.dateLastPlayed).getTime());
           return characters;
         })
-      )
+      );
   }
 
-  checkTokenValidity(): Observable<BungieAuthModel | null> {
-    return of(null).pipe(
-      concatMap(() => {
-        if (this.isTokenExpired()) {
-          if (this.isRefreshTokenExpired()) {
-            return throwError(() => new Error('All token are expired'));
-          } else {
-            const refreshToken = this.getPlayerTokens()!.refresh_token!;
-            return this.http.post<BungieAuthModel>(`http://localhost:8080/destiny/update`, { refreshToken }, { headers: HeaderService.getHeaders() })
-              .pipe(
-                catchError(() => {
-                  return throwError(() => new Error('Error fetching characters'));
-                })
-              )
-              .pipe(
-                tap((response: BungieAuthModel | null) => {
-                  if (response != null) {
-                    this.setExpirations(response);
-                    this.setPlayerTokens(response);
-                  }
-                })
-              );
-          }
-        } else {
-          return of(null);
-        }
-      })
-    );
+  checkTokenValidity(): Observable<boolean> {
+    if (this.isTokenExpired()) {
+      if (this.isRefreshTokenExpired()) {
+        return of(false);
+      } else {
+        const refreshToken = this.getPlayerTokens()!.refresh_token!;
+        return this.http.post<BungieAuthModel>(`http://localhost:8080/destiny/update`, { refreshToken }, { headers: HeaderService.getHeaders() })
+          .pipe(
+            tap((response: BungieAuthModel | null) => {
+              if (response != null) {
+                this.setExpirations(response);
+                this.setPlayerTokens(response);
+              }
+            }),
+            map(() => true)
+          );
+      }
+    } else {
+      return of(true);
+    }
   }
 
   setExpirations(playerTokens: BungieAuthModel){

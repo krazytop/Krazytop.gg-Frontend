@@ -1,4 +1,4 @@
-import {DestinyProgressionStepNomenclature} from "./destiny-progression-step.nomenclature";
+import {DestinyProgressionStepModel} from "../destiny-progression-step.model";
 
 export class DestinyProgressionNomenclature {
   hash!: number;
@@ -6,5 +6,5 @@ export class DestinyProgressionNomenclature {
   description!: string;
   icon?: string;
   repeatLastStep!: boolean;
-  steps!: DestinyProgressionStepNomenclature[];
+  steps!: DestinyProgressionStepModel[];
 }

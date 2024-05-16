@@ -1,5 +1,5 @@
 import {DestinyVendorProgressionModel} from "./destiny-vendor-progression.model";
-import {DestinyVendorNomenclature} from "./destiny-vendor.nomenclature";
+import {DestinyVendorNomenclature} from "./nomenclature/destiny-vendor.nomenclature";
 
 export class DestinyVendorModel {
   progression!: DestinyVendorProgressionModel;

@@ -1,0 +1,13 @@
+<div *ngIf="isThisComponentReady" class="postmaster-list">
+  <div *ngFor="let postmaster of characterInventories" class="postmaster">
+    <div class="postmaster-title">POSTMASTER
+      <span>({{ postmaster.items.length }} / 21)</span>
+    </div>
+    <div class="items">
+      <div *ngFor="let item of postmaster.items">
+        <destiny-item [item]="item" (click)="moveItem(item, postmaster)" class="item-that-can-move">
+        </destiny-item>
+      </div>
+    </div>
+  </div>
+</div>

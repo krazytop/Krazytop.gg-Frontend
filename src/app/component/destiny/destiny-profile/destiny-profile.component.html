@@ -1,18 +1,27 @@
 <div class="destiny-profile" *ngIf="isThisComponentReady">
-  <div class="characters-section">
-    <div class="characters">
-      <div *ngFor="let character of characters" class="character" (click)="selectCharacter(character.characterId!)"
-        [ngClass]="{'unselected-character': character.characterId != this.selectedCharacterId}">
-        <img class="banner" src="{{ DestinyComponent.destinyAssetUrl + character.emblemBackgroundPath }}" alt="Character Emblem">
-        <div class="information">
-          <div class="class-and-title">
-            <span class="class">{{ character.classNomenclature!.nameByGender[character.genderHash] }}</span>
-            <span class="title">Tueur de Roi</span>
-          </div>
-          <div class="light">
-            <img src="/assets/data/destiny/light.png" alt="Light Level">
-            <span>{{ character.light }}</span>
-          </div>
+  <div class="linked-profiles">
+    <img class="bungie-profile-icon" src="{{ DestinyComponent.destinyAssetUrl + bungieProfile!.iconPath }}">
+    <div class="bungie-profile-and-platforms">
+      <h1 class="bungie-profile">{{ bungieProfile!.displayName + "#" + bungieProfile!.bungieGlobalDisplayNameCode }}</h1>
+      <div class="other-plaforms">
+        <ng-container *ngFor="let linkedProfile of linkedProfiles">
+          <img src="assets/logo/{{ linkedProfile.platformIcon }}" title="{{ linkedProfile.displayName }}">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="characters">
+    <div *ngFor="let character of characters" class="character" (click)="selectCharacter(character.characterId!)"
+      [ngClass]="{'unselected-character': character.characterId != this.selectedCharacterId}">
+      <img class="banner" src="{{ DestinyComponent.destinyAssetUrl + character.emblemBackgroundPath }}" alt="Character Emblem">
+      <div class="information">
+        <div class="class-and-title">
+          <span class="class">{{ character.classNomenclature!.nameByGender[character.genderHash] }}</span>
+          <span class="title">Tueur de Roi</span>
+        </div>
+        <div class="light">
+          <img src="/assets/data/destiny/light.png" alt="Light Level">
+          <span>{{ character.light }}</span>
         </div>
       </div>
     </div>

@@ -1,3 +1,20 @@
 html {
   background-color: #333333;
 }
+
+.alert {
+  position: fixed;
+  bottom: 20px;
+  background-color: #6c2121;
+  width: 500px;
+  height: 30px;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 99;
+}
+
+.alert-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

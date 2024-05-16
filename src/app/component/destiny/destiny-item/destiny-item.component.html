@@ -1,0 +1,5 @@
+<div>
+  <img src="{{ DestinyComponent.destinyAssetUrl + item.itemNomenclature?.icon }}"  alt="item img">
+  <div *ngIf="item.itemInstanceId != undefined">{{ item.itemInstance!.primaryStat.value }}</div>
+  <div *ngIf="item.itemInstanceId == undefined">{{ item.quantity }}</div>
+</div>

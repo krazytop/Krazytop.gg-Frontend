@@ -1,11 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {DestinyCharacterModel} from "../../model/destiny/destiny-character.model";
 import {BungieAuthService} from "./bungie-authentification/bungie-auth.service";
-import {catchError, concatMap, filter, Observable, of, Subject, tap} from "rxjs";
-import {DestinyClassNomenclature} from "../../model/destiny/destiny-class.nomenclature";
-import {HeaderService} from "../../config/headers.service";
+import {catchError, concatMap, map, of, Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {DestinyProfileModel} from "../../model/destiny/destiny-profile.model";
+import {DestinyCharacterInventoryModel} from "../../model/destiny/destiny-character-inventory.model";
+import {DestinyItemInstanceModel} from "../../model/destiny/destiny-item-instance.model";
+import {DestinyItemModel} from "../../model/destiny/destiny-item.model";
+import {DestinyLinkedProfilesModel} from "../../model/destiny/destiny-linked-profiles.model";
 
 @Component({
   selector: 'destiny',
@@ -19,7 +21,8 @@ export class DestinyComponent implements OnInit, OnDestroy {
   protected componentToShow: string | undefined;
 
   isThisComponentReady: boolean = false;
-  characters: DestinyCharacterModel[] = [];
+  profile: DestinyProfileModel = new DestinyProfileModel();
+  linkedProfiles: DestinyLinkedProfilesModel[] = [];
   public static destinyAssetUrl: string = "https://www.bungie.net";
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router) {}
@@ -35,24 +38,25 @@ export class DestinyComponent implements OnInit, OnDestroy {
     this.requestDataRefreshing.subscribe(requestDataRefreshing => {
       if (requestDataRefreshing) {
         this.requestDataRefreshing.next(false);
-        this.bungieAuthService.checkTokenValidity()
-          .pipe(
-            concatMap(() => this.bungieAuthService.getCharactersFromMembership(platform!, membership!)),
-            catchError(error => {
-              console.error('Error fetching characters:', error);
-              return of([]);
+        this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
+          if (isTokenValid) {
+            this.getProfile(platform!, membership!).subscribe(() => {
+              if (this.profile != null) {
+                if (this.profile.characters.length === 0) {
+                  console.log("Need at least one character"); //TODO alert + deconnection
+                  this.router.navigate(['/']);
+                } else {
+                  this.getLinkedProfile(platform!, membership!).subscribe(() => this.isThisComponentReady = true)
+                }
+              } else {
+                console.log("Failed to load your Destiny profile"); //TODO alert + deconnection
+                this.router.navigate(['/']);
+              }
             })
-          )
-          .subscribe(characters => {
-            if (characters.length === 0) {
-              console.log("Need at least one character");
-              this.router.navigate(['/']);
-            } else {
-              this.getCharacterClass(characters).subscribe(() => {
-                this.isThisComponentReady = true;
-              });
-            }
-          });
+          } else {
+            //TODO alert + deconnection
+          }
+        });
       }
     });
     if (this.isFirstDisplay) {
@@ -61,35 +65,51 @@ export class DestinyComponent implements OnInit, OnDestroy {
     }
   }
 
+  getLinkedProfile(platform: number, membership: string) {
+    return this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/LinkedProfiles/?getAllMemberships=true`, {headers: this.bungieAuthService.getHeaders()})
+      .pipe(
+        map((response: any) => {
+          let profiles: DestinyLinkedProfilesModel[] = [];
+          profiles = profiles.concat(Object.values(response['Response']['profiles']));
+          profiles.push(response['Response']['bnetMembership'] as DestinyLinkedProfilesModel)
+          Object.values(response['Response']['profilesWithErrors'])
+            .forEach((profileWithErrors: any) => profiles.push(profileWithErrors['infoCard'] as DestinyLinkedProfilesModel));
+          this.linkedProfiles = profiles;
+          console.log(profiles)
+        })
+      );
+  }
+
+  getProfile(platform: number, membership: string) {
+    return this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=200,201,300`, {headers: this.bungieAuthService.getHeaders()})
+      .pipe(
+        map((response: any) => {
+          const destinyProfile: DestinyProfileModel = new DestinyProfileModel();
+          destinyProfile.characters = Object.values(response['Response']['characters']['data']);
+          destinyProfile.characterInventories = Object.entries(response['Response']['characterInventories']['data'])
+            .map(([characterHash, items]) => {
+              const characterInventory: DestinyCharacterInventoryModel = new DestinyCharacterInventoryModel();
+              characterInventory.characterHash = characterHash;
+              characterInventory.items = (items as { [items: string]:DestinyItemModel[] })['items'];
+              return characterInventory;
+            });
+          destinyProfile.itemInstances = Object.entries(response['Response']['itemComponents']['instances']['data'])
+            .map(([itemHash, item]) => {
+              const itemInstance: DestinyItemInstanceModel = item as DestinyItemInstanceModel;
+              itemInstance.hash = itemHash;
+              return itemInstance;
+            });
+          this.profile = destinyProfile;
+        })
+      );
+  }
+
   refreshData() {
     this.requestDataRefreshing.next(true);
   }
 
   ngOnDestroy() {
     this.requestDataRefreshing.unsubscribe();
-  }
-
-  getCharacterClass(characters: DestinyCharacterModel[]): Observable<{[classHash: number]: DestinyClassNomenclature}> {
-    const classHashList: number[] = [];
-    characters.forEach(character => classHashList.push(character.classHash));
-    return this.http.post<{[classHash: number]: DestinyClassNomenclature}>(
-      'http://localhost:8080/destiny/class',
-      classHashList,
-      { headers: HeaderService.getHeaders() }
-    ).pipe(
-      tap({
-        next: (classNomenclatureMap: {[classHash: number]: DestinyClassNomenclature}) => {
-          for (const classHash in classNomenclatureMap) {
-            const character = characters.find(c => c.classHash === Number(classHash));
-            character!.classNomenclature = classNomenclatureMap[classHash];
-          }
-          this.characters = characters;
-        },
-        error: (error) => {
-          console.error('Error during API call:', error);
-        }
-      })
-    );
   }
 
 }

@@ -46,7 +46,7 @@ export class RiotSummonerComponent implements OnChanges {
       .post<RIOTSummoner>('http://localhost:8080/riot/summoner/update/' + this.summoner!.region + '/' + this.summoner!.tag + '/' + this.summoner!.name, {}, {
         headers: HeaderService.getHeaders(),
       })
-      .pipe(
+      .pipe( //TODO supprimer
         tap(() => {
         })
       );

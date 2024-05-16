@@ -2,15 +2,22 @@
 <div *ngIf="isThisComponentReady" class="game-component">
   <destiny-profile
     [isParentComponentReady]="isThisComponentReady"
-    [characters]="characters" class="component">
+    [characters]="profile.characters"
+    [linkedProfiles]="linkedProfiles" class="component">
     <!--[memberships]=""-->
   </destiny-profile>
+  <destiny-component-selector class="component">
+  </destiny-component-selector>
+  <div class="game-data">
+    <destiny-postmaster class="component"
+    [isParentComponentReady]="isThisComponentReady"
+    [characterInventories]="profile.characterInventories"
+    [itemInstances]="profile.itemInstances">
+    </destiny-postmaster>
+    <destiny-vendors *ngIf="componentToShow === 'vendors'" class="component"
+      [isParentComponentReady]="isThisComponentReady">
+    </destiny-vendors>
+    <div></div>
 </div>
-<div class="game-data">
-  <div></div>
-  <destiny-vendors *ngIf="componentToShow === 'vendors'" class="component"
-    [isParentComponentReady]="isThisComponentReady">
-  </destiny-vendors>
-  <div></div>
 </div>
 <!-- faire un chargement si les components sont en attente-->

@@ -1,3 +1,6 @@
 <div>
   <router-outlet></router-outlet>
+  <div class="alert-div">
+    <alert *ngIf="alert != undefined" [alert]="this.alert!" class="component alert" (click)="cancelAlert()"></alert>
+  </div>
 </div>

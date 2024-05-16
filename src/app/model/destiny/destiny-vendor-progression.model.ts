@@ -1,4 +1,4 @@
-import {DestinyProgressionNomenclature} from "./destiny-progression.nomenclature";
+import {DestinyProgressionNomenclature} from "./nomenclature/destiny-progression.nomenclature";
 
 export class DestinyVendorProgressionModel {
   currentProgress!: number;

@@ -30,7 +30,9 @@
               "src/tab-selectors.css",
               "src/ranking.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/alert-loading.js"
+            ]
           },
           "configurations": {
             "production": {

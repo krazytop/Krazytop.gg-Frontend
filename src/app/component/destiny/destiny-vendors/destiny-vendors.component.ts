@@ -6,9 +6,9 @@ import {DestinyVendorGroupModel} from "../../../model/destiny/destiny-vendor-gro
 import {DestinyVendorModel} from "../../../model/destiny/destiny-vendor.model";
 import {HeaderService} from "../../../config/headers.service";
 import {tap} from "rxjs";
-import {DestinyVendorNomenclature} from "../../../model/destiny/destiny-vendor.nomenclature";
-import {DestinyVendorGroupNomenclature} from "../../../model/destiny/destiny-vendor-group.nomenclature";
-import {DestinyProgressionNomenclature} from "../../../model/destiny/destiny-progression.nomenclature";
+import {DestinyVendorNomenclature} from "../../../model/destiny/nomenclature/destiny-vendor.nomenclature";
+import {DestinyVendorGroupNomenclature} from "../../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
+import {DestinyProgressionNomenclature} from "../../../model/destiny/nomenclature/destiny-progression.nomenclature";
 
 @Component({
   selector: 'destiny-vendors',

@@ -1,8 +1,7 @@
 <div *ngIf="isThisComponentReady" class="vendor-group-list">
   <div *ngFor="let vendorGroup of vendorGroups" class="vendor-group">
+    <ng-container *ngIf="vendorGroup.vendors.length > 0">
     <div class="vendor-group-title">{{ vendorGroup.vendorGroupNomenclature!.name.toUpperCase() }}</div>
-    <hr>
-    <br>
     <div class="vendors">
       <div *ngFor="let vendor of vendorGroup.vendors">
         <destiny-vendor
@@ -10,6 +9,7 @@
         </destiny-vendor>
       </div>
     </div>
+    </ng-container>
   </div>
 </div>
 <div *ngIf="!isThisComponentReady" class="loading">

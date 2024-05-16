@@ -39,6 +39,9 @@ import { DestinyProfileComponent } from './component/destiny/destiny-profile/des
 import { DestinyComponent } from './component/destiny/destiny.component';
 import { DestinyVendorComponent } from './component/destiny/destiny-vendors/destiny-vendor/destiny-vendor.component';
 import { DestinyComponentSelectorComponent } from './component/destiny/destiny-component-selector/destiny-component-selector.component';
+import { DestinyPostmasterComponent } from './component/destiny/destiny-postmaster/destiny-postmaster.component';
+import { DestinyItemComponent } from './component/destiny/destiny-item/destiny-item.component';
+import { AlertComponent } from './component/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,10 @@ import { DestinyComponentSelectorComponent } from './component/destiny/destiny-c
     DestinyProfileComponent,
     DestinyComponent,
     DestinyVendorComponent,
-    DestinyComponentSelectorComponent
+    DestinyComponentSelectorComponent,
+    DestinyPostmasterComponent,
+    DestinyItemComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

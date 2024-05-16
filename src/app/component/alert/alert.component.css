@@ -1,0 +1,22 @@
+.loading {
+  height: 20px;
+  background-color: #3d0000;
+  bottom: -15px;
+  left: -20px;
+  position: relative;
+  width: 540px;
+  align-self: start;
+}
+
+.alert {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert-message {
+  color: white;
+  font-size: 18px;
+}

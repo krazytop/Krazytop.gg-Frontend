@@ -5,8 +5,6 @@ import {LeagueOfLegendsComponent} from "./component/lol/league-of-legends.compon
 import {GameListComponent} from "./component/game-list/game-list.component";
 import {ClashRoyalComponent} from "./component/clash_royal/clash-royal.component";
 import {BungieAuthComponent} from "./component/destiny/bungie-authentification/bungie-auth.component";
-import {DestinyCollectionsComponent} from "./component/destiny/destiny-collections/destiny-collections.component";
-import {DestinyVendorsComponent} from "./component/destiny/destiny-vendors/destiny-vendors.component";
 import {DestinyComponent} from "./component/destiny/destiny.component";
 
 const routes: Routes = [

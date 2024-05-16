@@ -1,4 +1,4 @@
-import {DestinyClassNomenclature} from "./destiny-class.nomenclature";
+import {DestinyClassNomenclature} from "./nomenclature/destiny-class.nomenclature";
 
 export class DestinyCharacterModel {
   light!: number;
