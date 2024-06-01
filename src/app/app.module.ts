@@ -42,6 +42,10 @@ import { DestinyComponentSelectorComponent } from './component/destiny/destiny-c
 import { DestinyPostmasterComponent } from './component/destiny/destiny-postmaster/destiny-postmaster.component';
 import { DestinyItemComponent } from './component/destiny/destiny-item/destiny-item.component';
 import { AlertComponent } from './component/alert/alert.component';
+import { DestinyMainInventoryComponent } from './component/destiny/destiny-main-inventory/destiny-main-inventory.component';
+import { DestinyTitlesComponent } from './component/destiny/destiny-titles/destiny-titles.component';
+import { DestinyCraftablesComponent } from './component/destiny/destiny-craftables/destiny-craftables.component';
+import { DestinyTitleComponent } from './component/destiny/destiny-titles/destiny-title/destiny-title.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +83,11 @@ import { AlertComponent } from './component/alert/alert.component';
     DestinyComponentSelectorComponent,
     DestinyPostmasterComponent,
     DestinyItemComponent,
-    AlertComponent
+    AlertComponent,
+    DestinyMainInventoryComponent,
+    DestinyTitlesComponent,
+    DestinyCraftablesComponent,
+    DestinyTitleComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,18 @@
+<div class="main-inventories">
+  <div class="main-inventory">
+    <div class="inventory-title">Main Inventory</div>
+    <div class="items">
+      <div *ngFor="let currency of mainCurrencies">
+        <destiny-item [item]="currency"></destiny-item>
+      </div>
+    </div>
+  </div>
+  <div class="main-inventory">
+    <div class="inventory-title">Engrams</div>
+    <div class="items">
+      <div *ngFor="let engram of engrams">
+        <destiny-item [item]="engram"></destiny-item>
+      </div>
+    </div>
+  </div>
+</div>

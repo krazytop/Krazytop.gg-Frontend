@@ -1,23 +1,40 @@
 <navbar></navbar>
 <div *ngIf="isThisComponentReady" class="game-component">
-  <destiny-profile
-    [isParentComponentReady]="isThisComponentReady"
-    [characters]="profile.characters"
-    [linkedProfiles]="linkedProfiles" class="component">
-    <!--[memberships]=""-->
+  <destiny-profile class="component"
+                   [isParentComponentReady]="isThisComponentReady"
+                   [profile]="dataStorage.profile">
   </destiny-profile>
   <destiny-component-selector class="component">
   </destiny-component-selector>
   <div class="game-data">
     <destiny-postmaster class="component"
-    [isParentComponentReady]="isThisComponentReady"
-    [characterInventories]="profile.characterInventories"
-    [itemInstances]="profile.itemInstances">
+                        [isParentComponentReady]="isThisComponentReady"
+                        [characterInventories]="dataStorage.profile.characterInventories"
+                        [itemInstances]="dataStorage.profile.itemInstances"
+                        [itemNomenclatures]="dataStorage.itemNomenclatures">
     </destiny-postmaster>
     <destiny-vendors *ngIf="componentToShow === 'vendors'" class="component"
-      [isParentComponentReady]="isThisComponentReady">
+                     [isParentComponentReady]="isThisComponentReady">
     </destiny-vendors>
-    <div></div>
-</div>
+    <destiny-collections *ngIf="componentToShow === 'collections'" class="component">
+    </destiny-collections>
+    <destiny-titles *ngIf="componentToShow === 'titles' && componentToShowArg1 === undefined" class="component"
+                    [isParentComponentReady]="isThisComponentReady"
+                    [titlesPresentationTree]="dataStorage.presentationTrees.titlesPresentationTree!"
+                    [archivedTitlesPresentationTree]="dataStorage.presentationTrees.archivedTitlesPresentationTree!"
+                    [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
+    </destiny-titles>
+    <destiny-title *ngIf="componentToShow === 'titles' && componentToShowArg1 !== undefined" class="component"
+                    [isParentComponentReady]="isThisComponentReady"
+                    [title]="dataStorage.componentArgs.selectedTitle!"
+                    [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
+    </destiny-title>
+    <destiny-main-inventory class="component"
+                            [isParentComponentReady]="isThisComponentReady"
+                            [profileInventory]="dataStorage.profile.profileInventory"
+                            [profileCurrencies]="dataStorage.profile.profileCurrencies"
+                            [itemNomenclatures]="dataStorage.itemNomenclatures">
+    </destiny-main-inventory>
+  </div>
 </div>
 <!-- faire un chargement si les components sont en attente-->

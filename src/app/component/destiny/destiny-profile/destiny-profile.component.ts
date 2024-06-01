@@ -8,6 +8,9 @@ import {DestinyClassNomenclature} from "../../../model/destiny/nomenclature/dest
 import {HeaderService} from "../../../config/headers.service";
 import {DestinyLinkedProfilesModel} from "../../../model/destiny/destiny-linked-profiles.model";
 import {PlatformEnum} from "../../../model/destiny/enum/PlatformEnum";
+import {DestinyProfileModel} from "../../../model/destiny/destiny-profile.model";
+import {DestinyRecordNomenclature} from "../../../model/destiny/nomenclature/destiny-record.nomenclature";
+import {DestinyDataStorage} from "../DestinyDataStorage";
 
 @Component({
   selector: 'destiny-profile',
@@ -17,15 +20,14 @@ import {PlatformEnum} from "../../../model/destiny/enum/PlatformEnum";
 export class DestinyProfileComponent implements OnChanges {
 
   @Input() isParentComponentReady: boolean = false;
-  @Input() characters: DestinyCharacterModel[] = [];
-  @Input() linkedProfiles: DestinyLinkedProfilesModel[] = [];
-  //@Input() memberships: DestinyMembershipsModel[] = [];
+  @Input() profile!: DestinyProfileModel;
 
-  isThisComponentReady: boolean = false;
   selectedCharacterId: string | undefined;
   bungieProfile: DestinyLinkedProfilesModel | undefined;
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, protected destinyComponent: DestinyComponent) {
+  linkedProfilesToShow: DestinyLinkedProfilesModel[] = [];
+
+  constructor(private router: Router, private route: ActivatedRoute, protected destinyComponent: DestinyComponent, protected dataStorage: DestinyDataStorage) {
   }
 
   ngOnChanges(): void {
@@ -33,17 +35,14 @@ export class DestinyProfileComponent implements OnChanges {
       this.route.params.subscribe(params => {
         this.selectedCharacterId = params['character'];
       });
-      this.linkedProfiles.forEach(linkedProfile => { //TODO sortir et thiscomponent ready after
+      this.profile.linkedProfiles.forEach(linkedProfile => { //TODO sortir et thiscomponent ready after
         if (linkedProfile.membershipType === 254) {
           this.bungieProfile = linkedProfile;
-          this.linkedProfiles = this.linkedProfiles.filter(profile => profile != linkedProfile);
         } else {
+          this.linkedProfilesToShow.push(linkedProfile);
           linkedProfile.platformIcon = PlatformEnum.get(linkedProfile.membershipType);
         }
       })
-      this.getCharacterClassNomenclature(this.characters).subscribe(() => {
-        this.isThisComponentReady = true;
-      });
     }
   }
 
@@ -53,16 +52,6 @@ export class DestinyProfileComponent implements OnChanges {
     });
   }
 
-  getCharacterClassNomenclature(characters: DestinyCharacterModel[]): Observable<{[classHash: number]: DestinyClassNomenclature}> {
-    const classHashList: number[] = Array.from(new Set(characters.map(character => character.classHash)));
-    return this.http.post<{[classHash: number]: DestinyClassNomenclature}>(
-      'http://localhost:8080/destiny/class', classHashList, { headers: HeaderService.getHeaders() }
-    ).pipe(
-      tap(classNomenclatureMap => {
-        characters.forEach(character => character.classNomenclature = classNomenclatureMap[character.classHash])
-      })
-    );
-  }
-
   protected readonly DestinyComponent = DestinyComponent;
+  protected readonly String = String;
 }

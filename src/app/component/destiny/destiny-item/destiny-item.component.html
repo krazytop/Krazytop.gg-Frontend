@@ -1,5 +1,10 @@
-<div>
-  <img src="{{ DestinyComponent.destinyAssetUrl + item.itemNomenclature?.icon }}"  alt="item img">
-  <div *ngIf="item.itemInstanceId != undefined">{{ item.itemInstance!.primaryStat.value }}</div>
-  <div *ngIf="item.itemInstanceId == undefined">{{ item.quantity }}</div>
+<div class="item">
+  <img src="{{ DestinyComponent.destinyAssetUrl + item.itemNomenclature?.icon }}"  alt="item img" title="{{ item.itemNomenclature?.name }}">
+  <div *ngIf="item.itemInstanceId != undefined" class="size-or-level">
+    <span>{{ item.itemInstance!.primaryStat?.value ?? 0 }}</span> <!-- TODO  -->
+  </div>
+  <div title="Max Stack Size : {{ formatThousands(item.itemNomenclature?.maxStackSize!) }}" *ngIf="item.itemInstanceId === undefined" class="size-or-level">
+    <span *ngIf="item.itemInstanceId == undefined">{{ formatThousands(item.quantity) }}</span>
+    <span *ngIf="item.quantity === item.itemNomenclature?.maxStackSize" class="warning">⚠️</span>
+  </div>
 </div>

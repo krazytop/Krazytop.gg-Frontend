@@ -1,23 +1,21 @@
-<div class="destiny-profile" *ngIf="isThisComponentReady">
+<div class="destiny-profile">
   <div class="linked-profiles">
-    <img class="bungie-profile-icon" src="{{ DestinyComponent.destinyAssetUrl + bungieProfile!.iconPath }}">
+    <img class="bungie-profile-icon" src="{{ DestinyComponent.destinyAssetUrl + bungieProfile!.iconPath }}" alt="Bungie Profile Icon">
     <div class="bungie-profile-and-platforms">
       <h1 class="bungie-profile">{{ bungieProfile!.displayName + "#" + bungieProfile!.bungieGlobalDisplayNameCode }}</h1>
       <div class="other-plaforms">
-        <ng-container *ngFor="let linkedProfile of linkedProfiles">
-          <img src="assets/logo/{{ linkedProfile.platformIcon }}" title="{{ linkedProfile.displayName }}">
-        </ng-container>
+        <img *ngFor="let linkedProfile of linkedProfilesToShow" src="assets/logo/{{ linkedProfile.platformIcon }}" title="{{ linkedProfile.displayName }}" alt="Connected Platform Icon">
       </div>
     </div>
   </div>
   <div class="characters">
-    <div *ngFor="let character of characters" class="character" (click)="selectCharacter(character.characterId!)"
+    <div *ngFor="let character of profile.characters" class="character" (click)="selectCharacter(character.characterId!)"
       [ngClass]="{'unselected-character': character.characterId != this.selectedCharacterId}">
       <img class="banner" src="{{ DestinyComponent.destinyAssetUrl + character.emblemBackgroundPath }}" alt="Character Emblem">
       <div class="information">
         <div class="class-and-title">
-          <span class="class">{{ character.classNomenclature!.nameByGender[character.genderHash] }}</span>
-          <span class="title">Tueur de Roi</span>
+          <span class="class">{{ dataStorage.characterClassNomenclatures.get(String(character.classHash))!.nameByGender[character.genderHash] }}</span>
+          <span *ngIf="character.titleRecordHash != undefined" class="title">{{ this.dataStorage.characterTitleNomenclatures.get(String(character.titleRecordHash))?.titlesByGender![character.genderHash] }}</span>
         </div>
         <div class="light">
           <img src="/assets/data/destiny/light.png" alt="Light Level">

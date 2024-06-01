@@ -1,6 +1,6 @@
 import {DestinyObjectiveNomenclature} from "./destiny-objective.nomenclature";
 import {DestinyItemQuantityModel} from "../destiny-item-quantity.model";
-import {DestinyIntervalObjectiveModel} from "../destiny-interval-objective.model";
+import {DestinyIntervalObjectiveNomenclature} from "./destiny-interval-objective.nomenclature";
 
 export class DestinyRecordNomenclature {
   hash!: number;
@@ -10,8 +10,8 @@ export class DestinyRecordNomenclature {
   recordTypeName!: string;
   expirationDescription: string | undefined;
   hasExpiration!: boolean;
-  titlesByGender: { [key: number]: string } | undefined;
+  titlesByGender!: { [key: number]: string };
   objectives!: DestinyObjectiveNomenclature[];
   rewardItems!: DestinyItemQuantityModel[];
-  intervalObjectives!: DestinyIntervalObjectiveModel[];
+  intervalObjectives!: DestinyIntervalObjectiveNomenclature[];
 }

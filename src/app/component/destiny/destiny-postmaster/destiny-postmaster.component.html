@@ -1,7 +1,9 @@
-<div *ngIf="isThisComponentReady" class="postmaster-list">
+<div class="postmaster-list">
   <div *ngFor="let postmaster of characterInventories" class="postmaster">
-    <div class="postmaster-title">POSTMASTER
+    <div class="postmaster-title">
+      <span>Postmaster &nbsp;</span>
       <span>({{ postmaster.items.length }} / 21)</span>
+      <span *ngIf="postmaster.items.length > 15" class="warning">⚠️</span>
     </div>
     <div class="items">
       <div *ngFor="let item of postmaster.items">

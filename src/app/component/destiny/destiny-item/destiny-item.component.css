@@ -1,4 +1,18 @@
 img {
   width: 50px;
   height: 50px;
+  border-radius: 5px;
+}
+
+.item {
+  color: #c2c2c2;
+}
+
+.size-or-level {
+  display: flex;
+  justify-content: center;
+}
+
+.warning {
+  margin-top: -3px;
 }

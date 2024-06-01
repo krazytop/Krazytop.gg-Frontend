@@ -1,33 +1,25 @@
-.postmaster-list {
+.main-inventories {
   display: grid;
   grid-template-rows: repeat(auto-fill, 1fr);
   gap: 20px;
 }
 
-.postmaster {
+.main-inventory {
+  display: flex;
+  flex-direction: column;
   border-radius: 10px;
   background-color: #2c2c2c;
   padding: 20px;
   gap: 20px;
-  display: flex;
-  flex-direction: column;
 }
 
 .items {
-  display: grid;
   gap: 5px;
+  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
 }
 
-.item-that-can-move {
-  cursor: pointer;
-}
-
-.warning {
-  margin-top: -3px;
-}
-
-.postmaster-title {
+.inventory-title {
   color: white;
   font-size: 20px;
   display: flex;

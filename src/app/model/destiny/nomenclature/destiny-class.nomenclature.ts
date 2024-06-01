@@ -1,4 +1,4 @@
 export class DestinyClassNomenclature {
-    hash!: number;
-    nameByGender!: { [key: number]: string };
+  hash!: number;
+  nameByGender!: { [key: number]: string };
 }

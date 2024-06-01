@@ -1,5 +1,4 @@
 import {DestinyPrimaryStatModel} from "./destiny-primary-stat.model";
-import {DestinyItemNomenclature} from "./nomenclature/destiny-item.nomenclature";
 
 export class DestinyItemInstanceModel {
   hash?: string;

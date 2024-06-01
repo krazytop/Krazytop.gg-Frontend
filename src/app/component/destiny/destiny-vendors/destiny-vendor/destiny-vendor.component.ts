@@ -1,8 +1,7 @@
-import {AfterViewInit, Component, Input, OnChanges} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges} from '@angular/core';
 import {DestinyVendorModel} from "../../../../model/destiny/destiny-vendor.model";
 import {DestinyComponent} from "../../destiny.component";
 import ColorThief from 'colorthief'
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'destiny-vendor',

@@ -14,5 +14,19 @@ export class DestinyItemComponent implements OnChanges {
   ngOnChanges() {
   }
 
+  formatThousands(nb: number) { //TODO duplication lol damage
+    if (nb > 1000) {
+      const thousands = Math.floor(nb / 1000);
+      const remainder = nb % 1000;
+      if (thousands > 0) {
+        return `${thousands} ${remainder.toString().padStart(3, '0')}`;
+      } else {
+        return `${remainder}`;
+      }
+    } else {
+      return nb.toString();
+    }
+  }
+
   protected readonly DestinyComponent = DestinyComponent;
 }

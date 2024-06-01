@@ -20,7 +20,7 @@ export class DestinyVendorsComponent implements OnChanges {
   @Input() isParentComponentReady: boolean = false;
   protected isThisComponentReady: boolean = false;
 
-  protected vendorGroups: DestinyVendorGroupModel[] = []
+  protected vendorGroups: DestinyVendorGroupModel[] = [];
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService) {
   }
@@ -37,56 +37,64 @@ export class DestinyVendorsComponent implements OnChanges {
         character = params['character'];
       });
       this.isThisComponentReady = false;
-      this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/Character/${character}/Vendors/?components=400`, {headers: this.bungieAuthService.getHeaders()})
-        .subscribe((response: any) => {
-          const vendorGroups: DestinyVendorGroupModel[] = response['Response']['vendorGroups']['data']['groups'];
-          const allVendors: { [hash: number]: DestinyVendorModel } = response['Response']['vendors']['data'];
-          const usefulVendors: { [hash: number]: DestinyVendorModel } = {}
-          const usefulVendorHashList: number[] = [];
-          const usefulProgressionHashList: number[] = [];
+      this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
+        if (isTokenValid) {
+          this.getVendors(platform!, membership!, character!);
+        }
+      });
+    }
+  }
 
-          Object.keys(allVendors).forEach(hash => {
-            if (this.isVendorPresentInGroups(vendorGroups, Number(hash)) && allVendors[Number(hash)].progression != undefined) {
-              usefulVendors[Number(hash)] = allVendors[Number(hash)]
-              usefulVendorHashList.push(Number(hash));
-              usefulProgressionHashList.push(allVendors[Number(hash)].progression.progressionHash)
-            }
-          });
-          const vendorGroupHashList: number[] = [];
-          vendorGroups.forEach(vendorGroup => {
-            vendorGroupHashList.push(vendorGroup.vendorGroupHash);
-          });
+  getVendors(platform: number, membership: string, character: string){
+    this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/Character/${character}/Vendors/?components=400`, {headers: this.bungieAuthService.getHeaders()})
+      .subscribe((response: any) => {
+        const vendorGroups: DestinyVendorGroupModel[] = response['Response']['vendorGroups']['data']['groups'];
+        const allVendors: { [hash: number]: DestinyVendorModel } = response['Response']['vendors']['data'];
+        const usefulVendors: { [hash: number]: DestinyVendorModel } = {}
+        const usefulVendorHashList: number[] = [];
+        const usefulProgressionHashList: number[] = [];
 
-          let requestCompleted: number = 2;
+        Object.keys(allVendors).forEach(hash => {
+          if (this.isVendorPresentInGroups(vendorGroups, Number(hash)) && allVendors[Number(hash)].progression != undefined) {
+            usefulVendors[Number(hash)] = allVendors[Number(hash)]
+            usefulVendorHashList.push(Number(hash));
+            usefulProgressionHashList.push(allVendors[Number(hash)].progression.progressionHash)
+          }
+        });
+        const vendorGroupHashList: number[] = [];
+        vendorGroups.forEach(vendorGroup => {
+          vendorGroupHashList.push(vendorGroup.vendorGroupHash);
+        });
 
-          this.http.post<{[vendorHash: number]: DestinyVendorNomenclature}>('http://localhost:8080/destiny/vendors', usefulVendorHashList, { headers: HeaderService.getHeaders() }
+        let requestCompleted: number = 2;
+
+        this.http.post<{[vendorHash: number]: DestinyVendorNomenclature}>('http://localhost:8080/destiny/vendors', usefulVendorHashList, { headers: HeaderService.getHeaders() }
+        ).pipe(
+          this.addVendorNomenclatures(usefulVendors, vendorGroups)
+        ).subscribe(() => {
+          this.http.post<{[progressionHash: number]: DestinyProgressionNomenclature}>('http://localhost:8080/destiny/progressions', usefulProgressionHashList, { headers: HeaderService.getHeaders() }
           ).pipe(
-            this.addVendorNomenclatures(usefulVendors, vendorGroups)
-          ).subscribe(() => {
-            this.http.post<{[progressionHash: number]: DestinyProgressionNomenclature}>('http://localhost:8080/destiny/progressions', usefulProgressionHashList, { headers: HeaderService.getHeaders() }
-            ).pipe(
-              this.addProgressionNomenclatures(vendorGroups)
-            ).subscribe(() => {
-              requestCompleted --;
-              if (requestCompleted === 0) {
-                this.vendorGroups = vendorGroups;
-                this.isThisComponentReady = true;
-              }
-            });
-          });
-
-          this.http.post<{[vendorGroupHash: number]: DestinyVendorGroupNomenclature}>('http://localhost:8080/destiny/vendor-groups', vendorGroupHashList, { headers: HeaderService.getHeaders() }
-          ).pipe(
-            this.addVendorGroupNomenclatures(vendorGroups)
+            this.addProgressionNomenclatures(vendorGroups)
           ).subscribe(() => {
             requestCompleted --;
             if (requestCompleted === 0) {
-              this.vendorGroups = vendorGroups;
+              this.vendorGroups = vendorGroups.filter(vendorGroup => vendorGroup.vendors.length > 0);
               this.isThisComponentReady = true;
             }
           });
         });
-    }
+
+        this.http.post<{[vendorGroupHash: number]: DestinyVendorGroupNomenclature}>('http://localhost:8080/destiny/vendor-groups', vendorGroupHashList, { headers: HeaderService.getHeaders() }
+        ).pipe(
+          this.addVendorGroupNomenclatures(vendorGroups)
+        ).subscribe(() => {
+          requestCompleted --;
+          if (requestCompleted === 0) {
+            this.vendorGroups = vendorGroups.filter(vendorGroup => vendorGroup.vendors.length > 0);
+            this.isThisComponentReady = true;
+          }
+        });
+      });
   }
 
   addVendorNomenclatures(usefulVendors: { [p: number]: DestinyVendorModel }, vendorGroups: DestinyVendorGroupModel[]) {
