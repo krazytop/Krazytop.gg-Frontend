@@ -31,7 +31,7 @@ jobs:
 
       - name: Print working directory
         run: |
-          echo "Current directory: $(pwd)"
+          ls $(pwd)"
 
       - name: Deploy to App Engine
         id: deploy
