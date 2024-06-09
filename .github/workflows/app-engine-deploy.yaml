@@ -36,4 +36,4 @@ jobs:
       - name: Deploy to App Engine
         id: deploy
         run: |
-          gcloud app deploy dist/**
+          gcloud app deploy .
