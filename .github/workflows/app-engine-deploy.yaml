@@ -29,10 +29,6 @@ jobs:
         with:
           credentials_json: '${{ secrets.APP_ENGINE_DEPLOY_KEY }}'
 
-      - name: Print working directory
-        run: |
-          ls $(pwd)
-
       - name: Deploy to App Engine
         id: deploy
         run: |
