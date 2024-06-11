@@ -1,5 +1,4 @@
-runtime: nodejs20
+runtime: nodejs16
 service: frontend
 env: standard
 instance_class: F1
-entrypoint: "npm run start"
