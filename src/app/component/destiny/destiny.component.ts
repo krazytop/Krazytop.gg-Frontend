@@ -17,6 +17,7 @@ import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-prog
 import {DestinyDataStorage} from "./DestinyDataStorage";
 import {DestinyClassNomenclature} from "../../model/destiny/nomenclature/destiny-class.nomenclature";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
+import {Engrams, MainCurrencies} from "../../model/destiny/enum/MainInventoryEnum";
 
 @Component({
   selector: 'destiny',
@@ -178,6 +179,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
     this.dataStorage.profile.profileInventory.forEach(item => itemHashes.push(item.itemHash));
     this.dataStorage.profile.profileCurrencies.forEach(item => itemHashes.push(item.itemHash));
     this.dataStorage.profile.characterInventories.forEach(inventory => inventory.items.forEach(item => itemHashes.push(item.itemHash)));
+    itemHashes.push(...MainCurrencies, ...Engrams)
     return this.http.post<{[itemHash: number]: DestinyItemNomenclature}>(
       'http://localhost:8080/destiny/items', Array.from(new Set(itemHashes)), { headers: HeaderService.getHeaders() }
     ).pipe(

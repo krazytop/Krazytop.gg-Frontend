@@ -15,18 +15,20 @@ export class DestinyItemComponent implements OnChanges {
   }
 
   formatThousands(nb: number) { //TODO duplication lol damage
-    if (nb > 1000) {
-      const thousands = Math.floor(nb / 1000);
-      const remainder = nb % 1000;
-      if (thousands > 0) {
-        return `${thousands} ${remainder.toString().padStart(3, '0')}`;
+    let formatString = "";
+    let index = 0;
+    for(let digit of nb.toString().split('').reverse().join('')) {
+      if (index === 3) {
+        index = 1;
+        formatString += " " + digit;
       } else {
-        return `${remainder}`;
+        index++;
+        formatString += digit;
       }
-    } else {
-      return nb.toString();
     }
+    return formatString.split('').reverse().join('');
   }
 
   protected readonly DestinyComponent = DestinyComponent;
+  protected readonly console = console;
 }

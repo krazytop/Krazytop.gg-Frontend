@@ -22,10 +22,7 @@ jobs:
         run: npm install
 
       - name: Build Angular application
-        run: npm run build --prod
-
-      - name: Install dependencies
-        run: ls dist/krazytop-front
+        run: npm run build
 
       - name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
@@ -35,4 +32,4 @@ jobs:
       - name: Deploy to App Engine
         id: deploy
         run: |
-          gcloud app deploy dispatch.yaml
+          gcloud app deploy

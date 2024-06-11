@@ -50,6 +50,9 @@
         <span class="current-objective-progression" style="justify-content: start">{{ record.intervalObjectives[record.intervalObjectives.length - 1].objective.progressDescription }}</span>
         <span class="current-objective-progression" style="justify-content: end"> {{ getIntervalObjectivesProgress(record, record.intervalObjectives[record.intervalObjectives.length - 1]).progress }} / {{ getIntervalObjectivesProgress(record, record.intervalObjectives[record.intervalObjectives.length - 1]).completionValue }}</span>
       </div>
+      <div class="reward" style="color: white">
+{{ record.rewardItems }}
+      </div>
     </div>
   </div>
 </div>
