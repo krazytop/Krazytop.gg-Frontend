@@ -5,5 +5,3 @@ instance_class: F1
 handlers:
 - url: /.*
   script: auto
-  static_files:
-    directory: dist
