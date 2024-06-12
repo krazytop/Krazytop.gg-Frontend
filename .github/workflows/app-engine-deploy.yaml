@@ -28,12 +28,11 @@ jobs:
         run: ls dist/krazytop-front
 
 
-      - name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          credentials_json: '${{ secrets.APP_ENGINE_DEPLOY_KEY }}'
+          credentials_json: ${{ secrets.APP_ENGINE_DEPLOY_KEY }}
 
       - name: Deploy to App Engine
         id: deploy
-        run: |
-          gcloud app deploy dispatch.yaml app.yaml
+        run: gcloud app deploy dispatch.yaml app.yaml
