@@ -24,6 +24,10 @@ jobs:
       - name: Build Angular application
         run: npm run build --prod
 
+      - name: Check dist folder
+        run: ls dist/krazytop-front
+
+
       - name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
