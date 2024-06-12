@@ -3,4 +3,9 @@ service: frontend
 env: standard
 instance_class: F1
 
+handlers:
+  - url: /*
+    secure: always
+    script: auto
+
 entrypoint: node server.js
