@@ -4,7 +4,7 @@ const path = require('path');
 
 const app = express();
 
-const port = 80;
+const port = process.env.PORT;
 
 app.use(express.static(path.join(__dirname, '/dist/krazytop-front')));
 
