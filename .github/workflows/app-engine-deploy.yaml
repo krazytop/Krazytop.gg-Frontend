@@ -27,7 +27,6 @@ jobs:
       - name: Check dist folder
         run: ls dist/krazytop-front
 
-
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
@@ -35,4 +34,4 @@ jobs:
 
       - name: Deploy to App Engine
         id: deploy
-        run: gcloud app deploy dispatch.yaml app.yaml --no-cache
+        run: gcloud app deploy dispatch.yaml app.yaml
