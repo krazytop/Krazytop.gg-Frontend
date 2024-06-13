@@ -53,7 +53,7 @@ export class DestinyTitleComponent implements OnChanges {
   getIntervalObjectiveWidth(record: DestinyRecordNomenclature, objective: DestinyIntervalObjectiveNomenclature) {
     let needToBeZeroWidth: boolean = false;
     let lastObjective: DestinyObjectiveProgressModel | undefined = undefined;
-    for (let intervalObjective of record.intervalObjectives) {
+    for (let intervalObjective of record.intervalObjectives!) {
       if (intervalObjective === objective) {
         if (needToBeZeroWidth) {
           return 0;

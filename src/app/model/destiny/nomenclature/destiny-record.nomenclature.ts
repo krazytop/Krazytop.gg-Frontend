@@ -11,7 +11,7 @@ export class DestinyRecordNomenclature {
   expirationDescription: string | undefined;
   hasExpiration!: boolean;
   titlesByGender!: { [key: number]: string };
-  objectives!: DestinyObjectiveNomenclature[];
+  objectives?: DestinyObjectiveNomenclature[];
   rewardItems!: DestinyItemQuantityModel[];
-  intervalObjectives!: DestinyIntervalObjectiveNomenclature[];
+  intervalObjectives?: DestinyIntervalObjectiveNomenclature[];
 }

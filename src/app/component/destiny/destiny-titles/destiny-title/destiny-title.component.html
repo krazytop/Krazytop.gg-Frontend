@@ -22,7 +22,7 @@
           <div class="record-description">{{ record.description }}</div>
         </div>
       </div>
-      <div class="simple-objectives" *ngIf="record.objectives.length > 0">
+      <div class="simple-objectives" *ngIf="record.objectives ? record.objectives.length > 0 : false">
         <div *ngFor="let objective of record.objectives">
           <div class="simple-objective" *ngIf="getSimpleObjectiveProgress(record, objective).completionValue === 1">
             <div *ngIf="getSimpleObjectiveProgress(record, objective).completionValue === 1" class="checkbox">
@@ -41,17 +41,16 @@
           </div>
         </div>
       </div>
-      <div class="objectives" *ngIf="record.intervalObjectives.length > 0">
+      <div class="objectives" *ngIf="record.intervalObjectives ? record.intervalObjectives.length > 0 : false">
         <div class="objective" *ngFor="let objective of record.intervalObjectives">
           <div class="objective-progression-bar">
             <div class="current-objective-progression-bar" [style.width.%]="Math.min(getIntervalObjectiveWidth(record, objective), 100)" [style.background-color]="!isRecordComplete(record) ? '#757575' : 'none'"></div>
           </div>
         </div>
-        <span class="current-objective-progression" style="justify-content: start">{{ record.intervalObjectives[record.intervalObjectives.length - 1].objective.progressDescription }}</span>
-        <span class="current-objective-progression" style="justify-content: end"> {{ getIntervalObjectivesProgress(record, record.intervalObjectives[record.intervalObjectives.length - 1]).progress }} / {{ getIntervalObjectivesProgress(record, record.intervalObjectives[record.intervalObjectives.length - 1]).completionValue }}</span>
+        <span class="current-objective-progression" style="justify-content: start">{{ record.intervalObjectives![record.intervalObjectives!.length - 1].objective.progressDescription }}</span>
+        <span class="current-objective-progression" style="justify-content: end"> {{ getIntervalObjectivesProgress(record, record.intervalObjectives![record.intervalObjectives!.length - 1]).progress }} / {{ getIntervalObjectivesProgress(record, record.intervalObjectives![record.intervalObjectives!.length - 1]).completionValue }}</span>
       </div>
       <div class="reward" style="color: white">
-{{ record.rewardItems }}
       </div>
     </div>
   </div>
