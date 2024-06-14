@@ -24,8 +24,8 @@ jobs:
       - name: Build Angular application
         run: npm run build --prod
 
-      - name: Check dist folder
-        run: ls dist/krazytop-front
+      - name: Add environnement variables
+        run: echo "\tMONGO_DATABASE_URL:${{ secrets.MONGO_DATABASE_URL }}" >> app.yaml
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
