@@ -9,5 +9,3 @@ handlers:
     script: auto
 
 entrypoint: node server.js
-
-env_variables:
