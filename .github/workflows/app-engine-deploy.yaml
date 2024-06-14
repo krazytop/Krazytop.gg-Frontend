@@ -24,9 +24,6 @@ jobs:
       - name: Build Angular application
         run: npm run build --prod
 
-      - name: Check app.yaml
-        run: cat app.yaml
-
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
