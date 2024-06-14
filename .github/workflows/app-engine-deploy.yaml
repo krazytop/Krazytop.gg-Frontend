@@ -24,12 +24,6 @@ jobs:
       - name: Build Angular application
         run: npm run build --prod
 
-      - name: Add environnement variables
-        env:
-          MONGO_DATABASE_URL: ${{ secrets.MONGO_DATABASE_URL }}
-        run: | 
-          echo "  MONGO_DATABASE_URL: '$MONGO_DATABASE_URL'" >> app.yaml
-
       - name: Check app.yaml
         run: cat app.yaml
 
