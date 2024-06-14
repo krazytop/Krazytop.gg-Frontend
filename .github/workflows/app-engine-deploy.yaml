@@ -27,6 +27,9 @@ jobs:
       - name: Add environnement variables
         run: echo "\tMONGO_DATABASE_URL:${{ secrets.MONGO_DATABASE_URL }}" >> app.yaml
 
+      - name: Check app.yaml
+        run: echo app.yaml
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
