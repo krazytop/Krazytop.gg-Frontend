@@ -25,7 +25,7 @@ jobs:
         run: npm run build --prod
 
       - name: Add environnement variables
-        run: echo "\tMONGO_DATABASE_URL:${{ secrets.MONGO_DATABASE_URL }}" >> app.yaml
+        run: echo "  MONGO_DATABASE_URL:${{ secrets.MONGO_DATABASE_URL }}" >> app.yaml
 
       - name: Check app.yaml
         run: cat app.yaml
