@@ -8,4 +8,4 @@ handlers:
     secure: always
     script: auto
 
-entrypoint: npm run start
+entrypoint: npm install -g @angular/cli | npm run start
