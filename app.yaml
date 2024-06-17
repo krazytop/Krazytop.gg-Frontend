@@ -8,4 +8,4 @@ handlers:
     secure: always
     script: auto
 
-entrypoint: node server.js
+entrypoint: npm run start
