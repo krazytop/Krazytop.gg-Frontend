@@ -8,4 +8,4 @@ handlers:
     secure: always
     script: auto
 
-entrypoint: npm install -g @angular/cli | npm run start
+entrypoint: sudo npm install -g @angular/cli | npm run start
