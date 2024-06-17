@@ -7,6 +7,7 @@ import {HeaderService} from "../../config/headers.service";
 import {HttpClient} from "@angular/common/http";
 import {CrTabSelectorService} from "./cr-tab-selector/cr-tab-selector.service";
 import {CrTabSelectorComponent} from "./cr-tab-selector/cr-tab-selector.component";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'clash-royal',
@@ -52,11 +53,11 @@ export class ClashRoyalComponent implements OnInit {
   }
 
     getLocalPlayer(id: string): Observable<CRPlayer> {
-      return this.http.get<CRPlayer>('http://localhost:8080/clash-royal/player/local/' + id, {headers: HeaderService.getHeaders()});
+      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/local/' + id, {headers: HeaderService.getHeaders()});
     }
 
     getRemotePlayer(id: string): Observable<CRPlayer> {
-      return this.http.get<CRPlayer>('http://localhost:8080/clash-royal/player/remote/' + id, {headers: HeaderService.getHeaders(),});
+      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/remote/' + id, {headers: HeaderService.getHeaders(),});
     }
 
   protected readonly CrTabSelectorService = CrTabSelectorService;

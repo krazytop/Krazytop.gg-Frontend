@@ -3,6 +3,7 @@ import {CRPlayer} from "../../../model/clash-royal/cr-player.model";
 import {HttpClient} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
 import {HeaderService} from "../../../config/headers.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'cr-player',
@@ -41,7 +42,7 @@ export class CrPlayerComponent implements OnChanges {
 
   importRemotePlayer(): Observable<CRPlayer> {
     return this.http
-      .post<CRPlayer>('http://localhost:8080/clash-royal/player/update/' + this.player?.id, {}, {
+      .post<CRPlayer>(environment.apiURL + 'clash-royal/player/update/' + this.player?.id, {}, {
         headers: HeaderService.getHeaders(),
       })
       .pipe(
