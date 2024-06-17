@@ -6,5 +6,4 @@ instance_class: F1
 handlers:
   - url: /*
     secure: always
-    script: auto
     static_dir: dist
