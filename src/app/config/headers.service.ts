@@ -9,6 +9,7 @@ export class HeaderService {
   private headers: { [key: string]: string } = {};
 
   constructor() {
+    console.log("init HeaderService")
     if (!HeaderService.instance) {
       HeaderService.instance = this;
     }
