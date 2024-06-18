@@ -11,19 +11,13 @@ import {AlertService} from "./alert/alert.service";
 })
 export class AppComponent implements OnInit {
 
-  //apiKey: string = '';
   alert?: AlertModel;
 
-  constructor(private http: HttpClient, private headers: HeaderService, private alertService: AlertService) {
+  constructor(private alertService: AlertService) {
   }
 
   ngOnInit() {
     this.alertService.setAppComponent(this);
-    /*
-    this.http.get<string>('http://localhost:8080/riot/api-key', {headers: HeaderService.getHeaders(),}).subscribe(apiKey => {
-      this.apiKey = apiKey;
-    });
-    */
   }
 
   cancelAlert() {

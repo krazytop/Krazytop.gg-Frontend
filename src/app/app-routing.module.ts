@@ -6,6 +6,7 @@ import {GameListComponent} from "./component/game-list/game-list.component";
 import {ClashRoyalComponent} from "./component/clash_royal/clash-royal.component";
 import {BungieAuthComponent} from "./component/destiny/bungie-authentification/bungie-auth.component";
 import {DestinyComponent} from "./component/destiny/destiny.component";
+import {AppComponent} from "./component/app.component";
 
 const routes: Routes = [
   {path: 'tft/:region/:name/:set/:queue', component: TeamfightTacticsComponent}, //TODO TFT tag riot
@@ -22,7 +23,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  bootstrap: [AppComponent]
 })
 export class AppRoutingModule {
 }

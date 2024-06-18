@@ -12,9 +12,7 @@ import {TeamfightTacticsComponent} from './component/tft/teamfight-tactics.compo
 import {LeagueOfLegendsComponent} from './component/lol/league-of-legends.component';
 import {TftMatchesComponent} from './component/tft/tft-matches/tft-matches.component';
 import {TftMatchUnitComponent} from './component/tft/tft-matches/tft-match/tft-match-unit/tft-match-unit.component';
-import {
-  TftLatestMatchesPlacementComponent
-} from './component/tft/tft-stats/tft-latest-matches-placement/tft-latest-matches-placement.component';
+import {TftLatestMatchesPlacementComponent} from './component/tft/tft-stats/tft-latest-matches-placement/tft-latest-matches-placement.component';
 import {TftRankingComponent} from './component/tft/tft-ranking/tft-ranking.component';
 import {GameListComponent} from './component/game-list/game-list.component';
 import {FormsModule} from "@angular/forms";
