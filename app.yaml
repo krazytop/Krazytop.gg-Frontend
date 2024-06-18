@@ -7,3 +7,5 @@ handlers:
   - url: /*
     secure: always
     static_dir: dist/krazytop-front
+
+entrypoint: node server.js
