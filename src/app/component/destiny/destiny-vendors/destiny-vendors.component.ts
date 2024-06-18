@@ -9,6 +9,7 @@ import {tap} from "rxjs";
 import {DestinyVendorNomenclature} from "../../../model/destiny/nomenclature/destiny-vendor.nomenclature";
 import {DestinyVendorGroupNomenclature} from "../../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
 import {DestinyProgressionNomenclature} from "../../../model/destiny/nomenclature/destiny-progression.nomenclature";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'destiny-vendors',
@@ -68,11 +69,11 @@ export class DestinyVendorsComponent implements OnChanges {
 
         let requestCompleted: number = 2;
 
-        this.http.post<{[vendorHash: number]: DestinyVendorNomenclature}>('http://localhost:8080/destiny/vendors', usefulVendorHashList, { headers: HeaderService.getHeaders() }
+        this.http.post<{[vendorHash: number]: DestinyVendorNomenclature}>(environment.apiURL + 'destiny/vendors', usefulVendorHashList, { headers: HeaderService.getHeaders() }
         ).pipe(
           this.addVendorNomenclatures(usefulVendors, vendorGroups)
         ).subscribe(() => {
-          this.http.post<{[progressionHash: number]: DestinyProgressionNomenclature}>('http://localhost:8080/destiny/progressions', usefulProgressionHashList, { headers: HeaderService.getHeaders() }
+          this.http.post<{[progressionHash: number]: DestinyProgressionNomenclature}>(environment.apiURL + 'destiny/progressions', usefulProgressionHashList, { headers: HeaderService.getHeaders() }
           ).pipe(
             this.addProgressionNomenclatures(vendorGroups)
           ).subscribe(() => {
@@ -84,7 +85,7 @@ export class DestinyVendorsComponent implements OnChanges {
           });
         });
 
-        this.http.post<{[vendorGroupHash: number]: DestinyVendorGroupNomenclature}>('http://localhost:8080/destiny/vendor-groups', vendorGroupHashList, { headers: HeaderService.getHeaders() }
+        this.http.post<{[vendorGroupHash: number]: DestinyVendorGroupNomenclature}>(environment.apiURL + 'destiny/vendor-groups', vendorGroupHashList, { headers: HeaderService.getHeaders() }
         ).pipe(
           this.addVendorGroupNomenclatures(vendorGroups)
         ).subscribe(() => {

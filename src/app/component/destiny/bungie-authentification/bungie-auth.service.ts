@@ -7,6 +7,7 @@ import {DestinyMembershipsModel} from "../../../model/destiny/destiny-membership
 import {Router} from "@angular/router";
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
 import {catchError, concatMap, map, Observable, of, Subject, tap, throwError} from "rxjs";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class BungieAuthService {
   }
 
   getCurrentUserMembershipsWithCode(playerCode: string) {
-    this.http.get(`http://localhost:8080/destiny/get/${playerCode}`, {headers: HeaderService.getHeaders()})
+    this.http.get(environment.apiURL + `destiny/get/${playerCode}`, {headers: HeaderService.getHeaders()})
       .subscribe((response: BungieAuthModel) => {
         this.setExpirations(response);
         this.setPlayerTokens(response);
@@ -77,7 +78,7 @@ export class BungieAuthService {
         return of(false);
       } else {
         const refreshToken = this.getPlayerTokens()!.refresh_token!;
-        return this.http.post<BungieAuthModel>(`http://localhost:8080/destiny/update`, { refreshToken }, { headers: HeaderService.getHeaders() })
+        return this.http.post<BungieAuthModel>(environment.apiURL + 'destiny/update', { refreshToken }, { headers: HeaderService.getHeaders() })
           .pipe(
             tap((response: BungieAuthModel | null) => {
               if (response != null) {

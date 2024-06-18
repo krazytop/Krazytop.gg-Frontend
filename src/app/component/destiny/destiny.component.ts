@@ -18,6 +18,7 @@ import {DestinyDataStorage} from "./DestinyDataStorage";
 import {DestinyClassNomenclature} from "../../model/destiny/nomenclature/destiny-class.nomenclature";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {Engrams, MainCurrencies} from "../../model/destiny/enum/MainInventoryEnum";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'destiny',
@@ -181,7 +182,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
     this.dataStorage.profile.characterInventories.forEach(inventory => inventory.items.forEach(item => itemHashes.push(item.itemHash)));
     itemHashes.push(...MainCurrencies, ...Engrams)
     return this.http.post<{[itemHash: number]: DestinyItemNomenclature}>(
-      'http://localhost:8080/destiny/items', Array.from(new Set(itemHashes)), { headers: HeaderService.getHeaders() }
+      environment.apiURL + 'destiny/items', Array.from(new Set(itemHashes)), { headers: HeaderService.getHeaders() }
     ).pipe(
       tap((itemNomenclaturesDictionary:{[itemHash: number]: DestinyItemNomenclature}) => {
         const itemNomenclatures: Map<number, DestinyItemNomenclature> = new Map();
@@ -196,7 +197,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   getCharacterClassNomenclatures(): Observable<{[classHash: number]: DestinyClassNomenclature}> {
     const classHashList: number[] = Array.from(new Set(this.dataStorage.profile.characters.map(character => character.classHash)));
     return this.http.post<{[classHash: number]: DestinyClassNomenclature}>(
-      'http://localhost:8080/destiny/class', classHashList, { headers: HeaderService.getHeaders() }
+      environment.apiURL + 'destiny/class', classHashList, { headers: HeaderService.getHeaders() }
     ).pipe(
       tap((classNomenclatureMap) => {
         this.dataStorage.characterClassNomenclatures = new Map(Object.entries(classNomenclatureMap));
@@ -207,7 +208,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   getCharacterTitleNomenclatures(): Observable<{[recordHashList: number]: DestinyRecordNomenclature}> {
     const recordHashList: number[] = Array.from(new Set(this.dataStorage.profile.characters.map(character => character.titleRecordHash)));
     return this.http.post<{[recordHashList: number]: DestinyRecordNomenclature}>(
-      'http://localhost:8080/destiny/records', recordHashList, { headers: HeaderService.getHeaders() }
+      environment.apiURL + 'destiny/records', recordHashList, { headers: HeaderService.getHeaders() }
     ).pipe(
       tap(recordNomenclatureMap => {
         this.dataStorage.characterTitleNomenclatures = new Map(Object.entries(recordNomenclatureMap));
@@ -218,7 +219,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   getPresentationTreeNomenclatures() {
     let presentationTreeHashes: number[] = [TitlesPresentationTree, ArchivedTitlesPresentationTree];
     return this.http.post<{[itemHash: number]: DestinyPresentationTreeNomenclature}>(
-      'http://localhost:8080/destiny/trees', presentationTreeHashes, { headers: HeaderService.getHeaders() }
+      environment.apiURL + 'destiny/trees', presentationTreeHashes, { headers: HeaderService.getHeaders() }
     ).pipe(
       tap((presentationTreeNomenclaturesDictionary:{[presentationTreeHash: number]: DestinyPresentationTreeNomenclature}) => {
         this.dataStorage.presentationTrees.titlesPresentationTree = presentationTreeNomenclaturesDictionary[TitlesPresentationTree];
