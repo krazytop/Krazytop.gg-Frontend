@@ -17,14 +17,14 @@ export class BungieAuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   login() {
-    window.location.replace("https://www.bungie.net/en/OAuth/Authorize?client_id=46584&response_type=code");
+    window.location.replace("https://www.bungie.net/en/OAuth/Authorize?client_id=" + environment.apiClientIdBungie + "&response_type=code");
   }
 
   getHeaders() {
     return {
       'Authorization': 'Bearer ' + this.getPlayerTokens()!.access_token,
       'Content-Type': 'application/json',
-      'X-API-Key': '043641212e7e460ca38737cbe0e93203'
+      'X-API-Key': environment.apiKeyBungie
     };
   }
 
@@ -100,12 +100,20 @@ export class BungieAuthService {
     playerTokens.refresh_expires_timestamp = actualTimestamp + playerTokens.refresh_expires_in!;
   }
 
-  isTokenExpired() {
-    return this.getPlayerTokens()!.expires_timestamp! < Math.floor(new Date().getTime() / 1000) + 60;
+  isTokenExpired(): boolean {
+    const tokens = this.getPlayerTokens();
+    if (!tokens) {
+      return false;
+    }
+    return tokens.expires_timestamp! < Math.floor(new Date().getTime() / 1000) + 60;
   }
 
   isRefreshTokenExpired() {
-    return this.getPlayerTokens()!.refresh_expires_timestamp! < Math.floor(new Date().getTime() / 1000) + 60;
+    const tokens = this.getPlayerTokens();
+    if (!tokens) {
+      return false;
+    }
+    return tokens.refresh_expires_timestamp! < Math.floor(new Date().getTime() / 1000) + 60;
   }
 
   disconnect() {
