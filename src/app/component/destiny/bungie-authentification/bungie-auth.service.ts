@@ -36,34 +36,30 @@ export class BungieAuthService {
         this.setPlayerTokens(response);
         this.http.get('https://www.bungie.net/Platform/User/GetMembershipsForCurrentUser/', {headers: this.getHeaders()})
           .subscribe({
-            next: (response: any)=> {
-            const userMemberships: DestinyUserMembershipsModel = response['Response'];
-            let crossSaveMembership: DestinyMembershipsModel | null = null;
-            for (let membership of userMemberships.destinyMemberships) {
-              if (membership.membershipId === userMemberships.primaryMembershipId) {
-                crossSaveMembership =  membership;
+            next: (response: any) => {
+              const userMemberships: DestinyUserMembershipsModel = response['Response'];
+              let crossSaveMembership: DestinyMembershipsModel | null = null;
+              for (let membership of userMemberships.destinyMemberships) {
+                if (membership.membershipId === userMemberships.primaryMembershipId) {
+                  crossSaveMembership = membership;
+                }
+              }
+              if (crossSaveMembership != null) {
+                this.getCharactersFromMembership(crossSaveMembership.membershipType!, crossSaveMembership.membershipId!)
+                  .subscribe((characters: DestinyCharacterModel[]) => {
+                    if (characters.length != 0) {
+                      this.router.navigate([`/destiny/${crossSaveMembership!.membershipType}/${crossSaveMembership!.membershipId}/${characters[0].characterId}/vendors`]);
+                    } else {
+                      this.disconnectWithError("You need at least one character");
+                    }
+                  });
+              } else {
+                this.disconnectWithError("You need to activate Cross Save");
               }
             }
-            if (crossSaveMembership != null) {
-              this.getCharactersFromMembership(crossSaveMembership.membershipType!, crossSaveMembership.membershipId!)
-                .subscribe((characters: DestinyCharacterModel[]) => {
-                  if (characters.length != 0) {
-                    this.router.navigate([`/destiny/${crossSaveMembership!.membershipType}/${crossSaveMembership!.membershipId}/${characters[0].characterId}/vendors`]);
-                  } else {
-                    console.log("Need at least one character");
-                    this.router.navigate(['/']);
-                  }
-                });
-            } else {
-              console.log("Need Cross Save");
-              this.router.navigate(['/']);
-            }
-          }, error: () => {
-            this.router.navigate(['/']).then(() => this.alertService.processAlert({
-              message: "Failed to retrieve your Bungie profile",
-              duration: 3000
-            }));
-          }});
+          });
+      }, () => {
+        this.disconnectWithError("Failed to retrieve your Bungie profile");
       });
   }
 
@@ -126,6 +122,14 @@ export class BungieAuthService {
   disconnect() {
     localStorage.removeItem('bungie_player_tokens');
     this.router.navigate(['/']);
+  }
+
+  disconnectWithError(message: string) {
+    localStorage.removeItem('bungie_player_tokens');
+    this.router.navigate(['/']).then(() => this.alertService.processAlert({
+      message: message,
+      duration: 3000
+    }));
   }
 
   getPlayerTokens() {
