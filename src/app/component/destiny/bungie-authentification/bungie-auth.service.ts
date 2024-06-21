@@ -35,7 +35,8 @@ export class BungieAuthService {
         this.setExpirations(response);
         this.setPlayerTokens(response);
         this.http.get('https://www.bungie.net/Platform/User/GetMembershipsForCurrentUser/', {headers: this.getHeaders()})
-          .subscribe((response: any) => {
+          .subscribe({
+            next: (response: any)=> {
             const userMemberships: DestinyUserMembershipsModel = response['Response'];
             let crossSaveMembership: DestinyMembershipsModel | null = null;
             for (let membership of userMemberships.destinyMemberships) {
@@ -57,12 +58,12 @@ export class BungieAuthService {
               console.log("Need Cross Save");
               this.router.navigate(['/']);
             }
-          }, error => {
+          }, error: () => {
             this.router.navigate(['/']).then(() => this.alertService.processAlert({
               message: "Failed to retrieve your Bungie profile",
               duration: 3000
             }));
-          });
+          }});
       });
   }
 
