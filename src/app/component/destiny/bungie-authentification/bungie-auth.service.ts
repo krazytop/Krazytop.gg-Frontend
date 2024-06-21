@@ -8,13 +8,14 @@ import {Router} from "@angular/router";
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
 import {catchError, concatMap, map, Observable, of, Subject, tap, throwError} from "rxjs";
 import {environment} from "../../../../environments/environment";
+import {AlertService} from "../../alert/alert.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BungieAuthService {
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private alertService: AlertService) {}
 
   login() {
     window.location.replace("https://www.bungie.net/en/OAuth/Authorize?client_id=" + environment.apiClientIdBungie + "&response_type=code");
@@ -56,6 +57,11 @@ export class BungieAuthService {
               console.log("Need Cross Save");
               this.router.navigate(['/']);
             }
+          }, error => {
+            this.router.navigate(['/']).then(() => this.alertService.processAlert({
+              message: "Failed to retrieve your Bungie profile",
+              duration: 3000
+            }));
           });
       });
   }
