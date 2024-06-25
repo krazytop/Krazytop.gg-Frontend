@@ -38,17 +38,21 @@ export class BungieAuthService {
           .subscribe({
             next: (response: any) => {
               const userMemberships: DestinyUserMembershipsModel = response['Response'];
-              let crossSaveMembership: DestinyMembershipsModel | null = null;
-              for (let membership of userMemberships.destinyMemberships) {
-                if (membership.membershipId === userMemberships.primaryMembershipId) {
-                  crossSaveMembership = membership;
+              let mainMembership: DestinyMembershipsModel | null = null;
+              if (userMemberships.destinyMemberships.length === 1) {
+                mainMembership = userMemberships.destinyMemberships[0];
+              } else {
+                for (let membership of userMemberships.destinyMemberships) {
+                  if (membership.membershipId === userMemberships.primaryMembershipId) {
+                    mainMembership = membership;
+                  }
                 }
               }
-              if (crossSaveMembership != null) {
-                this.getCharactersFromMembership(crossSaveMembership.membershipType!, crossSaveMembership.membershipId!)
+              if (mainMembership != null) {
+                this.getCharactersFromMembership(mainMembership.membershipType!, mainMembership.membershipId!)
                   .subscribe((characters: DestinyCharacterModel[]) => {
                     if (characters.length != 0) {
-                      this.router.navigate([`/destiny/${crossSaveMembership!.membershipType}/${crossSaveMembership!.membershipId}/${characters[0].characterId}/vendors`]);
+                      this.router.navigate([`/destiny/${mainMembership!.membershipType}/${mainMembership!.membershipId}/${characters[0].characterId}/vendors`]);
                     } else {
                       this.disconnectWithError("You need at least one character");
                     }
