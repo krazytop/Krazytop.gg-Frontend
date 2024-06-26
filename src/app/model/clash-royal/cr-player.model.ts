@@ -29,4 +29,5 @@ export class CRPlayer {
   seasonsLeagues?: CRLeagues;
   seasonsTrophies?: CRTrophies;
   upcomingChests?: CRChest[];
+  expLevel?: number;
 }
