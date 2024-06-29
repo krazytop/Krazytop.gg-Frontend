@@ -1,5 +1,5 @@
-import {ItemLocationEnum} from "./enum/ItemLocationEnum";
-import {ItemStateEnum} from "./enum/ItemStateEnum";
+import {DestinyItemLocationEnum} from "./enum/DestinyItemLocationEnum";
+import {DestinyItemStateEnum} from "./enum/DestinyItemStateEnum";
 import {DestinyItemInstanceModel} from "./destiny-item-instance.model";
 import {DestinyItemNomenclature} from "./nomenclature/destiny-item.nomenclature";
 
@@ -9,9 +9,9 @@ export class DestinyItemModel {
   itemInstanceId!: string;
   itemInstance?: DestinyItemInstanceModel;
   quantity!: number;
-  location!: ItemLocationEnum;
+  location!: DestinyItemLocationEnum;
   bucketHash!: number;
   transferStatus!: number;
   lockable!: boolean;
-  state!: ItemStateEnum;
+  state!: number;
 }

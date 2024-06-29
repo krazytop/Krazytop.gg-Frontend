@@ -29,6 +29,14 @@
                     [title]="dataStorage.componentArgs.selectedTitle!"
                     [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
     </destiny-title>
+    <destiny-characters *ngIf="componentToShow === 'characters'" class="component"
+                        [isParentComponentReady]="isThisComponentReady"
+                        [profileInventory]="dataStorage.profile.profileInventory"
+                        [characterEquipment]="dataStorage.profile.characterEquipment"
+                        [characterInventories]="dataStorage.profile.characterInventories"
+                        [itemInstances]="dataStorage.profile.itemInstances"
+                        [itemNomenclatures]="dataStorage.itemNomenclatures">
+    </destiny-characters>
     <destiny-main-inventory class="component"
                             [isParentComponentReady]="isThisComponentReady"
                             [profileInventory]="dataStorage.profile.profileInventory"

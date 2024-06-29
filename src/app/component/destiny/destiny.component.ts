@@ -10,14 +10,12 @@ import {DestinyItemModel} from "../../model/destiny/destiny-item.model";
 import {DestinyLinkedProfilesModel} from "../../model/destiny/destiny-linked-profiles.model";
 import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {HeaderService} from "../../config/headers.service";
-import {TitlesPresentationTree, ArchivedTitlesPresentationTree} from "../../model/destiny/enum/PresentationTreesEnum"
+import {TitlesPresentationTree, ArchivedTitlesPresentationTree} from "../../model/destiny/enum/DestinyPresentationTreesEnum"
 import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
-import {DestinyObjectiveProgressModel} from "../../model/destiny/destiny-objective-progress.model";
 import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-progression.model";
 import {DestinyDataStorage} from "./DestinyDataStorage";
-import {DestinyClassNomenclature} from "../../model/destiny/nomenclature/destiny-class.nomenclature";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
-import {Engrams, MainCurrencies} from "../../model/destiny/enum/MainInventoryEnum";
+import {Engrams, MainCurrencies} from "../../model/destiny/enum/DestinyMainInventoryEnum";
 import {environment} from "../../../environments/environment";
 
 @Component({
@@ -82,7 +80,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   }
 
   manageAllRequest(platform: number, membership: string) {
-    let requestCompleted: number = 5;
+    let requestCompleted: number = 4;
     this.getLinkedProfile(platform!, membership!).subscribe(() => {
       requestCompleted --;
       if (requestCompleted === 0) {
@@ -98,13 +96,6 @@ export class DestinyComponent implements OnInit, OnDestroy {
       }
     })
     this.getCharacterTitleNomenclatures().subscribe(() => {
-      requestCompleted --;
-      if (requestCompleted === 0) {
-        this.manageComponentArgs();
-        this.isThisComponentReady = true;
-      }
-    })
-    this.getCharacterClassNomenclatures().subscribe(() => {
       requestCompleted --;
       if (requestCompleted === 0) {
         this.manageComponentArgs();
@@ -139,7 +130,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   }
 
   getProfile(platform: number, membership: string) {
-    return this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,300,700,900`, {headers: this.bungieAuthService.getHeaders()})
+    return this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,700,900`, {headers: this.bungieAuthService.getHeaders()})
       .pipe(
         map((response: any) => {
           const destinyProfile: DestinyProfileModel = new DestinyProfileModel();
@@ -147,6 +138,10 @@ export class DestinyComponent implements OnInit, OnDestroy {
           destinyProfile.profileCurrencies = Object.values(response['Response']['profileCurrencies']['data']['items']);
           destinyProfile.profileInventory = Object.values(response['Response']['profileInventory']['data']['items']);
           destinyProfile.characterInventories = Object.entries(response['Response']['characterInventories']['data'])
+            .map(([characterHash, items]) => {
+              return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
+            });
+          destinyProfile.characterEquipment = Object.entries(response['Response']['characterEquipment']['data'])
             .map(([characterHash, items]) => {
               return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
             });
@@ -179,6 +174,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
     let itemHashes: number[] = [];
     this.dataStorage.profile.profileInventory.forEach(item => itemHashes.push(item.itemHash));
     this.dataStorage.profile.profileCurrencies.forEach(item => itemHashes.push(item.itemHash));
+    this.dataStorage.profile.characterEquipment.forEach(inventory => inventory.items.forEach(item => itemHashes.push(item.itemHash)));
     this.dataStorage.profile.characterInventories.forEach(inventory => inventory.items.forEach(item => itemHashes.push(item.itemHash)));
     itemHashes.push(...MainCurrencies, ...Engrams)
     return this.http.post<{[itemHash: number]: DestinyItemNomenclature}>(
@@ -192,17 +188,6 @@ export class DestinyComponent implements OnInit, OnDestroy {
         this.dataStorage.itemNomenclatures = itemNomenclatures;
       })
     )
-  }
-
-  getCharacterClassNomenclatures(): Observable<{[classHash: number]: DestinyClassNomenclature}> {
-    const classHashList: number[] = Array.from(new Set(this.dataStorage.profile.characters.map(character => character.classHash)));
-    return this.http.post<{[classHash: number]: DestinyClassNomenclature}>(
-      environment.apiURL + 'destiny/class', classHashList, { headers: HeaderService.getHeaders() }
-    ).pipe(
-      tap((classNomenclatureMap) => {
-        this.dataStorage.characterClassNomenclatures = new Map(Object.entries(classNomenclatureMap));
-      })
-    );
   }
 
   getCharacterTitleNomenclatures(): Observable<{[recordHashList: number]: DestinyRecordNomenclature}> {

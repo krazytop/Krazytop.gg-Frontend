@@ -1,0 +1,49 @@
+.characters-and-vault {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 20px;
+}
+
+.characters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.character-title {
+  color: white;
+}
+
+.item-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.character-item-category {
+  padding: 5px;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 1fr 3fr;
+}
+
+.items {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(auto-fill, 50px);
+  justify-content: center;
+}
+
+.vault {
+  padding: 15px;
+}
+
+destiny-item {
+  width: 50px;
+  height: 68px;
+}
+
+.equippedItem {
+  border: 1px solid #c2c2c2;
+  border-radius: 5px;
+}

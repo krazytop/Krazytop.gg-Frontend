@@ -45,6 +45,7 @@ import { DestinyTitlesComponent } from './component/destiny/destiny-titles/desti
 import { DestinyCraftablesComponent } from './component/destiny/destiny-craftables/destiny-craftables.component';
 import { DestinyTitleComponent } from './component/destiny/destiny-titles/destiny-title/destiny-title.component';
 import { DestinyBadgesComponent } from './component/destiny/destiny-badges/destiny-badges.component';
+import { DestinyCharactersComponent } from './component/destiny/destiny-characters/destiny-characters.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { DestinyBadgesComponent } from './component/destiny/destiny-badges/desti
     DestinyTitlesComponent,
     DestinyCraftablesComponent,
     DestinyTitleComponent,
-    DestinyBadgesComponent
+    DestinyBadgesComponent,
+    DestinyCharactersComponent
   ],
   imports: [
     BrowserModule,

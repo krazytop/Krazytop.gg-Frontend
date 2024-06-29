@@ -4,7 +4,6 @@ import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-
 import {DestinyComponentArgs} from "../../model/destiny/destiny-component-args";
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
-import {DestinyClassNomenclature} from "../../model/destiny/nomenclature/destiny-class.nomenclature";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
 
 @Injectable({
@@ -17,7 +16,6 @@ export class DestinyDataStorage {
   componentArgs: DestinyComponentArgs = new DestinyComponentArgs();
 
   itemNomenclatures: Map<number, DestinyItemNomenclature> = new Map();
-  characterClassNomenclatures: Map<string, DestinyClassNomenclature> = new Map();
   characterTitleNomenclatures: Map<string, DestinyRecordNomenclature> = new Map();
 
   isFirstDisplay: boolean = true;

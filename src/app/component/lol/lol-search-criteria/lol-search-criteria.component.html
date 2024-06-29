@@ -3,59 +3,59 @@
     <button (click)="selectQueue(LolSearchCriteriaComponent.allQueues)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.queue === LolSearchCriteriaComponent.allQueues, 'tab-not-selected': LOLSearchCriteriaService.queue !== LolSearchCriteriaComponent.allQueues}">
       <span>All</span>
-      <img draggable="false" src="assets/data/tft/tft-queues/1000.png">
+      <img src="assets/data/tft/tft-queues/1000.png">
     </button>
     <button (click)="selectQueue(LolSearchCriteriaComponent.quickPlay)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.queue === LolSearchCriteriaComponent.quickPlay, 'tab-not-selected': LOLSearchCriteriaService.queue !== LolSearchCriteriaComponent.quickPlay}">
       <span>Quick Play</span>
-      <img draggable="false" src="assets/data/tft/tft-queues/1090.png">
+      <img src="assets/data/tft/tft-queues/1090.png">
     </button>
     <button (click)="selectQueue(LolSearchCriteriaComponent.normal)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.queue === LolSearchCriteriaComponent.normal, 'tab-not-selected': LOLSearchCriteriaService.queue !== LolSearchCriteriaComponent.normal}">
       <span>Normal</span>
-      <img draggable="false" src="assets/data/tft/tft-queues/1090.png">
+      <img src="assets/data/tft/tft-queues/1090.png">
     </button>
     <button (click)="selectQueue(LolSearchCriteriaComponent.soloRanked)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.queue === LolSearchCriteriaComponent.soloRanked, 'tab-not-selected': LOLSearchCriteriaService.queue !== LolSearchCriteriaComponent.soloRanked}">
       <span>Solo Ranked</span>
-      <img draggable="false" src="assets/data/tft/tft-queues/1100.png">
+      <img src="assets/data/tft/tft-queues/1100.png">
     </button>
     <button (click)="selectQueue(LolSearchCriteriaComponent.flexRanked)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.queue === LolSearchCriteriaComponent.flexRanked, 'tab-not-selected': LOLSearchCriteriaService.queue !== LolSearchCriteriaComponent.flexRanked}">
       <span>Flex Ranked</span>
-      <img draggable="false" src="assets/data/tft/tft-queues/1130.png">
+      <img src="assets/data/tft/tft-queues/1130.png">
     </button>
     <button (click)="selectQueue(LolSearchCriteriaComponent.aram)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.queue === LolSearchCriteriaComponent.aram, 'tab-not-selected': LOLSearchCriteriaService.queue !== LolSearchCriteriaComponent.aram}">
       <span>ARAM</span>
-      <img draggable="false" src="assets/data/tft/tft-queues/1160.png">
+      <img src="assets/data/tft/tft-queues/1160.png">
     </button>
   </div>
 
   <div class="tab-buttons">
     <button (click)="selectRole(LolSearchCriteriaComponent.allRoles)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.role === LolSearchCriteriaComponent.allRoles, 'tab-not-selected': LOLSearchCriteriaService.role !== LolSearchCriteriaComponent.allRoles}">
-      <img draggable="false" src="assets/data/lol/lol-roles/all-roles.png" style="filter: hue-rotate(193deg) saturate(300%)">
+      <img src="assets/data/lol/lol-roles/all-roles.png" style="filter: hue-rotate(193deg) saturate(300%)">
     </button>
     <button (click)="selectRole(LolSearchCriteriaComponent.top)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.role === LolSearchCriteriaComponent.top, 'tab-not-selected': LOLSearchCriteriaService.role !== LolSearchCriteriaComponent.top}">
-      <img draggable="false" src="assets/data/lol/lol-roles/top.png" style="filter: hue-rotate(193deg) saturate(300%)">
+      <img src="assets/data/lol/lol-roles/top.png" style="filter: hue-rotate(193deg) saturate(300%)">
     </button>
     <button (click)="selectRole(LolSearchCriteriaComponent.jungle)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.role === LolSearchCriteriaComponent.jungle, 'tab-not-selected': LOLSearchCriteriaService.role !== LolSearchCriteriaComponent.jungle}">
-      <img draggable="false" src="assets/data/lol/lol-roles/jungle.png" style="filter: hue-rotate(193deg) saturate(300%)">
+      <img src="assets/data/lol/lol-roles/jungle.png" style="filter: hue-rotate(193deg) saturate(300%)">
     </button>
     <button (click)="selectRole(LolSearchCriteriaComponent.middle)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.role === LolSearchCriteriaComponent.middle, 'tab-not-selected': LOLSearchCriteriaService.role !== LolSearchCriteriaComponent.middle}">
-      <img draggable="false" src="assets/data/lol/lol-roles/middle.png" style="filter: hue-rotate(193deg) saturate(300%)">
+      <img src="assets/data/lol/lol-roles/middle.png" style="filter: hue-rotate(193deg) saturate(300%)">
     </button>
     <button (click)="selectRole(LolSearchCriteriaComponent.bottom)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.role === LolSearchCriteriaComponent.bottom, 'tab-not-selected': LOLSearchCriteriaService.role !== LolSearchCriteriaComponent.bottom}">
-      <img draggable="false" src="assets/data/lol/lol-roles/bot.png" style="filter: hue-rotate(193deg) saturate(300%)">
+      <img src="assets/data/lol/lol-roles/bot.png" style="filter: hue-rotate(193deg) saturate(300%)">
     </button>
     <button (click)="selectRole(LolSearchCriteriaComponent.support)"
             [ngClass]="{'tab-selected': LOLSearchCriteriaService.role === LolSearchCriteriaComponent.support, 'tab-not-selected': LOLSearchCriteriaService.role !== LolSearchCriteriaComponent.support}">
-      <img draggable="false" src="assets/data/lol/lol-roles/utility.png" style="filter: hue-rotate(193deg) saturate(300%)">
+      <img src="assets/data/lol/lol-roles/utility.png" style="filter: hue-rotate(193deg) saturate(300%)">
     </button>
   </div>
 </div>
