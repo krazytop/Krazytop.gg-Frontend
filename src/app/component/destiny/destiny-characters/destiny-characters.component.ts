@@ -8,6 +8,8 @@ import {BungieAuthService} from "../bungie-authentification/bungie-auth.service"
 import {AlertService} from "../../alert/alert.service";
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {DestinyInventoryBucketEnum} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
+import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
+import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum";
 
 @Component({
   selector: 'destiny-characters',
@@ -18,6 +20,7 @@ export class DestinyCharactersComponent implements OnChanges {
 
   @Input() isParentComponentReady: boolean = false;
   @Input() profileInventory!: DestinyItemModel[];
+  @Input() characters!: DestinyCharacterModel[];
   @Input() characterEquipment!: DestinyCharacterInventoryModel[];
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
@@ -35,6 +38,11 @@ export class DestinyCharactersComponent implements OnChanges {
         }
       })
     }
+  }
+
+  getCharacterClassName(characterId: string) {
+    const character = this.characters.find(character => character.characterId === characterId);
+    return getClassNameByGender(character!.classHash, character!.genderHash)
   }
 
   getVaultItems() {

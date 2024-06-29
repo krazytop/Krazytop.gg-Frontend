@@ -1,6 +1,11 @@
 <div *ngIf="isParentComponentReady">
   <div class="characters-and-vault">
     <div class="item-categories">
+      <div class="characters">
+        <div *ngFor="let characterInventory of characterInventories" class="title">
+          <div>{{ getCharacterClassName(characterInventory.characterHash) }}</div>
+        </div>
+      </div>
       <div class="characters" *ngFor="let itemCategory of getItemCategories()">
         <div *ngFor="let characterInventory of characterInventories" class="character-item-category subcomponent">
           <destiny-item [item]="getEquippedItem(characterInventory.characterHash, itemCategory)" class="equippedItem">
@@ -12,9 +17,12 @@
         </div>
       </div>
     </div>
-    <div class="items subcomponent vault">
-      <destiny-item *ngFor="let item of getVaultItems()" [item]="item" class="item-that-can-move">
-      </destiny-item>
+    <div class="vault">
+      <div class="title">Vault ({{ getVaultItems().length }} / 700)</div>
+      <div class="items subcomponent vault-items">
+        <destiny-item *ngFor="let item of getVaultItems()" [item]="item" class="item-that-can-move">
+        </destiny-item>
+      </div>
     </div>
   </div>
 </div>

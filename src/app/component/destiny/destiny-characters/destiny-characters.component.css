@@ -34,7 +34,7 @@
   justify-content: center;
 }
 
-.vault {
+.vault-items {
   padding: 15px;
 }
 
@@ -46,4 +46,17 @@ destiny-item {
 .equippedItem {
   border: 1px solid #c2c2c2;
   border-radius: 5px;
+}
+
+.vault {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  color: white;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
 }
