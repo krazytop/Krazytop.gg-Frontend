@@ -1,4 +1,4 @@
-export enum ItemLocationEnum {
+export enum DestinyItemLocationEnum {
   Unknown = 0,
   Inventory = 1,
   Vault = 2,

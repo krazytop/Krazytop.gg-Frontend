@@ -1,5 +1,5 @@
 <div *ngIf="isThisComponentReady" class="vendor-group-list">
-  <div *ngFor="let vendorGroup of vendorGroups" class="vendor-group">
+  <div *ngFor="let vendorGroup of vendorGroups" class="subcomponent">
     <div class="vendor-group-title">{{ vendorGroup.vendorGroupNomenclature!.name.toUpperCase() }}</div>
     <div class="vendors">
       <div *ngFor="let vendor of vendorGroup.vendors">

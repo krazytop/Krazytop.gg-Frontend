@@ -2,7 +2,7 @@
   <div *ngFor="let card of getOrderedCardsByLevel(cards)" class="card">
     <img class="card-image" src="assets/data/clash-royal/cr-cards/{{ getCardName(card) }}.png">
     <div class="level-container">
-      <img alt="exp" ngSrc="assets/data/clash-royal/cr-exp.png" height="30" width="30" draggable="false"
+      <img alt="exp" ngSrc="assets/data/clash-royal/cr-exp.png" height="30" width="30"
         [ngStyle]="{'filter': (card.level! >= 14) ? 'hue-rotate(206deg) saturate(200%) sepia(50%)' : 'none'}"
       />
       <div class="level">{{ card.level }}</div>

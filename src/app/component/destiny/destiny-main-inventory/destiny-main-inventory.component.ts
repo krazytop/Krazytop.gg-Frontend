@@ -2,7 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {DestinyItemNomenclature} from "../../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {DestinyComponent} from "../destiny.component";
-import {Engrams, MainCurrencies} from "../../../model/destiny/enum/MainInventoryEnum";
+import {Engrams, MainCurrencies} from "../../../model/destiny/enum/DestinyMainInventoryEnum";
 
 @Component({
   selector: 'destiny-main-inventory',

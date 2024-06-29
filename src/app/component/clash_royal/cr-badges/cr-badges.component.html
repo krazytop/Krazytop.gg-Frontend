@@ -2,7 +2,7 @@
 <hr>
 <div class="cr-badges">
   <div *ngFor="let badge of getSuccessBadges()" class="cr-success-badges">
-    <img ngSrc="{{badge.image}}" height="150" width="150" draggable="false">
+    <img ngSrc="{{badge.image}}" height="150" width="150">
     <div class="progress-bar" [ngStyle]="{'opacity': (badge.level !== badge.maxLevel) ? 'opacity' : 0}">
       <div class="text-progress-bar">
         {{ badge.progress }}&nbsp;/&nbsp;{{ badge.target }}
@@ -16,6 +16,6 @@
 <hr>
 <div class="cr-badges">
   <div *ngFor="let badge of getMasteriesBadges()">
-    <img ngSrc="{{badge.image}}" height="150" width="150" draggable="false">
+    <img ngSrc="{{badge.image}}" height="150" width="150">
   </div>
 </div>

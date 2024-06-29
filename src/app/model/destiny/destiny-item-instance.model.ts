@@ -1,10 +1,11 @@
 import {DestinyPrimaryStatModel} from "./destiny-primary-stat.model";
+import {DestinyItemDamageTypeEnum} from "./enum/DestinyItemDamageTypeEnum";
 
 export class DestinyItemInstanceModel {
   hash?: string;
   canEquip!: boolean;
   cannotEquipReason!: number; //TODO enum ?
-  damageType!: number;
+  damageType!: DestinyItemDamageTypeEnum;
   damageTypeHash!: number;
   bucketHash!: number;
   equipRequiredLevel!: number;

@@ -10,9 +10,6 @@
   width: 100px;
   height: 100px;
   margin: 0 10px; /* Espace horizontal entre les images */
-  user-select: none;
-  -webkit-user-select: none; /* Pour la compatibilité avec certains navigateurs WebKit */
-  -moz-user-select: none; /* Pour la compatibilité avec Firefox */
 }
 
 .game-not-selected {

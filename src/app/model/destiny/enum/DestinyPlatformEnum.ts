@@ -1,4 +1,4 @@
-export const PlatformEnum: Map<number, string> = new Map([
+export const DestinyPlatformEnum: Map<number, string> = new Map([
   [1, "xbox_logo.png"],
   [2, "playstation_logo.png"],
   [3, "steam_logo.png"],

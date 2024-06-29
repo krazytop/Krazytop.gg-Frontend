@@ -12,5 +12,9 @@
             [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.titles, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.titles}">
       <span>Titles</span>
     </button>
+    <button (click)="selectComponent(DestinyComponentSelectorComponent.characters)"
+            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.characters, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.characters}">
+      <span>Characters</span>
+    </button>
   </div>
 </div>

@@ -14,7 +14,7 @@
       <img class="banner" src="{{ DestinyComponent.destinyAssetUrl + character.emblemBackgroundPath }}" alt="Character Emblem">
       <div class="information">
         <div class="class-and-title">
-          <span class="class">{{ dataStorage.characterClassNomenclatures.get(String(character.classHash))!.nameByGender[character.genderHash] }}</span>
+          <span class="class">{{ getClassNameByGender(character.classHash, character.genderHash) }}</span>
           <span *ngIf="character.titleRecordHash != undefined" class="title">{{ this.dataStorage.characterTitleNomenclatures.get(String(character.titleRecordHash))?.titlesByGender![character.genderHash] }}</span>
         </div>
         <div class="light">
