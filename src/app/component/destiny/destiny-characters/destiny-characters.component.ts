@@ -2,7 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 import {DestinyCharacterInventoryModel} from "../../../model/destiny/destiny-character-inventory.model";
 import {DestinyItemInstanceModel} from "../../../model/destiny/destiny-item-instance.model";
 import {DestinyItemNomenclature} from "../../../model/destiny/nomenclature/destiny-item.nomenclature";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {BungieAuthService} from "../bungie-authentification/bungie-auth.service";
 import {AlertService} from "../../alert/alert.service";
@@ -10,6 +10,8 @@ import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {DestinyInventoryBucketEnum} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
 import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum";
+import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
+import {throwError} from "rxjs";
 
 @Component({
   selector: 'destiny-characters',
@@ -26,35 +28,23 @@ export class DestinyCharactersComponent implements OnChanges {
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
 
+  private platform?: string;
+  readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
+
   constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
   }
 
   ngOnChanges(): void {
     if (this.isParentComponentReady) {
-      this.profileInventory.forEach(item => {
-        if (item.bucketHash === DestinyInventoryBucketEnum.General) {
-          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
-          item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
-        }
-      })
+      this.route.params.subscribe(params => {
+        this.platform = params['platform'];
+      });
     }
   }
 
   getCharacterClassName(characterId: string) {
     const character = this.characters.find(character => character.characterId === characterId);
     return getClassNameByGender(character!.classHash, character!.genderHash)
-  }
-
-  getVaultItems() {
-    return this.profileInventory.filter(item =>  {
-      if (item.bucketHash === DestinyInventoryBucketEnum.General) {
-        item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
-        item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
-        return item.itemNomenclature != null
-      } else {
-        return false;
-      }
-    })!
   }
 
   getEquippedItem(characterHash: string, bucketHash: number) {
@@ -83,8 +73,142 @@ export class DestinyCharactersComponent implements OnChanges {
     })
   }
 
-  getItemCategories(){
+  getVaultItems(bucketHash: number | null) {
+    if (bucketHash == null) {
+      return this.profileInventory.filter(item => {
+        return item.bucketHash === DestinyInventoryBucketEnum.General;
+      });
+    } else {
+      return this.profileInventory.filter(item =>  {
+        if (item.bucketHash === DestinyInventoryBucketEnum.General) {
+          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
+          if (item.itemNomenclature?.bucketTypeHash === bucketHash) {
+            item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      })!
+    }
+  }
+
+  getAllBuckets(){
     return [DestinyInventoryBucketEnum.KineticWeapon, DestinyInventoryBucketEnum.EnergyWeapon, DestinyInventoryBucketEnum.PowerWeapon, DestinyInventoryBucketEnum.Helmet, DestinyInventoryBucketEnum.Gauntlets, DestinyInventoryBucketEnum.ChestArmor, DestinyInventoryBucketEnum.LegArmor, DestinyInventoryBucketEnum.Ship, DestinyInventoryBucketEnum.Emblem]
   }
 
+  draggedItem?: DestinyItemModel;
+  currentDraggedItemInventory: DestinyCharacterInventoryModel | null = null;
+
+  startDraggingItem(item: DestinyItemModel, inventory: DestinyCharacterInventoryModel | null, bucketHash: DestinyInventoryBucketEnum) {
+    this.draggedItem = item;
+    this.currentDraggedItemInventory = inventory;
+    this.characterInventories.forEach(characterInventory => {
+      document.getElementById(`character-inventory-${bucketHash}-${characterInventory.characterHash}`)!.classList.add('character-item-category-droppable');
+    })
+    document.getElementById(`inventory-${bucketHash}-vault`)!.classList.add('character-item-category-droppable');
+  }
+
+  dropItem(inventory: DestinyCharacterInventoryModel | null, bucketHash: DestinyInventoryBucketEnum | null) {
+    this.characterInventories.forEach(characterInventory => {
+      document.getElementById(`character-inventory-${bucketHash}-${characterInventory.characterHash}`)!.classList.remove('character-item-category-droppable');
+    })
+    document.getElementById(`inventory-${bucketHash}-vault`)!.classList.remove('character-item-category-droppable');
+    const vaultToVault = this.currentDraggedItemInventory == null && inventory == null;
+    const characterToSameCharacter = this.currentDraggedItemInventory != null && inventory != null && this.currentDraggedItemInventory.characterHash == inventory.characterHash;
+    if (!vaultToVault && !characterToSameCharacter) {
+      this.moveItem(this.draggedItem!, this.currentDraggedItemInventory, inventory);
+    }
+  }
+
+  //document.getElementById(`item-${itemToMove.itemInstanceId}`)!.classList.add('item-being-transferred');
+
+  private moveItemAfterApiCall(itemToMove: DestinyItemModel, fromCharacterInventory: DestinyCharacterInventoryModel | null, toCharacterInventory: DestinyCharacterInventoryModel | null) {
+    if (fromCharacterInventory != null && toCharacterInventory != null) {
+      fromCharacterInventory.items = fromCharacterInventory.items.filter(item => item.itemHash != itemToMove.itemHash);
+      toCharacterInventory.items.push(itemToMove);
+    } else if (fromCharacterInventory == null) {
+      this.profileInventory = this.profileInventory.filter(item => item.itemHash != itemToMove.itemHash);
+      toCharacterInventory!.items.push(itemToMove);
+    } else {
+      this.profileInventory.push(itemToMove);
+      fromCharacterInventory.items = fromCharacterInventory.items.filter(item => item.itemHash != itemToMove.itemHash);
+    }
+  }
+
+  moveItem(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel | null, toInventory: DestinyCharacterInventoryModel | null, isEquipped: boolean, toBeEquipped: boolean) {
+    if (isEquipped) {
+      this.equipItemApi(itemToMove, fromInventory!)
+        .subscribe({
+          next: () => {
+            //TODO move item
+            this.moveItem(itemToMove, fromInventory, toInventory, false, toBeEquipped);
+          },
+          error: (error: HttpErrorResponse) => this.handleError(error)
+      });
+    } else if (fromInventory != null) {
+      if (fromInventory != this.vaultInventory && toInventory != this.vaultInventory) {
+        //TODO faire 2 deplacements
+        this.transferItemApi(itemToMove, fromInventory, this.vaultInventory)
+          .subscribe({
+            next: () => {
+              //TODO move item
+              this.moveItem(itemToMove, this.vaultInventory, toInventory, false, toBeEquipped);
+            },
+            error: (error: HttpErrorResponse) => this.handleError(error)
+          });
+      } else {
+        this.transferItemApi(itemToMove, fromInventory, toInventory!)
+          .subscribe({
+            next: () => {
+              //TODO move item
+              this.moveItem(itemToMove, null, toInventory, false, toBeEquipped);
+            },
+            error: (error: HttpErrorResponse) => this.handleError(error)
+          });
+      }
+    } else if (toBeEquipped) {
+      this.equipItemApi(itemToMove, toInventory!)
+        .subscribe({
+          next: () => {
+            //TODO move item
+          },
+          error: (error: HttpErrorResponse) => this.handleError(error)
+        });
+    }
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    const destinyErrorResponse: DestinyErrorResponseModel = error.error as DestinyErrorResponseModel;
+    this.alertService.processAlert({
+      message: destinyErrorResponse.Message,
+      duration: 3000
+    });
+    return throwError(() => error);
+  }
+
+  private transferItemApi(itemToMove: DestinyItemModel, fromCharacterInventory: DestinyCharacterInventoryModel, toCharacterInventory: DestinyCharacterInventoryModel) {
+    const body = {
+      "itemReferenceHash": itemToMove.itemHash,
+      "stackSize": 1,
+      "itemId": itemToMove.itemInstanceId,
+      "characterId": fromCharacterInventory.characterHash != 'vault' ? fromCharacterInventory.characterHash : toCharacterInventory!.characterHash,
+      "transferToVault": fromCharacterInventory.characterHash != 'vault',
+      "membershipType": this.platform
+    };
+    return this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/TransferItem/`, body, {headers: this.bungieAuthService.getHeaders()});
+  }
+
+  private equipItemApi(itemToMove: DestinyItemModel, characterInventory: DestinyCharacterInventoryModel) {
+    const body = {
+      "itemId": itemToMove.itemInstanceId,
+      "characterId": characterInventory.characterHash,
+      "membershipType": this.platform
+    };
+    return this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/EquipItem/`, body, {headers: this.bungieAuthService.getHeaders()});
+  }
+
+  protected readonly DestinyCharacterInventoryModel = DestinyCharacterInventoryModel;
 }

@@ -48,7 +48,13 @@ export class DestinyPostmasterComponent implements OnChanges {
   }
 
   moveItem(itemToMove: DestinyItemModel, characterInventory: DestinyCharacterInventoryModel) {//TODO stack
-    const body = {"itemReferenceHash": itemToMove.itemHash, "stackSize": itemToMove.quantity, "itemId": itemToMove.itemInstanceId, "characterId": characterInventory.characterHash, "membershipType": this.platform};
+    const body = {
+      "itemReferenceHash": itemToMove.itemHash,
+      "stackSize": itemToMove.quantity,
+      "itemId": itemToMove.itemInstanceId,
+      "characterId": characterInventory.characterHash,
+      "membershipType": this.platform
+    };
     this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
       if (isTokenValid) {
         this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/PullFromPostmaster/`, body, {headers: this.bungieAuthService.getHeaders()})

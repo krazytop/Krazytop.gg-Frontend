@@ -52,7 +52,7 @@ export class BungieAuthService {
                 this.getCharactersFromMembership(mainMembership.membershipType!, mainMembership.membershipId!)
                   .subscribe((characters: DestinyCharacterModel[]) => {
                     if (characters.length != 0) {
-                      this.router.navigate([`/destiny/${mainMembership!.membershipType}/${mainMembership!.membershipId}/${characters[0].characterId}/vendors`]);
+                      this.router.navigate([`/destiny/${mainMembership!.membershipType}/${mainMembership!.membershipId}/${characters[0].characterId}/characters`]);
                     } else {
                       this.disconnectWithError("You need at least one character");
                     }

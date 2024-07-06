@@ -7,7 +7,7 @@
     </div>
     <div class="items">
       <div *ngFor="let item of postmaster.items">
-        <destiny-item [item]="item" (click)="moveItem(item, postmaster)" class="item-that-can-move">
+        <destiny-item [item]="item" (click)="moveItem(item, postmaster)" class="item-that-can-move" cdkDrag>
         </destiny-item>
       </div>
     </div>
