@@ -7,11 +7,12 @@ import {ActivatedRoute} from "@angular/router";
 import {BungieAuthService} from "../bungie-authentification/bungie-auth.service";
 import {AlertService} from "../../alert/alert.service";
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
-import {DestinyInventoryBucketEnum} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
+import {DestinyInventoryBucketEnum, getAllCharacterBuckets} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
 import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {throwError} from "rxjs";
+import {DestinyDataStorage} from "../DestinyDataStorage";
 
 @Component({
   selector: 'destiny-characters',
@@ -31,7 +32,7 @@ export class DestinyCharactersComponent implements OnChanges {
   private platform?: string;
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, private destinyDataStorage: DestinyDataStorage) {
   }
 
   ngOnChanges(): void {
@@ -95,10 +96,6 @@ export class DestinyCharactersComponent implements OnChanges {
     }
   }
 
-  getAllBuckets(){
-    return [DestinyInventoryBucketEnum.KineticWeapon, DestinyInventoryBucketEnum.EnergyWeapon, DestinyInventoryBucketEnum.PowerWeapon, DestinyInventoryBucketEnum.Helmet, DestinyInventoryBucketEnum.Gauntlets, DestinyInventoryBucketEnum.ChestArmor, DestinyInventoryBucketEnum.LegArmor, DestinyInventoryBucketEnum.Ship, DestinyInventoryBucketEnum.Emblem]
-  }
-
   draggedItem?: DestinyItemModel;
   currentDraggedItemInventory: DestinyCharacterInventoryModel | null = null;
 
@@ -119,26 +116,12 @@ export class DestinyCharactersComponent implements OnChanges {
     const vaultToVault = this.currentDraggedItemInventory == null && inventory == null;
     const characterToSameCharacter = this.currentDraggedItemInventory != null && inventory != null && this.currentDraggedItemInventory.characterHash == inventory.characterHash;
     if (!vaultToVault && !characterToSameCharacter) {
-      this.moveItem(this.draggedItem!, this.currentDraggedItemInventory, inventory);
-    }
-  }
-
-  //document.getElementById(`item-${itemToMove.itemInstanceId}`)!.classList.add('item-being-transferred');
-
-  private moveItemAfterApiCall(itemToMove: DestinyItemModel, fromCharacterInventory: DestinyCharacterInventoryModel | null, toCharacterInventory: DestinyCharacterInventoryModel | null) {
-    if (fromCharacterInventory != null && toCharacterInventory != null) {
-      fromCharacterInventory.items = fromCharacterInventory.items.filter(item => item.itemHash != itemToMove.itemHash);
-      toCharacterInventory.items.push(itemToMove);
-    } else if (fromCharacterInventory == null) {
-      this.profileInventory = this.profileInventory.filter(item => item.itemHash != itemToMove.itemHash);
-      toCharacterInventory!.items.push(itemToMove);
-    } else {
-      this.profileInventory.push(itemToMove);
-      fromCharacterInventory.items = fromCharacterInventory.items.filter(item => item.itemHash != itemToMove.itemHash);
+      this.moveItem(this.draggedItem!, this.currentDraggedItemInventory, inventory, false, false);
     }
   }
 
   moveItem(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel | null, toInventory: DestinyCharacterInventoryModel | null, isEquipped: boolean, toBeEquipped: boolean) {
+    document.getElementById(`item-${itemToMove.itemInstanceId}`)?.classList.add('item-being-transferred')
     if (isEquipped) {
       this.equipItemApi(itemToMove, fromInventory!)
         .subscribe({
@@ -146,27 +129,30 @@ export class DestinyCharactersComponent implements OnChanges {
             //TODO move item
             this.moveItem(itemToMove, fromInventory, toInventory, false, toBeEquipped);
           },
-          error: (error: HttpErrorResponse) => this.handleError(error)
+          error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
       });
     } else if (fromInventory != null) {
       if (fromInventory != this.vaultInventory && toInventory != this.vaultInventory) {
-        //TODO faire 2 deplacements
         this.transferItemApi(itemToMove, fromInventory, this.vaultInventory)
           .subscribe({
             next: () => {
-              //TODO move item
+              this.manuallyMoveItemToVault(itemToMove, fromInventory);
               this.moveItem(itemToMove, this.vaultInventory, toInventory, false, toBeEquipped);
             },
-            error: (error: HttpErrorResponse) => this.handleError(error)
+            error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
           });
       } else {
         this.transferItemApi(itemToMove, fromInventory, toInventory!)
           .subscribe({
             next: () => {
-              //TODO move item
+              if (fromInventory == this.vaultInventory) {
+                this.manuallyMoveItemToCharacter(itemToMove, toInventory!);
+              } else {
+                this.manuallyMoveItemToVault(itemToMove, fromInventory);
+              }
               this.moveItem(itemToMove, null, toInventory, false, toBeEquipped);
             },
-            error: (error: HttpErrorResponse) => this.handleError(error)
+            error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
           });
       }
     } else if (toBeEquipped) {
@@ -175,12 +161,30 @@ export class DestinyCharactersComponent implements OnChanges {
           next: () => {
             //TODO move item
           },
-          error: (error: HttpErrorResponse) => this.handleError(error)
+          error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
         });
     }
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private manuallyMoveItemToVault(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel) {
+    itemToMove.bucketHash = DestinyInventoryBucketEnum.General;
+    const characterInventory = this.destinyDataStorage.profile.characterInventories.find(characterInventory =>
+      characterInventory.characterHash === fromInventory!.characterHash
+    )!;
+    characterInventory.items = characterInventory.items.filter(item => item.itemHash != itemToMove.itemHash);
+    this.destinyDataStorage.profile.profileInventory.push(itemToMove);
+  }
+
+  private manuallyMoveItemToCharacter(itemToMove: DestinyItemModel, toInventory: DestinyCharacterInventoryModel) {
+    itemToMove.bucketHash = itemToMove.itemNomenclature!.bucketTypeHash;
+    this.destinyDataStorage.profile.profileInventory = this.destinyDataStorage.profile.profileInventory.filter(item => item.itemHash != itemToMove.itemHash);
+    this.destinyDataStorage.profile.characterInventories.find(characterInventory =>
+      characterInventory.characterHash === toInventory!.characterHash
+    )!.items.push(itemToMove);
+  }
+
+  private handleAPIError(error: HttpErrorResponse, itemToMove: DestinyItemModel) {
+    document.getElementById(`item-${itemToMove.itemInstanceId}`)!.classList.remove('item-being-transferred')
     const destinyErrorResponse: DestinyErrorResponseModel = error.error as DestinyErrorResponseModel;
     this.alertService.processAlert({
       message: destinyErrorResponse.Message,
@@ -210,5 +214,5 @@ export class DestinyCharactersComponent implements OnChanges {
     return this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/EquipItem/`, body, {headers: this.bungieAuthService.getHeaders()});
   }
 
-  protected readonly DestinyCharacterInventoryModel = DestinyCharacterInventoryModel;
+  protected readonly getAllCharacterBuckets = getAllCharacterBuckets;
 }

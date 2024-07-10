@@ -12,3 +12,16 @@ export enum DestinyInventoryBucketEnum {
   Engrams = 375726501,
   General = 138197802
 }
+
+export function getAllCharacterBuckets(){
+  return [
+    DestinyInventoryBucketEnum.KineticWeapon,
+    DestinyInventoryBucketEnum.EnergyWeapon,
+    DestinyInventoryBucketEnum.PowerWeapon,
+    DestinyInventoryBucketEnum.Helmet,
+    DestinyInventoryBucketEnum.Gauntlets,
+    DestinyInventoryBucketEnum.ChestArmor,
+    DestinyInventoryBucketEnum.LegArmor,
+    DestinyInventoryBucketEnum.Ship,
+    DestinyInventoryBucketEnum.Emblem]
+}
