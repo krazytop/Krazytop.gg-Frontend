@@ -129,49 +129,55 @@ export class DestinyCharactersComponent implements OnChanges {
   }
 
   moveItem(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel | null, toInventory: DestinyCharacterInventoryModel | null, isEquipped: boolean, toBeEquipped: boolean) {
-    document.getElementById(`item-${itemToMove.itemInstanceId}`)?.classList.add('item-being-transferred')
-    if (isEquipped) {
-      this.equipItemApi(itemToMove, fromInventory!)
-        .subscribe({
-          next: () => {
-            this.equipAnOtherItem(itemToMove, fromInventory!);
-            setTimeout(() => this.moveItem(itemToMove, fromInventory, toInventory, false, toBeEquipped), 5000);
-          },
-          error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
-      });
-    } else if (fromInventory != null && fromInventory != toInventory) {
-      if (fromInventory != this.vaultInventory && toInventory != this.vaultInventory) {
-        this.transferItemApi(itemToMove, fromInventory, this.vaultInventory)
-          .subscribe({
-            next: () => {
-              this.manuallyMoveItemToVault(itemToMove, fromInventory);
-              this.moveItem(itemToMove, this.vaultInventory, toInventory, false, toBeEquipped);
-            },
-            error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
-          });
+    this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
+      if (isTokenValid) {
+        document.getElementById(`item-${itemToMove.itemInstanceId}`)?.classList.add('item-being-transferred')
+        if (isEquipped) {
+          this.equipItemApi(itemToMove, fromInventory!)
+            .subscribe({
+              next: () => {
+                this.equipAnOtherItem(itemToMove, fromInventory!);
+                setTimeout(() => this.moveItem(itemToMove, fromInventory, toInventory, false, toBeEquipped), 5000);
+              },
+              error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
+            });
+        } else if (fromInventory != null && fromInventory != toInventory) {
+          if (fromInventory != this.vaultInventory && toInventory != this.vaultInventory) {
+            this.transferItemApi(itemToMove, fromInventory, this.vaultInventory)
+              .subscribe({
+                next: () => {
+                  this.manuallyMoveItemToVault(itemToMove, fromInventory);
+                  this.moveItem(itemToMove, this.vaultInventory, toInventory, false, toBeEquipped);
+                },
+                error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
+              });
+          } else {
+            this.transferItemApi(itemToMove, fromInventory, toInventory!)
+              .subscribe({
+                next: () => {
+                  if (fromInventory == this.vaultInventory) {
+                    this.manuallyMoveItemToCharacter(itemToMove, toInventory!);
+                  } else {
+                    this.manuallyMoveItemToVault(itemToMove, fromInventory);
+                  }
+                  this.moveItem(itemToMove, null, toInventory, false, toBeEquipped);
+                },
+                error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
+              });
+          }
+        } else if (toBeEquipped) {
+          this.equipItemApi(itemToMove, toInventory!)
+            .subscribe({
+              next: () => {
+                this.manuallyEquipItem(itemToMove, toInventory!);
+              },
+              error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
+            });
+        }
       } else {
-        this.transferItemApi(itemToMove, fromInventory, toInventory!)
-          .subscribe({
-            next: () => {
-              if (fromInventory == this.vaultInventory) {
-                this.manuallyMoveItemToCharacter(itemToMove, toInventory!);
-              } else {
-                this.manuallyMoveItemToVault(itemToMove, fromInventory);
-              }
-              this.moveItem(itemToMove, null, toInventory, false, toBeEquipped);
-            },
-            error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
-          });
+        this.bungieAuthService.disconnectWithNotLoggedError();
       }
-    } else if (toBeEquipped) {
-      this.equipItemApi(itemToMove, toInventory!)
-        .subscribe({
-          next: () => {
-            this.manuallyEquipItem(itemToMove, toInventory!);
-          },
-          error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
-        });
-    }
+    });
   }
 
   private manuallyMoveItemToVault(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel) {
@@ -213,6 +219,7 @@ export class DestinyCharactersComponent implements OnChanges {
     } else if (isArmor(itemToMove)) {
       bucketsToCheck = [DestinyInventoryBucketEnum.Helmet, DestinyInventoryBucketEnum.Gauntlets, DestinyInventoryBucketEnum.ChestArmor, DestinyInventoryBucketEnum.LegArmor, DestinyInventoryBucketEnum.ClassObject]
     }
+    bucketsToCheck = bucketsToCheck.filter(bucket => bucket != itemToMove.bucketHash);
     for (let bucket of bucketsToCheck) {
       if (this.characterEquipment.find(characterEquipment => characterEquipment.characterHash == inventory.characterHash)!.items.find(item => item.bucketHash == bucket)?.itemNomenclature!.tierTypeHash == DestinyTierTypeEnum.Exotic) {
         anExoticIsAlreadyEquipped = true;

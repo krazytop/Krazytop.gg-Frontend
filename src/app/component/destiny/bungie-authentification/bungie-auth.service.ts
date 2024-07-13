@@ -128,6 +128,14 @@ export class BungieAuthService {
     this.router.navigate(['/']);
   }
 
+  disconnectWithNotLoggedError() {
+    localStorage.removeItem('bungie_player_tokens');
+    this.router.navigate(['/']).then(() => this.alertService.processAlert({
+      message: "You need to reconnect your bungie account",
+      duration: 3000
+    }));
+  }
+
   disconnectWithError(message: string) {
     localStorage.removeItem('bungie_player_tokens');
     this.router.navigate(['/']).then(() => this.alertService.processAlert({
