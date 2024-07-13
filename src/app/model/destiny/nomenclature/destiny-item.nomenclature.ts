@@ -1,3 +1,6 @@
+import {DestinyTierTypeEnum} from "../enum/DestinyTierTypeEnum";
+import {DestinyInventoryBucketEnum} from "../enum/DestinyInventoryBucketsEnum";
+
 export class DestinyItemNomenclature {
   hash!: number;
   name!: string;
@@ -7,9 +10,9 @@ export class DestinyItemNomenclature {
   tierTypeName!: string;
   iconWatermark!: string;
   maxStackSize!: number;
-  bucketTypeHash!: number;
+  bucketTypeHash!: DestinyInventoryBucketEnum;
   recoveryBucketTypeHash!: number;
-  tierTypeHash!: number;
+  tierTypeHash!: DestinyTierTypeEnum;
   equipmentSlotTypeHash?: number;
   summaryItemHash!: number;
   specialItemType!: number;

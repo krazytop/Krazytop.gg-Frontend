@@ -52,7 +52,7 @@ export class BungieAuthService {
                 this.getCharactersFromMembership(mainMembership.membershipType!, mainMembership.membershipId!)
                   .subscribe((characters: DestinyCharacterModel[]) => {
                     if (characters.length != 0) {
-                      this.router.navigate([`/destiny/${mainMembership!.membershipType}/${mainMembership!.membershipId}/${characters[0].characterId}/vendors`]);
+                      this.router.navigate([`/destiny/${mainMembership!.membershipType}/${mainMembership!.membershipId}/${characters[0].characterId}/characters`]);
                     } else {
                       this.disconnectWithError("You need at least one character");
                     }
@@ -79,7 +79,7 @@ export class BungieAuthService {
       );
   }
 
-  checkTokenValidity(): Observable<boolean> {
+  checkTokenValidity(): Observable<boolean> { //TODO mettre dans error si expired
     if (this.isTokenExpired()) {
       if (this.isRefreshTokenExpired()) {
         return of(false);
@@ -126,6 +126,14 @@ export class BungieAuthService {
   disconnect() {
     localStorage.removeItem('bungie_player_tokens');
     this.router.navigate(['/']);
+  }
+
+  disconnectWithNotLoggedError() {
+    localStorage.removeItem('bungie_player_tokens');
+    this.router.navigate(['/']).then(() => this.alertService.processAlert({
+      message: "You need to reconnect your bungie account",
+      duration: 3000
+    }));
   }
 
   disconnectWithError(message: string) {
