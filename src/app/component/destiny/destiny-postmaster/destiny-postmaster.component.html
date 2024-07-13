@@ -1,5 +1,5 @@
 <div class="postmaster-list">
-  <div *ngFor="let postmaster of postmasters" class="postmaster">
+  <div *ngFor="let postmaster of getPostmasters()" class="postmaster">
     <div class="postmaster-title">
       <span>Postmaster &nbsp;</span>
       <span>({{ postmaster.items.length }} / 21)</span>

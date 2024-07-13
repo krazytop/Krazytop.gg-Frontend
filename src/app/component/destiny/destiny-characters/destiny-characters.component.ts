@@ -7,12 +7,17 @@ import {ActivatedRoute} from "@angular/router";
 import {BungieAuthService} from "../bungie-authentification/bungie-auth.service";
 import {AlertService} from "../../alert/alert.service";
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
-import {DestinyInventoryBucketEnum, getAllCharacterBuckets} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
+import {
+  DestinyInventoryBucketEnum,
+  getAllCharacterBuckets, isArmor,
+  isWeapon
+} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
 import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
-import {throwError} from "rxjs";
+import {delay, throwError} from "rxjs";
 import {DestinyDataStorage} from "../DestinyDataStorage";
+import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
 
 @Component({
   selector: 'destiny-characters',
@@ -50,20 +55,16 @@ export class DestinyCharactersComponent implements OnChanges {
 
   getEquippedItem(characterHash: string, bucketHash: number) {
     const characterEquipment: DestinyCharacterInventoryModel = this.characterEquipment.find(characterEquipment => characterEquipment.characterHash === characterHash)!;
-    return characterEquipment.items.find(item =>  {
-      if (item.bucketHash === bucketHash) {
-        item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
-        item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
-        return true
-      } else {
-        return false;
-      }
-    })!
+    return this.getItemsByBucket(characterEquipment, bucketHash)[0];
   }
 
   getUnequippedItems(characterHash: string, bucketHash: number) {
     const characterInventory: DestinyCharacterInventoryModel = this.characterInventories.find(characterInventory => characterInventory.characterHash === characterHash)!;
-    return characterInventory.items.filter(item =>  {
+    return this.getItemsByBucket(characterInventory, bucketHash);
+  }
+
+  private getItemsByBucket(inventory: DestinyCharacterInventoryModel, bucketHash: number) {
+    return inventory.items.filter(item =>  {
       if (item.bucketHash === bucketHash) {
         item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
         item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
@@ -96,27 +97,34 @@ export class DestinyCharactersComponent implements OnChanges {
     }
   }
 
-  draggedItem?: DestinyItemModel;
-  currentDraggedItemInventory: DestinyCharacterInventoryModel | null = null;
+  currentDraggedItem: {
+    item?: DestinyItemModel;
+    isEquipped?: boolean;
+    inventory?: DestinyCharacterInventoryModel;
+  } = {};
 
-  startDraggingItem(item: DestinyItemModel, inventory: DestinyCharacterInventoryModel | null, bucketHash: DestinyInventoryBucketEnum) {
-    this.draggedItem = item;
-    this.currentDraggedItemInventory = inventory;
+  startDraggingItem(item: DestinyItemModel, inventory: DestinyCharacterInventoryModel, bucketHash: DestinyInventoryBucketEnum, isEquipped: boolean) {
+    this.currentDraggedItem = {
+      item: item,
+      isEquipped: isEquipped,
+      inventory: inventory
+    }
     this.characterInventories.forEach(characterInventory => {
       document.getElementById(`character-inventory-${bucketHash}-${characterInventory.characterHash}`)!.classList.add('character-item-category-droppable');
     })
     document.getElementById(`inventory-${bucketHash}-vault`)!.classList.add('character-item-category-droppable');
   }
 
-  dropItem(inventory: DestinyCharacterInventoryModel | null, bucketHash: DestinyInventoryBucketEnum | null) {
+  dropItem(inventory: DestinyCharacterInventoryModel | null, bucketHash: DestinyInventoryBucketEnum | null, toBeEquipped: boolean) {
     this.characterInventories.forEach(characterInventory => {
       document.getElementById(`character-inventory-${bucketHash}-${characterInventory.characterHash}`)!.classList.remove('character-item-category-droppable');
     })
     document.getElementById(`inventory-${bucketHash}-vault`)!.classList.remove('character-item-category-droppable');
-    const vaultToVault = this.currentDraggedItemInventory == null && inventory == null;
-    const characterToSameCharacter = this.currentDraggedItemInventory != null && inventory != null && this.currentDraggedItemInventory.characterHash == inventory.characterHash;
+    const vaultToVault = this.currentDraggedItem.inventory == null && inventory == null;
+    const equipOrUnEquip = this.currentDraggedItem.isEquipped !== toBeEquipped;
+    const characterToSameCharacter = !equipOrUnEquip && (this.currentDraggedItem.inventory != null && inventory != null && this.currentDraggedItem.inventory.characterHash == inventory.characterHash);
     if (!vaultToVault && !characterToSameCharacter) {
-      this.moveItem(this.draggedItem!, this.currentDraggedItemInventory, inventory, false, false);
+      this.moveItem(this.currentDraggedItem.item!, this.currentDraggedItem.inventory!, inventory, this.currentDraggedItem.isEquipped!, toBeEquipped);
     }
   }
 
@@ -126,12 +134,12 @@ export class DestinyCharactersComponent implements OnChanges {
       this.equipItemApi(itemToMove, fromInventory!)
         .subscribe({
           next: () => {
-            //TODO move item
-            this.moveItem(itemToMove, fromInventory, toInventory, false, toBeEquipped);
+            this.equipAnOtherItem(itemToMove, fromInventory!);
+            setTimeout(() => this.moveItem(itemToMove, fromInventory, toInventory, false, toBeEquipped), 5000);
           },
           error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
       });
-    } else if (fromInventory != null) {
+    } else if (fromInventory != null && fromInventory != toInventory) {
       if (fromInventory != this.vaultInventory && toInventory != this.vaultInventory) {
         this.transferItemApi(itemToMove, fromInventory, this.vaultInventory)
           .subscribe({
@@ -159,7 +167,7 @@ export class DestinyCharactersComponent implements OnChanges {
       this.equipItemApi(itemToMove, toInventory!)
         .subscribe({
           next: () => {
-            //TODO move item
+            this.manuallyEquipItem(itemToMove, toInventory!);
           },
           error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
         });
@@ -183,6 +191,57 @@ export class DestinyCharactersComponent implements OnChanges {
     )!.items.push(itemToMove);
   }
 
+  private manuallyEquipItem(itemToMove: DestinyItemModel, inventory: DestinyCharacterInventoryModel) {
+    const currentEquippedItem = this.getEquippedItem(inventory.characterHash, itemToMove.itemNomenclature!.bucketTypeHash);
+    const unequippedInventory = this.destinyDataStorage.profile.characterInventories.find(characterInventory =>
+      characterInventory.characterHash === inventory.characterHash
+    )!;
+    unequippedInventory.items = unequippedInventory.items.filter(item => item.itemHash != itemToMove.itemHash);
+    unequippedInventory.items.push(currentEquippedItem);
+    const equippedInventory = this.characterEquipment.find(characterInventory =>
+      characterInventory.characterHash === inventory.characterHash
+    )!;
+    equippedInventory.items = equippedInventory.items.filter(item => item.itemHash != currentEquippedItem.itemHash);
+    equippedInventory.items.push(itemToMove);
+  }
+
+  private equipAnOtherItem(itemToMove: DestinyItemModel, inventory: DestinyCharacterInventoryModel) {
+    let anExoticIsAlreadyEquipped = false;
+    let bucketsToCheck: DestinyInventoryBucketEnum[] = [];
+    if (isWeapon(itemToMove)) {
+      bucketsToCheck = [DestinyInventoryBucketEnum.KineticWeapon, DestinyInventoryBucketEnum.EnergyWeapon, DestinyInventoryBucketEnum.PowerWeapon]
+    } else if (isArmor(itemToMove)) {
+      bucketsToCheck = [DestinyInventoryBucketEnum.Helmet, DestinyInventoryBucketEnum.Gauntlets, DestinyInventoryBucketEnum.ChestArmor, DestinyInventoryBucketEnum.LegArmor, DestinyInventoryBucketEnum.ClassObject]
+    }
+    for (let bucket of bucketsToCheck) {
+      if (this.characterEquipment.find(characterEquipment => characterEquipment.characterHash == inventory.characterHash)!.items.find(item => item.bucketHash == bucket)?.itemNomenclature!.tierTypeHash == DestinyTierTypeEnum.Exotic) {
+        anExoticIsAlreadyEquipped = true;
+      }
+    }
+    let items = inventory.items.filter(item =>
+      item.itemHash != itemToMove.itemHash
+      && item.itemNomenclature?.bucketTypeHash == itemToMove.itemNomenclature?.bucketTypeHash
+    )
+    if (anExoticIsAlreadyEquipped) {
+      items = items.filter(item => item.itemNomenclature?.tierTypeHash != DestinyTierTypeEnum.Exotic)
+    }
+    if (items.length > 0) {
+      this.moveItem(items[0], null, inventory, false, true);
+    } else {
+      items = this.profileInventory.filter(item =>
+        item.itemHash != itemToMove.itemHash
+        && item.bucketHash == DestinyInventoryBucketEnum.General
+        && item.itemNomenclature?.bucketTypeHash == itemToMove.itemNomenclature?.bucketTypeHash
+      )
+      if (anExoticIsAlreadyEquipped) {
+        items = items.filter(item => item.itemNomenclature?.tierTypeHash != DestinyTierTypeEnum.Exotic)
+      }
+      if (items.length > 0) {
+        this.moveItem(items[0], this.vaultInventory, inventory, false, true);
+      }
+    }
+  }
+
   private handleAPIError(error: HttpErrorResponse, itemToMove: DestinyItemModel) {
     document.getElementById(`item-${itemToMove.itemInstanceId}`)!.classList.remove('item-being-transferred')
     const destinyErrorResponse: DestinyErrorResponseModel = error.error as DestinyErrorResponseModel;
@@ -193,7 +252,7 @@ export class DestinyCharactersComponent implements OnChanges {
     return throwError(() => error);
   }
 
-  private transferItemApi(itemToMove: DestinyItemModel, fromCharacterInventory: DestinyCharacterInventoryModel, toCharacterInventory: DestinyCharacterInventoryModel) {
+  private transferItemApi(itemToMove: DestinyItemModel, fromCharacterInventory: DestinyCharacterInventoryModel, toCharacterInventory: DestinyCharacterInventoryModel) { //TODO verifier token
     const body = {
       "itemReferenceHash": itemToMove.itemHash,
       "stackSize": 1,
@@ -205,7 +264,7 @@ export class DestinyCharactersComponent implements OnChanges {
     return this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/TransferItem/`, body, {headers: this.bungieAuthService.getHeaders()});
   }
 
-  private equipItemApi(itemToMove: DestinyItemModel, characterInventory: DestinyCharacterInventoryModel) {
+  private equipItemApi(itemToMove: DestinyItemModel, characterInventory: DestinyCharacterInventoryModel) { //TODO verifier token
     const body = {
       "itemId": itemToMove.itemInstanceId,
       "characterId": characterInventory.characterHash,

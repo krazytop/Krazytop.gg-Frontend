@@ -79,7 +79,7 @@ export class BungieAuthService {
       );
   }
 
-  checkTokenValidity(): Observable<boolean> {
+  checkTokenValidity(): Observable<boolean> { //TODO mettre dans error si expired
     if (this.isTokenExpired()) {
       if (this.isRefreshTokenExpired()) {
         return of(false);
