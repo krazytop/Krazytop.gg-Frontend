@@ -1,13 +1,7 @@
-.characters-and-vault {
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  gap: 20px;
-}
-
 .characters {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr) 2fr;
+  gap: 8px;
 }
 
 .character-title {
@@ -17,11 +11,11 @@
 .item-categories {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .character-item-category {
-  padding: 5px;
+  padding: 5px 0 5px 5px;
   display: grid;
   gap: 5px;
   grid-template-columns: 1fr 3fr;
@@ -32,20 +26,51 @@
   gap: 5px;
   grid-template-columns: repeat(auto-fill, 50px);
   justify-content: center;
+  grid-auto-rows: 68px;
+  max-height: 214px;
+  overflow-x: auto;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+  background: transparent;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C2C2C2;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9f9f9f;
+}
 .vault-items {
-  padding: 15px;
+  padding: 5px;
 }
 
 destiny-item {
+  cursor: grab;
   width: 50px;
   height: 68px;
+}
+
+destiny-item:active {
+  width: 50px;
+  height: 68px;
+  cursor: grabbing;
 }
 
 .equippedItem {
   border: 1px solid #c2c2c2;
   border-radius: 5px;
+  width: 50px;
+  height: 68px;
+  overflow: hidden;
 }
 
 .vault {
@@ -59,4 +84,21 @@ destiny-item {
   font-size: 20px;
   display: flex;
   justify-content: center;
+}
+
+.character-item-category-droppable {
+  background-color: #414141;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.5;
+}
+
+.item-being-transferred {
+  animation: item-being-transferred 0.5s infinite alternate;
+}
+
+@keyframes item-being-transferred {
+  0% { opacity: 0.5; }
+  100% { opacity: 0.8; }
 }

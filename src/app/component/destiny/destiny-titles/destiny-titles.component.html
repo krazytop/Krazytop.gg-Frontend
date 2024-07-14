@@ -4,7 +4,7 @@
     <div class="active-titles">
       <div *ngFor="let title of titlesPresentationTree.childrenNode" title="{{ title.description }}" class="title">
         <img src="{{ DestinyComponent.destinyAssetUrl + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'" class="active-titles-img"
-             (click)="redirectToTitlePage(title)">
+             (click)="redirectToTitlePage(title)" style="cursor: pointer">
         <div class="title-name">{{ title.name }}</div>
         <div class="progression">
           <div class="progression-bar">
@@ -19,8 +19,7 @@
     <div class="title-category-name">Archived Titles</div>
       <div class="archived-titles">
         <div *ngFor="let title of archivedTitlesPresentationTree.childrenNode" title="{{ title.name }}" class="title">
-          <img src="{{ DestinyComponent.destinyAssetUrl + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'" class="archived-titles-img"
-               (click)="redirectToTitlePage(title)">
+          <img src="{{ DestinyComponent.destinyAssetUrl + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'" class="archived-titles-img">
         </div>
       </div>
   </div>

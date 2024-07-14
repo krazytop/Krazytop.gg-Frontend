@@ -23,9 +23,6 @@ export class DestinyPostmasterComponent implements OnChanges {
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
 
   private platform?: string;
-  private characterHash?: string;
-  postmasters: DestinyCharacterInventoryModel[] = [];
-
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
   }
@@ -33,22 +30,36 @@ export class DestinyPostmasterComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.isParentComponentReady) {
       this.route.params.subscribe(params => {
-        this.characterHash = params['character'];
         this.platform = params['platform'];
-      });
-      this.characterInventories.forEach(characterInventory => {
-        let items: DestinyItemModel[] = characterInventory.items.filter(item => item.bucketHash === DestinyInventoryBucketEnum.Postmaster)
-        items.forEach(item => {
-          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
-          item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
-        })
-        this.postmasters.push({characterHash: characterInventory.characterHash, items: items});
       });
     }
   }
 
+  getPostmasters() {
+    const postmasters: DestinyCharacterInventoryModel[] = [];
+    this.characterInventories.forEach(characterInventory => {
+      const items = characterInventory.items.filter(item =>  {
+        if (item.bucketHash === DestinyInventoryBucketEnum.Postmaster) {
+          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
+          item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
+          return true
+        } else {
+          return false;
+        }
+      })
+      postmasters.push({characterHash: characterInventory.characterHash, items: items});
+    });
+    return postmasters;
+  }
+
   moveItem(itemToMove: DestinyItemModel, characterInventory: DestinyCharacterInventoryModel) {//TODO stack
-    const body = {"itemReferenceHash": itemToMove.itemHash, "stackSize": itemToMove.quantity, "itemId": itemToMove.itemInstanceId, "characterId": characterInventory.characterHash, "membershipType": this.platform};
+    const body = {
+      "itemReferenceHash": itemToMove.itemHash,
+      "stackSize": itemToMove.quantity,
+      "itemId": itemToMove.itemInstanceId,
+      "characterId": characterInventory.characterHash,
+      "membershipType": this.platform
+    };
     this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
       if (isTokenValid) {
         this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/PullFromPostmaster/`, body, {headers: this.bungieAuthService.getHeaders()})
