@@ -10,7 +10,10 @@ import {DestinyItemModel} from "../../model/destiny/destiny-item.model";
 import {DestinyLinkedProfilesModel} from "../../model/destiny/destiny-linked-profiles.model";
 import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {HeaderService} from "../../config/headers.service";
-import {TitlesPresentationTree, ArchivedTitlesPresentationTree} from "../../model/destiny/enum/DestinyPresentationTreesEnum"
+import {
+  DestinyPresentationTreeEnum,
+  getAllPresentationTrees
+} from "../../model/destiny/enum/DestinyPresentationTreeEnum"
 import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-progression.model";
 import {DestinyDataStorage} from "./DestinyDataStorage";
@@ -202,19 +205,19 @@ export class DestinyComponent implements OnInit, OnDestroy {
   }
 
   getPresentationTreeNomenclatures() {
-    let presentationTreeHashes: number[] = [TitlesPresentationTree, ArchivedTitlesPresentationTree];
+    let presentationTreeHashes: number[] = getAllPresentationTrees();
     return this.http.post<{[itemHash: number]: DestinyPresentationTreeNomenclature}>(
       environment.apiURL + 'destiny/trees', presentationTreeHashes, { headers: HeaderService.getHeaders() }
     ).pipe(
       tap((presentationTreeNomenclaturesDictionary:{[presentationTreeHash: number]: DestinyPresentationTreeNomenclature}) => {
-        this.dataStorage.presentationTrees.titlesPresentationTree = presentationTreeNomenclaturesDictionary[TitlesPresentationTree];
-        this.dataStorage.presentationTrees.archivedTitlesPresentationTree = presentationTreeNomenclaturesDictionary[ArchivedTitlesPresentationTree];
+        this.dataStorage.presentationTrees.titles = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.Titles];
+        this.dataStorage.presentationTrees.archivedTitles = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.ArchivedTitles];
       })
     )
   }
 
   setSelectedTitle() {
-    const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.dataStorage.presentationTrees.titlesPresentationTree?.childrenNode
+    const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.dataStorage.presentationTrees.titles?.childrenNode
       .find(title => title.hash === Number(this.componentToShowArg1))
     if (selectedTitle != undefined) {
       this.dataStorage.componentArgs.selectedTitle = selectedTitle;

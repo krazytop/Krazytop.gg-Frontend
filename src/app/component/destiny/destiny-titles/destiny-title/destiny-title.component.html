@@ -13,45 +13,10 @@
     </div>
   </div>
   <div class="records">
-    <div class="record" *ngFor="let record of title.childrenRecord" [ngClass]="isRecordComplete(record) ? 'completeRecord' : 'none'">
-      <div class="objective-informations">
-        <img *ngIf="record.icon != null && record.icon != undefined" src="{{ DestinyComponent.destinyAssetUrl + record.icon }}" alt="Record '{{ record.name }}'Icon">
-        <img *ngIf="record.icon == null || record.icon == undefined" src="https://www.bungie.net/img/destiny_content/collections/undiscovered.png" alt="Record '{{ record.name }}'Icon">
-        <div class="record-title-and-description">
-          <div class="record-title">{{ record.name }}</div>
-          <div class="record-description">{{ record.description }}</div>
-        </div>
-      </div>
-      <div class="simple-objectives" *ngIf="record.objectives ? record.objectives.length > 0 : false">
-        <div *ngFor="let objective of record.objectives">
-          <div class="simple-objective" *ngIf="getSimpleObjectiveProgress(record, objective).completionValue === 1">
-            <div *ngIf="getSimpleObjectiveProgress(record, objective).completionValue === 1" class="checkbox">
-              <div class="checkbox" [style.background-color]="isRecordComplete(record) ? '#93884c' : getSimpleObjectiveProgress(record, objective).complete ? '#757575' : 'black'"></div>
-            </div>
-            <div class="objective-title">{{ getCompleteObjectiveDescription(objective) }}</div>
-          </div>
-          <div class="objectives" *ngIf="getSimpleObjectiveProgress(record, objective).completionValue > 1">
-            <div class="objective">
-              <div class="objective-progression-bar">
-                <div class="current-objective-progression-bar" [style.width.%]="Math.min(getSimpleObjectiveProgress(record, objective).progress / getSimpleObjectiveProgress(record, objective).completionValue*100, 100)" [style.background-color]="!getSimpleObjectiveProgress(record, objective).complete ? '#545454' : 'none'"></div>
-              </div>
-            </div>
-            <span class="current-objective-progression" style="justify-content: start">{{ objective.progressDescription }}</span>
-            <span class="current-objective-progression" style="justify-content: end"> {{ getSimpleObjectiveProgress(record, objective).progress }} / {{  getSimpleObjectiveProgress(record, objective).completionValue }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="objectives" *ngIf="record.intervalObjectives ? record.intervalObjectives.length > 0 : false">
-        <div class="objective" *ngFor="let objective of record.intervalObjectives">
-          <div class="objective-progression-bar">
-            <div class="current-objective-progression-bar" [style.width.%]="Math.min(getIntervalObjectiveWidth(record, objective), 100)" [style.background-color]="!isRecordComplete(record) ? '#757575' : 'none'"></div>
-          </div>
-        </div>
-        <span class="current-objective-progression" style="justify-content: start">{{ record.intervalObjectives![record.intervalObjectives!.length - 1].objective.progressDescription }}</span>
-        <span class="current-objective-progression" style="justify-content: end"> {{ getIntervalObjectivesProgress(record, record.intervalObjectives![record.intervalObjectives!.length - 1]).progress }} / {{ getIntervalObjectivesProgress(record, record.intervalObjectives![record.intervalObjectives!.length - 1]).completionValue }}</span>
-      </div>
-      <div class="reward" style="color: white">
-      </div>
-    </div>
+    <destiny-record *ngFor="let record of title.childrenRecord" class="record"
+                    [ngClass]="isRecordComplete(presentationNodeProgress.get(record.hash)!) ? 'completeRecord' : 'none'"
+                    [record]="record"
+                    [recordProgress]="presentationNodeProgress.get(record.hash)!">
+    </destiny-record>
   </div>
 </div>
