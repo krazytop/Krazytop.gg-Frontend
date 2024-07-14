@@ -20,8 +20,8 @@
     </destiny-collections>
     <destiny-titles *ngIf="componentToShow === 'titles' && componentToShowArg1 === undefined" class="component"
                     [isParentComponentReady]="isThisComponentReady"
-                    [titlesPresentationTree]="dataStorage.presentationTrees.titlesPresentationTree!"
-                    [archivedTitlesPresentationTree]="dataStorage.presentationTrees.archivedTitlesPresentationTree!"
+                    [titlesPresentationTree]="dataStorage.presentationTrees.titles!"
+                    [archivedTitlesPresentationTree]="dataStorage.presentationTrees.archivedTitles!"
                     [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
     </destiny-titles>
     <destiny-title *ngIf="componentToShow === 'titles' && componentToShowArg1 !== undefined" class="component"
@@ -38,6 +38,10 @@
                         [itemNomenclatures]="dataStorage.itemNomenclatures"
                         [characters]="dataStorage.profile.characters">
     </destiny-characters>
+    <destiny-catalysts *ngIf="componentToShow === 'catalysts'" class="component"
+                       [isParentComponentReady]="isThisComponentReady"
+                       [catalystsPresentationTree]="dataStorage.presentationTrees.catalysts!">
+    </destiny-catalysts>
     <destiny-main-inventory class="component"
                             [isParentComponentReady]="isThisComponentReady"
                             [profileInventory]="dataStorage.profile.profileInventory"

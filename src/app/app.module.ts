@@ -46,6 +46,9 @@ import { DestinyCraftablesComponent } from './component/destiny/destiny-craftabl
 import { DestinyTitleComponent } from './component/destiny/destiny-titles/destiny-title/destiny-title.component';
 import { DestinyBadgesComponent } from './component/destiny/destiny-badges/destiny-badges.component';
 import { DestinyCharactersComponent } from './component/destiny/destiny-characters/destiny-characters.component';
+import {CdkDrag, CdkDragHandle, CdkDragPreview, CdkDropList, CdkDropListGroup} from "@angular/cdk/drag-drop";
+import {DestinyCatalystsComponent} from "./component/destiny/destiny-catalysts/destiny-catalysts.component";
+import {DestinyRecordComponent} from "./component/destiny/destiny-record/destiny-record.component";
 
 @NgModule({
   declarations: [
@@ -89,15 +92,22 @@ import { DestinyCharactersComponent } from './component/destiny/destiny-characte
     DestinyCraftablesComponent,
     DestinyTitleComponent,
     DestinyBadgesComponent,
-    DestinyCharactersComponent
+    DestinyCharactersComponent,
+    DestinyCatalystsComponent,
+    DestinyRecordComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    NgOptimizedImage,
-    AppRoutingModule,
-    FormsModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        NgOptimizedImage,
+        AppRoutingModule,
+        FormsModule,
+        CdkDrag,
+        CdkDropList,
+        CdkDropListGroup,
+        CdkDragHandle,
+        CdkDragPreview
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
