@@ -39,8 +39,8 @@
                         [characters]="dataStorage.profile.characters">
     </destiny-characters>
     <destiny-catalysts *ngIf="componentToShow === 'catalysts'" class="component"
-                       [isParentComponentReady]="isThisComponentReady"
-                       [catalystsPresentationTree]="dataStorage.presentationTrees.catalysts!">
+                       [catalystsPresentationTree]="dataStorage.presentationTrees.catalysts!"
+                       [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
     </destiny-catalysts>
     <destiny-main-inventory class="component"
                             [isParentComponentReady]="isThisComponentReady"

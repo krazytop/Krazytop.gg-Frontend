@@ -1,1 +1,15 @@
-<p>destiny-catalysts works!</p>
+<div class="weapon-categories">
+  <div class="subcomponent" *ngFor="let weaponCategory of catalystsPresentationTree.childrenNode">
+    <div class="weapon-category-title" (click)="showWeaponCategories.set(weaponCategory, !showWeaponCategories.get(weaponCategory)!)">
+      <div>{{ weaponCategory.name }}</div>
+      <div [ngClass]="showWeaponCategories.get(weaponCategory) ? 'arrow-down' : 'arrow-up'"></div>
+    </div>
+    <div class="records" *ngIf="showWeaponCategories.get(weaponCategory)">
+      <destiny-record *ngFor="let record of weaponCategory.childrenRecord" class="record"
+                      [ngClass]="hasState(presentationNodeProgress.get(record.hash)!, DestinyRecordStateEnum.Obscured) ? 'obscured' : isRecordComplete(presentationNodeProgress.get(record.hash)!) ? 'completeRecord' : 'none'"
+                      [record]="record"
+                      [recordProgress]="presentationNodeProgress.get(record.hash)!">
+      </destiny-record>
+    </div>
+  </div>
+</div>

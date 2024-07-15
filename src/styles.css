@@ -83,7 +83,7 @@
 
 .arrow-down {
   position: absolute;
-  top: 110px;
+  top: 70%;
   width: 15px;
   height: 15px;
   border: solid #1D1D1D;
@@ -94,7 +94,7 @@
 
 .arrow-up {
   position: absolute;
-  top: 120px;
+  top: 75%;
   width: 15px;
   height: 15px;
   border: solid #1D1D1D;

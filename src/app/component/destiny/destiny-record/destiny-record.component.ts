@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 import {DestinyRecordNomenclature} from "../../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {DestinyComponent} from "../destiny.component";
@@ -13,12 +13,15 @@ import {DestinyObjectiveProgressModel} from "../../../model/destiny/destiny-obje
   templateUrl: './destiny-record.component.html',
   styleUrls: ['./destiny-record.component.css']
 })
-export class DestinyRecordComponent {
+export class DestinyRecordComponent implements OnChanges {
 
   @Input() record!: DestinyRecordNomenclature;
   @Input() recordProgress!: DestinyNodeProgressionModel
 
   private noDescription: string = "Terminé";
+
+  ngOnChanges(): void {
+  }
 
   getSimpleObjectiveProgress(objective: DestinyObjectiveNomenclature) {
     return this.recordProgress.objectives.find(objectiveProgress => objectiveProgress.objectiveHash === objective.hash)!;
@@ -68,7 +71,7 @@ export class DestinyRecordComponent {
   protected readonly isRecordComplete = isRecordComplete;
 }
 
-export function isRecordComplete(recordProgress: DestinyNodeProgressionModel): boolean {
+export function isRecordComplete(recordProgress: DestinyNodeProgressionModel): boolean { //TODO bug (catalyseur garance)
   return (recordProgress.objectives ?? []).every(objective => objective.complete)
     && (recordProgress.intervalObjectives ?? []).every(objective => objective.complete);
 }

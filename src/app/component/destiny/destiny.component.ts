@@ -212,6 +212,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
       tap((presentationTreeNomenclaturesDictionary:{[presentationTreeHash: number]: DestinyPresentationTreeNomenclature}) => {
         this.dataStorage.presentationTrees.titles = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.Titles];
         this.dataStorage.presentationTrees.archivedTitles = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.ArchivedTitles];
+        this.dataStorage.presentationTrees.catalysts = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.Catalysts];
       })
     )
   }

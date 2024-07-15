@@ -12,6 +12,7 @@ export class DestinyComponentSelectorComponent implements OnInit {
   static collections: string = 'collections';
   static titles: string = 'titles';
   static characters: string = 'characters';
+  static catalysts: string = 'catalysts';
 
   actualComponent!: string;
 

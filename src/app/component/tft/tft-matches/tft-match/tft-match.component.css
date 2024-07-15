@@ -105,25 +105,3 @@ hr {
   border: none; /* Supprimez la bordure par défaut */
   margin: 10px 0; /* Espacement autour du <hr> (facultatif) */
 }
-
-.arrow-down {
-  position: absolute;
-  top: 110px;
-  width: 15px;
-  height: 15px;
-  border: solid #1D1D1D;
-  border-width: 0 2px 2px 0;
-  rotate: 45deg;
-  display: inline-block;
-}
-
-.arrow-up {
-  position: absolute;
-  top: 120px;
-  width: 15px;
-  height: 15px;
-  border: solid #1D1D1D;
-  border-width: 2px 2px 0 0;
-  rotate: -45deg;
-  display: inline-block;
-}
