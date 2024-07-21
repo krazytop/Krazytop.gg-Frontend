@@ -8,7 +8,8 @@
       <destiny-record *ngFor="let record of weaponCategory.childrenRecord" class="record"
                       [ngClass]="hasState(presentationNodeProgress.get(record.hash)!, DestinyRecordStateEnum.Obscured) ? 'obscured' : isRecordComplete(presentationNodeProgress.get(record.hash)!) ? 'completeRecord' : 'none'"
                       [record]="record"
-                      [recordProgress]="presentationNodeProgress.get(record.hash)!">
+                      [recordProgress]="presentationNodeProgress.get(record.hash)!"
+                      title="{{ record.obscuredDescription }}">
       </destiny-record>
     </div>
   </div>

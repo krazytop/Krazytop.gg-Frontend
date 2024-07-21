@@ -4,4 +4,7 @@ export class DestinyPresentationTreesModel {
   titles?: DestinyPresentationTreeNomenclature;
   archivedTitles?: DestinyPresentationTreeNomenclature;
   catalysts?: DestinyPresentationTreeNomenclature;
+  kineticWeaponModels?: DestinyPresentationTreeNomenclature;
+  energyWeaponModels?: DestinyPresentationTreeNomenclature;
+  powerWeaponModels?: DestinyPresentationTreeNomenclature;
 }

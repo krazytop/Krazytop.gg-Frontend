@@ -6,13 +6,6 @@
   text-align: center;
 }
 
-hr {
-  background-color: rgb(29, 29, 29);
-  height: 2px;
-  width: 100%;
-  border: none; /* Supprimez la bordure par défaut */
-}
-
 .rank-title {
   color: white;
   font-weight: bold;

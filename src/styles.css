@@ -107,3 +107,10 @@ img {
   user-select: none;
   -webkit-user-drag: none;
 }
+
+hr {
+  background-color: rgb(29, 29, 29);
+  height: 2px;
+  width: 100%;
+  border: none;
+}

@@ -1,0 +1,39 @@
+.weapon-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.records {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+.weapon-category-title {
+  font-weight: bold;
+  font-size: 22px;
+  color: white;
+  justify-content: center;
+  display: flex;
+  position: relative;
+}
+
+.arrow-down{
+  top: 0;
+  left: 65%;
+  border-color: white;
+}
+
+.arrow-up {
+  top: 10px;
+  left: 65%;
+  border-color: white;
+}
+
+.sub-weapon-category-title {
+  font-size: 20px;
+  color: #C2C2C2;
+  margin-bottom: 10px;
+  text-align: center;
+}

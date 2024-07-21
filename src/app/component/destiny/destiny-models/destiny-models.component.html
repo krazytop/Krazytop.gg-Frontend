@@ -1,0 +1,21 @@
+<div class="weapon-categories">
+  <div class="subcomponent" *ngFor="let weaponCategory of weaponCategories">
+    <div class="weapon-category-title" (click)="showWeaponCategories.set(weaponCategory, !showWeaponCategories.get(weaponCategory)!)">
+      <div>{{ weaponCategory.name }}</div>
+      <div [ngClass]="showWeaponCategories.get(weaponCategory) ? 'arrow-down' : 'arrow-up'"></div>
+    </div>
+    <ng-container *ngIf="showWeaponCategories.get(weaponCategory)">
+      <div *ngFor="let subWeaponCategory of weaponCategory.childrenNode">
+        <hr>
+          <div class="sub-weapon-category-title">{{ subWeaponCategory.name }}</div>
+        <div class="records">
+          <destiny-record *ngFor="let record of subWeaponCategory.childrenRecord" class="record"
+                          [ngClass]="isRecordComplete(presentationNodeProgress.get(record.hash)!) ? 'completeRecord' : 'none'"
+                          [record]="record"
+                          [recordProgress]="presentationNodeProgress.get(record.hash)!">
+          </destiny-record>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

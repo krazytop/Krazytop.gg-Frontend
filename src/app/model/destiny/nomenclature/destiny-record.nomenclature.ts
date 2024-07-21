@@ -6,6 +6,7 @@ export class DestinyRecordNomenclature {
   hash!: number;
   name!: string;
   description!: string;
+  obscuredDescription?: string;
   icon!: string;
   recordTypeName!: string;
   expirationDescription: string | undefined;

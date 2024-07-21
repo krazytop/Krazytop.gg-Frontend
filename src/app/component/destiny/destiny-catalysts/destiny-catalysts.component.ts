@@ -16,7 +16,7 @@ export class DestinyCatalystsComponent implements OnChanges {
 
   showWeaponCategories: Map<DestinyPresentationTreeNomenclature, boolean> = new Map<DestinyPresentationTreeNomenclature, boolean>();
 
-  ngOnChanges() {
+  ngOnChanges() { //TODO statinfo
     let isFirstWeaponCategory = true;
     this.catalystsPresentationTree.childrenNode.forEach(weaponCategory => {
       this.showWeaponCategories.set(weaponCategory, isFirstWeaponCategory);

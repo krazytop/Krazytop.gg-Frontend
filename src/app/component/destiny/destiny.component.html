@@ -38,6 +38,12 @@
                         [itemNomenclatures]="dataStorage.itemNomenclatures"
                         [characters]="dataStorage.profile.characters">
     </destiny-characters>
+    <destiny-models *ngIf="componentToShow === 'models'" class="component"
+                    [kineticWeaponModelsPresentationTree]="dataStorage.presentationTrees.kineticWeaponModels!"
+                    [energyWeaponModelsPresentationTree]="dataStorage.presentationTrees.energyWeaponModels!"
+                    [powerWeaponModelsPresentationTree]="dataStorage.presentationTrees.powerWeaponModels!"
+                    [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
+    </destiny-models>
     <destiny-catalysts *ngIf="componentToShow === 'catalysts'" class="component"
                        [catalystsPresentationTree]="dataStorage.presentationTrees.catalysts!"
                        [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">

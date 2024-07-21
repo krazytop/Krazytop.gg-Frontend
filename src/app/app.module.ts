@@ -42,13 +42,13 @@ import { DestinyItemComponent } from './component/destiny/destiny-item/destiny-i
 import { AlertComponent } from './component/alert/alert.component';
 import { DestinyMainInventoryComponent } from './component/destiny/destiny-main-inventory/destiny-main-inventory.component';
 import { DestinyTitlesComponent } from './component/destiny/destiny-titles/destiny-titles.component';
-import { DestinyCraftablesComponent } from './component/destiny/destiny-craftables/destiny-craftables.component';
 import { DestinyTitleComponent } from './component/destiny/destiny-titles/destiny-title/destiny-title.component';
 import { DestinyBadgesComponent } from './component/destiny/destiny-badges/destiny-badges.component';
 import { DestinyCharactersComponent } from './component/destiny/destiny-characters/destiny-characters.component';
 import {CdkDrag, CdkDragHandle, CdkDragPreview, CdkDropList, CdkDropListGroup} from "@angular/cdk/drag-drop";
 import {DestinyCatalystsComponent} from "./component/destiny/destiny-catalysts/destiny-catalysts.component";
 import {DestinyRecordComponent} from "./component/destiny/destiny-record/destiny-record.component";
+import { DestinyModelsComponent } from './component/destiny/destiny-models/destiny-models.component';
 
 @NgModule({
   declarations: [
@@ -89,12 +89,12 @@ import {DestinyRecordComponent} from "./component/destiny/destiny-record/destiny
     AlertComponent,
     DestinyMainInventoryComponent,
     DestinyTitlesComponent,
-    DestinyCraftablesComponent,
     DestinyTitleComponent,
     DestinyBadgesComponent,
     DestinyCharactersComponent,
     DestinyCatalystsComponent,
-    DestinyRecordComponent
+    DestinyRecordComponent,
+    DestinyModelsComponent
   ],
     imports: [
         BrowserModule,
