@@ -16,7 +16,7 @@ import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.mo
 import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {delay, throwError} from "rxjs";
-import {DestinyDataStorage} from "../DestinyDataStorage";
+import {DestinyDataStorage} from "../../../service/destiny/DestinyDataStorage";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
 
 @Component({

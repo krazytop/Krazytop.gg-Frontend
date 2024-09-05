@@ -1,8 +1,8 @@
 import {DestinyTierTypeEnum} from "../enum/DestinyTierTypeEnum";
 import {DestinyInventoryBucketEnum} from "../enum/DestinyInventoryBucketsEnum";
 
-export class DestinyItemNomenclature {
-  hash!: number;
+export class DestinyItemNomenclature{
+  hash!: number
   name!: string;
   description!: string;
   icon!: string;
@@ -23,4 +23,9 @@ export class DestinyItemNomenclature {
   isInstanceItem!: boolean;
   nonTransferrable!: boolean;
   equippable!: boolean;
+
+  constructor(hash: number, name: string) {
+    this.hash = hash;
+    this.name = name;
+  }
 }

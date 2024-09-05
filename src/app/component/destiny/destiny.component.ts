@@ -16,10 +16,11 @@ import {
 } from "../../model/destiny/enum/DestinyPresentationTreeEnum"
 import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-progression.model";
-import {DestinyDataStorage} from "./DestinyDataStorage";
+import {DestinyDataStorage} from "../../service/destiny/DestinyDataStorage";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {Engrams, MainCurrencies} from "../../model/destiny/enum/DestinyMainInventoryEnum";
 import {environment} from "../../../environments/environment";
+import {DestinyDBService} from "../../service/destiny/DestinyDBService";
 
 @Component({
   selector: 'destiny',

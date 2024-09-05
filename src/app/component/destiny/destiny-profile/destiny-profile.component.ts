@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DestinyLinkedProfilesModel} from "../../../model/destiny/destiny-linked-profiles.model";
 import {DestinyPlatformEnum} from "../../../model/destiny/enum/DestinyPlatformEnum";
 import {DestinyProfileModel} from "../../../model/destiny/destiny-profile.model";
-import {DestinyDataStorage} from "../DestinyDataStorage";
+import {DestinyDataStorage} from "../../../service/destiny/DestinyDataStorage";
 import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum"
 
 @Component({
