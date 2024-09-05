@@ -20,7 +20,6 @@ export class DestinyModelsComponent implements OnChanges {
 
   ngOnChanges() {
     this.weaponCategories = [this.kineticWeaponModelsPresentationTree, this.energyWeaponModelsPresentationTree, this.powerWeaponModelsPresentationTree];
-    console.log(this.kineticWeaponModelsPresentationTree);
     let isFirstWeaponCategory = true;
     this.weaponCategories.forEach(weaponCategory => {
       this.showWeaponCategories.set(weaponCategory, isFirstWeaponCategory);
