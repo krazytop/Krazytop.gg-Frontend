@@ -241,5 +241,4 @@ export class DestinyComponent implements OnInit, OnDestroy {
     this.dataStorage.requestDataRefreshing.unsubscribe();
   }
 
-  protected readonly console = console;
 }
