@@ -13,6 +13,7 @@ import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-p
 import {DestinyPresentationNodeNomenclature} from "../../model/destiny/nomenclature/destiny-presentation-node.nomenclature";
 import {DestinyVendorNomenclature} from "../../model/destiny/nomenclature/destiny-vendor.nomenclature";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
+import {DestinyVendorModel} from "../../model/destiny/destiny-vendor.model";
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +47,7 @@ export class DestinyDatabaseUpdateService {
     const presentationNodes = await this.updatePresentationNodes(definitions['DestinyPresentationNodeDefinition']);
     const collectibles = await this.updateCollectibles(definitions['DestinyCollectibleDefinition']);
     const metrics = await this.updateMetrics(definitions['DestinyMetricDefinition']);
-    const progressions = await this.updateProgressions(definitions['DestinyProgressionDefinition']);
+    await this.updateProgressions(definitions['DestinyProgressionDefinition']);
     const records = await this.updateRecords(definitions['DestinyRecordDefinition'], objectives);
     const vendors = await this.updateVendors(definitions['DestinyVendorDefinition']);
     await this.updateVendorGroups(definitions['DestinyVendorGroupDefinition'], vendors);
@@ -89,7 +90,8 @@ export class DestinyDatabaseUpdateService {
       const vendorGroupNomenclature = new DestinyVendorGroupNomenclature();
       vendorGroupNomenclature.hash = Number(entryData["hash"]);
       vendorGroupNomenclature.name = String(entryData["categoryName"]);
-      vendorGroupNomenclature.vendorNomenclatures = vendors.filter(vendor => vendor.groupHash == vendorGroupNomenclature.hash);
+      vendorGroupNomenclature.vendors = [];
+      vendorGroupNomenclature.vendors = vendors.filter(vendor => vendor.groupHash == vendorGroupNomenclature.hash).map(vendor => new DestinyVendorModel(vendor));
       vendorNomenclatures.push(vendorGroupNomenclature);
     }
     console.log(`${vendorNomenclatures.length} vendors added`)
@@ -201,14 +203,14 @@ export class DestinyDatabaseUpdateService {
 
   private async updateProgressions(definition: any) {
     const json = await this.downloadJson(definition);
-    const progressionNomenclatures: Map<number,DestinyProgressionNomenclature> = new Map<number, DestinyProgressionNomenclature>();
-    for (let [key, entryData] of json) {
+    const progressionNomenclatures: DestinyProgressionNomenclature[] = [];
+    for (let [, entryData] of json) {
       const progressionNomenclature = new DestinyProgressionNomenclature();
       progressionNomenclature.hash = Number(entryData["hash"]);
       progressionNomenclature.repeatLastStep = Boolean(entryData["repeatLastStep"]);
 
       const steps: any[] | undefined = entryData["steps"];
-      if (steps != undefined && steps.length > 0) {
+      if (steps && steps.length > 0) {
         const displayProperties = entryData["displayProperties"];
         progressionNomenclature.name = String(displayProperties["name"]);
         progressionNomenclature.description = String(displayProperties["description"]);
@@ -224,10 +226,11 @@ export class DestinyDatabaseUpdateService {
         })
         progressionNomenclature.steps = progressionSteps;
 
-        progressionNomenclatures.set(Number(key), progressionNomenclature);
+        progressionNomenclatures.push(progressionNomenclature);
       }
     }
-    console.log(`${progressionNomenclatures.size} progressions added`)
+    await this.databaseApi.addObjects(progressionNomenclatures, DestinyDatabaseApi.PROGRESSION_STORE);
+    console.log(`${progressionNomenclatures.length} progressions added`)
     return progressionNomenclatures;
   }
 

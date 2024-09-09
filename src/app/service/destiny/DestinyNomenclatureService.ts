@@ -42,8 +42,13 @@ export class DestinyNomenclatureService {
     return treesModel;
   }
 
-  async getVendorNomenclatures(hashes: number[]) {
-    return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.VENDOR_STORE)
+  async getVendorNomenclatures(vendorIds: number[]) {
+    return await this.databaseApi.getAllObjectsByIds(vendorIds, DestinyDatabaseApi.VENDOR_STORE);
+  }
+
+  async getProgressionNomenclatures(progressionIds: number) {
+    const nomenclatures = await this.databaseApi.getAllObjectsByIds([progressionIds], DestinyDatabaseApi.PROGRESSION_STORE);
+    return [...nomenclatures.values()][0];
   }
 
 }

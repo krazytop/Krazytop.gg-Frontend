@@ -18,6 +18,8 @@ import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-present
 import {DestinyDatabaseApi} from "../../service/destiny/DestinyDatabaseApi";
 import {DestinyDatabaseUpdateService} from "../../service/destiny/DestinyDatabaseUpdateService";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
+import {DestinyProgressionNomenclature} from "../../model/destiny/nomenclature/destiny-progression.nomenclature";
+import {group} from "@angular/animations";
 
 @Component({
   selector: 'destiny',
@@ -37,19 +39,20 @@ export class DestinyComponent implements OnInit, OnDestroy {
   profile: DestinyProfileModel = new DestinyProfileModel();
   itemNomenclatures: Map<number, DestinyItemNomenclature> = new Map();
   characterTitleNomenclatures: Map<number, DestinyRecordNomenclature> = new Map();
-  vendorNomenclatures: Map<number, DestinyVendorGroupNomenclature> = new Map();
+  vendorGroups: DestinyVendorGroupNomenclature[] = [];
   presentationTrees: DestinyPresentationTreesModel = new DestinyPresentationTreesModel();
 
-  public static ASSET_URL: string = "https://www.bungie.net";
+  public static readonly ASSET_URL: string = "https://www.bungie.net";
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseApi: DestinyDatabaseApi, private databaseUpdateService: DestinyDatabaseUpdateService) {}
 
+  private platform?: number;
+  private membership?: string;
+
   async ngOnInit() {
-    let platform: number | undefined;
-    let membership: string | undefined;
     this.route.params.subscribe(params => {
-      platform = params['platform'];
-      membership = params['membership'];
+      this.platform = params['platform'];
+      this.membership = params['membership'];
       this.componentToShow = params['component'];
       this.componentToShowArg1 = params['arg1'];
     });
@@ -57,7 +60,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
     if (this.isFirstDisplay) {
       this.requestDataRefreshing.subscribe(requestDataRefreshing => {
         if (requestDataRefreshing) {
-          this.retrieveAllDestinyData(platform, membership);
+          this.retrieveAllDestinyData(this.platform, this.membership);
         }
       });
       this.refreshData();
@@ -96,7 +99,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
     this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile);
     this.characterTitleNomenclatures = await this.nomenclatureService.getRecordNomenclatures(this.profile.characters.map(character => character.titleRecordHash));
     this.presentationTrees = await this.nomenclatureService.getPresentationTreesNomenclatures();
-    this.vendorNomenclatures = await this.nomenclatureService.getVendorNomenclatures();
+    this.vendorGroups = await this.getVendors(this.platform!, this.membership!, this.profile.characters[0].characterId)
     this.manageComponentArgs();
     this.isThisComponentReady = true;
   }
@@ -167,6 +170,29 @@ export class DestinyComponent implements OnInit, OnDestroy {
       });
     }
   }//TODO supprmier tous les isparentcomponentready parce que l affichage se fait uniquement sur cette condition donc always TRUE
+
+  async getVendors(platform: number, membership: string, character: string) {
+    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/Character/${character}/Vendors/?components=400`, {headers: this.bungieAuthService.getHeaders()});
+    const json = await response.json();
+    const vendorGroupIds: number[] = json['Response']['vendorGroups']['data']['groups'].map((group: any) => group['vendorGroupHash']);
+    let vendorGroupNomenclatures: DestinyVendorGroupNomenclature[] = [...(await this.nomenclatureService.getVendorNomenclatures(vendorGroupIds)).values()];
+    const vendorsData = json['Response']['vendors']['data'];
+    for (const group of vendorGroupNomenclatures) {
+      for (const vendor of group.vendors) {
+        const vendorData = vendorsData[vendor.vendorNomenclature.hash];
+        if (vendorData && vendorData['progression']) {
+          vendor.nextRefreshDate = vendorData['nextRefreshDate'];
+          vendor.progression = vendorData['progression'];
+          vendor.progression.progressionNomenclature = (await this.nomenclatureService.getProgressionNomenclatures(vendor.progression.progressionHash));
+        } else {
+          group.vendors = group.vendors.filter(vendorNotHere => vendor.vendorNomenclature.hash != vendorNotHere.vendorNomenclature.hash);
+        }
+      }
+    }
+    vendorGroupNomenclatures = vendorGroupNomenclatures.filter(group => group.vendors.length > 0);
+    vendorGroupNomenclatures.sort((a, b) => b.vendors.length - a.vendors.length)
+    return vendorGroupNomenclatures;
+  }
 
   refreshData() {
     this.requestDataRefreshing.next(true);

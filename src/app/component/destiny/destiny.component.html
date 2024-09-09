@@ -15,6 +15,7 @@
                         [itemNomenclatures]="itemNomenclatures">
     </destiny-postmaster>
     <destiny-vendors *ngIf="componentToShow === 'vendors'" class="component"
+                     [vendorGroups]="vendorGroups"
                      [isParentComponentReady]="isThisComponentReady">
     </destiny-vendors>
     <destiny-collections *ngIf="componentToShow === 'collections'" class="component">

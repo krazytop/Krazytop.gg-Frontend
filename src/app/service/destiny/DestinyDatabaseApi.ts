@@ -8,6 +8,7 @@ export class DestinyDatabaseApi {
   static RECORD_STORE = 'RecordNomenclature';
   static PRESENTATION_TREE_STORE = 'PresentationTreeNomenclature';
   static VENDOR_STORE = 'VendorNomenclature';
+  static PROGRESSION_STORE = 'ProgressionNomenclature';
   static MANIFEST_VERSION = 'ManifestVersion';
 
   constructor() {}
@@ -33,6 +34,8 @@ export class DestinyDatabaseApi {
       db.createObjectStore(DestinyDatabaseApi.MANIFEST_VERSION, { keyPath: 'hash' });//TODO function select store
       db.createObjectStore(DestinyDatabaseApi.ITEM_STORE, { keyPath: 'hash' });
       db.createObjectStore(DestinyDatabaseApi.RECORD_STORE, { keyPath: 'hash' });
+      db.createObjectStore(DestinyDatabaseApi.VENDOR_STORE, { keyPath: 'hash' });
+      db.createObjectStore(DestinyDatabaseApi.PROGRESSION_STORE, { keyPath: 'hash' });
       db.createObjectStore(DestinyDatabaseApi.PRESENTATION_TREE_STORE, { keyPath: 'hash' });
     }
     return new Promise<void>((resolve, reject) => {
@@ -45,6 +48,7 @@ export class DestinyDatabaseApi {
   }
 
   async addObjects(objects: any[], storeName: string) {
+    console.log(storeName)
     return new Promise<void>((resolve, reject) => {
       const transaction = this.db.transaction(storeName, 'readwrite');
       const objectStore = transaction.objectStore(storeName);

@@ -1,7 +1,7 @@
-import {DestinyVendorNomenclature} from "./destiny-vendor.nomenclature";
+import {DestinyVendorModel} from "../destiny-vendor.model";
 
 export class DestinyVendorGroupNomenclature {
   hash!: number;
   name!: string;
-  vendorNomenclatures!: DestinyVendorNomenclature[];
+  vendors!: DestinyVendorModel[];
 }
