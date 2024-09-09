@@ -15,8 +15,7 @@ import {
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
 import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
-import {delay, throwError} from "rxjs";
-import {DestinyDataStorage} from "../../../service/destiny/DestinyDataStorage";
+import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
 
 @Component({
@@ -37,7 +36,7 @@ export class DestinyCharactersComponent implements OnChanges {
   private platform?: string;
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, private destinyDataStorage: DestinyDataStorage) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
   }
 
   ngOnChanges(): void {
@@ -182,24 +181,24 @@ export class DestinyCharactersComponent implements OnChanges {
 
   private manuallyMoveItemToVault(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel) {
     itemToMove.bucketHash = DestinyInventoryBucketEnum.General;
-    const characterInventory = this.destinyDataStorage.profile.characterInventories.find(characterInventory =>
+    const characterInventory = this.characterInventories.find(characterInventory =>
       characterInventory.characterHash === fromInventory!.characterHash
     )!;
     characterInventory.items = characterInventory.items.filter(item => item.itemHash != itemToMove.itemHash);
-    this.destinyDataStorage.profile.profileInventory.push(itemToMove);
+    this.profileInventory.push(itemToMove);
   }
 
   private manuallyMoveItemToCharacter(itemToMove: DestinyItemModel, toInventory: DestinyCharacterInventoryModel) {
     itemToMove.bucketHash = itemToMove.itemNomenclature!.bucketTypeHash;
-    this.destinyDataStorage.profile.profileInventory = this.destinyDataStorage.profile.profileInventory.filter(item => item.itemHash != itemToMove.itemHash);
-    this.destinyDataStorage.profile.characterInventories.find(characterInventory =>
+    this.profileInventory = this.profileInventory.filter(item => item.itemHash != itemToMove.itemHash);
+    this.characterInventories.find(characterInventory =>
       characterInventory.characterHash === toInventory!.characterHash
     )!.items.push(itemToMove);
   }
 
   private manuallyEquipItem(itemToMove: DestinyItemModel, inventory: DestinyCharacterInventoryModel) {
     const currentEquippedItem = this.getEquippedItem(inventory.characterHash, itemToMove.itemNomenclature!.bucketTypeHash);
-    const unequippedInventory = this.destinyDataStorage.profile.characterInventories.find(characterInventory =>
+    const unequippedInventory = this.characterInventories.find(characterInventory =>
       characterInventory.characterHash === inventory.characterHash
     )!;
     unequippedInventory.items = unequippedInventory.items.filter(item => item.itemHash != itemToMove.itemHash);

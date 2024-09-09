@@ -29,6 +29,12 @@ export class BungieAuthService {
     };
   }
 
+  getAPIKeyHeader() {
+    return {
+      'X-API-Key': environment.apiKeyBungie
+    };
+  }
+
   getCurrentUserMembershipsWithCode(playerCode: string) {
     this.http.get(environment.apiURL + `destiny/get/${playerCode}`, {headers: HeaderService.getHeaders()})
       .subscribe((response: BungieAuthModel) => {

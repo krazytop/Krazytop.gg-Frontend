@@ -4,8 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DestinyLinkedProfilesModel} from "../../../model/destiny/destiny-linked-profiles.model";
 import {DestinyPlatformEnum} from "../../../model/destiny/enum/DestinyPlatformEnum";
 import {DestinyProfileModel} from "../../../model/destiny/destiny-profile.model";
-import {DestinyDataStorage} from "../../../service/destiny/DestinyDataStorage";
 import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum"
+import {DestinyRecordNomenclature} from "../../../model/destiny/nomenclature/destiny-record.nomenclature";
 
 @Component({
   selector: 'destiny-profile',
@@ -16,13 +16,14 @@ export class DestinyProfileComponent implements OnChanges {
 
   @Input() isParentComponentReady: boolean = false;
   @Input() profile!: DestinyProfileModel;
+  @Input() characterTitleNomenclatures!: Map<number, DestinyRecordNomenclature>;
 
   selectedCharacterId: string | undefined;
   bungieProfile: DestinyLinkedProfilesModel | undefined;
 
   linkedProfilesToShow: DestinyLinkedProfilesModel[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, protected destinyComponent: DestinyComponent, protected dataStorage: DestinyDataStorage) {
+  constructor(private router: Router, private route: ActivatedRoute, protected destinyComponent: DestinyComponent) {
   }
 
   ngOnChanges(): void {

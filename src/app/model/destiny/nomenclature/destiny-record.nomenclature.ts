@@ -10,8 +10,8 @@ export class DestinyRecordNomenclature {
   icon!: string;
   recordTypeName!: string;
   expirationDescription: string | undefined;
-  hasExpiration!: boolean;
-  titlesByGender!: { [key: number]: string };
+  hasExpiration?: boolean;
+  titlesByGender?: { [key: number]: string };
   objectives?: DestinyObjectiveNomenclature[];
   rewardItems!: DestinyItemQuantityModel[];
   intervalObjectives?: DestinyIntervalObjectiveNomenclature[];

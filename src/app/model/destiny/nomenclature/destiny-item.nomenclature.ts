@@ -5,10 +5,10 @@ export class DestinyItemNomenclature{
   hash!: number
   name!: string;
   description!: string;
-  icon!: string;
+  icon?: string;
   itemTypeDisplayName!: string;
   tierTypeName!: string;
-  iconWatermark!: string;
+  iconWatermark?: string;
   maxStackSize!: number;
   bucketTypeHash!: DestinyInventoryBucketEnum;
   recoveryBucketTypeHash!: number;
@@ -23,9 +23,4 @@ export class DestinyItemNomenclature{
   isInstanceItem!: boolean;
   nonTransferrable!: boolean;
   equippable!: boolean;
-
-  constructor(hash: number, name: string) {
-    this.hash = hash;
-    this.name = name;
-  }
 }

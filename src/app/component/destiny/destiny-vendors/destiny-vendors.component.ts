@@ -10,6 +10,7 @@ import {DestinyVendorNomenclature} from "../../../model/destiny/nomenclature/des
 import {DestinyVendorGroupNomenclature} from "../../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
 import {DestinyProgressionNomenclature} from "../../../model/destiny/nomenclature/destiny-progression.nomenclature";
 import {environment} from "../../../../environments/environment";
+import {DestinyNomenclatureService} from "../../../service/destiny/DestinyNomenclatureService";
 
 @Component({
   selector: 'destiny-vendors',
@@ -23,7 +24,7 @@ export class DestinyVendorsComponent implements OnChanges {
 
   protected vendorGroups: DestinyVendorGroupModel[] = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private nomenclatureService: DestinyNomenclatureService) {
   }
 
   ngOnChanges(): void {
@@ -48,7 +49,7 @@ export class DestinyVendorsComponent implements OnChanges {
 
   getVendors(platform: number, membership: string, character: string){
     this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/Character/${character}/Vendors/?components=400`, {headers: this.bungieAuthService.getHeaders()})
-      .subscribe((response: any) => {
+      .subscribe(async (response: any) => {
         const vendorGroups: DestinyVendorGroupModel[] = response['Response']['vendorGroups']['data']['groups'];
         const allVendors: { [hash: number]: DestinyVendorModel } = response['Response']['vendors']['data'];
         const usefulVendors: { [hash: number]: DestinyVendorModel } = {}
@@ -62,66 +63,39 @@ export class DestinyVendorsComponent implements OnChanges {
             usefulProgressionHashList.push(allVendors[Number(hash)].progression.progressionHash)
           }
         });
-        const vendorGroupHashList: number[] = [];
-        vendorGroups.forEach(vendorGroup => {
-          vendorGroupHashList.push(vendorGroup.vendorGroupHash);
-        });
-
         let requestCompleted: number = 2;
-
-        this.http.post<{[vendorHash: number]: DestinyVendorNomenclature}>(environment.apiURL + 'destiny/vendors', usefulVendorHashList, { headers: HeaderService.getHeaders() }
-        ).pipe(
-          this.addVendorNomenclatures(usefulVendors, vendorGroups)
-        ).subscribe(() => {
-          this.http.post<{[progressionHash: number]: DestinyProgressionNomenclature}>(environment.apiURL + 'destiny/progressions', usefulProgressionHashList, { headers: HeaderService.getHeaders() }
+        await this.nomenclatureService.getVendorNomenclatures(vendorGroups.map(vendorGroups => vendorGroups.hash));
+          this.http.post<{
+            [vendorHash: number]: DestinyVendorNomenclature
+          }>(environment.apiURL + 'destiny/vendors', usefulVendorHashList, {headers: HeaderService.getHeaders()}
           ).pipe(
-            this.addProgressionNomenclatures(vendorGroups)
           ).subscribe(() => {
-            requestCompleted --;
+            this.http.post<{
+              [progressionHash: number]: DestinyProgressionNomenclature
+            }>(environment.apiURL + 'destiny/progressions', usefulProgressionHashList, {headers: HeaderService.getHeaders()}
+            ).pipe(
+              this.addProgressionNomenclatures(vendorGroups)
+            ).subscribe(() => {
+              requestCompleted--;
+              if (requestCompleted === 0) {
+                this.vendorGroups = vendorGroups.filter(vendorGroup => vendorGroup.vendors.length > 0);
+                this.isThisComponentReady = true;
+              }
+            });
+          });
+          this.http.post<{
+            [vendorGroupHash: number]: DestinyVendorGroupNomenclature
+          }>(environment.apiURL + 'destiny/vendor-groups', vendorGroupHashList, {headers: HeaderService.getHeaders()}
+          ).pipe(
+            this.addVendorGroupNomenclatures(vendorGroups)
+          ).subscribe(() => {
+            requestCompleted--;
             if (requestCompleted === 0) {
               this.vendorGroups = vendorGroups.filter(vendorGroup => vendorGroup.vendors.length > 0);
               this.isThisComponentReady = true;
             }
           });
-        });
-
-        this.http.post<{[vendorGroupHash: number]: DestinyVendorGroupNomenclature}>(environment.apiURL + 'destiny/vendor-groups', vendorGroupHashList, { headers: HeaderService.getHeaders() }
-        ).pipe(
-          this.addVendorGroupNomenclatures(vendorGroups)
-        ).subscribe(() => {
-          requestCompleted --;
-          if (requestCompleted === 0) {
-            this.vendorGroups = vendorGroups.filter(vendorGroup => vendorGroup.vendors.length > 0);
-            this.isThisComponentReady = true;
-          }
-        });
       });
-  }
-
-  addVendorNomenclatures(usefulVendors: { [p: number]: DestinyVendorModel }, vendorGroups: DestinyVendorGroupModel[]) {
-    return tap({
-      next: (vendorNomenclatureMap: {[vendorHash: number]: DestinyVendorNomenclature}) => {
-        for (const vendorHash in vendorNomenclatureMap) {
-          if (usefulVendors[vendorHash] != undefined) {
-            usefulVendors[vendorHash].vendorNomenclature = vendorNomenclatureMap[vendorHash];
-          }
-        }
-        vendorGroups.forEach(vendorGroup => {
-          vendorGroup.vendors = [];
-          vendorGroup.vendorHashes.forEach(vendorHash => {
-            const vendor = usefulVendors[vendorHash];
-            if (vendor != undefined) {
-              vendorGroup.vendors.push(vendor);
-            }
-          })
-        })
-        vendorGroups.sort((a, b) => b.vendors.length - a.vendors.length);
-        vendorGroups = vendorGroups.filter((group) => group.vendors.length > 0);
-      },
-      error: (error) => {
-        console.error('Error during API call:', error);
-      }
-    })
   }
 
   addProgressionNomenclatures(vendorGroups: DestinyVendorGroupModel[]) {

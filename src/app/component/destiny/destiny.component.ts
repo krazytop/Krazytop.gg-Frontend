@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {BungieAuthService} from "./bungie-authentification/bungie-auth.service";
-import {map, Observable, tap} from "rxjs";
+import {map, Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {DestinyProfileModel} from "../../model/destiny/destiny-profile.model";
 import {DestinyCharacterInventoryModel} from "../../model/destiny/destiny-character-inventory.model";
@@ -9,18 +9,15 @@ import {DestinyItemInstanceModel} from "../../model/destiny/destiny-item-instanc
 import {DestinyItemModel} from "../../model/destiny/destiny-item.model";
 import {DestinyLinkedProfilesModel} from "../../model/destiny/destiny-linked-profiles.model";
 import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
-import {HeaderService} from "../../config/headers.service";
-import {
-  DestinyPresentationTreeEnum,
-  getAllPresentationTrees
-} from "../../model/destiny/enum/DestinyPresentationTreeEnum"
 import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-progression.model";
-import {DestinyDataStorage} from "../../service/destiny/DestinyDataStorage";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
-import {Engrams, MainCurrencies} from "../../model/destiny/enum/DestinyMainInventoryEnum";
-import {environment} from "../../../environments/environment";
-import {DestinyDBService} from "../../service/destiny/DestinyDBService";
+import {DestinyNomenclatureService} from "../../service/destiny/DestinyNomenclatureService";
+import {DestinyComponentArgs} from "../../model/destiny/destiny-component-args";
+import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-presentation-trees.model";
+import {DestinyDatabaseApi} from "../../service/destiny/DestinyDatabaseApi";
+import {DestinyDatabaseUpdateService} from "../../service/destiny/DestinyDatabaseUpdateService";
+import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
 
 @Component({
   selector: 'destiny',
@@ -32,12 +29,22 @@ export class DestinyComponent implements OnInit, OnDestroy {
   componentToShow: string | undefined;
   componentToShowArg1: string | undefined;
   isThisComponentReady: boolean = false;
+  isFirstDisplay: boolean = true;
+  requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
 
-  public static destinyAssetUrl: string = "https://www.bungie.net";
+  componentArgs: DestinyComponentArgs = new DestinyComponentArgs();
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, protected dataStorage: DestinyDataStorage) {}
+  profile: DestinyProfileModel = new DestinyProfileModel();
+  itemNomenclatures: Map<number, DestinyItemNomenclature> = new Map();
+  characterTitleNomenclatures: Map<number, DestinyRecordNomenclature> = new Map();
+  vendorNomenclatures: Map<number, DestinyVendorGroupNomenclature> = new Map();
+  presentationTrees: DestinyPresentationTreesModel = new DestinyPresentationTreesModel();
 
-  ngOnInit() {
+  public static ASSET_URL: string = "https://www.bungie.net";
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseApi: DestinyDatabaseApi, private databaseUpdateService: DestinyDatabaseUpdateService) {}
+
+  async ngOnInit() {
     let platform: number | undefined;
     let membership: string | undefined;
     this.route.params.subscribe(params => {
@@ -46,14 +53,15 @@ export class DestinyComponent implements OnInit, OnDestroy {
       this.componentToShow = params['component'];
       this.componentToShowArg1 = params['arg1'];
     });
-    if (this.dataStorage.isFirstDisplay) {
-      this.dataStorage.requestDataRefreshing.subscribe(requestDataRefreshing => {
+    await this.databaseUpdateService.manageDatabase(); //TODO arranger pour tout faire en meme temps
+    if (this.isFirstDisplay) {
+      this.requestDataRefreshing.subscribe(requestDataRefreshing => {
         if (requestDataRefreshing) {
           this.retrieveAllDestinyData(platform, membership);
         }
       });
       this.refreshData();
-      this.dataStorage.isFirstDisplay = false;
+      this.isFirstDisplay = false;
     } else {
       this.manageComponentArgs();
       this.isThisComponentReady = true;
@@ -61,20 +69,20 @@ export class DestinyComponent implements OnInit, OnDestroy {
   }
 
   private retrieveAllDestinyData(platform: number | undefined, membership: string | undefined) {
-    this.dataStorage.requestDataRefreshing.next(false);
+    this.requestDataRefreshing.next(false);
     this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
       if (isTokenValid) {
-        this.getProfile(platform!, membership!).subscribe(() => {
-          if (this.dataStorage.profile != null) {
-            if (this.dataStorage.profile.characters.length === 0) {
+        this.getProfile(platform!, membership!).subscribe(async () => {
+          if (this.profile != null) {
+            if (this.profile.characters.length === 0) {
               console.log("Need at least one character"); //TODO alert + deconnection
-              this.router.navigate(['/']);
+              await this.router.navigate(['/']);
             } else {
-              this.manageAllRequest(platform!, membership!);
+              await this.manageAllRequest(platform!, membership!);
             }
           } else {
             console.log("Failed to load your Destiny profile"); //TODO alert + deconnection
-            this.router.navigate(['/']);
+            await this.router.navigate(['/']);
           }
         })
       } else {
@@ -83,54 +91,28 @@ export class DestinyComponent implements OnInit, OnDestroy {
     });
   }
 
-  manageAllRequest(platform: number, membership: string) {
-    let requestCompleted: number = 4;
-    this.getLinkedProfile(platform!, membership!).subscribe(() => {
-      requestCompleted --;
-      if (requestCompleted === 0) {
-        this.manageComponentArgs();
-        this.isThisComponentReady = true;
-      }
-    })
-    this.getItemNomenclatures().subscribe(() => {
-      requestCompleted --;
-      if (requestCompleted === 0) {
-        this.manageComponentArgs();
-        this.isThisComponentReady = true;
-      }
-    })
-    this.getCharacterTitleNomenclatures().subscribe(() => {
-      requestCompleted --;
-      if (requestCompleted === 0) {
-        this.manageComponentArgs();
-        this.isThisComponentReady = true;
-      }
-    })
-    this.getPresentationTreeNomenclatures().subscribe(() => {
-      requestCompleted --;
-      if (requestCompleted === 0) {
-        this.manageComponentArgs();
-        this.isThisComponentReady = true;
-      }
-    })
+  async manageAllRequest(platform: number, membership: string) {
+    await this.getLinkedProfile(platform, membership);
+    this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile);
+    this.characterTitleNomenclatures = await this.nomenclatureService.getRecordNomenclatures(this.profile.characters.map(character => character.titleRecordHash));
+    this.presentationTrees = await this.nomenclatureService.getPresentationTreesNomenclatures();
+    this.vendorNomenclatures = await this.nomenclatureService.getVendorNomenclatures();
+    this.manageComponentArgs();
+    this.isThisComponentReady = true;
   }
 
   manageComponentArgs() {
     if(this.componentToShow === 'titles' && this.componentToShowArg1 !== undefined) this.setSelectedTitle();
   }
 
-  getLinkedProfile(platform: number, membership: string) {
-    return this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/LinkedProfiles/?getAllMemberships=true`, {headers: this.bungieAuthService.getHeaders()})
-      .pipe(
-        map((response: any) => {
-          let profiles: DestinyLinkedProfilesModel[] = [];
-          profiles = profiles.concat(Object.values(response['Response']['profiles']));
-          profiles.push(response['Response']['bnetMembership'] as DestinyLinkedProfilesModel)
-          Object.values(response['Response']['profilesWithErrors'])
-            .forEach((profileWithErrors: any) => profiles.push(profileWithErrors['infoCard'] as DestinyLinkedProfilesModel));
-          this.dataStorage.profile.linkedProfiles = profiles;
-        })
-      );
+  async getLinkedProfile(platform: number, membership: string) {
+    let response: any = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/LinkedProfiles/?getAllMemberships=true`, {headers: this.bungieAuthService.getHeaders()})
+    response = (await response.json())['Response'];
+    let profiles: DestinyLinkedProfilesModel[] = [];
+    profiles.push(...Object.values(response['profiles'] as DestinyProfileModel));
+    profiles.push(response['bnetMembership'] as DestinyLinkedProfilesModel);
+    response['profilesWithErrors'].forEach((profileWithErrors: any) => profiles.push(profileWithErrors['infoCard'] as DestinyLinkedProfilesModel));
+    this.profile.linkedProfiles = profiles;
   }
 
   getProfile(platform: number, membership: string) {
@@ -169,63 +151,16 @@ export class DestinyComponent implements OnInit, OnDestroy {
             .forEach(([nodeHash, node]) => {
               destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
             });
-          this.dataStorage.profile = destinyProfile;
+          this.profile = destinyProfile;
         })
       );
   }
 
-  getItemNomenclatures() {
-    let itemHashes: number[] = [];
-    this.dataStorage.profile.profileInventory.forEach(item => itemHashes.push(item.itemHash));
-    this.dataStorage.profile.profileCurrencies.forEach(item => itemHashes.push(item.itemHash));
-    this.dataStorage.profile.characterEquipment.forEach(inventory => inventory.items.forEach(item => itemHashes.push(item.itemHash)));
-    this.dataStorage.profile.characterInventories.forEach(inventory => inventory.items.forEach(item => itemHashes.push(item.itemHash)));
-    itemHashes.push(...MainCurrencies, ...Engrams)
-    return this.http.post<{[itemHash: number]: DestinyItemNomenclature}>(
-      environment.apiURL + 'destiny/items', Array.from(new Set(itemHashes)), { headers: HeaderService.getHeaders() }
-    ).pipe(
-      tap((itemNomenclaturesDictionary:{[itemHash: number]: DestinyItemNomenclature}) => {
-        const itemNomenclatures: Map<number, DestinyItemNomenclature> = new Map();
-        for (const itemHash in itemNomenclaturesDictionary) {
-          itemNomenclatures.set(Number(itemHash), itemNomenclaturesDictionary[itemHash]);
-        }
-        this.dataStorage.itemNomenclatures = itemNomenclatures;
-      })
-    )
-  }
-
-  getCharacterTitleNomenclatures(): Observable<{[recordHashList: number]: DestinyRecordNomenclature}> {
-    const recordHashList: number[] = Array.from(new Set(this.dataStorage.profile.characters.map(character => character.titleRecordHash)));
-    return this.http.post<{[recordHashList: number]: DestinyRecordNomenclature}>(
-      environment.apiURL + 'destiny/records', recordHashList, { headers: HeaderService.getHeaders() }
-    ).pipe(
-      tap(recordNomenclatureMap => {
-        this.dataStorage.characterTitleNomenclatures = new Map(Object.entries(recordNomenclatureMap));
-      })
-    );
-  }
-
-  getPresentationTreeNomenclatures() {
-    let presentationTreeHashes: number[] = getAllPresentationTrees();
-    return this.http.post<{[itemHash: number]: DestinyPresentationTreeNomenclature}>(
-      environment.apiURL + 'destiny/trees', presentationTreeHashes, { headers: HeaderService.getHeaders() }
-    ).pipe(
-      tap((presentationTreeNomenclaturesDictionary:{[presentationTreeHash: number]: DestinyPresentationTreeNomenclature}) => {
-        this.dataStorage.presentationTrees.titles = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.Titles];
-        this.dataStorage.presentationTrees.archivedTitles = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.ArchivedTitles];
-        this.dataStorage.presentationTrees.catalysts = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.Catalysts];
-        this.dataStorage.presentationTrees.kineticWeaponModels = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.KineticWeaponModels];
-        this.dataStorage.presentationTrees.energyWeaponModels = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.EnergyWeaponModels];
-        this.dataStorage.presentationTrees.powerWeaponModels = presentationTreeNomenclaturesDictionary[DestinyPresentationTreeEnum.PowerWeaponModels];
-      })
-    )
-  }
-
   setSelectedTitle() {
-    const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.dataStorage.presentationTrees.titles?.childrenNode
+    const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.titles?.childrenNode
       .find(title => title.hash === Number(this.componentToShowArg1))
     if (selectedTitle != undefined) {
-      this.dataStorage.componentArgs.selectedTitle = selectedTitle;
+      this.componentArgs.selectedTitle = selectedTitle;
     } else {
       this.route.params.subscribe(params => {
         this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/titles`]);
@@ -234,11 +169,11 @@ export class DestinyComponent implements OnInit, OnDestroy {
   }//TODO supprmier tous les isparentcomponentready parce que l affichage se fait uniquement sur cette condition donc always TRUE
 
   refreshData() {
-    this.dataStorage.requestDataRefreshing.next(true);
+    this.requestDataRefreshing.next(true);
   }
 
   ngOnDestroy() {
-    this.dataStorage.requestDataRefreshing.unsubscribe();
+    this.requestDataRefreshing.unsubscribe();
   }
 
 }

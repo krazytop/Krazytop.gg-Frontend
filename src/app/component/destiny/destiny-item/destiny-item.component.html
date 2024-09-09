@@ -1,8 +1,8 @@
 <div class="item">
   <div class="item-images" [ngClass]="hasState(item, ItemStateEnum.HighlightedObjective) ? 'deepsight': 'none'">
     <div [ngClass]="hasState(item, ItemStateEnum.Masterwork) ? 'masterwork' : 'none'"></div>
-    <img src="{{ DestinyComponent.destinyAssetUrl + item.itemNomenclature?.icon }}"  alt="item" title="{{ item.itemNomenclature?.name }}" class="item-image">
-    <img src="{{ DestinyComponent.destinyAssetUrl + item.itemNomenclature?.iconWatermark }}"  alt="item watermark" class="item-watermark" title="{{ item.itemNomenclature?.name }}" *ngIf="item.itemNomenclature?.iconWatermark">
+    <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature?.icon }}" alt="item" title="{{ item.itemNomenclature?.name }}" class="item-image">
+    <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature?.iconWatermark }}" alt="item watermark" class="item-watermark" title="{{ item.itemNomenclature?.name }}" *ngIf="item.itemNomenclature?.iconWatermark">
     <img src="/assets/data/destiny/crafted.png"  alt="crafted" *ngIf="hasState(item, ItemStateEnum.Crafted)" class="crafted">
     <div [ngClass]="hasState(item, ItemStateEnum.Crafted) ? 'crafted-aura' : 'none'"></div>
     <img src="/assets/data/destiny/lock.png"  alt="locked" *ngIf="hasState(item, ItemStateEnum.Locked)" class="locked">

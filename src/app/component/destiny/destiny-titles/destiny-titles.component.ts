@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
 import {DestinyComponent} from "../destiny.component";
-import {DestinyObjectiveProgressModel} from "../../../model/destiny/destiny-objective-progress.model";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 import {ActivatedRoute, Router} from "@angular/router";
 
