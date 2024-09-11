@@ -71,7 +71,7 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
     } else if (this.role === LolSearchCriteriaComponent.allRoles) {
       url += `/${this.allRoles}`;
     }
-    this.http.get<string[]>(url, {headers: HeaderService.getHeaders(),}).subscribe(response => {
+    this.http.get<string[]>(url, {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.latestMatchesResults = response;
       this.setStreak();
     })

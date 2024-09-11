@@ -53,11 +53,11 @@ export class ClashRoyalComponent implements OnInit {
   }
 
     getLocalPlayer(id: string): Observable<CRPlayer> {
-      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/local/' + id, {headers: HeaderService.getHeaders()});
+      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/local/' + id, {headers: HeaderService.getBackendHeaders()});
     }
 
     getRemotePlayer(id: string): Observable<CRPlayer> {
-      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/remote/' + id, {headers: HeaderService.getHeaders(),});
+      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/remote/' + id, {headers: HeaderService.getBackendHeaders(),});
     }
 
   protected readonly CrTabSelectorService = CrTabSelectorService;

@@ -1,12 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {BungieAuthModel} from "../../../model/destiny/bungie-auth.model";
 import {HeaderService} from "../../../config/headers.service";
-import {DestinyUserMembershipsModel} from "../../../model/destiny/destiny-user-memberships.model";
 import {DestinyMembershipsModel} from "../../../model/destiny/destiny-memberships.model";
 import {Router} from "@angular/router";
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
-import {catchError, concatMap, map, Observable, of, Subject, tap, throwError} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {AlertService} from "../../alert/alert.service";
 
@@ -40,26 +37,22 @@ export class BungieAuthService {
     if (playerTokens) {
       this.setExpirationsAndSaveTokens(playerTokens);
       const response = await fetch('https://www.bungie.net/Platform/User/GetMembershipsForCurrentUser/', {headers: this.getHeaders()});
-      const userMemberships: DestinyUserMembershipsModel = (await response.json())['Response']; //TODO voir si on ne peut pas prendre le primary direct quoi
-      let mainMembership: DestinyMembershipsModel | undefined = undefined;
-      if (userMemberships.destinyMemberships.length === 1) {//TODO voir avec le compte de joan qi le if / else est utile ou si juste le else suffit
-        mainMembership = userMemberships.destinyMemberships[0];
-      } else {
-        for (let membership of userMemberships.destinyMemberships) {
-          if (membership.membershipId === userMemberships.primaryMembershipId) {
-            mainMembership = membership;
-          }
+      const userMemberships = (await response.json())['Response'];
+      const primaryMembershipId = userMemberships['primaryMembershipId'];
+      const destinyMemberships: DestinyMembershipsModel[] = userMemberships['destinyMemberships'];
+      if (destinyMemberships.length != 0) {
+        let mainMembership: DestinyMembershipsModel | undefined;
+        if (destinyMemberships.length === 1) {
+          mainMembership = destinyMemberships[0];
+        } else {
+          mainMembership = destinyMemberships.find(membership => membership.membershipId == primaryMembershipId)!;
         }
-      }
-      if (mainMembership) {
         const characters: DestinyCharacterModel[] = await this.getCharactersFromMembership(mainMembership.membershipType!, mainMembership.membershipId!)
         if (characters.length != 0) {
           await this.router.navigate([`/destiny/${mainMembership!.membershipType}/${mainMembership!.membershipId}/${characters[0].characterId}/characters`]);
         } else {
           this.disconnectWithError("You need at least one character");
         }
-      } else {
-        this.disconnectWithError("You need to activate Cross Save");
       }
     } else {
       this.disconnectWithError("Failed to retrieve your Bungie profile");
@@ -67,7 +60,7 @@ export class BungieAuthService {
   }
 
   async getPlayerTokensFromBungieCode(playerCode: string) {
-    const response = await fetch(`${environment.apiURL}destiny/get/${playerCode}`, {headers: this.getHeaders()})
+    const response = await fetch(`${environment.apiURL}destiny/get/${playerCode}`, {headers: HeaderService.getBackendHeaders()})
     return await response.json()
   }
 
@@ -84,7 +77,7 @@ export class BungieAuthService {
         return false;
       } else {
         const refreshToken = this.getPlayerTokens()!.refresh_token!;
-        const response = await fetch(environment.apiURL + 'destiny/update', { headers: HeaderService.getHeaders(), body:  refreshToken, method: 'POST' });
+        const response = await fetch(environment.apiURL + 'destiny/update', { headers: HeaderService.getBackendHeaders(), body:  refreshToken, method: 'POST' });
         this.setExpirationsAndSaveTokens(await response.json());
         return true;
       }

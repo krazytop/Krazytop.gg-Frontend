@@ -28,13 +28,13 @@ export class LolRankingComponent implements OnChanges {
   }
 
   getSoloRank() {
-    this.http.get<LOLRank>('http://localhost:8080/lol/rank/' + this.summoner.id + '/' + "RANKED_SOLO_5x5", {headers: HeaderService.getHeaders(),}).subscribe((response: LOLRank) => {
+    this.http.get<LOLRank>('http://localhost:8080/lol/rank/' + this.summoner.id + '/' + "RANKED_SOLO_5x5", {headers: HeaderService.getBackendHeaders(),}).subscribe((response: LOLRank) => {
       this.soloRank = response;
     })
   }
 
   getFlexRank() {
-    this.http.get<LOLRank>('http://localhost:8080/lol/rank/' + this.summoner.id + '/' + "RANKED_FLEX_SR", {headers: HeaderService.getHeaders(),}).subscribe((response: LOLRank) => {
+    this.http.get<LOLRank>('http://localhost:8080/lol/rank/' + this.summoner.id + '/' + "RANKED_FLEX_SR", {headers: HeaderService.getBackendHeaders(),}).subscribe((response: LOLRank) => {
       this.flexRank = response;
     })
   }

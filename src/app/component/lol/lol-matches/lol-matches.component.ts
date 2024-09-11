@@ -52,7 +52,7 @@ export class LolMatchesComponent implements OnChanges {
 
   getMatches() {
     let baseUrl: string = 'http://localhost:8080/lol/matches/' + this.summoner.puuid + '/' + this.nextPage.toString();
-    this.http.get<LOLMatch[]>(this.generateUrlWithRole(this.generateUrlWithQueue(baseUrl)), {headers: HeaderService.getHeaders(),}).subscribe(response => {
+    this.http.get<LOLMatch[]>(this.generateUrlWithRole(this.generateUrlWithQueue(baseUrl)), {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.matchesPages.push(response);
       this.nextPage++;
       if (this.isFirstPage) {
@@ -64,7 +64,7 @@ export class LolMatchesComponent implements OnChanges {
 
   setMatchesCount() {
     let baseUrl: string = 'http://localhost:8080/lol/matches/count/' + this.summoner.puuid;
-    this.http.get<number>(this.generateUrlWithRole(this.generateUrlWithQueue(baseUrl)), {headers: HeaderService.getHeaders(),}).subscribe(response => {
+    this.http.get<number>(this.generateUrlWithRole(this.generateUrlWithQueue(baseUrl)), {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.matchesCount = response;
     })
   }

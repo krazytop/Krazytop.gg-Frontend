@@ -43,7 +43,7 @@ export class TftLatestMatchesPlacementComponent implements OnChanges {
     } else if (this.queue == TftSearchCriteriaComponent.normal) {
       url += `/${(this.normal)}`
     }
-    this.http.get<number[]>(url, {headers: HeaderService.getHeaders(),}).subscribe(response => {
+    this.http.get<number[]>(url, {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.latestMatchesPlacement = response;
     })
   }

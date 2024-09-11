@@ -1,6 +1,6 @@
 export class DestinyMembershipsModel {
-  membershipType?: number;
-  membershipId?: string;
+  membershipType!: number;
+  membershipId!: string;
   bungieGlobalDisplayName?: string;
   bungieGlobalDisplayNameCode?: number;
 }

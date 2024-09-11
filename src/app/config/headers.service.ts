@@ -5,11 +5,9 @@ import {Injectable} from '@angular/core';
 })
 export class HeaderService {
 
-  private static headers: { [key: string]: string } = {
-    'Authorization' : 'Basic ' + btoa('krazytop' + ':' + 'password')
-  };
-
-  static getHeaders(): { [key: string]: string } {
-    return HeaderService.headers;
+  static getBackendHeaders(): { [key: string]: string } {
+    return {
+      'Authorization' : 'Basic ' + btoa('krazytop' + ':' + 'password')
+    };
   }
 }

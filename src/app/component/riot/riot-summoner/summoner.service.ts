@@ -13,11 +13,11 @@ export class SummonerService {
   }
 
   getLocalSummoner(region: string, tag: string, name: string): Observable<RIOTSummoner> {
-    return this.http.get<RIOTSummoner>('http://localhost:8080/riot/summoner/local/' + region + '/' + tag + '/' + name, {headers: HeaderService.getHeaders()});
+    return this.http.get<RIOTSummoner>('http://localhost:8080/riot/summoner/local/' + region + '/' + tag + '/' + name, {headers: HeaderService.getBackendHeaders()});
   }
 
   getRemoteSummoner(region: string, tag: string, name: string): Observable<RIOTSummoner> {
-    return this.http.get<RIOTSummoner>('http://localhost:8080/riot/summoner/remote/' + region + '/' + tag + '/' + name, {headers: HeaderService.getHeaders(),});
+    return this.http.get<RIOTSummoner>('http://localhost:8080/riot/summoner/remote/' + region + '/' + tag + '/' + name, {headers: HeaderService.getBackendHeaders(),});
   }
 
 }

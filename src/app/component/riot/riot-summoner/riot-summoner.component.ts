@@ -44,7 +44,7 @@ export class RiotSummonerComponent implements OnChanges {
   importRemoteSummoner(): Observable<RIOTSummoner> {
     return this.http
       .post<RIOTSummoner>('http://localhost:8080/riot/summoner/update/' + this.summoner!.region + '/' + this.summoner!.tag + '/' + this.summoner!.name, {}, {
-        headers: HeaderService.getHeaders(),
+        headers: HeaderService.getBackendHeaders(),
       })
       .pipe( //TODO supprimer
         tap(() => {
@@ -69,28 +69,28 @@ export class RiotSummonerComponent implements OnChanges {
   updateTFTRanks(): Observable<TFTRank[]> {
     return this.http
       .post<TFTRank[]>('http://localhost:8080/tft/rank/' + this.summoner!.id, {}, {
-        headers: HeaderService.getHeaders(),
+        headers: HeaderService.getBackendHeaders(),
       });
   }
 
   updateLOLRanks(): Observable<TFTRank[]> {
     return this.http
       .post<LOLRank[]>('http://localhost:8080/lol/rank/' + this.summoner!.id, {}, {
-        headers: HeaderService.getHeaders(),
+        headers: HeaderService.getBackendHeaders(),
       });
   }
 
   updateTFTMatches(): Observable<Object> {
     return this.http
       .post('http://localhost:8080/tft/matches/' + this.summoner!.puuid, {}, {
-        headers: HeaderService.getHeaders(),
+        headers: HeaderService.getBackendHeaders(),
       });
   }
 
   updateLOLMatches(): Observable<Object> {
     return this.http
       .post('http://localhost:8080/lol/matches/' + this.summoner!.puuid, {}, {
-        headers: HeaderService.getHeaders(),
+        headers: HeaderService.getBackendHeaders(),
       });
   }
 
