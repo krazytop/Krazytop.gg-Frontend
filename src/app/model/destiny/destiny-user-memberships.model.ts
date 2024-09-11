@@ -1,6 +1,6 @@
 import {DestinyMembershipsModel} from "./destiny-memberships.model";
 
 export class DestinyUserMembershipsModel {
-  destinyMemberships: DestinyMembershipsModel[] = [];
-  primaryMembershipId?: string | null;
+  destinyMemberships!: DestinyMembershipsModel[];
+  primaryMembershipId?: string;
 }

@@ -13,12 +13,12 @@ export class BungieAuthComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       const code = this.route.snapshot.queryParamMap.get('code');
       if (code === null) {
         console.log("failed get player code")
       } else {
-        this.destinyAuthService.getCurrentUserMembershipsWithCode(code);
+        await this.destinyAuthService.getCurrentUserMembershipsWithCode(code);
       }
     });
   }

@@ -114,7 +114,7 @@ export class DestinyCharactersComponent implements OnChanges {
     document.getElementById(`inventory-${bucketHash}-vault`)!.classList.add('character-item-category-droppable');
   }
 
-  dropItem(inventory: DestinyCharacterInventoryModel | null, bucketHash: DestinyInventoryBucketEnum | null, toBeEquipped: boolean) {
+  async dropItem(inventory: DestinyCharacterInventoryModel | null, bucketHash: DestinyInventoryBucketEnum | null, toBeEquipped: boolean) { //TODO async in html
     this.characterInventories.forEach(characterInventory => {
       document.getElementById(`character-inventory-${bucketHash}-${characterInventory.characterHash}`)!.classList.remove('character-item-category-droppable');
     })
@@ -123,60 +123,58 @@ export class DestinyCharactersComponent implements OnChanges {
     const equipOrUnEquip = this.currentDraggedItem.isEquipped !== toBeEquipped;
     const characterToSameCharacter = !equipOrUnEquip && (this.currentDraggedItem.inventory != null && inventory != null && this.currentDraggedItem.inventory.characterHash == inventory.characterHash);
     if (!vaultToVault && !characterToSameCharacter) {
-      this.moveItem(this.currentDraggedItem.item!, this.currentDraggedItem.inventory!, inventory, this.currentDraggedItem.isEquipped!, toBeEquipped);
+      await this.moveItem(this.currentDraggedItem.item!, this.currentDraggedItem.inventory!, inventory, this.currentDraggedItem.isEquipped!, toBeEquipped);
     }
   }
 
-  moveItem(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel | null, toInventory: DestinyCharacterInventoryModel | null, isEquipped: boolean, toBeEquipped: boolean) {
-    this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
-      if (isTokenValid) {
-        document.getElementById(`item-${itemToMove.itemInstanceId}`)?.classList.add('item-being-transferred')
-        if (isEquipped) {
-          this.equipItemApi(itemToMove, fromInventory!)
+  async moveItem(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel | null, toInventory: DestinyCharacterInventoryModel | null, isEquipped: boolean, toBeEquipped: boolean) {
+    if (await this.bungieAuthService.checkTokenValidity()) {
+      document.getElementById(`item-${itemToMove.itemInstanceId}`)?.classList.add('item-being-transferred')
+      if (isEquipped) {
+        this.equipItemApi(itemToMove, fromInventory!)
+          .subscribe({
+            next: () => {
+              this.equipAnOtherItem(itemToMove, fromInventory!);
+              setTimeout(() => this.moveItem(itemToMove, fromInventory, toInventory, false, toBeEquipped), 5000);
+            },
+            error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
+          });
+      } else if (fromInventory != null && fromInventory != toInventory) {
+        if (fromInventory != this.vaultInventory && toInventory != this.vaultInventory) {
+          this.transferItemApi(itemToMove, fromInventory, this.vaultInventory)
             .subscribe({
               next: () => {
-                this.equipAnOtherItem(itemToMove, fromInventory!);
-                setTimeout(() => this.moveItem(itemToMove, fromInventory, toInventory, false, toBeEquipped), 5000);
+                this.manuallyMoveItemToVault(itemToMove, fromInventory);
+                this.moveItem(itemToMove, this.vaultInventory, toInventory, false, toBeEquipped);
               },
               error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
             });
-        } else if (fromInventory != null && fromInventory != toInventory) {
-          if (fromInventory != this.vaultInventory && toInventory != this.vaultInventory) {
-            this.transferItemApi(itemToMove, fromInventory, this.vaultInventory)
-              .subscribe({
-                next: () => {
-                  this.manuallyMoveItemToVault(itemToMove, fromInventory);
-                  this.moveItem(itemToMove, this.vaultInventory, toInventory, false, toBeEquipped);
-                },
-                error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
-              });
-          } else {
-            this.transferItemApi(itemToMove, fromInventory, toInventory!)
-              .subscribe({
-                next: () => {
-                  if (fromInventory == this.vaultInventory) {
-                    this.manuallyMoveItemToCharacter(itemToMove, toInventory!);
-                  } else {
-                    this.manuallyMoveItemToVault(itemToMove, fromInventory);
-                  }
-                  this.moveItem(itemToMove, null, toInventory, false, toBeEquipped);
-                },
-                error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
-              });
-          }
-        } else if (toBeEquipped) {
-          this.equipItemApi(itemToMove, toInventory!)
+        } else {
+          this.transferItemApi(itemToMove, fromInventory, toInventory!)
             .subscribe({
               next: () => {
-                this.manuallyEquipItem(itemToMove, toInventory!);
+                if (fromInventory == this.vaultInventory) {
+                  this.manuallyMoveItemToCharacter(itemToMove, toInventory!);
+                } else {
+                  this.manuallyMoveItemToVault(itemToMove, fromInventory);
+                }
+                this.moveItem(itemToMove, null, toInventory, false, toBeEquipped);
               },
               error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
             });
         }
-      } else {
-        this.bungieAuthService.disconnectWithNotLoggedError();
+      } else if (toBeEquipped) {
+        this.equipItemApi(itemToMove, toInventory!)
+          .subscribe({
+            next: () => {
+              this.manuallyEquipItem(itemToMove, toInventory!);
+            },
+            error: (error: HttpErrorResponse) => this.handleAPIError(error, itemToMove)
+          });
       }
-    });
+    } else {
+      this.bungieAuthService.disconnectWithError("You need to reconnect your bungie account");
+    }
   }
 
   private manuallyMoveItemToVault(itemToMove: DestinyItemModel, fromInventory: DestinyCharacterInventoryModel) {

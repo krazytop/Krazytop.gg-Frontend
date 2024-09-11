@@ -52,34 +52,32 @@ export class DestinyPostmasterComponent implements OnChanges {
     return postmasters;
   }
 
-  moveItem(itemToMove: DestinyItemModel, characterInventory: DestinyCharacterInventoryModel) {//TODO stack
-    const body = {
+  async moveItem(itemToMove: DestinyItemModel, characterInventory: DestinyCharacterInventoryModel) {//TODO stack
+    const body = { //TODO async in html ?
       "itemReferenceHash": itemToMove.itemHash,
       "stackSize": itemToMove.quantity,
       "itemId": itemToMove.itemInstanceId,
       "characterId": characterInventory.characterHash,
       "membershipType": this.platform
     };
-    this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
-      if (isTokenValid) {
-        this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/PullFromPostmaster/`, body, {headers: this.bungieAuthService.getHeaders()})
-          .subscribe({
-            next: () => {
-              this.characterInventories = this.characterInventories.map(characterInventory => {
-                const filteredItems = characterInventory.items.filter(item => item !== itemToMove);
-                return {...characterInventory, items: filteredItems};
-              });
-            },
-            error: (error: HttpErrorResponse) => {
-              const destinyErrorResponse: DestinyErrorResponseModel = error.error as DestinyErrorResponseModel;
-              this.alertService.processAlert({
-                message: destinyErrorResponse.Message,
-                duration: 3000
-              })
-            }
-          });
-      }
-    });
+    if (await this.bungieAuthService.checkTokenValidity()) {
+      this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/PullFromPostmaster/`, body, {headers: this.bungieAuthService.getHeaders()})
+        .subscribe({
+          next: () => {
+            this.characterInventories = this.characterInventories.map(characterInventory => {
+              const filteredItems = characterInventory.items.filter(item => item !== itemToMove);
+              return {...characterInventory, items: filteredItems};
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            const destinyErrorResponse: DestinyErrorResponseModel = error.error as DestinyErrorResponseModel;
+            this.alertService.processAlert({
+              message: destinyErrorResponse.Message,
+              duration: 3000
+            })
+          }
+        });
+    }
   }
 
 }

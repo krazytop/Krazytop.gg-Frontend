@@ -16,7 +16,7 @@ export class DestinyDatabaseApi {
   private async resetDB(): Promise<void> {
     console.log("reset database")
     const request = indexedDB.deleteDatabase('Destiny');
-      return new Promise((resolve, reject) => {console.log("create promise")
+      return new Promise((resolve, reject) => {
       request.onsuccess = () => resolve();
       request.onerror = () => reject();
     });
@@ -29,7 +29,6 @@ export class DestinyDatabaseApi {
     }
     const request = indexedDB.open('Destiny');
     request.onupgradeneeded = (event) => {
-      console.log("onupgradeneeded")
       const db = (event.target as IDBOpenDBRequest).result;
       db.createObjectStore(DestinyDatabaseApi.MANIFEST_VERSION, { keyPath: 'hash' });//TODO function select store
       db.createObjectStore(DestinyDatabaseApi.ITEM_STORE, { keyPath: 'hash' });
@@ -48,7 +47,6 @@ export class DestinyDatabaseApi {
   }
 
   async addObjects(objects: any[], storeName: string) {
-    console.log(storeName)
     return new Promise<void>((resolve, reject) => {
       const transaction = this.db.transaction(storeName, 'readwrite');
       const objectStore = transaction.objectStore(storeName);

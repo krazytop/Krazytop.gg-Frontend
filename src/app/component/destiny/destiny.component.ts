@@ -44,7 +44,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
 
   public static readonly ASSET_URL: string = "https://www.bungie.net";
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseApi: DestinyDatabaseApi, private databaseUpdateService: DestinyDatabaseUpdateService) {}
+  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseApi: DestinyDatabaseApi, private databaseUpdateService: DestinyDatabaseUpdateService) {}
 
   private platform?: number;
   private membership?: string;
@@ -58,9 +58,9 @@ export class DestinyComponent implements OnInit, OnDestroy {
     });
     await this.databaseUpdateService.manageDatabase(); //TODO arranger pour tout faire en meme temps
     if (this.isFirstDisplay) {
-      this.requestDataRefreshing.subscribe(requestDataRefreshing => {
+      this.requestDataRefreshing.subscribe(async requestDataRefreshing => {
         if (requestDataRefreshing) {
-          this.retrieveAllDestinyData(this.platform, this.membership);
+          await this.retrieveAllDestinyData(this.platform!, this.membership!);
         }
       });
       this.refreshData();
@@ -71,27 +71,14 @@ export class DestinyComponent implements OnInit, OnDestroy {
     }
   }
 
-  private retrieveAllDestinyData(platform: number | undefined, membership: string | undefined) {
+  private async retrieveAllDestinyData(platform: number, membership: string) {
     this.requestDataRefreshing.next(false);
-    this.bungieAuthService.checkTokenValidity().subscribe(isTokenValid => {
-      if (isTokenValid) {
-        this.getProfile(platform!, membership!).subscribe(async () => {
-          if (this.profile != null) {
-            if (this.profile.characters.length === 0) {
-              console.log("Need at least one character"); //TODO alert + deconnection
-              await this.router.navigate(['/']);
-            } else {
-              await this.manageAllRequest(platform!, membership!);
-            }
-          } else {
-            console.log("Failed to load your Destiny profile"); //TODO alert + deconnection
-            await this.router.navigate(['/']);
-          }
-        })
-      } else {
-        //TODO alert + deconnection
-      }
-    });
+    if (await this.bungieAuthService.checkTokenValidity()) {
+      await this.getProfile(platform, membership);
+      await this.manageAllRequest(platform, membership);
+    } else {
+      //TODO alert + deconnection
+    }
   }
 
   async manageAllRequest(platform: number, membership: string) {
@@ -118,45 +105,42 @@ export class DestinyComponent implements OnInit, OnDestroy {
     this.profile.linkedProfiles = profiles;
   }
 
-  getProfile(platform: number, membership: string) {
-    return this.http.get(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,700,900`, {headers: this.bungieAuthService.getHeaders()})
-      .pipe(
-        map((response: any) => {
-          const destinyProfile: DestinyProfileModel = new DestinyProfileModel();
-          destinyProfile.characters = Object.values(response['Response']['characters']['data']);
-          destinyProfile.profileCurrencies = Object.values(response['Response']['profileCurrencies']['data']['items']);
-          destinyProfile.profileInventory = Object.values(response['Response']['profileInventory']['data']['items']);
-          destinyProfile.characterInventories = Object.entries(response['Response']['characterInventories']['data'])
-            .map(([characterHash, items]) => {
-              return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
-            });
-          destinyProfile.characterEquipment = Object.entries(response['Response']['characterEquipment']['data'])
-            .map(([characterHash, items]) => {
-              return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
-            });
-          Object.entries(response['Response']['itemComponents']['instances']['data'])
-            .forEach(([itemHash, item]) => {
-              destinyProfile.itemInstances.set(Number(itemHash), item as DestinyItemInstanceModel);
-            });
-          Object.entries((response['Response']['characterRecords']['data'][destinyProfile.characters[0].characterId]['records'] as { [nodeHash: string]: DestinyNodeProgressionModel }))
-            .forEach(([nodeHash, node]) => {
-              destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
-            });
-          Object.entries(response['Response']['profileRecords']['data']['records'] as { [nodeHash: string]: DestinyNodeProgressionModel })
-            .forEach(([nodeHash, node]) => {
-              destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
-            });
-          Object.entries((response['Response']['characterPresentationNodes']['data'][destinyProfile.characters[0].characterId]['nodes'] as { [nodeHash: string]: DestinyNodeProgressionModel }))
-            .forEach(([nodeHash, node]) => {
-              destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
-            });
-          Object.entries((response['Response']['profilePresentationNodes']['data']['nodes'] as { [nodeHash: string]: DestinyNodeProgressionModel }))
-            .forEach(([nodeHash, node]) => {
-              destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
-            });
-          this.profile = destinyProfile;
-        })
-      );
+  async getProfile(platform: number, membership: string) {
+    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,700,900`, {headers: this.bungieAuthService.getHeaders()})
+    const json = await response.json();
+    const destinyProfile: DestinyProfileModel = new DestinyProfileModel();
+    destinyProfile.characters = Object.values(json['Response']['characters']['data']);
+    destinyProfile.profileCurrencies = Object.values(json['Response']['profileCurrencies']['data']['items']);
+    destinyProfile.profileInventory = Object.values(json['Response']['profileInventory']['data']['items']);
+    destinyProfile.characterInventories = Object.entries(json['Response']['characterInventories']['data'])
+      .map(([characterHash, items]) => {
+        return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
+      });
+    destinyProfile.characterEquipment = Object.entries(json['Response']['characterEquipment']['data'])
+      .map(([characterHash, items]) => {
+        return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
+      });
+    Object.entries(json['Response']['itemComponents']['instances']['data'])
+      .forEach(([itemHash, item]) => {
+        destinyProfile.itemInstances.set(Number(itemHash), item as DestinyItemInstanceModel);
+      });
+    Object.entries((json['Response']['characterRecords']['data'][destinyProfile.characters[0].characterId]['records'] as { [nodeHash: string]: DestinyNodeProgressionModel }))
+      .forEach(([nodeHash, node]) => {
+        destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
+      });
+    Object.entries(json['Response']['profileRecords']['data']['records'] as { [nodeHash: string]: DestinyNodeProgressionModel })
+      .forEach(([nodeHash, node]) => {
+        destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
+      });
+    Object.entries((json['Response']['characterPresentationNodes']['data'][destinyProfile.characters[0].characterId]['nodes'] as { [nodeHash: string]: DestinyNodeProgressionModel }))
+      .forEach(([nodeHash, node]) => {
+        destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
+      });
+    Object.entries((json['Response']['profilePresentationNodes']['data']['nodes'] as { [nodeHash: string]: DestinyNodeProgressionModel }))
+      .forEach(([nodeHash, node]) => {
+        destinyProfile.presentationNodeProgress.set(Number(nodeHash), node);
+      });
+    this.profile = destinyProfile;
   }
 
   setSelectedTitle() {
