@@ -13,12 +13,18 @@ export class BungieAuthComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(async params => {
+    this.route.params.subscribe(async () => {
       const code = this.route.snapshot.queryParamMap.get('code');
       if (code === null) {
         console.log("failed get player code")
       } else {
-        await this.destinyAuthService.getCurrentUserMembershipsWithCode(code);
+        const playerTokens = await this.destinyAuthService.getPlayerTokensFromBungieCode(code);
+        if (playerTokens) {
+          this.destinyAuthService.setExpirationsAndSaveTokens(playerTokens);
+          await this.destinyAuthService.redirectToDestinyPage(playerTokens);
+        } else {
+          this.destinyAuthService.disconnectWithError("Failed to retrieve your Bungie profile");
+        }
       }
     });
   }

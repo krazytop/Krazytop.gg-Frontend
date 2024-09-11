@@ -1,11 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from "@angular/router";
-import {GameService} from "./game.service";
 import {BungieAuthService} from "../destiny/bungie-authentification/bungie-auth.service";
-import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
-import {DestinyDatabaseApi} from "../../service/destiny/DestinyDatabaseApi";
-import {DestinyDatabaseUpdateService} from "../../service/destiny/DestinyDatabaseUpdateService";
 
 @Component({
   selector: 'game-list',
@@ -24,11 +20,10 @@ export class GameListComponent implements OnInit {
   @ViewChild('riotForm') riotForm!: NgForm;
   @ViewChild('supercellForm') supercellForm!: NgForm;
 
-  constructor(private router: Router, private destinyAuthService: BungieAuthService, private destinyDBService: DestinyDatabaseApi, private destinyDataService: DestinyDatabaseUpdateService) {
+  constructor(private router: Router, private destinyAuthService: BungieAuthService) {
   }
 
   ngOnInit(): void {
-    GameService.game = undefined;
   }
 
   selectGame(game: string) {
@@ -59,11 +54,19 @@ export class GameListComponent implements OnInit {
   }
 
   loginToBungie() {
-      this.destinyAuthService.login();
+    localStorage.removeItem('bungie_player_tokens');
+    this.destinyAuthService.login();
   }
 
-  logoutOfBungie() {
-    //this.destinyAuthService.login();
+  getBungieCurrentLoggedUser() {
+    console.log(this.destinyAuthService.getPlayerTokens()?.uniqueName)
+    return this.destinyAuthService.getPlayerTokens()?.uniqueName;
+  }
+
+  async redirectToDestinyPage() {
+    if(await this.destinyAuthService.checkTokenValidity()) {
+      await this.destinyAuthService.redirectToDestinyPage(this.destinyAuthService.getPlayerTokens()!)
+    }
   }
 
 }

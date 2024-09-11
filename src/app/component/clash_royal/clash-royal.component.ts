@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {GameService} from "../game-list/game.service";
 import {ActivatedRoute} from "@angular/router";
 import {CRPlayer} from "../../model/clash-royal/cr-player.model";
 import {Observable} from "rxjs";
@@ -21,12 +20,11 @@ export class ClashRoyalComponent implements OnInit {
   localPlayer: CRPlayer | undefined;
   remotePlayer: CRPlayer | undefined;
 
-  constructor(private gameService: GameService, private route: ActivatedRoute, private http: HttpClient, private crTabSelectorService: CrTabSelectorService) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, private crTabSelectorService: CrTabSelectorService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.gameService.initGame("clash-royal");
       const id = params['id'];
       const tab = params['tab'];
       this.crTabSelectorService.initTab(tab);

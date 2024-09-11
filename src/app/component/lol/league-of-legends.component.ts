@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
 import {SummonerService} from "../riot/riot-summoner/summoner.service";
-import {GameService} from "../game-list/game.service";
 import {ActivatedRoute} from "@angular/router";
 import {LOLSearchCriteriaService} from "./lol-search-criteria/lol-search-criteria.service";
 
@@ -19,12 +18,11 @@ export class LeagueOfLegendsComponent implements OnInit {
 
   protected readonly LOLSearchCriteriaService = LOLSearchCriteriaService;
 
-  constructor(private summonerService: SummonerService, private gameService: GameService, private searchCriteriaService: LOLSearchCriteriaService, private route: ActivatedRoute) {
+  constructor(private summonerService: SummonerService, private searchCriteriaService: LOLSearchCriteriaService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.gameService.initGame("lol");
       const region = params['region'];
       const tag = params['tag'];
       const name = params['name'];

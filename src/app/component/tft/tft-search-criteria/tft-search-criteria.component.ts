@@ -1,6 +1,5 @@
 import {Component, Input, OnChanges, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {GameService} from "../../game-list/game.service";
 import {TftSearchCriteriaService} from "./tft-search-criteria.service";
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {NgForm} from "@angular/forms";
@@ -41,9 +40,9 @@ export class TftSearchCriteriaComponent implements OnChanges {
     this.route.params.subscribe(params => {
       const set = params['set'];
       if (queue != "all") {
-        this.router.navigate([`/${GameService.game}/${this.summoner.region}/${this.summoner.name}/${set}/${queue}`]);
+        this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.name}/${set}/${queue}`]);
       } else {
-        this.router.navigate([`/${GameService.game}/${this.summoner.region}/${this.summoner.name}/${set}`]);
+        this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.name}/${set}`]);
       }
     });
   }
@@ -54,9 +53,9 @@ export class TftSearchCriteriaComponent implements OnChanges {
       const setUrl = set.replace('S','s').replace(' ','_').replace('.','-');
       const queue = params['queue'];
       if (queue != undefined) {
-        this.router.navigate([`/${GameService.game}/${this.summoner.region}/${this.summoner.name}/${setUrl}/${queue}`]);
+        this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.name}/${setUrl}/${queue}`]);
       } else {
-        this.router.navigate([`/${GameService.game}/${this.summoner.region}/${this.summoner.name}/${setUrl}`]);
+        this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.name}/${setUrl}`]);
       }
     });
   }

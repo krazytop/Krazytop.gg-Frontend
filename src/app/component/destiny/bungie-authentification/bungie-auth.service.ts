@@ -32,30 +32,21 @@ export class BungieAuthService {
     };
   }
 
-  async getCurrentUserMembershipsWithCode(playerCode: string) {
-    const playerTokens = await this.getPlayerTokensFromBungieCode(playerCode);
-    if (playerTokens) {
-      this.setExpirationsAndSaveTokens(playerTokens);
-      const response = await fetch('https://www.bungie.net/Platform/User/GetMembershipsForCurrentUser/', {headers: this.getHeaders()});
-      const userMemberships = (await response.json())['Response'];
-      const primaryMembershipId = userMemberships['primaryMembershipId'];
-      const destinyMemberships: DestinyMembershipsModel[] = userMemberships['destinyMemberships'];
-      if (destinyMemberships.length != 0) {
-        let mainMembership: DestinyMembershipsModel | undefined;
-        if (destinyMemberships.length === 1) {
-          mainMembership = destinyMemberships[0];
-        } else {
-          mainMembership = destinyMemberships.find(membership => membership.membershipId == primaryMembershipId)!;
-        }
-        const characters: DestinyCharacterModel[] = await this.getCharactersFromMembership(mainMembership.membershipType!, mainMembership.membershipId!)
-        if (characters.length != 0) {
-          await this.router.navigate([`/destiny/${mainMembership!.membershipType}/${mainMembership!.membershipId}/${characters[0].characterId}/characters`]);
-        } else {
-          this.disconnectWithError("You need at least one character");
-        }
+  async redirectToDestinyPage(playerTokens: BungieAuthModel) {
+    const response = await fetch('https://www.bungie.net/Platform/User/GetMembershipsForCurrentUser/', {headers: this.getHeaders()});
+    const userMemberships = (await response.json())['Response'];
+    playerTokens.uniqueName = userMemberships['bungieNetUser']['uniqueName'];
+    window.localStorage.setItem('bungie_player_tokens', JSON.stringify(playerTokens));
+    const primaryMembershipId = userMemberships['primaryMembershipId'];
+    const destinyMemberships: DestinyMembershipsModel[] = userMemberships['destinyMemberships'];
+    if (destinyMemberships.length != 0) {
+      let mainMembership: DestinyMembershipsModel = destinyMemberships.find(membership => membership.membershipId == primaryMembershipId) ?? destinyMemberships[0];
+      const characters: DestinyCharacterModel[] = await this.getCharactersFromMembership(mainMembership.membershipType!, mainMembership.membershipId!)
+      if (characters.length != 0) {
+        await this.router.navigate([`/destiny/${mainMembership!.membershipType}/${mainMembership!.membershipId}/${characters[0].characterId}/characters`]);
+      } else {
+        this.disconnectWithError("You need at least one character");
       }
-    } else {
-      this.disconnectWithError("Failed to retrieve your Bungie profile");
     }
   }
 

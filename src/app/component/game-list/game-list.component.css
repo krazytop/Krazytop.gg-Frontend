@@ -1,15 +1,15 @@
 .games {
   display: flex;
-  flex-direction: row; /* Alignez les images verticalement */
-  align-items: center; /* Centrez les images horizontalement */
-  justify-content: center; /* Centrez les images verticalement */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   gap: 50px;
 }
 
 .games img {
   width: 100px;
   height: 100px;
-  margin: 0 10px; /* Espace horizontal entre les images */
+  margin: 0 10px;
 }
 
 .game-not-selected {
@@ -28,13 +28,19 @@
   cursor: pointer;
 }
 
+.player button:hover, .game-not-selected:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid #1D1D1D;
+  cursor: pointer;
+}
+
 .player {
   display: flex;
-  align-items: center; /* Centrez les images horizontalement */
-  justify-content: center; /* Centrez les images verticalement */
+  align-items: center;
+  justify-content: center;
 }
 
-.player input {
+.player select, .player button, .player input{
   padding: 7px;
   font-size: 20px;
   border: #727272 1px solid;
@@ -43,39 +49,26 @@
   border-radius: 10px;
 }
 
-.player select {
-  padding: 7px;
-  font-size: 20px;
-  border: #727272 1px solid;
-  background-color: #1D1D1D;
-  color: white;
-  border-radius: 10px;
+.player select, .player button{
   cursor: pointer;
 }
 
 .player button {
-  padding: 7px;
-  font-size: 20px;
-  border: #727272 1px solid;
-  background-color: #1D1D1D;
-  color: white;
-  border-radius: 10px;
   width: 100%;
-  cursor: pointer;
 }
 
 .player-information {
   display: flex;
-  align-items: center; /* Centrez les images horizontalement */
-  justify-content: center; /* Centrez les images verticalement */
+  align-items: center;
+  justify-content: center;
   gap: 20px;
 }
 
 .container {
   display: flex;
-  justify-content: center; /* Centrez horizontalement */
-  align-items: center; /* Centrez verticalement */
-  height: 100vh; /* Hauteur de la fenêtre */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .global-form {
@@ -86,14 +79,10 @@
 
 form {
   display: flex;
-  flex-direction: column; /* Alignez les images verticalement */
-  align-items: center; /* Centrez les images horizontalement */
-  justify-content: center; /* Centrez les images verticalement */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 30px;
-}
-
-.submit-button {
-  width: 100%;
 }
 
 .hashtag {

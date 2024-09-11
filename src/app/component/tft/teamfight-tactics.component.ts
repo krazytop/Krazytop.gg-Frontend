@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {SummonerService} from "../riot/riot-summoner/summoner.service";
 import {ActivatedRoute} from "@angular/router";
 import {TftSearchCriteriaService} from "./tft-search-criteria/tft-search-criteria.service";
-import {GameService} from "../game-list/game.service";
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
 
 @Component({
@@ -20,12 +19,11 @@ export class TeamfightTacticsComponent implements OnInit {
 
   protected readonly TftSearchCriteriaService = TftSearchCriteriaService;
 
-  constructor(private summonerService: SummonerService, private gameService: GameService, private searchCriteriaService: TftSearchCriteriaService, private route: ActivatedRoute) {
+  constructor(private summonerService: SummonerService, private searchCriteriaService: TftSearchCriteriaService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.gameService.initGame("tft");
       const region = params['region'];
       const tag = params['tag'];
       const name = params['name'];

@@ -2,7 +2,6 @@ import {Component, Input, ViewChild} from '@angular/core';
 import {CRPlayer} from "../../../model/clash-royal/cr-player.model";
 import {NgForm} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {GameService} from "../../game-list/game.service";
 import {CrTabSelectorService} from "./cr-tab-selector.service";
 
 @Component({
@@ -27,7 +26,7 @@ export class CrTabSelectorComponent {
 
   selectTab(tab: string) {
     this.route.params.subscribe(params => {
-      this.router.navigate([`/${GameService.game}/${this.player.id}/${tab}`]);
+      this.router.navigate([`/clash-royal/${this.player.id}/${tab}`]);
       });
   }
 

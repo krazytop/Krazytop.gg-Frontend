@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {GameService} from "../../game-list/game.service";
 import {LOLSearchCriteriaService} from "./lol-search-criteria.service";
 
 @Component({
@@ -35,13 +34,13 @@ export class LolSearchCriteriaComponent {
 
   selectQueue(queue: string) {
     this.route.params.subscribe(() => {
-      this.router.navigate([`/${GameService.game}/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${queue}/${LOLSearchCriteriaService.role}`]);
+      this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${queue}/${LOLSearchCriteriaService.role}`]);
     });
   }
 
   selectRole(role: string) {
     this.route.params.subscribe(() => {
-      this.router.navigate([`/${GameService.game}/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${LOLSearchCriteriaService.queue}/${role}`]);
+      this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${LOLSearchCriteriaService.queue}/${role}`]);
     });
   }
 
