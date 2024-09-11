@@ -16,5 +16,5 @@ export class DestinyPresentationTreeNomenclature {
   childrenCollectible!: DestinyCollectibleNomenclature[];
   childrenRecord!: DestinyRecordNomenclature[];
   childrenMetric!: DestinyMetricNomenclature[];
-  childrenCraftable!: DestinyItemNomenclature[];
+  childrenCraftable!: number[];
 }

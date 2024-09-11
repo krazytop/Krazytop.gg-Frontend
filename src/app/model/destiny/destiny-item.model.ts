@@ -7,7 +7,7 @@ import {DestinyInventoryBucketEnum} from "./enum/DestinyInventoryBucketsEnum";
 export class DestinyItemModel {
   itemHash!: number;
   itemNomenclature?: DestinyItemNomenclature;
-  itemInstanceId!: string;
+  itemInstanceId?: string;
   itemInstance?: DestinyItemInstanceModel;
   quantity!: number;
   location!: DestinyItemLocationEnum;

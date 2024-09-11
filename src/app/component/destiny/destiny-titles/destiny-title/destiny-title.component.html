@@ -1,6 +1,6 @@
 <div class="title">
   <div class="main-informations">
-    <img src="{{ DestinyComponent.destinyAssetUrl + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete() ? 'grayscale(1)' : 'none'" class="title-icon">
+    <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete() ? 'grayscale(1)' : 'none'" class="title-icon">
     <span class="title-name">{{ title.name }}</span>
     <span class="title-description">{{ title.description }}</span>
     <div class="objectives">

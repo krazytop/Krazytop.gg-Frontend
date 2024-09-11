@@ -4,6 +4,9 @@ import {DestinyVendorNomenclature} from "./nomenclature/destiny-vendor.nomenclat
 export class DestinyVendorModel {
   progression!: DestinyVendorProgressionModel;
   nextRefreshDate!: string;
-  vendorHash!: number;
-  vendorNomenclature?: DestinyVendorNomenclature;
+  vendorNomenclature!: DestinyVendorNomenclature;
+
+  constructor(vendorNomenclature: DestinyVendorNomenclature) {
+    this.vendorNomenclature = vendorNomenclature;
+  }
 }

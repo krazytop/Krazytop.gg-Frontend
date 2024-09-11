@@ -43,7 +43,7 @@ export class TftMatchesComponent implements OnChanges {
 
   getMatches() {
     let baseUrl: string = 'http://localhost:8080/tft/matches/' + this.summoner.puuid + '/' + this.nextPage.toString() + '/' + this.set;
-    this.http.get<TFTMatch[]>(this.generateUrlWithQueue(baseUrl), {headers: HeaderService.getHeaders(),}).subscribe(response => {
+    this.http.get<TFTMatch[]>(this.generateUrlWithQueue(baseUrl), {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.matchesPages.push(response);
       this.nextPage++;
       if (this.isFirstPage) {
@@ -55,7 +55,7 @@ export class TftMatchesComponent implements OnChanges {
 
   setMatchesCount() {
     let baseUrl: string = 'http://localhost:8080/tft/matches/count/' + this.summoner.puuid + '/' + this.set;
-    this.http.get<number>(this.generateUrlWithQueue(baseUrl), {headers: HeaderService.getHeaders(),}).subscribe(response => {
+    this.http.get<number>(this.generateUrlWithQueue(baseUrl), {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.matchesCount = response;
     })
   }

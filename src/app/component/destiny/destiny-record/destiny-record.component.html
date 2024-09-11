@@ -1,5 +1,5 @@
 <div class="objective-informations">
-  <img *ngIf="record.icon != null && record.icon != undefined" src="{{ DestinyComponent.destinyAssetUrl + record.icon }}" alt="Record '{{ record.name }}'Icon">
+  <img *ngIf="record.icon != null && record.icon != undefined" src="{{ DestinyComponent.ASSET_URL + record.icon }}" alt="Record '{{ record.name }}'Icon">
   <img *ngIf="record.icon == null || record.icon == undefined" src="https://www.bungie.net/img/destiny_content/collections/undiscovered.png" alt="Record '{{ record.name }}'Icon">
   <div class="record-title-and-description">
     <div class="record-title">{{ record.name }}</div>

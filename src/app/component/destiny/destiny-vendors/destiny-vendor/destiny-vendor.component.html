@@ -2,8 +2,8 @@
   <div class="vendor-title">{{ vendor.progression.progressionNomenclature!.name }}</div>
   <div style="color: white" class="vendor-details">
     <div class="icons" title="{{ vendor.progression.progressionNomenclature?.description }}">
-      <img class="icon" src="{{ DestinyComponent.destinyAssetUrl + vendor.vendorNomenclature?.icon }}" alt="Vendor icon">
-      <img class="icon-background" id= "{{ vendor.vendorHash }}" src="{{ DestinyComponent.destinyAssetUrl + vendor.vendorNomenclature?.iconBackground }}" alt="Vendor icon background">
+      <img class="icon" src="{{ DestinyComponent.ASSET_URL + vendor.vendorNomenclature?.icon }}" alt="Vendor icon">
+      <img class="icon-background" id= "{{ vendor.vendorNomenclature.hash }}" src="{{ DestinyComponent.ASSET_URL + vendor.vendorNomenclature?.iconBackground }}" alt="Vendor icon background">
     </div>
     <div class="progressions" *ngIf="vendor.progression.levelCap != -1">
       <div>Rang {{ vendor.progression.level }} / {{ vendor.progression.levelCap }} ({{ Math.round(vendor.progression.progressToNextLevel / vendor.progression.nextLevelAt * 100) }}%)</div>

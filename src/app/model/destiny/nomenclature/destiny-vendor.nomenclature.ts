@@ -3,4 +3,5 @@ export class DestinyVendorNomenclature {
   name!: string;
   icon!: string;
   iconBackground!: string;
+  groupHash!: number;
 }

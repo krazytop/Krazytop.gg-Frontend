@@ -43,7 +43,7 @@ export class CrPlayerComponent implements OnChanges {
   importRemotePlayer(): Observable<CRPlayer> {
     return this.http
       .post<CRPlayer>(environment.apiURL + 'clash-royal/player/update/' + this.player?.id, {}, {
-        headers: HeaderService.getHeaders(),
+        headers: HeaderService.getBackendHeaders(),
       })
       .pipe(
         tap(() => {

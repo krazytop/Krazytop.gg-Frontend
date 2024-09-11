@@ -2,57 +2,59 @@
 <div *ngIf="isThisComponentReady" class="game-component">
   <destiny-profile class="component"
                    [isParentComponentReady]="isThisComponentReady"
-                   [profile]="dataStorage.profile">
+                   [profile]="profile"
+                   [characterTitleNomenclatures]="characterTitleNomenclatures">
   </destiny-profile>
   <destiny-component-selector class="component">
   </destiny-component-selector>
   <div class="game-data">
     <destiny-postmaster class="component"
                         [isParentComponentReady]="isThisComponentReady"
-                        [characterInventories]="dataStorage.profile.characterInventories"
-                        [itemInstances]="dataStorage.profile.itemInstances"
-                        [itemNomenclatures]="dataStorage.itemNomenclatures">
+                        [characterInventories]="profile.characterInventories"
+                        [itemInstances]="profile.itemInstances"
+                        [itemNomenclatures]="itemNomenclatures">
     </destiny-postmaster>
     <destiny-vendors *ngIf="componentToShow === 'vendors'" class="component"
+                     [vendorGroups]="vendorGroups"
                      [isParentComponentReady]="isThisComponentReady">
     </destiny-vendors>
     <destiny-collections *ngIf="componentToShow === 'collections'" class="component">
     </destiny-collections>
     <destiny-titles *ngIf="componentToShow === 'titles' && componentToShowArg1 === undefined" class="component"
                     [isParentComponentReady]="isThisComponentReady"
-                    [titlesPresentationTree]="dataStorage.presentationTrees.titles!"
-                    [archivedTitlesPresentationTree]="dataStorage.presentationTrees.archivedTitles!"
-                    [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
+                    [titlesPresentationTree]="presentationTrees.titles!"
+                    [archivedTitlesPresentationTree]="presentationTrees.archivedTitles!"
+                    [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-titles>
     <destiny-title *ngIf="componentToShow === 'titles' && componentToShowArg1 !== undefined" class="component"
                     [isParentComponentReady]="isThisComponentReady"
-                    [title]="dataStorage.componentArgs.selectedTitle!"
-                    [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
+                    [title]="componentArgs.selectedTitle!"
+                    [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-title>
     <destiny-characters *ngIf="componentToShow === 'characters'" class="component"
                         [isParentComponentReady]="isThisComponentReady"
-                        [profileInventory]="dataStorage.profile.profileInventory"
-                        [characterEquipment]="dataStorage.profile.characterEquipment"
-                        [characterInventories]="dataStorage.profile.characterInventories"
-                        [itemInstances]="dataStorage.profile.itemInstances"
-                        [itemNomenclatures]="dataStorage.itemNomenclatures"
-                        [characters]="dataStorage.profile.characters">
+                        [profileInventory]="profile.profileInventory"
+                        [characterEquipment]="profile.characterEquipment"
+                        [characterInventories]="profile.characterInventories"
+                        [itemInstances]="profile.itemInstances"
+                        [itemNomenclatures]="itemNomenclatures"
+                        [characters]="profile.characters">
     </destiny-characters>
     <destiny-models *ngIf="componentToShow === 'models'" class="component"
-                    [kineticWeaponModelsPresentationTree]="dataStorage.presentationTrees.kineticWeaponModels!"
-                    [energyWeaponModelsPresentationTree]="dataStorage.presentationTrees.energyWeaponModels!"
-                    [powerWeaponModelsPresentationTree]="dataStorage.presentationTrees.powerWeaponModels!"
-                    [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
+                    [kineticWeaponModelsPresentationTree]="presentationTrees.kineticWeaponModels!"
+                    [energyWeaponModelsPresentationTree]="presentationTrees.energyWeaponModels!"
+                    [powerWeaponModelsPresentationTree]="presentationTrees.powerWeaponModels!"
+                    [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-models>
     <destiny-catalysts *ngIf="componentToShow === 'catalysts'" class="component"
-                       [catalystsPresentationTree]="dataStorage.presentationTrees.catalysts!"
-                       [presentationNodeProgress]="dataStorage.profile.presentationNodeProgress">
+                       [catalystsPresentationTree]="presentationTrees.catalysts!"
+                       [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-catalysts>
     <destiny-main-inventory class="component"
                             [isParentComponentReady]="isThisComponentReady"
-                            [profileInventory]="dataStorage.profile.profileInventory"
-                            [profileCurrencies]="dataStorage.profile.profileCurrencies"
-                            [itemNomenclatures]="dataStorage.itemNomenclatures">
+                            [profileInventory]="profile.profileInventory"
+                            [profileCurrencies]="profile.profileCurrencies"
+                            [itemNomenclatures]="itemNomenclatures">
     </destiny-main-inventory>
   </div>
 </div>

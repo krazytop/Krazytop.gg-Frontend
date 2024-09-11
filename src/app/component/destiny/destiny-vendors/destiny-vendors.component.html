@@ -1,6 +1,6 @@
-<div *ngIf="isThisComponentReady" class="vendor-group-list">
+<div class="vendor-group-list">
   <div *ngFor="let vendorGroup of vendorGroups" class="subcomponent">
-    <div class="vendor-group-title">{{ vendorGroup.vendorGroupNomenclature!.name.toUpperCase() }}</div>
+    <div class="vendor-group-title">{{ vendorGroup.name.toUpperCase() }}</div>
     <div class="vendors">
       <div *ngFor="let vendor of vendorGroup.vendors">
         <destiny-vendor
@@ -9,8 +9,4 @@
       </div>
     </div>
   </div>
-</div>
-<div *ngIf="!isThisComponentReady" class="loading">
-  <img src="assets/logo/destiny_logo.png" alt="Destiny logo" class="loading-image">
-  <div class="loading-text">Récupération des données de Destiny</div>
 </div>

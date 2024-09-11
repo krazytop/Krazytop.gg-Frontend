@@ -3,6 +3,9 @@ import {NgForm} from '@angular/forms';
 import {Router} from "@angular/router";
 import {GameService} from "./game.service";
 import {BungieAuthService} from "../destiny/bungie-authentification/bungie-auth.service";
+import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
+import {DestinyDatabaseApi} from "../../service/destiny/DestinyDatabaseApi";
+import {DestinyDatabaseUpdateService} from "../../service/destiny/DestinyDatabaseUpdateService";
 
 @Component({
   selector: 'game-list',
@@ -21,7 +24,7 @@ export class GameListComponent implements OnInit {
   @ViewChild('riotForm') riotForm!: NgForm;
   @ViewChild('supercellForm') supercellForm!: NgForm;
 
-  constructor(private router: Router, private destinyAuthService: BungieAuthService) {
+  constructor(private router: Router, private destinyAuthService: BungieAuthService, private destinyDBService: DestinyDatabaseApi, private destinyDataService: DestinyDatabaseUpdateService) {
   }
 
   ngOnInit(): void {

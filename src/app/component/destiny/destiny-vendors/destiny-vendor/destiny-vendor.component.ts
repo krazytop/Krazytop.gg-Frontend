@@ -28,6 +28,7 @@ export class DestinyVendorComponent implements OnChanges, AfterViewInit {
 
   setXP() {
     if(this.vendor.progression.levelCap != -1) {
+      console.log(this.vendor.progression)
       const steps = this.vendor.progression.progressionNomenclature!.steps;
       let totalXP: number = 0;
       for(let step of steps) {
@@ -38,7 +39,7 @@ export class DestinyVendorComponent implements OnChanges, AfterViewInit {
   }
 
   setVendorColor(): void {
-    const img: HTMLImageElement = document.getElementById(String(this.vendor.vendorHash)) as HTMLImageElement;
+    const img: HTMLImageElement = document.getElementById(String(this.vendor.vendorNomenclature.hash)) as HTMLImageElement;
     img.crossOrigin = "Anonymous";
     if (img.complete) {
       this.extractColor(img);

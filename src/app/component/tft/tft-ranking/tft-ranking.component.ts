@@ -30,19 +30,19 @@ export class TftRankingComponent implements OnChanges {
   }
 
   getRank() {
-    this.http.get<TFTRank>('http://localhost:8080/tft/rank/' + this.summoner.id + '/' + "RANKED_TFT", {headers: HeaderService.getHeaders()}).subscribe((response: TFTRank) => {
+    this.http.get<TFTRank>('http://localhost:8080/tft/rank/' + this.summoner.id + '/' + "RANKED_TFT", {headers: HeaderService.getBackendHeaders()}).subscribe((response: TFTRank) => {
       this.soloRank = response;
     })
   }
 
   getHyperRollRank() {
-    this.http.get<TFTRank>('http://localhost:8080/tft/rank/' + this.summoner.id + '/' + "RANKED_TFT_TURBO", {headers: HeaderService.getHeaders()}).subscribe((response: TFTRank) => {
+    this.http.get<TFTRank>('http://localhost:8080/tft/rank/' + this.summoner.id + '/' + "RANKED_TFT_TURBO", {headers: HeaderService.getBackendHeaders()}).subscribe((response: TFTRank) => {
       this.hyperRollRank = response;
     })
   }
 
   getDoubleUpRank() {
-    this.http.get<TFTRank>('http://localhost:8080/tft/rank/' + this.summoner.id + '/' + "RANKED_TFT_DOUBLE_UP", {headers: HeaderService.getHeaders()}).subscribe((response: TFTRank) => {
+    this.http.get<TFTRank>('http://localhost:8080/tft/rank/' + this.summoner.id + '/' + "RANKED_TFT_DOUBLE_UP", {headers: HeaderService.getBackendHeaders()}).subscribe((response: TFTRank) => {
       this.doubleUpRank = response;
     })
   }
