@@ -5,6 +5,7 @@ import {TFTRank} from "../../../model/tft/tft-rank.model";
 import {HttpClient} from "@angular/common/http";
 import {concatMap, Observable, tap} from "rxjs";
 import {LOLRank} from "../../../model/lol/lol-rank.model";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'riot-summoner',
@@ -43,7 +44,7 @@ export class RiotSummonerComponent implements OnChanges {
 
   importRemoteSummoner(): Observable<RIOTSummoner> {
     return this.http
-      .post<RIOTSummoner>('http://localhost:8080/riot/summoner/update/' + this.summoner!.region + '/' + this.summoner!.tag + '/' + this.summoner!.name, {}, {
+      .post<RIOTSummoner>(environment.apiURL + 'riot/summoner/update/' + this.summoner!.region + '/' + this.summoner!.tag + '/' + this.summoner!.name, {}, {
         headers: HeaderService.getBackendHeaders(),
       })
       .pipe( //TODO supprimer
@@ -68,28 +69,28 @@ export class RiotSummonerComponent implements OnChanges {
 
   updateTFTRanks(): Observable<TFTRank[]> {
     return this.http
-      .post<TFTRank[]>('http://localhost:8080/tft/rank/' + this.summoner!.id, {}, {
+      .post<TFTRank[]>(environment.apiURL + 'tft/rank/' + this.summoner!.id, {}, {
         headers: HeaderService.getBackendHeaders(),
       });
   }
 
   updateLOLRanks(): Observable<TFTRank[]> {
     return this.http
-      .post<LOLRank[]>('http://localhost:8080/lol/rank/' + this.summoner!.id, {}, {
+      .post<LOLRank[]>(environment.apiURL + 'lol/rank/' + this.summoner!.id, {}, {
         headers: HeaderService.getBackendHeaders(),
       });
   }
 
   updateTFTMatches(): Observable<Object> {
     return this.http
-      .post('http://localhost:8080/tft/matches/' + this.summoner!.puuid, {}, {
+      .post(environment.apiURL + 'tft/matches/' + this.summoner!.puuid, {}, {
         headers: HeaderService.getBackendHeaders(),
       });
   }
 
   updateLOLMatches(): Observable<Object> {
     return this.http
-      .post('http://localhost:8080/lol/matches/' + this.summoner!.puuid, {}, {
+      .post(environment.apiURL + 'lol/matches/' + this.summoner!.puuid, {}, {
         headers: HeaderService.getBackendHeaders(),
       });
   }

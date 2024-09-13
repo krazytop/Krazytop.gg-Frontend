@@ -14,7 +14,7 @@ export class LolMatchComponent implements OnInit {
   @Input() match!: LOLMatch;
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
 
-  summonerParticipant: LOLParticipant | undefined;
+  summonerParticipant!: LOLParticipant;
   allDataIsDisplayed: boolean = false;
   summonerTeam: LOLTeam = new LOLTeam();
   enemyTeam: LOLTeam = new LOLTeam();
@@ -23,6 +23,8 @@ export class LolMatchComponent implements OnInit {
   ngOnInit(): void {
     this.findSummonerTeamAndParticipant();
     this.setTopDamage();
+    const versionArray = this.match.version.split('.');
+    this.match.version = `${versionArray[0]}.${versionArray[1]}.1`;
   }
 
   findSummonerTeamAndParticipant(): void {
@@ -40,6 +42,14 @@ export class LolMatchComponent implements OnInit {
         break;
       }
     }
+  }
+
+  getImageUrl(image: string, component: string) {
+    return `https://ddragon.leagueoflegends.com/cdn/${this.match.version}/img/${component}/${image}`;
+  }
+
+  getRuneImageUrl(image: string) {
+    return `https://ddragon.leagueoflegends.com/cdn/img/${image}`
   }
 
   getGameDuration(): string {

@@ -4,19 +4,19 @@
                  (participant.summoner.puuid === summoner.puuid ? '#3f0000' : '#770000')}">
   <div class="participant-main-information">
     <div class="champion">
-      <img src="assets/data/riot/riot-champions/{{ participant.champion.image }}">
+      <img src="{{ getImageUrl(participant.champion.image, 'champion') }}" alt="Champion">
       <div style="align-self: flex-start;">
         <h4 class="champion-level">{{ participant.champLevel }}</h4>
       </div>
 
     </div>
     <div class="rune-and-summoner-spells">
-      <img src="assets/data/lol/lol-summoner-spells/{{ participant.summonerSpell1.image }}" *ngIf="participant.summonerSpell1.image else noItemImage">
-      <img src="assets/data/lol/lol-summoner-spells/{{ participant.summonerSpell2.image }}" *ngIf="participant.summonerSpell2.image else noItemImage">
+      <img src="{{ getImageUrl(participant.summonerSpell1.image, 'spell') }}" *ngIf="participant.summonerSpell1.image else noItemImage" alt="Summoner Spell">
+      <img src="{{ getImageUrl(participant.summonerSpell2.image, 'spell') }}" *ngIf="participant.summonerSpell2.image else noItemImage" alt="Summoner Spell">
     </div>
     <div class="rune-and-summoner-spells">
-      <img src="assets/data/lol/lol-runes/{{ participant.runes.primaryRuneFirstPerk.image }}" *ngIf="participant.runes.primaryRuneFirstPerk.image else noItemImage">
-      <img src="assets/data/lol/lol-runes/{{ participant.runes.secondaryRuneCategory.image }}" *ngIf="participant.runes.secondaryRuneCategory; else noItemImage">
+      <img src="{{ getRuneImageUrl(participant.runes.primaryRuneFirstPerk.image) }}" *ngIf="participant.runes.primaryRuneFirstPerk.image else noItemImage" alt="Rune">
+      <img src="{{ getRuneImageUrl(participant.runes.secondaryRuneCategory.image) }}" *ngIf="participant.runes.secondaryRuneCategory; else noItemImage" alt="Rune">
     </div>
   </div>
   <div style="display: flex; align-items: center; justify-content: center;">
@@ -43,13 +43,13 @@
   <div class="scores">{{ participant.minions }}</div>
   <div class="scores">{{ participant.visionScore }}</div>
   <div class="items">
-    <img src="assets/data/lol/lol-items/{{ participant.item0?.image }}" *ngIf="participant.item0?.image; else noItemImage">
-    <img src="assets/data/lol/lol-items/{{ participant.item1?.image }}" *ngIf="participant.item1?.image; else noItemImage">
-    <img src="assets/data/lol/lol-items/{{ participant.item2?.image }}" *ngIf="participant.item2?.image; else noItemImage">
-    <img src="assets/data/lol/lol-items/{{ participant.item3?.image }}" *ngIf="participant.item3?.image; else noItemImage">
-    <img src="assets/data/lol/lol-items/{{ participant.item4?.image }}" *ngIf="participant.item4?.image; else noItemImage">
-    <img src="assets/data/lol/lol-items/{{ participant.item5?.image }}" *ngIf="participant.item5?.image; else noItemImage">
-    <img src="assets/data/lol/lol-items/{{ participant.ward?.image }}" *ngIf="participant.ward?.image; else noItemImage">
+    <img src="{{ getImageUrl(participant?.item0?.image!, 'item') }}" *ngIf="participant.item0?.image; else noItemImage" alt="Item">
+    <img src="{{ getImageUrl(participant?.item1?.image!, 'item') }}" *ngIf="participant.item1?.image; else noItemImage" alt="Item">
+    <img src="{{ getImageUrl(participant?.item2?.image!, 'item') }}" *ngIf="participant.item2?.image; else noItemImage" alt="Item">
+    <img src="{{ getImageUrl(participant?.item3?.image!, 'item') }}" *ngIf="participant.item3?.image; else noItemImage" alt="Item">
+    <img src="{{ getImageUrl(participant?.item4?.image!, 'item') }}" *ngIf="participant.item4?.image; else noItemImage" alt="Item">
+    <img src="{{ getImageUrl(participant?.item5?.image!, 'item') }}" *ngIf="participant.item5?.image; else noItemImage" alt="Item">
+    <img src="{{ getImageUrl(participant?.ward?.image!, 'item') }}" *ngIf="participant.ward?.image; else noItemImage" alt="Item">
   </div>
 </div>
 <ng-template #noItemImage>

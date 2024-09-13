@@ -1,9 +1,10 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {HttpClient} from "@angular/common/http";
 import {HeaderService} from "../../../config/headers.service";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
 import {LolSearchCriteriaComponent} from "../lol-search-criteria/lol-search-criteria.component";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'lol-matches',
@@ -40,7 +41,7 @@ export class LolMatchesComponent implements OnChanges {
   constructor(private http: HttpClient) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.matchesPages = [];
     this.nextPage = 0;
     this.isFirstPage = true;
@@ -51,7 +52,7 @@ export class LolMatchesComponent implements OnChanges {
   }
 
   getMatches() {
-    let baseUrl: string = 'http://localhost:8080/lol/matches/' + this.summoner.puuid + '/' + this.nextPage.toString();
+    let baseUrl: string = environment.apiURL + 'lol/matches/' + this.summoner.puuid + '/' + this.nextPage.toString();
     this.http.get<LOLMatch[]>(this.generateUrlWithRole(this.generateUrlWithQueue(baseUrl)), {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.matchesPages.push(response);
       this.nextPage++;
@@ -63,7 +64,7 @@ export class LolMatchesComponent implements OnChanges {
   }
 
   setMatchesCount() {
-    let baseUrl: string = 'http://localhost:8080/lol/matches/count/' + this.summoner.puuid;
+    let baseUrl: string = environment.apiURL + 'lol/matches/count/' + this.summoner.puuid;
     this.http.get<number>(this.generateUrlWithRole(this.generateUrlWithQueue(baseUrl)), {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.matchesCount = response;
     })

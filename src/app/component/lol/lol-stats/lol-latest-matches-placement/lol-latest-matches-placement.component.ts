@@ -3,6 +3,7 @@ import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {HttpClient} from "@angular/common/http";
 import {HeaderService} from "../../../../config/headers.service";
 import {LolSearchCriteriaComponent} from "../../lol-search-criteria/lol-search-criteria.component";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'lol-latest-matches-placement',
@@ -44,7 +45,7 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
   }
 
   getLatestMatchesResults() {
-    let url: string = 'http://localhost:8080/lol/stats/latest-matches-placement/' + this.summoner.puuid;
+    let url: string = environment.apiURL + 'lol/stats/latest-matches-placement/' + this.summoner.puuid;
     if (this.queue === LolSearchCriteriaComponent.soloRanked) {
       url += `/${this.soloRanked}`;
     } else if (this.queue === LolSearchCriteriaComponent.flexRanked) {

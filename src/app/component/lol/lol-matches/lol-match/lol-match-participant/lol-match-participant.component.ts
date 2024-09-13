@@ -13,11 +13,20 @@ export class LolMatchParticipantComponent implements OnInit {
   @Input() topDamage!: number;
   @Input() summoner!: RIOTSummoner;
   @Input() hasWin!: boolean;
+  @Input() matchVersion!: string;
 
   damage: number = 0;
 
   ngOnInit(): void {
     this.setDamage();
+  }
+
+  getImageUrl(image: string, component: string) {
+    return `https://ddragon.leagueoflegends.com/cdn/${this.matchVersion}/img/${component}/${image}`;
+  }
+
+  getRuneImageUrl(image: string) {
+    return `https://ddragon.leagueoflegends.com/cdn/img/${image}`
   }
 
   getKDA(): string {

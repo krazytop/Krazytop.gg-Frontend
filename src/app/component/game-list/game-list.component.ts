@@ -64,7 +64,7 @@ export class GameListComponent implements OnInit {
   }
 
   async redirectToDestinyPage() {
-    if(await this.destinyAuthService.checkTokenValidity()) {
+    if(await this.destinyAuthService.checkTokenValidity()) { //TODO check aussi avant d afficher comme quoi il y a une user connecté
       await this.destinyAuthService.redirectToDestinyPage(this.destinyAuthService.getPlayerTokens()!)
     }
   }

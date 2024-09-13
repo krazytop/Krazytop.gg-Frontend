@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {HeaderService} from "../../../../config/headers.service";
 import {TftSearchCriteriaComponent} from "../../tft-search-criteria/tft-search-criteria.component";
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'tft-latest-matches-placement',
@@ -33,7 +34,7 @@ export class TftLatestMatchesPlacementComponent implements OnChanges {
   }
 
   getLatestMatchesPlacement() {
-    let url: string = 'http://localhost:8080/tft/stats/latest-matches-placement/' + this.summoner.puuid + '/' + this.set;
+    let url: string = environment.apiURL + 'tft/stats/latest-matches-placement/' + this.summoner.puuid + '/' + this.set;
     if (this.queue == TftSearchCriteriaComponent.soloRanked) {
       url += `/${(this.soloQueue)}`
     } else if (this.queue == TftSearchCriteriaComponent.hyperRoll) {

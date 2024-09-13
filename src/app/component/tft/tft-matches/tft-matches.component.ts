@@ -4,6 +4,7 @@ import {HeaderService} from "../../../config/headers.service";
 import {TFTMatch} from "../../../model/tft/tft-match.model";
 import {TftSearchCriteriaComponent} from "../tft-search-criteria/tft-search-criteria.component";
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'tft-matches',
@@ -42,7 +43,7 @@ export class TftMatchesComponent implements OnChanges {
   }
 
   getMatches() {
-    let baseUrl: string = 'http://localhost:8080/tft/matches/' + this.summoner.puuid + '/' + this.nextPage.toString() + '/' + this.set;
+    let baseUrl: string = environment.apiURL + 'tft/matches/' + this.summoner.puuid + '/' + this.nextPage.toString() + '/' + this.set;
     this.http.get<TFTMatch[]>(this.generateUrlWithQueue(baseUrl), {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.matchesPages.push(response);
       this.nextPage++;
@@ -54,7 +55,7 @@ export class TftMatchesComponent implements OnChanges {
   }
 
   setMatchesCount() {
-    let baseUrl: string = 'http://localhost:8080/tft/matches/count/' + this.summoner.puuid + '/' + this.set;
+    let baseUrl: string = environment.apiURL + 'tft/matches/count/' + this.summoner.puuid + '/' + this.set;
     this.http.get<number>(this.generateUrlWithQueue(baseUrl), {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
       this.matchesCount = response;
     })

@@ -3,6 +3,7 @@ import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {HttpClient} from "@angular/common/http";
 import {HeaderService} from "../../../config/headers.service";
 import {LOLRank} from "../../../model/lol/lol-rank.model";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'lol-ranking',
@@ -28,13 +29,13 @@ export class LolRankingComponent implements OnChanges {
   }
 
   getSoloRank() {
-    this.http.get<LOLRank>('http://localhost:8080/lol/rank/' + this.summoner.id + '/' + "RANKED_SOLO_5x5", {headers: HeaderService.getBackendHeaders(),}).subscribe((response: LOLRank) => {
+    this.http.get<LOLRank>(environment.apiURL + 'lol/rank/' + this.summoner.id + '/' + "RANKED_SOLO_5x5", {headers: HeaderService.getBackendHeaders(),}).subscribe((response: LOLRank) => {
       this.soloRank = response;
     })
   }
 
   getFlexRank() {
-    this.http.get<LOLRank>('http://localhost:8080/lol/rank/' + this.summoner.id + '/' + "RANKED_FLEX_SR", {headers: HeaderService.getBackendHeaders(),}).subscribe((response: LOLRank) => {
+    this.http.get<LOLRank>(environment.apiURL + 'lol/rank/' + this.summoner.id + '/' + "RANKED_FLEX_SR", {headers: HeaderService.getBackendHeaders(),}).subscribe((response: LOLRank) => {
       this.flexRank = response;
     })
   }
