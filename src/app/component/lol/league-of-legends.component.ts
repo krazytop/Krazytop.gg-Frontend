@@ -11,7 +11,7 @@ import {LOLSearchCriteriaService} from "./lol-search-criteria/lol-search-criteri
 })
 export class LeagueOfLegendsComponent implements OnInit {
 
-  isThisComponentReady: boolean = false;
+  isThisComponentReady: boolean = true;
 
   localSummoner: RIOTSummoner | undefined;
   remoteSummoner: RIOTSummoner | undefined;
@@ -21,36 +21,28 @@ export class LeagueOfLegendsComponent implements OnInit {
   constructor(private summonerService: SummonerService, private searchCriteriaService: LOLSearchCriteriaService, private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let region = "";
+    let tag = "";
+    let name = "";
+    let queue = "";
+    let role = "";
+    this.isThisComponentReady = false;
     this.route.params.subscribe(params => {
-      const region = params['region'];
-      const tag = params['tag'];
-      const name = params['name'];
-      const queue = params['queue'];
-      const role = params['role'];
-      this.searchCriteriaService.initQueue(queue);
-      this.searchCriteriaService.initRole(role);
-      if (this.localSummoner?.name == name && this.localSummoner?.region == region) {
-        this.isThisComponentReady = true;
-      } else {
-        this.remoteSummoner = undefined;
-        this.localSummoner = undefined;
-        this.summonerService.getLocalSummoner(region, tag, name).subscribe((localSummoner: RIOTSummoner) => {
-          if (localSummoner == null) {
-            this.summonerService.getRemoteSummoner(region, tag, name).subscribe((remoteSummoner: RIOTSummoner) => {
-              if (remoteSummoner != null) {
-                this.remoteSummoner = remoteSummoner;
-              }
-              this.isThisComponentReady = true;
-            });
-          } else {
-            this.localSummoner = localSummoner
-            this.isThisComponentReady = true
-          }
-          this.isThisComponentReady = true;
-        });
-      }
+      region = params['region'];
+      tag = params['tag'];
+      name = params['name'];
+      queue = params['queue'];
+      role = params['role'];
     });
+    this.searchCriteriaService.initQueue(queue);
+    this.searchCriteriaService.initRole(role);
+    if (this.localSummoner?.name != name || this.localSummoner?.region != region) {
+      const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(region, tag, name);
+      this.localSummoner = localSummoner;
+      this.remoteSummoner = remoteSummoner
+    }
+    this.isThisComponentReady = true;
   }
 
 }

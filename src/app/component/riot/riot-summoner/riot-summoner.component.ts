@@ -1,11 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {HeaderService} from "../../../config/headers.service";
-import {TFTRank} from "../../../model/tft/tft-rank.model";
-import {HttpClient} from "@angular/common/http";
-import {concatMap, Observable, tap} from "rxjs";
-import {LOLRank} from "../../../model/lol/lol-rank.model";
-import {environment} from "../../../../environments/environment";
+import {SummonerService} from "./summoner.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'riot-summoner',
@@ -14,7 +10,6 @@ import {environment} from "../../../../environments/environment";
 })
 export class RiotSummonerComponent implements OnChanges {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() localSummoner: RIOTSummoner | undefined;
   @Input() remoteSummoner: RIOTSummoner | undefined;
 
@@ -22,82 +17,36 @@ export class RiotSummonerComponent implements OnChanges {
   summoner: RIOTSummoner | undefined;
   nextAllowedUpdate: number = 0;
 
-  constructor(private http: HttpClient) {
+  constructor(private summonerService: SummonerService, private route: ActivatedRoute) {
   }
 
   ngOnChanges(): void {
-    if (this.isParentComponentReady) {
-      if (this.localSummoner != undefined) {
-        this.summoner = this.localSummoner;
+    if (this.localSummoner != undefined) {
+      this.summoner = this.localSummoner;
+      this.updateRemainingTime();
+      setInterval(() => {
         this.updateRemainingTime();
-        setInterval(() => {
-          this.updateRemainingTime();
-        }, 1000);
-      } else if (this.remoteSummoner != undefined) {
-        this.summoner = this.remoteSummoner;
-      } else {
-        this.summoner = undefined;
-      }
-      this.isThisComponentReady = true;
+      }, 1000);
+    } else if (this.remoteSummoner != undefined) {
+      this.summoner = this.remoteSummoner;
+    } else {
+      this.summoner = undefined;
     }
+    this.isThisComponentReady = true;
   }
 
-  importRemoteSummoner(): Observable<RIOTSummoner> {
-    return this.http
-      .post<RIOTSummoner>(environment.apiURL + 'riot/summoner/update/' + this.summoner!.region + '/' + this.summoner!.tag + '/' + this.summoner!.name, {}, {
-        headers: HeaderService.getBackendHeaders(),
-      })
-      .pipe( //TODO supprimer
-        tap(() => {
-        })
-      );
-  }
-
-  updateSummoner(): void {
+  async updateData() {
     if (this.nextAllowedUpdate === 0) {
-      this.importRemoteSummoner()
-        .pipe(/*
-          concatMap(() => this.updateTFTRanks()),*/
-          concatMap(() => this.updateLOLRanks()),/*
-          concatMap(() => this.updateTFTMatches()),*/
-          concatMap(() => this.updateLOLMatches()),
-          tap(() => location.reload())
-        )
-        .subscribe();
+      let role: string | undefined;
+      this.route.params.subscribe(params => {
+        role = params['role'];
+      })
+      role ? await this.summonerService.updateLOLData(this.summoner!) : await this.summonerService.updateTFTData(this.summoner!)
     }
-  }
-
-  updateTFTRanks(): Observable<TFTRank[]> {
-    return this.http
-      .post<TFTRank[]>(environment.apiURL + 'tft/rank/' + this.summoner!.id, {}, {
-        headers: HeaderService.getBackendHeaders(),
-      });
-  }
-
-  updateLOLRanks(): Observable<TFTRank[]> {
-    return this.http
-      .post<LOLRank[]>(environment.apiURL + 'lol/rank/' + this.summoner!.id, {}, {
-        headers: HeaderService.getBackendHeaders(),
-      });
-  }
-
-  updateTFTMatches(): Observable<Object> {
-    return this.http
-      .post(environment.apiURL + 'tft/matches/' + this.summoner!.puuid, {}, {
-        headers: HeaderService.getBackendHeaders(),
-      });
-  }
-
-  updateLOLMatches(): Observable<Object> {
-    return this.http
-      .post(environment.apiURL + 'lol/matches/' + this.summoner!.puuid, {}, {
-        headers: HeaderService.getBackendHeaders(),
-      });
   }
 
   updateRemainingTime() {
-    const currentTime = new Date();
-    const elapsedTimeInSeconds = (currentTime.getTime() - new Date(this.summoner!.updateDate!).getTime()) / 1000;
+    const elapsedTimeInSeconds = (new Date().getTime() - new Date(this.summoner!.updateDate!).getTime()) / 1000;
     this.nextAllowedUpdate = Math.floor(Math.max(0, 60 - elapsedTimeInSeconds));
   }
 

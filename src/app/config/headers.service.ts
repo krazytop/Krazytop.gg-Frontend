@@ -6,8 +6,6 @@ import {Injectable} from '@angular/core';
 export class HeaderService {
 
   static getBackendHeaders(): { [key: string]: string } {
-    return {
-      'Authorization' : 'Basic ' + btoa('krazytop' + ':' + 'password')
-    };
+    return {'Authorization' : 'Basic ' + btoa('krazytop' + ':' + 'password')};
   }
 }

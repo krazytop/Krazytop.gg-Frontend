@@ -12,7 +12,7 @@ import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
 
 export class TeamfightTacticsComponent implements OnInit {
 
-  isThisComponentReady: boolean = false;
+  isThisComponentReady: boolean = true;
 
   localSummoner: RIOTSummoner | undefined;
   remoteSummoner: RIOTSummoner | undefined;
@@ -22,35 +22,27 @@ export class TeamfightTacticsComponent implements OnInit {
   constructor(private summonerService: SummonerService, private searchCriteriaService: TftSearchCriteriaService, private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let region = "";
+    let tag = "";
+    let name = "";
+    let queue = "";
+    let set = "";
+    this.isThisComponentReady = false;
     this.route.params.subscribe(params => {
-      const region = params['region'];
-      const tag = params['tag'];
-      const name = params['name'];
-      const queue = params['queue'];
-      const set = params['set'];
-      this.searchCriteriaService.initQueue(queue);
-      this.searchCriteriaService.initSet(set);
-      if (this.localSummoner?.name == name && this.localSummoner?.region == region) {
-        this.isThisComponentReady = true;
-      } else {
-        this.remoteSummoner = undefined;
-        this.localSummoner = undefined;
-        this.summonerService.getLocalSummoner(region, tag, name).subscribe((localSummoner: RIOTSummoner) => {
-          if (localSummoner == null) {
-            this.summonerService.getRemoteSummoner(region, tag, name).subscribe((remoteSummoner: RIOTSummoner) => {
-              if (remoteSummoner != null) {
-                this.remoteSummoner = remoteSummoner;
-              }
-              this.isThisComponentReady = true;
-            });
-          } else {
-            this.localSummoner = localSummoner
-            this.isThisComponentReady = true
-          }
-          this.isThisComponentReady = true;
-        });
-      }
+      region = params['region'];
+      tag = params['tag'];
+      name = params['name'];
+      queue = params['queue'];
+      set = params['role'];
     });
+    this.searchCriteriaService.initQueue(queue);
+    this.searchCriteriaService.initSet(set);
+    if (this.localSummoner?.name != name || this.localSummoner?.region != region) {
+      const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(region, tag, name);
+      this.localSummoner = localSummoner;
+      this.remoteSummoner = remoteSummoner
+    }
+    this.isThisComponentReady = true;
   }
 }

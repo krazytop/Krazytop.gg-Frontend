@@ -3,8 +3,9 @@ import {LOLChampion} from "./lol-champion.model";
 import {LOLParticipant} from "./lol-participant.model";
 
 export class LOLTeam {
-  hasWin: boolean = false;
-  objectives: LOLObjectives = new LOLObjectives();
-  bannedChampions: LOLChampion[] = [];
-  participants: LOLParticipant[] = [];
+  hasWin!: boolean;
+  objectives!: LOLObjectives;
+  bans!: LOLChampion[];
+  participants!: LOLParticipant[];
+  id!: string;
 }

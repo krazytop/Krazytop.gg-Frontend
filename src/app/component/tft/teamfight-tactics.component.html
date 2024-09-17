@@ -1,7 +1,6 @@
 <navbar></navbar>
 <div *ngIf="isThisComponentReady" class="game-component">
   <riot-summoner
-    [isParentComponentReady]="isThisComponentReady"
     [localSummoner]="localSummoner"
     [remoteSummoner]="remoteSummoner" class="component">
   </riot-summoner>

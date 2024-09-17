@@ -1,6 +1,5 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {HttpClient} from "@angular/common/http";
 import {HeaderService} from "../../../config/headers.service";
 import {LOLRank} from "../../../model/lol/lol-rank.model";
 import {environment} from "../../../../environments/environment";
@@ -12,32 +11,28 @@ import {environment} from "../../../../environments/environment";
 })
 export class LolRankingComponent implements OnChanges {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
+
+  waitingScreen: boolean = true;
 
   soloRank!: LOLRank;
   flexRank!: LOLRank;
 
-  constructor(private http: HttpClient) {
+  async ngOnChanges() {
+    this.waitingScreen = true;
+    await this.getSoloRank();
+    await this.getFlexRank();
+    this.waitingScreen = false;
   }
 
-  ngOnChanges(): void {
-    if (this.isParentComponentReady) {
-      this.getSoloRank();
-      this.getFlexRank();
-    }
+  async getSoloRank() {
+    const response = await fetch(`${environment.apiURL}lol/rank/${this.summoner.id}/RANKED_SOLO_5x5`, {headers: HeaderService.getBackendHeaders(),});
+    this.soloRank = await response.json();
   }
 
-  getSoloRank() {
-    this.http.get<LOLRank>(environment.apiURL + 'lol/rank/' + this.summoner.id + '/' + "RANKED_SOLO_5x5", {headers: HeaderService.getBackendHeaders(),}).subscribe((response: LOLRank) => {
-      this.soloRank = response;
-    })
-  }
-
-  getFlexRank() {
-    this.http.get<LOLRank>(environment.apiURL + 'lol/rank/' + this.summoner.id + '/' + "RANKED_FLEX_SR", {headers: HeaderService.getBackendHeaders(),}).subscribe((response: LOLRank) => {
-      this.flexRank = response;
-    })
+  async getFlexRank() {
+    const response = await fetch(`${environment.apiURL}lol/rank/${this.summoner.id}/RANKED_TEAM_5x5'`, {headers: HeaderService.getBackendHeaders(),})
+    this.flexRank = await response.json();
   }
 
 }

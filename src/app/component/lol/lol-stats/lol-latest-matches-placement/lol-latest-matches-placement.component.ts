@@ -12,7 +12,6 @@ import {environment} from "../../../../../environments/environment";
 })
 export class LolLatestMatchesPlacementComponent implements OnChanges {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() queue: string = "";
   @Input() role: string = "";
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
@@ -39,9 +38,7 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    if (this.isParentComponentReady) {
-      this.getLatestMatchesResults();
-    }
+    this.getLatestMatchesResults();
   }
 
   getLatestMatchesResults() {

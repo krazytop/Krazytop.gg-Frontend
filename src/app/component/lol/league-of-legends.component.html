@@ -1,7 +1,6 @@
 <navbar></navbar>
 <div *ngIf="isThisComponentReady" class="game-component">
   <riot-summoner class="component"
-    [isParentComponentReady]="isThisComponentReady"
     [localSummoner]="localSummoner"
     [remoteSummoner]="remoteSummoner">
   </riot-summoner>
@@ -11,17 +10,14 @@
   </lol-search-criteria>
   <div *ngIf="localSummoner" class="game-data">
     <lol-ranking class="lol-ranking component"
-      [isParentComponentReady]="isThisComponentReady"
       [summoner]="localSummoner">
     </lol-ranking>
     <lol-matches class="lol-matches component"
-      [isParentComponentReady]="isThisComponentReady"
       [queue]="LOLSearchCriteriaService.queue"
       [role]="LOLSearchCriteriaService.role"
       [summoner]="localSummoner">
     </lol-matches>
     <lol-latest-matches-placement class="lol-latest-matches-placement component"
-      [isParentComponentReady]="isThisComponentReady"
       [queue]="LOLSearchCriteriaService.queue"
       [role]="LOLSearchCriteriaService.role"
       [summoner]="localSummoner">
