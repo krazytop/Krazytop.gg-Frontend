@@ -7,9 +7,9 @@
     <ng-template #notFirstPlace>
       <div class="main-summary">{{ summonerParticipant?.placement }}th</div>
     </ng-template>
-    <div class="complementary-summary">{{ getDatetime() }}</div>
+    <div class="complementary-summary">{{ timeService.getTimeFrom(match.datetime) }}</div>
     <hr>
-    <div class="complementary-summary">{{ getLifetime() }}</div>
+    <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.length) }}</div>
     <img src="assets/data/tft/tft-queues/{{ match.queue.image }}">
   </div>
 

@@ -15,8 +15,8 @@ export class LolRankingComponent implements OnChanges {
 
   waitingScreen: boolean = true;
 
-  soloRank!: LOLRank;
-  flexRank!: LOLRank;
+  soloRank?: LOLRank;
+  flexRank?: LOLRank;
 
   async ngOnChanges() {
     this.waitingScreen = true;

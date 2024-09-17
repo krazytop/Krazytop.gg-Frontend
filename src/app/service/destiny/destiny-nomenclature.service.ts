@@ -1,4 +1,4 @@
-import {DestinyDatabaseApi} from "./DestinyDatabaseApi";
+import {DestinyDatabaseApi} from "./destiny-database.api";
 import {Injectable} from "@angular/core";
 import {DestinyProfileModel} from "../../model/destiny/destiny-profile.model";
 import {Engrams, MainCurrencies} from "../../model/destiny/enum/DestinyMainInventoryEnum";

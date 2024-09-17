@@ -12,11 +12,11 @@ import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-
 import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-progression.model";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
-import {DestinyNomenclatureService} from "../../service/destiny/DestinyNomenclatureService";
+import {DestinyNomenclatureService} from "../../service/destiny/destiny-nomenclature.service";
 import {DestinyComponentArgs} from "../../model/destiny/destiny-component-args";
 import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-presentation-trees.model";
-import {DestinyDatabaseApi} from "../../service/destiny/DestinyDatabaseApi";
-import {DestinyDatabaseUpdateService} from "../../service/destiny/DestinyDatabaseUpdateService";
+import {DestinyDatabaseApi} from "../../service/destiny/destiny-database.api";
+import {DestinyDatabaseUpdateService} from "../../service/destiny/destiny-database-update.service";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
 import {DestinyProgressionNomenclature} from "../../model/destiny/nomenclature/destiny-progression.nomenclature";
 import {group} from "@angular/animations";
