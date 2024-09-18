@@ -6,7 +6,7 @@ import {environment} from "../../../../environments/environment";
 @Injectable({
   providedIn: 'root',
 })
-export class SummonerService {
+export class SummonerService {//TODO refresh data after an update
 
   private async getLocalSummoner(region: string, tag: string, name: string) {
     const response = await fetch(`${environment.apiURL}riot/summoner/local/${region}/${tag}/${name}`, {headers: HeaderService.getBackendHeaders()});
@@ -47,25 +47,25 @@ export class SummonerService {
 
   private async updateLOLRanks(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}lol/rank/${summoner.id}`,
-      {headers: HeaderService.getBackendHeaders()});
+      {headers: HeaderService.getBackendHeaders(), method: 'POST'});
     return await response.json();
   }
 
   private async updateTFTRanks(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}tft/rank/${summoner.id}`,
-      {headers: HeaderService.getBackendHeaders()});
+      {headers: HeaderService.getBackendHeaders(), method: 'POST'});
     return await response.json();
   }
 
   private async updateLOLMatches(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}lol/matches/${summoner.puuid}`,
-      {headers: HeaderService.getBackendHeaders()});
+      {headers: HeaderService.getBackendHeaders(), method: 'POST'});
     return await response.json();
   }
 
   private async updateTFTMatches(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}tft/matches/${summoner.puuid}`,
-      {headers: HeaderService.getBackendHeaders()});
+      {headers: HeaderService.getBackendHeaders(), method: 'POST'});
     return await response.json();
   }
 

@@ -27,12 +27,15 @@ export class LolRankingComponent implements OnChanges {
 
   async getSoloRank() {
     const response = await fetch(`${environment.apiURL}lol/rank/${this.summoner.id}/RANKED_SOLO_5x5`, {headers: HeaderService.getBackendHeaders(),});
+    console.log(response)
     this.soloRank = await response.json();
+    console.log(this.soloRank)
   }
 
   async getFlexRank() {
     const response = await fetch(`${environment.apiURL}lol/rank/${this.summoner.id}/RANKED_TEAM_5x5'`, {headers: HeaderService.getBackendHeaders(),})
     this.flexRank = await response.json();
+    console.log(this.flexRank)
   }
 
 }

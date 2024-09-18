@@ -6,7 +6,7 @@
       </div>
       <div class="complementary-summary">{{ timeService.getTimeFrom(match.datetime) }}</div>
       <hr>
-      <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.length) }}</div>
+      <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.duration) }}</div>
       <img src="assets/data/tft/tft-queues/1100.png">
     </div>
 
@@ -53,7 +53,7 @@
               <div>{{ participant.summoner.name }}</div>
             </a>
           </ng-template>
-          <img class="game-participant-main-champion" src="assets/data/riot/riot-champions/{{ participant.champion.image }}">
+          <img class="game-participant-main-champion" src="{{ getImageUrl(participant.champion.image, 'champion') }}">
         </div>
       </div>
       <div class="game-team roles">
@@ -113,5 +113,5 @@
 </ng-template>
 
 <ng-template #noItemImage>
-  <img src="assets/data/lol/lol-items/empty.png" style="opacity: 0.3;">
+  <img src="assets/data/lol/empty.png" style="opacity: 0.3;">
 </ng-template>

@@ -5,7 +5,7 @@ export class LOLMatch {
   id!: string;
   version!: string;
   datetime!: number;
-  length!: number;
+  duration!: number;
   queue!: LOLQueue;
   teams!: LOLTeam[];
 }
