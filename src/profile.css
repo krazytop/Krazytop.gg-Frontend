@@ -36,6 +36,10 @@
   background-color: #1D1D1D;
   color: darkgrey;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 }
 
 .active-profile-update-button:hover {
@@ -60,4 +64,8 @@
 
 .profile p {
   color: darkgrey;
+}
+
+#loading-gif {
+  width: 21px;
 }

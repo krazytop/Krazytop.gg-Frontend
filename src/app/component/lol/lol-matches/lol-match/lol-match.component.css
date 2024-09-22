@@ -161,6 +161,11 @@
   text-decoration: none;
 }
 
+.other-summoner-name:hover {
+  color: white;
+  font-weight: bold;
+}
+
 .participant-summoner-name {
   font-weight: bold;
   color: #ffffff;
@@ -202,9 +207,4 @@ hr {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
   color: #c2c2c2;
   text-align: center;
-}
-
-a:hover {
-  color: white;
-  font-weight: bold;
 }

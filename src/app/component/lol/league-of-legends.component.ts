@@ -22,6 +22,7 @@ export class LeagueOfLegendsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    console.log("a")
     let region = "";
     let tag = "";
     let name = "";

@@ -10,17 +10,17 @@ export class SummonerService {//TODO refresh data after an update
 
   private async getLocalSummoner(region: string, tag: string, name: string) {
     const response = await fetch(`${environment.apiURL}riot/summoner/local/${region}/${tag}/${name}`, {headers: HeaderService.getBackendHeaders()});
-    return await response.json() as RIOTSummoner;
+    return response.status == 204 ? undefined : await response.json() as RIOTSummoner;
   }
 
   private async getRemoteSummoner(region: string, tag: string, name: string) {
     const response = await fetch(`${environment.apiURL}riot/summoner/remote/${region}/${tag}/${name}`, {headers: HeaderService.getBackendHeaders()});
-    return await response.json() as RIOTSummoner;
+    return response.status == 204 ? undefined : await response.json() as RIOTSummoner;
   }
 
   public async getSummoner(region: string, tag: string, name: string) {
     let remoteSummoner: RIOTSummoner | undefined;
-    const localSummoner: RIOTSummoner = await this.getLocalSummoner(region, tag, name);
+    const localSummoner: RIOTSummoner | undefined = await this.getLocalSummoner(region, tag, name);
     if (!localSummoner) {
       remoteSummoner = await this.getRemoteSummoner(region, tag, name);
     }

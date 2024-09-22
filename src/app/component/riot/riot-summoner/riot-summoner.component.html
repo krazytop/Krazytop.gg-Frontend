@@ -9,7 +9,10 @@
     <h1 class="profile-name">{{ summoner.name }} #{{ summoner.tag }}</h1>
     <div>
       <div *ngIf="localSummoner">
-        <button (click)="updateData()" [disabled]="nextAllowedUpdate > 0" [ngClass]="{'inactive-profile-update-button': nextAllowedUpdate > 0, 'active-profile-update-button': nextAllowedUpdate === 0}">Update</button>
+        <button (click)="updateData()" [disabled]="nextAllowedUpdate > 0" [ngClass]="{'inactive-profile-update-button': nextAllowedUpdate > 0, 'active-profile-update-button': nextAllowedUpdate === 0}">
+          <div>Update</div>
+          <img id="loading-gif" src="assets/logo/loading.gif" alt="Loading" hidden>
+        </button>
         <div *ngIf="nextAllowedUpdate > 0">
           <p>Next possible update in {{ formatTime(nextAllowedUpdate) }}</p>
         </div>

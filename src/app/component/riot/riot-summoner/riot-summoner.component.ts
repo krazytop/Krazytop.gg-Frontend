@@ -37,11 +37,10 @@ export class RiotSummonerComponent implements OnChanges {
 
   async updateData() {
     if (this.nextAllowedUpdate === 0) {
-      let role: string | undefined;
-      this.route.params.subscribe(params => {
-        role = params['role'];
-      })
-      role ? await this.summonerService.updateLOLData(this.summoner!) : await this.summonerService.updateTFTData(this.summoner!)
+      let role: string | null = this.route.snapshot.paramMap.get('role');
+      role ? await this.summonerService.updateLOLData(this.summoner!) : await this.summonerService.updateTFTData(this.summoner!);
+      document.getElementById("loading-gif")!.hidden = false;
+      window.location.reload();
     }
   }
 
