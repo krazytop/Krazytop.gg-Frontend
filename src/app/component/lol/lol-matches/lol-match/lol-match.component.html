@@ -13,7 +13,9 @@
     <div class="game-participant">
       <div class="game-participant-main">
         <div class="game-participant-main-champion">
-          <img src="{{ getImageUrl(summonerParticipant.champion.image, 'champion') }}" alt="Champion">
+          <div class="champion-box">
+            <img src="{{ getImageUrl(summonerParticipant.champion.image, 'champion') }}" alt="Champion">
+          </div>
           <h4 class="champion-level">{{ summonerParticipant!.champLevel }}</h4>
         </div>
         <div class="game-participant-summoner-spells-and-runes">
@@ -65,7 +67,9 @@
       </div>
       <div class="game-team">
         <div *ngFor="let participant of match.teams[1].participants" class="other-summoner">
-          <img class="game-participant-main-champion" src="{{ getImageUrl(participant.champion.image, 'champion') }}">
+          <div class="champion-box">
+            <img class="game-participant-main-champion" src="{{ getImageUrl(participant.champion.image, 'champion') }}">
+          </div>
           <ng-container *ngIf="participant.summoner.puuid === summoner.puuid; else elseBlock">
             <div class="participant-summoner-name">{{ participant.summoner.name }}</div>
           </ng-container>
