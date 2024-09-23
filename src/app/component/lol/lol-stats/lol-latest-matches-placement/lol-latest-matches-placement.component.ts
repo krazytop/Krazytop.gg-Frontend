@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {HttpClient} from "@angular/common/http";
-import {HeaderService} from "../../../../config/headers.service";
+import {HTTPRequestService} from "../../../../config/http-request.service";
 import {LolSearchCriteriaComponent} from "../../lol-search-criteria/lol-search-criteria.component";
 import {environment} from "../../../../../environments/environment";
 
@@ -69,7 +69,7 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
     } else if (this.role === LolSearchCriteriaComponent.allRoles) {
       url += `/${this.allRoles}`;
     }
-    this.http.get<string[]>(url, {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
+    this.http.get<string[]>(url, {headers: HTTPRequestService.getBackendHeaders(),}).subscribe(response => {
       this.latestMatchesResults = response;
       this.setStreak();
     })

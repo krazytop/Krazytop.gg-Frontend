@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {BungieAuthService} from "./bungie-authentification/bungie-auth.service";
-import {map, Subject} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {Subject} from "rxjs";
 import {DestinyProfileModel} from "../../model/destiny/destiny-profile.model";
 import {DestinyCharacterInventoryModel} from "../../model/destiny/destiny-character-inventory.model";
 import {DestinyItemInstanceModel} from "../../model/destiny/destiny-item-instance.model";
@@ -18,8 +17,6 @@ import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-present
 import {DestinyDatabaseApi} from "../../service/destiny/destiny-database.api";
 import {DestinyDatabaseUpdateService} from "../../service/destiny/destiny-database-update.service";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
-import {DestinyProgressionNomenclature} from "../../model/destiny/nomenclature/destiny-progression.nomenclature";
-import {group} from "@angular/animations";
 
 @Component({
   selector: 'destiny',

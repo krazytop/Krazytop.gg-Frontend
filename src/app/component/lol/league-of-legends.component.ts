@@ -16,34 +16,34 @@ export class LeagueOfLegendsComponent implements OnInit {
   localSummoner: RIOTSummoner | undefined;
   remoteSummoner: RIOTSummoner | undefined;
 
+  private region!: string;
+  private tag!: string;
+  private name!: string;
+  private queue!: string;
+  private role!: string;
+
   protected readonly LOLSearchCriteriaService = LOLSearchCriteriaService;
 
   constructor(private summonerService: SummonerService, private searchCriteriaService: LOLSearchCriteriaService, private route: ActivatedRoute) {
   }
 
   async ngOnInit() {
-    console.log("a")
-    let region = "";
-    let tag = "";
-    let name = "";
-    let queue = "";
-    let role = "";
-    this.isThisComponentReady = false;
-    this.route.params.subscribe(params => {
-      region = params['region'];
-      tag = params['tag'];
-      name = params['name'];
-      queue = params['queue'];
-      role = params['role'];
+    this.route.params.subscribe(async params => {
+      this.isThisComponentReady = false;
+      this.region = params['region'];
+      this.tag = params['tag'];
+      this.name = params['name'];
+      this.queue = params['queue'];
+      this.role = params['role'];
+      this.searchCriteriaService.initQueue(this.queue);
+      this.searchCriteriaService.initRole(this.role);
+      if (this.localSummoner?.name != this.name || this.localSummoner?.region != this.region) {
+        const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(this.region, this.tag, this.name);
+        this.localSummoner = localSummoner;
+        this.remoteSummoner = remoteSummoner
+      }
+      this.isThisComponentReady = true;
     });
-    this.searchCriteriaService.initQueue(queue);
-    this.searchCriteriaService.initRole(role);
-    if (this.localSummoner?.name != name || this.localSummoner?.region != region) {
-      const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(region, tag, name);
-      this.localSummoner = localSummoner;
-      this.remoteSummoner = remoteSummoner
-    }
-    this.isThisComponentReady = true;
   }
 
 }

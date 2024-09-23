@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BungieAuthModel} from "../../../model/destiny/bungie-auth.model";
-import {HeaderService} from "../../../config/headers.service";
+import {HTTPRequestService} from "../../../config/http-request.service";
 import {DestinyMembershipsModel} from "../../../model/destiny/destiny-memberships.model";
 import {Router} from "@angular/router";
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
@@ -51,7 +51,7 @@ export class BungieAuthService {
   }
 
   async getPlayerTokensFromBungieCode(playerCode: string) {
-    const response = await fetch(`${environment.apiURL}destiny/get/${playerCode}`, {headers: HeaderService.getBackendHeaders()})
+    const response = await fetch(`${environment.apiURL}destiny/get/${playerCode}`, {headers: HTTPRequestService.getBackendHeaders()})
     return await response.json()
   }
 
@@ -68,7 +68,7 @@ export class BungieAuthService {
         return false;
       } else {
         const refreshToken = this.getPlayerTokens()!.refresh_token!;
-        const response = await fetch(environment.apiURL + 'destiny/update', { headers: HeaderService.getBackendHeaders(), body:  refreshToken, method: 'POST' });
+        const response = await fetch(environment.apiURL + 'destiny/update', { headers: HTTPRequestService.getBackendHeaders(), body:  refreshToken, method: 'POST' });
         this.setExpirationsAndSaveTokens(await response.json());
         return true;
       }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HeaderService} from "../../../config/headers.service";
+import {HTTPRequestService} from "../../../config/http-request.service";
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {environment} from "../../../../environments/environment";
 import {AlertService} from "../../alert/alert.service";
@@ -10,17 +10,17 @@ import {AlertModel} from "../../../model/alert.model";
 })
 export class SummonerService {
 
-  constructor(private alertService: AlertService) {
+  constructor(private httpRequestService: HTTPRequestService) {
   }
 
   private async getLocalSummoner(region: string, tag: string, name: string) {
-    const response = await fetch(`${environment.apiURL}riot/summoner/local/${region}/${tag}/${name}`, {headers: HeaderService.getBackendHeaders()});
-    return await this.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
+    const response = await fetch(`${environment.apiURL}riot/summoner/local/${region}/${tag}/${name}`, {headers: HTTPRequestService.getBackendHeaders()});
+    return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
   private async getRemoteSummoner(region: string, tag: string, name: string) {
-    const response = await fetch(`${environment.apiURL}riot/summoner/remote/${region}/${tag}/${name}`, {headers: HeaderService.getBackendHeaders()});
-    return await this.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
+    const response = await fetch(`${environment.apiURL}riot/summoner/remote/${region}/${tag}/${name}`, {headers: HTTPRequestService.getBackendHeaders()});
+    return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
   public async getSummoner(region: string, tag: string, name: string) {
@@ -46,44 +46,32 @@ export class SummonerService {
 
   private async updateSummoner(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}riot/summoner/update/${summoner.region}/${summoner.tag}/${summoner.name}`,
-      {headers: HeaderService.getBackendHeaders(), method: 'POST'})
-    return await response.json() as RIOTSummoner;
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'})
+    await this.httpRequestService.hasResponse(response);
   }
 
   private async updateLOLRanks(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}lol/rank/${summoner.id}`,
-      {headers: HeaderService.getBackendHeaders(), method: 'POST'});
-    return await response.json();
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
+    await this.httpRequestService.hasResponse(response);
   }
 
   private async updateTFTRanks(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}tft/rank/${summoner.id}`,
-      {headers: HeaderService.getBackendHeaders(), method: 'POST'});
-    return await response.json();
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
+    await this.httpRequestService.hasResponse(response);
   }
 
   private async updateLOLMatches(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}lol/matches/${summoner.puuid}`,
-      {headers: HeaderService.getBackendHeaders(), method: 'POST'});
-    return await response.json();
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
+    await this.httpRequestService.hasResponse(response);
   }
 
   private async updateTFTMatches(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}tft/matches/${summoner.puuid}`,
-      {headers: HeaderService.getBackendHeaders(), method: 'POST'});
-    return await response.json();
-  }
-
-  private async hasResponse(response: Response) {
-    if (response.status == 500) {
-      await this.alertService.processAlert({
-        message: "",
-        duration: 3000
-      })
-      return false;
-    } else {
-      return response.status != 203;
-    }
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
+    await this.httpRequestService.hasResponse(response);
   }
 
 }
