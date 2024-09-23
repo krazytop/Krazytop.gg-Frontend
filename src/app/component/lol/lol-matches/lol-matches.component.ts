@@ -19,9 +19,9 @@ export class LolMatchesComponent implements OnChanges {
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
 
   matchesPages: LOLMatch[][] = [];
-  nextPage: number = 0;
-  matchesCount: number = 0;
-  pageSize: number = 0;
+  nextPage!: number;
+  matchesCount!: number;
+  pageSize: number = 5;
   isFirstPage: boolean = true;
 
   constructor(private searchCriteriaService: LOLSearchCriteriaService) {
@@ -33,6 +33,7 @@ export class LolMatchesComponent implements OnChanges {
     this.isFirstPage = true;
     await this.getMatches();
     await this.setMatchesCount();
+    console.log(this.matchesCount)
   }
 
   async getMatches() {
