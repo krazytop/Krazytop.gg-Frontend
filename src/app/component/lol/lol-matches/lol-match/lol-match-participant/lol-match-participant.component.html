@@ -24,7 +24,7 @@
       <div style="font-weight: bold; color: white">{{ participant.summoner.name }}</div>
     </ng-container>
     <ng-template #elseBlock>
-      <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, '/all-queues', '/all-roles']">
+      <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']">
         {{ participant.summoner.name }}
       </a>
     </ng-template>
