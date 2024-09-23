@@ -2,20 +2,25 @@ import {Injectable} from '@angular/core';
 import {HeaderService} from "../../../config/headers.service";
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {environment} from "../../../../environments/environment";
+import {AlertService} from "../../alert/alert.service";
+import {AlertModel} from "../../../model/alert.model";
 
 @Injectable({
   providedIn: 'root',
 })
-export class SummonerService {//TODO refresh data after an update
+export class SummonerService {
+
+  constructor(private alertService: AlertService) {
+  }
 
   private async getLocalSummoner(region: string, tag: string, name: string) {
     const response = await fetch(`${environment.apiURL}riot/summoner/local/${region}/${tag}/${name}`, {headers: HeaderService.getBackendHeaders()});
-    return response.status == 204 ? undefined : await response.json() as RIOTSummoner;
+    return await this.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
   private async getRemoteSummoner(region: string, tag: string, name: string) {
     const response = await fetch(`${environment.apiURL}riot/summoner/remote/${region}/${tag}/${name}`, {headers: HeaderService.getBackendHeaders()});
-    return response.status == 204 ? undefined : await response.json() as RIOTSummoner;
+    return await this.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
   public async getSummoner(region: string, tag: string, name: string) {
@@ -67,6 +72,18 @@ export class SummonerService {//TODO refresh data after an update
     const response = await fetch(`${environment.apiURL}tft/matches/${summoner.puuid}`,
       {headers: HeaderService.getBackendHeaders(), method: 'POST'});
     return await response.json();
+  }
+
+  private async hasResponse(response: Response) {
+    if (response.status == 500) {
+      await this.alertService.processAlert({
+        message: "",
+        duration: 3000
+      })
+      return false;
+    } else {
+      return response.status != 203;
+    }
   }
 
 }
