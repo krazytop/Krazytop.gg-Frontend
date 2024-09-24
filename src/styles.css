@@ -54,7 +54,7 @@
   z-index: 1;
 }
 
-.no-matches-played-message {
+.nothing-to-show-message {
   color: darkgrey;
   font-size: 30px;
   align-content: center;
@@ -65,6 +65,10 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+
+  & img {
+    width: 50px;
+  }
 }
 
 .more-matches {

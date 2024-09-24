@@ -15,36 +15,35 @@ export class LolMatchesComponent implements OnChanges {
   @Input() selectedRole!: string;
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
 
+  constructor(private httpRequestService: HTTPRequestService) {
+  }
+
   matchesPages: LOLMatch[][] = [];
-  nextPage!: number;
-  matchesCount!: number;
-  pageSize: number = 5;
-  isFirstPage: boolean = true;
+  totalMatchesCount!: number;
+  isThisComponentReady!: boolean;
 
   async ngOnChanges() {
+    this.isThisComponentReady = false;
     this.matchesPages = [];
-    this.nextPage = 0;
-    this.isFirstPage = true;
     await this.getMatches();
     await this.setMatchesCount();
-    console.log(this.matchesCount)
+    this.isThisComponentReady = true;
   }
 
   async getMatches() {
-    let url: string = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.nextPage}/${this.selectedQueue}/${this.selectedRole}`;
+    let url: string = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.matchesPages.length}/${this.selectedQueue}/${this.selectedRole}`;
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
-    this.matchesPages.push(await response.json());
-    this.nextPage++;
-    if (this.isFirstPage) {
-      this.pageSize = this.matchesPages.length;
-      this.isFirstPage = false;
-    }
+    this.matchesPages.push(await this.httpRequestService.hasResponse(response) ? await response.json() : []);
   }
 
   async setMatchesCount() {
     let url: string = `${environment.apiURL}lol/matches/count/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedRole}`;
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
-    this.matchesCount = await response.json();
+    this.totalMatchesCount = await this.httpRequestService.hasResponse(response) ? await response.json() : 0;
+  }
+
+  hasMoreMatches() {
+    return this.matchesPages.reduce((total, page) => total + page.length, 0) < this.totalMatchesCount;
   }
 
 }

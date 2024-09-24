@@ -15,7 +15,7 @@ export class HTTPRequestService {
 
   async hasResponse(response: Response) {
     if (response.status == 500) {
-      await this.alertService.processAlert({
+      this.alertService.processAlert({
         message: "",
         duration: 3000
       })

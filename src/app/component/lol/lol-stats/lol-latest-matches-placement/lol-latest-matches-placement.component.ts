@@ -1,8 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
-import {HttpClient} from "@angular/common/http";
 import {HTTPRequestService} from "../../../../config/http-request.service";
-import {LolSearchCriteriaComponent} from "../../lol-search-criteria/lol-search-criteria.component";
 import {environment} from "../../../../../environments/environment";
 
 @Component({
@@ -19,12 +17,15 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
   latestMatchesResults: string[] = [];
 
   streak: number = 0;
+  isThisComponentReady!: boolean;
 
-  constructor(private http: HttpClient) {
+  constructor() {
   }
 
   async ngOnChanges() {
+    this.isThisComponentReady = false;
     await this.getLatestMatchesResults();
+    this.isThisComponentReady = true;
   }
 
   async getLatestMatchesResults() {
