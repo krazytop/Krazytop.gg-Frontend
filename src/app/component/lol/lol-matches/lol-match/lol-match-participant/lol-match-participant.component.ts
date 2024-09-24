@@ -14,6 +14,7 @@ export class LolMatchParticipantComponent implements OnInit {
   @Input() summoner!: RIOTSummoner;
   @Input() hasWin!: boolean;
   @Input() matchVersion!: string;
+  @Input() remake!: boolean;
 
   damage: number = 0;
 
@@ -30,7 +31,7 @@ export class LolMatchParticipantComponent implements OnInit {
   }
 
   getKDA(): string {
-    return ((this.participant.kills + this.participant.assists) / this.participant.deaths).toFixed(2);
+    return ((this.participant.kills + this.participant.assists) / Math.max(this.participant.deaths, 1)).toFixed(2);
   }
 
   setDamage() {

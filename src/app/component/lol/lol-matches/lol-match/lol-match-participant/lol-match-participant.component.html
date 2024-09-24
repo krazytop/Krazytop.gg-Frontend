@@ -1,5 +1,6 @@
 <div class="lol-match-participant"
      [ngStyle]="{'background-color':
+     remake ? (participant.summoner.puuid === summoner.puuid ? '#3a3a3a' : '#4f4f4f') :
                  hasWin ? (participant.summoner.puuid === summoner.puuid ? '#002349' : '#004281') :
                  (participant.summoner.puuid === summoner.puuid ? '#3f0000' : '#770000')}">
   <div class="participant-main-information">

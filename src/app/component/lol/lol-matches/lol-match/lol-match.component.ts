@@ -57,11 +57,11 @@ export class LolMatchComponent implements OnInit {
   }
 
   getResult(): string {
-    return this.summonerTeam.hasWin ? "VICTORY" : "DEFEAT";
+    return this.match.remake ? "REMAKE" : this.summonerTeam.hasWin ? "VICTORY" : "DEFEAT";
   }
 
   getKDA(): string {
-    return ((this.summonerParticipant!.kills + this.summonerParticipant!.assists) / this.summonerParticipant!.deaths).toFixed(2);
+    return ((this.summonerParticipant.kills + this.summonerParticipant.assists) / Math.max(this.summonerParticipant.deaths, 1)).toFixed(2);
   }
 
   setTopDamage() {

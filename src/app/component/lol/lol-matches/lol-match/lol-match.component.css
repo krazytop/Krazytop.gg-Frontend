@@ -218,3 +218,9 @@ hr {
   color: #c2c2c2;
   text-align: center;
 }
+
+.more-data-participants {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

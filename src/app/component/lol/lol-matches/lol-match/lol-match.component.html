@@ -92,14 +92,30 @@
   <div class="more-data" *ngIf="allDataIsDisplayed">
     <div class="team-data">
       <ng-container *ngTemplateOutlet="teamDataHeaderTemplate"></ng-container>
-      <div style="display: flex; flex-direction: column; gap: 5px">
-        <lol-match-participant *ngFor="let participant of summonerTeam?.participants" [participant]="participant" [topDamage]="topDamage" [summoner]="summoner" [hasWin]="summonerTeam.hasWin" [matchVersion]="match.version"></lol-match-participant>
+      <div class="more-data-participants">
+        <lol-match-participant
+          *ngFor="let participant of summonerTeam?.participants"
+          [participant]="participant"
+          [topDamage]="topDamage"
+          [summoner]="summoner"
+          [hasWin]="summonerTeam.hasWin"
+          [matchVersion]="match.version"
+          [remake]="match.remake">
+        </lol-match-participant>
       </div>
     </div>
     <div class="team-data">
       <ng-container *ngTemplateOutlet="teamDataHeaderTemplate"></ng-container>
-      <div style="display: flex; flex-direction: column; gap: 5px">
-        <lol-match-participant *ngFor="let participant of enemyTeam?.participants" [participant]="participant" [topDamage]="topDamage" [summoner]="summoner" [hasWin]="enemyTeam.hasWin" [matchVersion]="match.version"></lol-match-participant>
+      <div class="more-data-participants">
+        <lol-match-participant
+          *ngFor="let participant of enemyTeam?.participants"
+          [participant]="participant"
+          [topDamage]="topDamage"
+          [summoner]="summoner"
+          [hasWin]="enemyTeam.hasWin"
+          [matchVersion]="match.version"
+          [remake]="match.remake">
+        </lol-match-participant>
       </div>
     </div>
   </div>

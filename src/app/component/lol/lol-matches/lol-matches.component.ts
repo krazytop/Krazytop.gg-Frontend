@@ -26,6 +26,7 @@ export class LolMatchesComponent implements OnChanges {
     this.isThisComponentReady = false;
     this.matchesPages = [];
     await this.getMatches();
+    console.log(this.matchesPages[0][8])
     await this.setMatchesCount();
     this.isThisComponentReady = true;
   }

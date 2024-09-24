@@ -8,4 +8,5 @@ export class LOLMatch {
   duration!: number;
   queue!: LOLQueue;
   teams!: LOLTeam[];
+  remake!: boolean
 }
