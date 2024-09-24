@@ -82,6 +82,20 @@
   }
 }
 
+.other-participants-champion-box {
+  border-radius: 10%;
+  height: 23px;
+  width: 23px;
+  overflow: hidden;
+
+  & img {
+    width: 33px;
+    height: 33px;
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+}
+
 .champion-level {
   margin-top: -24px;
   background-color: #1D1D1D;
@@ -136,15 +150,6 @@
   gap: 3px;
   padding: 10px;
   width: 100%;
-
-  & img {
-    border-radius: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 23px;
-    height: 23px;
-  }
 }
 
 .first-team {

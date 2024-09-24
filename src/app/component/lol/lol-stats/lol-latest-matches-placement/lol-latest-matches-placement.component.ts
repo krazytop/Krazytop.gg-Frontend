@@ -12,67 +12,26 @@ import {environment} from "../../../../../environments/environment";
 })
 export class LolLatestMatchesPlacementComponent implements OnChanges {
 
-  @Input() queue: string = "";
-  @Input() role: string = "";
+  @Input() selectedQueue!: string;
+  @Input() selectedRole!: string;
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
 
   latestMatchesResults: string[] = [];
-
-  private allQueues: string = "ALL_QUEUES";
-  private normal: string = "DRAFT";
-  private quickPlay: string = "QUICKPLAY";
-  private soloRanked: string = "SOLO_RANKED";
-  private flexRanked: string = "FLEX_RANKED";
-  private aram: string = "ARAM";
-
-  private allRoles: string = 'ALL_ROLES';
-  private top: string = 'TOP';
-  private jungle: string = 'JUNGLE';
-  private middle: string = 'MIDDLE';
-  private bottom: string = 'BOTTOM';
-  private support: string = 'UTILITY';
 
   streak: number = 0;
 
   constructor(private http: HttpClient) {
   }
 
-  ngOnChanges() {
-    this.getLatestMatchesResults();
+  async ngOnChanges() {
+    await this.getLatestMatchesResults();
   }
 
-  getLatestMatchesResults() {
-    let url: string = environment.apiURL + 'lol/stats/latest-matches-placement/' + this.summoner.puuid;
-    if (this.queue === LolSearchCriteriaComponent.soloRanked) {
-      url += `/${this.soloRanked}`;
-    } else if (this.queue === LolSearchCriteriaComponent.flexRanked) {
-      url += `/${this.flexRanked}`;
-    } else if (this.queue === LolSearchCriteriaComponent.normal) {
-      url += `/${this.normal}`;
-    } else if (this.queue === LolSearchCriteriaComponent.aram) {
-      url += `/${this.aram}`;
-    } else if (this.queue === LolSearchCriteriaComponent.quickPlay) {
-      url += `/${this.quickPlay}`;
-    } else if (this.queue === LolSearchCriteriaComponent.allQueues) {
-      url += `/${this.allQueues}`;
-    }
-    if (this.role === LolSearchCriteriaComponent.top) {
-      url += `/${this.top}`;
-    } else if (this.role === LolSearchCriteriaComponent.jungle) {
-      url += `/${this.jungle}`;
-    } else if (this.role === LolSearchCriteriaComponent.middle) {
-      url += `/${this.middle}`;
-    } else if (this.role === LolSearchCriteriaComponent.bottom) {
-      url += `/${this.bottom}`;
-    } else if (this.role === LolSearchCriteriaComponent.support) {
-      url += `/${this.support}`;
-    } else if (this.role === LolSearchCriteriaComponent.allRoles) {
-      url += `/${this.allRoles}`;
-    }
-    this.http.get<string[]>(url, {headers: HTTPRequestService.getBackendHeaders(),}).subscribe(response => {
-      this.latestMatchesResults = response;
-      this.setStreak();
-    })
+  async getLatestMatchesResults() {
+    let url: string = `${environment.apiURL}lol/stats/latest-matches-placement/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedRole}`;
+    const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
+    this.latestMatchesResults = await response.json();
+    this.setStreak();
   }
 
   getLatestMatchesWinRate(): string {
@@ -86,7 +45,8 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
         victories ++;
       }
     }
-    return (victories / nbMatches * 100).toFixed(1);
+    const winRate =  victories / nbMatches * 100;
+    return winRate % 1 === 0 ? winRate.toFixed(0) : winRate.toFixed(1);
   }
 
   setStreak() {

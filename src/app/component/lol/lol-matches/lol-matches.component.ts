@@ -1,11 +1,8 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {HttpClient} from "@angular/common/http";
 import {HTTPRequestService} from "../../../config/http-request.service";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
-import {LolSearchCriteriaComponent} from "../lol-search-criteria/lol-search-criteria.component";
 import {environment} from "../../../../environments/environment";
-import {LOLSearchCriteriaService} from "../lol-search-criteria/lol-search-criteria.service";
 
 @Component({
   selector: 'lol-matches',
@@ -14,8 +11,8 @@ import {LOLSearchCriteriaService} from "../lol-search-criteria/lol-search-criter
 })
 export class LolMatchesComponent implements OnChanges {
 
-  @Input() queue: string = "";
-  @Input() role: string = "";
+  @Input() selectedQueue!: string;
+  @Input() selectedRole!: string;
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
 
   matchesPages: LOLMatch[][] = [];
@@ -23,9 +20,6 @@ export class LolMatchesComponent implements OnChanges {
   matchesCount!: number;
   pageSize: number = 5;
   isFirstPage: boolean = true;
-
-  constructor(private searchCriteriaService: LOLSearchCriteriaService) {
-  }
 
   async ngOnChanges() {
     this.matchesPages = [];
@@ -37,7 +31,7 @@ export class LolMatchesComponent implements OnChanges {
   }
 
   async getMatches() {
-    let url: string = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.nextPage}/${this.searchCriteriaService.getFormattedQueue(this.queue)}/${this.searchCriteriaService.getFormattedRole(this.role)}`;
+    let url: string = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.nextPage}/${this.selectedQueue}/${this.selectedRole}`;
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
     this.matchesPages.push(await response.json());
     this.nextPage++;
@@ -48,7 +42,7 @@ export class LolMatchesComponent implements OnChanges {
   }
 
   async setMatchesCount() {
-    let url: string = `${environment.apiURL}lol/matches/count/${this.summoner.puuid}/${this.searchCriteriaService.getFormattedQueue(this.queue)}/${this.searchCriteriaService.getFormattedRole(this.role)}`;
+    let url: string = `${environment.apiURL}lol/matches/count/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedRole}`;
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
     this.matchesCount = await response.json();
   }

@@ -55,19 +55,21 @@
               <div>{{ participant.summoner.name }}</div>
             </a>
           </ng-template>
-          <img class="game-participant-main-champion" src="{{ getImageUrl(participant.champion.image, 'champion') }}">
+          <div class="other-participants-champion-box">
+            <img class="game-participant-main-champion" src="{{ getImageUrl(participant.champion.image, 'champion') }}">
+          </div>
         </div>
       </div>
       <div class="game-team roles">
         <img src="assets/data/lol/lol-roles/top.png">
         <img src="assets/data/lol/lol-roles/jungle.png">
         <img src="assets/data/lol/lol-roles/middle.png">
-        <img src="assets/data/lol/lol-roles/bot.png">
-        <img src="assets/data/lol/lol-roles/utility.png">
+        <img src="../../../../../assets/data/lol/lol-roles/bottom.png">
+        <img src="../../../../../assets/data/lol/lol-roles/support.png">
       </div>
       <div class="game-team">
         <div *ngFor="let participant of match.teams[1].participants" class="other-summoner">
-          <div class="champion-box">
+          <div class="other-participants-champion-box">
             <img class="game-participant-main-champion" src="{{ getImageUrl(participant.champion.image, 'champion') }}">
           </div>
           <ng-container *ngIf="participant.summoner.puuid === summoner.puuid; else elseBlock">

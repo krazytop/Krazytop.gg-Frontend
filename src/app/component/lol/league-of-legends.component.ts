@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
 import {SummonerService} from "../riot/riot-summoner/summoner.service";
 import {ActivatedRoute} from "@angular/router";
-import {LOLSearchCriteriaService} from "./lol-search-criteria/lol-search-criteria.service";
 
 @Component({
   selector: 'league-of-legends',
@@ -19,12 +18,9 @@ export class LeagueOfLegendsComponent implements OnInit {
   private region!: string;
   private tag!: string;
   private name!: string;
-  private queue!: string;
-  private role!: string;
-
-  protected readonly LOLSearchCriteriaService = LOLSearchCriteriaService;
-
-  constructor(private summonerService: SummonerService, private searchCriteriaService: LOLSearchCriteriaService, private route: ActivatedRoute) {
+  protected selectedQueue!: string;
+  protected selectedRole!: string;
+  constructor(private summonerService: SummonerService, private route: ActivatedRoute) {
   }
 
   async ngOnInit() {
@@ -33,10 +29,8 @@ export class LeagueOfLegendsComponent implements OnInit {
       this.region = params['region'];
       this.tag = params['tag'];
       this.name = params['name'];
-      this.queue = params['queue'];
-      this.role = params['role'];
-      this.searchCriteriaService.initQueue(this.queue);
-      this.searchCriteriaService.initRole(this.role);
+      this.selectedQueue = params['queue'];
+      this.selectedRole = params['role'];
       if (this.localSummoner?.name != this.name || this.localSummoner?.region != this.region) {
         const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(this.region, this.tag, this.name);
         this.localSummoner = localSummoner;
