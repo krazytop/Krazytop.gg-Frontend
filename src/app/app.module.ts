@@ -49,6 +49,7 @@ import {CdkDrag, CdkDragHandle, CdkDragPreview, CdkDropList, CdkDropListGroup} f
 import {DestinyCatalystsComponent} from "./component/destiny/destiny-catalysts/destiny-catalysts.component";
 import {DestinyRecordComponent} from "./component/destiny/destiny-record/destiny-record.component";
 import { DestinyModelsComponent } from './component/destiny/destiny-models/destiny-models.component';
+import { LolMainChampionsComponent } from './component/lol/lol-stats/lol-main-champions/lol-main-champions.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { DestinyModelsComponent } from './component/destiny/destiny-models/desti
     DestinyCharactersComponent,
     DestinyCatalystsComponent,
     DestinyRecordComponent,
-    DestinyModelsComponent
+    DestinyModelsComponent,
+    LolMainChampionsComponent
   ],
     imports: [
         BrowserModule,

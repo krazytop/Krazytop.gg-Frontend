@@ -1,27 +1,29 @@
-<div *ngIf="!isThisComponentReady" class="no-matches-played-container">
-  <div class="nothing-to-show-message">Retrieval matches&nbsp;&nbsp;</div>
-  <img src="assets/logo/loading.gif">
-</div>
-<ng-container *ngIf="isThisComponentReady">
-  <div *ngIf="latestMatchesResults.length == 0" class="no-matches-played-container">
-    <div class="nothing-to-show-message">No matches played</div>
+<div class="component">
+  <div *ngIf="!matches" class="no-matches-played-container">
+    <img src="assets/logo/loading.gif">
   </div>
-  <div *ngIf="latestMatchesResults.length > 0 && isThisComponentReady">
-    <div class="win-rate-columns">
-      <div>
-        <div class="average-placement-title">Win rate :&nbsp;</div>
-        <div class="win-rate">{{ getLatestMatchesWinRate() }} %&nbsp;&nbsp;&nbsp;</div>
+  <ng-container *ngIf="matches">
+    <div *ngIf="matches.length == 0" class="no-matches-played-container">
+      <div class="nothing-to-show-message">No matches played</div>
+    </div>
+    <div *ngIf="matches.length > 0">
+      <div class="win-rate-columns">
+        <div>
+          <div class="average-placement-title">Win rate :&nbsp;</div>
+          <div class="win-rate">{{ getLatestMatchesWinRate() }} %</div>
+        </div>
+        <div style="justify-self: end; margin-top: -3px">
+          <div class="win-rate win-streak" *ngIf="streak > 0">🔥{{ Math.abs(streak) }}</div>
+          <div class="win-rate lose-streak" *ngIf="streak < 0">❄️{{ Math.abs(streak) }}</div>
+        </div>
       </div>
-      <div style="justify-self: end; margin-top: -3px">
-        <div class="win-rate win-streak" *ngIf="streak > 0">🔥{{ Math.abs(streak) }}</div>
-        <div class="win-rate lose-streak" *ngIf="streak < 0">❄️{{ Math.abs(streak) }}</div>
+      <br>
+      <br>
+      <div class="latest-matches-placements">
+        <div *ngFor="let result of latestMatchesResults"
+             class="placement background-color-{{ result.toLowerCase() }}">{{ result.charAt(0) }}
+        </div>
       </div>
     </div>
-    <br>
-    <br>
-    <div class="latest-matches-placements">
-      <div *ngFor="let result of latestMatchesResults"
-           class="placement background-color-{{ result.toLowerCase() }}">{{ result.charAt(0) }}</div>
-    </div>
+  </ng-container>
 </div>
-</ng-container>

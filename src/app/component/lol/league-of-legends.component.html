@@ -11,18 +11,24 @@
     [selectedRole]="selectedRole">
   </lol-search-criteria>
   <div *ngIf="localSummoner" class="game-data">
-    <lol-ranking class="lol-ranking component"
+    <lol-ranking class="lol-ranking"
       [summoner]="localSummoner">
     </lol-ranking>
     <lol-matches class="lol-matches component"
       [selectedQueue]="selectedQueue"
       [selectedRole]="selectedRole"
-      [summoner]="localSummoner">
+      [summoner]="localSummoner"
+      (matchesUpdateEvent)="matches = $event">
     </lol-matches>
-    <lol-latest-matches-placement class="lol-latest-matches-placement component"
-      [selectedQueue]="selectedQueue"
-      [selectedRole]="selectedRole"
-      [summoner]="localSummoner">
-    </lol-latest-matches-placement>
+    <div class="lol-stats">
+      <lol-latest-matches-placement
+        [summoner]="localSummoner"
+        [matches]="matches">
+      </lol-latest-matches-placement>
+      <lol-main-champions
+        [summoner]="localSummoner"
+        [matches]="matches">
+      </lol-main-champions>
+    </div>
   </div>
 </div>

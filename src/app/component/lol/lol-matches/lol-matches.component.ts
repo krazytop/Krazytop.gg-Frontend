@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {HTTPRequestService} from "../../../config/http-request.service";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
@@ -14,37 +14,38 @@ export class LolMatchesComponent implements OnChanges {
   @Input() selectedQueue!: string;
   @Input() selectedRole!: string;
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
+  @Output() matchesUpdateEvent = new EventEmitter<LOLMatch[] | undefined>();
 
   constructor(private httpRequestService: HTTPRequestService) {
   }
 
-  matchesPages: LOLMatch[][] = [];
+  currentPage!: number;
+  matches: LOLMatch[] = [];
   totalMatchesCount!: number;
   isThisComponentReady!: boolean;
 
   async ngOnChanges() {
     this.isThisComponentReady = false;
-    this.matchesPages = [];
+    this.matches = [];
+    this.currentPage = 0;
+    this.matchesUpdateEvent.emit(undefined);
     await this.getMatches();
-    console.log(this.matchesPages[0][8])
     await this.setMatchesCount();
     this.isThisComponentReady = true;
   }
 
   async getMatches() {
-    let url: string = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.matchesPages.length}/${this.selectedQueue}/${this.selectedRole}`;
+    let url: string = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedRole}`;
+    this.currentPage++;
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
-    this.matchesPages.push(await this.httpRequestService.hasResponse(response) ? await response.json() : []);
+    this.matches = this.matches.concat(await this.httpRequestService.hasResponse(response) ? await response.json() : []);
+    this.matchesUpdateEvent.emit(this.matches);
   }
 
   async setMatchesCount() {
     let url: string = `${environment.apiURL}lol/matches/count/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedRole}`;
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
     this.totalMatchesCount = await this.httpRequestService.hasResponse(response) ? await response.json() : 0;
-  }
-
-  hasMoreMatches() {
-    return this.matchesPages.reduce((total, page) => total + page.length, 0) < this.totalMatchesCount;
   }
 
 }

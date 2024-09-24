@@ -6,8 +6,11 @@
   grid-column: 2;
 }
 
-.lol-latest-matches-placement {
+.lol-stats {
   grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .background-color-victory {

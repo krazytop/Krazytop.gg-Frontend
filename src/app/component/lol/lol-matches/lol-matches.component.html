@@ -6,10 +6,8 @@
   <div *ngIf="totalMatchesCount === 0" class="no-matches-played-container">
     <div class="nothing-to-show-message">No matches played</div>
   </div>
-  <div class="matches-component" *ngIf="isThisComponentReady">
-    <div *ngFor="let matchPage of matchesPages" class="matches">
-        <lol-match *ngFor="let match of matchPage" [match]="match" [summoner]="summoner"></lol-match>
-    </div>
-    <button *ngIf="hasMoreMatches()" (click)="getMatches()" class="more-matches">Show more matches</button>
+  <div class="matches" *ngIf="isThisComponentReady">
+    <lol-match *ngFor="let match of matches" [match]="match" [summoner]="summoner"></lol-match>
+    <button *ngIf="matches.length < this.totalMatchesCount" (click)="getMatches()" class="more-matches">Show more matches</button>
   </div>
 </ng-container>

@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
-import {HTTPRequestService} from "../../../../config/http-request.service";
-import {environment} from "../../../../../environments/environment";
+import {LOLMatch} from "../../../../model/lol/lol-match.model";
 
 @Component({
   selector: 'lol-latest-matches-placement',
@@ -10,28 +9,28 @@ import {environment} from "../../../../../environments/environment";
 })
 export class LolLatestMatchesPlacementComponent implements OnChanges {
 
-  @Input() selectedQueue!: string;
-  @Input() selectedRole!: string;
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
+  @Input() matches: LOLMatch[] | undefined;
 
   latestMatchesResults: string[] = [];
 
   streak: number = 0;
-  isThisComponentReady!: boolean;
-
-  constructor() {
-  }
 
   async ngOnChanges() {
-    this.isThisComponentReady = false;
-    await this.getLatestMatchesResults();
-    this.isThisComponentReady = true;
+    if (this.matches) {
+      this.setLatestMatchesResults();
+    }
   }
 
-  async getLatestMatchesResults() {
-    let url: string = `${environment.apiURL}lol/stats/latest-matches-placement/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedRole}`;
-    const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
-    this.latestMatchesResults = await response.json();
+  private setLatestMatchesResults() {
+    this.latestMatchesResults = this.matches!.map(match => {
+      if (match.remake) {
+        return 'REMAKE';
+      }
+      const summonerTeam = match.teams.find(team => team.participants.some(p => p.summoner.puuid === this.summoner.puuid))!;
+      return summonerTeam.hasWin ? "VICTORY" : "DEFEAT";
+    });
+
     this.setStreak();
   }
 
@@ -50,7 +49,7 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
     return winRate % 1 === 0 ? winRate.toFixed(0) : winRate.toFixed(1);
   }
 
-  setStreak() {
+  private setStreak() {
     let currentStreak = 0;
     let lastResult: string | null = null;
 

@@ -5,6 +5,7 @@
   flex-direction: column;
   border-radius: 10px;
   gap: 20px;
+  overflow: hidden;
 }
 
 .less-data {
@@ -196,6 +197,7 @@ hr {
   background-color: rgba(0, 0, 0, 0.3);
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  width: 101%;
   position: relative;
 }
 
