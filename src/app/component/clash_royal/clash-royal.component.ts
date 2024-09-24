@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {CRPlayer} from "../../model/clash-royal/cr-player.model";
 import {Observable} from "rxjs";
-import {HeaderService} from "../../config/headers.service";
+import {HTTPRequestService} from "../../config/http-request.service";
 import {HttpClient} from "@angular/common/http";
 import {CrTabSelectorService} from "./cr-tab-selector/cr-tab-selector.service";
 import {CrTabSelectorComponent} from "./cr-tab-selector/cr-tab-selector.component";
@@ -51,11 +51,11 @@ export class ClashRoyalComponent implements OnInit {
   }
 
     getLocalPlayer(id: string): Observable<CRPlayer> {
-      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/local/' + id, {headers: HeaderService.getBackendHeaders()});
+      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/local/' + id, {headers: HTTPRequestService.getBackendHeaders()});
     }
 
     getRemotePlayer(id: string): Observable<CRPlayer> {
-      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/remote/' + id, {headers: HeaderService.getBackendHeaders(),});
+      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/remote/' + id, {headers: HTTPRequestService.getBackendHeaders(),});
     }
 
   protected readonly CrTabSelectorService = CrTabSelectorService;

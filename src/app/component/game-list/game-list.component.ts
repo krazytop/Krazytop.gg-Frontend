@@ -59,7 +59,6 @@ export class GameListComponent implements OnInit {
   }
 
   getBungieCurrentLoggedUser() {
-    console.log(this.destinyAuthService.getPlayerTokens()?.uniqueName)
     return this.destinyAuthService.getPlayerTokens()?.uniqueName;
   }
 

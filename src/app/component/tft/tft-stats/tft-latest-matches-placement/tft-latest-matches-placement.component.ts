@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {HeaderService} from "../../../../config/headers.service";
+import {HTTPRequestService} from "../../../../config/http-request.service";
 import {TftSearchCriteriaComponent} from "../../tft-search-criteria/tft-search-criteria.component";
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {environment} from "../../../../../environments/environment";
@@ -44,7 +44,7 @@ export class TftLatestMatchesPlacementComponent implements OnChanges {
     } else if (this.queue == TftSearchCriteriaComponent.normal) {
       url += `/${(this.normal)}`
     }
-    this.http.get<number[]>(url, {headers: HeaderService.getBackendHeaders(),}).subscribe(response => {
+    this.http.get<number[]>(url, {headers: HTTPRequestService.getBackendHeaders(),}).subscribe(response => {
       this.latestMatchesPlacement = response;
     })
   }

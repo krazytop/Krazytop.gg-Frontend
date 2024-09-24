@@ -4,7 +4,9 @@
                  (participant.summoner.puuid === summoner.puuid ? '#3f0000' : '#770000')}">
   <div class="participant-main-information">
     <div class="champion">
-      <img src="{{ getImageUrl(participant.champion.image, 'champion') }}" alt="Champion">
+      <div class="champion-box">
+        <img src="{{ getImageUrl(participant.champion.image, 'champion') }}" alt="Champion">
+      </div>
       <div style="align-self: flex-start;">
         <h4 class="champion-level">{{ participant.champLevel }}</h4>
       </div>
@@ -24,7 +26,7 @@
       <div style="font-weight: bold; color: white">{{ participant.summoner.name }}</div>
     </ng-container>
     <ng-template #elseBlock>
-      <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, '/all-queues', '/all-roles']">
+      <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']">
         {{ participant.summoner.name }}
       </a>
     </ng-template>

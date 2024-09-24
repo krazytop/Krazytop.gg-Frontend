@@ -1,0 +1,11 @@
+.matches {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.matches-component {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

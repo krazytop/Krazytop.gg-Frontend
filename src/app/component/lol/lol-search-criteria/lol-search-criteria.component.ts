@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {ActivatedRoute, Router} from "@angular/router";
-import {LOLSearchCriteriaService} from "./lol-search-criteria.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'lol-search-criteria',
@@ -10,38 +9,26 @@ import {LOLSearchCriteriaService} from "./lol-search-criteria.service";
 })
 export class LolSearchCriteriaComponent {
 
-  @Input() summoner: RIOTSummoner = new RIOTSummoner();
+  @Input() summoner!: RIOTSummoner;
+  @Input() selectedQueue!: string;
+  @Input() selectedRole!: string;
 
-  static allQueues: string = 'all-queues';
-  static normal: string = 'normal';
-  static soloRanked: string = 'solo-ranked';
-  static flexRanked: string = 'flex-ranked';
-  static aram: string = 'aram';
-  static quickPlay: string = 'quick-play';
+  queues: string[] = ['all-queues', 'normal', 'solo-ranked', 'flex-ranked', 'aram', 'urf', 'nexus-blitz', 'one-for-all', 'ultimate-spellbook', 'arena'];
+  roles: string[] = ['all-roles', 'top', 'jungle', 'middle', 'bottom', 'support'];
 
-  static allRoles: string = 'all-roles';
-  static top: string = 'top';
-  static jungle: string = 'jungle';
-  static middle: string = 'middle';
-  static bottom: string = 'bottom';
-  static support: string = 'support';
-
-  protected readonly LolSearchCriteriaComponent = LolSearchCriteriaComponent;
-  protected readonly LOLSearchCriteriaService = LOLSearchCriteriaService;
-
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router) {
   }
 
   selectQueue(queue: string) {
-    this.route.params.subscribe(() => {
-      this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${queue}/${LOLSearchCriteriaService.role}`]);
-    });
+    this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${queue}/${this.selectedRole}`]);
   }
 
   selectRole(role: string) {
-    this.route.params.subscribe(() => {
-      this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${LOLSearchCriteriaService.queue}/${role}`]);
-    });
+    this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${this.selectedQueue}/${role}`]);
+  }
+
+  formatQueueName(queue: string) {
+    return queue.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   }
 
 }

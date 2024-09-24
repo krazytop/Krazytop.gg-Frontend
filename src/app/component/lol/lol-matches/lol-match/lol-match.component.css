@@ -9,7 +9,7 @@
 
 .less-data {
   display: grid;
-  grid-template-columns: 2fr 10fr 4fr 1fr;
+  grid-template-columns: 2fr 7fr 7fr 1fr;
   border-radius: 10px;
 }
 
@@ -66,14 +66,33 @@
   justify-content: center;
   display: flex;
   flex-direction: column;
+}
+
+.champion-box {
+  border-radius: 10%;
+  height: 80px;
+  width: 80px;
+  overflow: hidden;
 
   & img {
-    border-radius: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+}
+
+.other-participants-champion-box {
+  border-radius: 10%;
+  height: 23px;
+  width: 23px;
+  overflow: hidden;
+
+  & img {
+    width: 33px;
+    height: 33px;
+    margin-left: -5px;
+    margin-top: -5px;
   }
 }
 
@@ -130,16 +149,7 @@
   flex-direction: column;
   gap: 3px;
   padding: 10px;
-  width: 150px;
-
-  & img {
-    border-radius: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 23px;
-    height: 23px;
-  }
+  width: 100%;
 }
 
 .first-team {
@@ -159,6 +169,11 @@
 .other-summoner-name {
   color: darkgrey;
   text-decoration: none;
+}
+
+.other-summoner-name:hover {
+  color: white;
+  font-weight: bold;
 }
 
 .participant-summoner-name {
@@ -202,9 +217,4 @@ hr {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
   color: #c2c2c2;
   text-align: center;
-}
-
-a:hover {
-  color: white;
-  font-weight: bold;
 }

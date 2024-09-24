@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {HeaderService} from "../config/headers.service";
+import {HTTPRequestService} from "../config/http-request.service";
 import {AlertModel} from "../model/alert.model";
 import {AlertService} from "./alert/alert.service";
 

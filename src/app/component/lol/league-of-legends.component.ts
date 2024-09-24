@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
 import {SummonerService} from "../riot/riot-summoner/summoner.service";
 import {ActivatedRoute} from "@angular/router";
-import {LOLSearchCriteriaService} from "./lol-search-criteria/lol-search-criteria.service";
 
 @Component({
   selector: 'league-of-legends',
@@ -16,33 +15,29 @@ export class LeagueOfLegendsComponent implements OnInit {
   localSummoner: RIOTSummoner | undefined;
   remoteSummoner: RIOTSummoner | undefined;
 
-  protected readonly LOLSearchCriteriaService = LOLSearchCriteriaService;
-
-  constructor(private summonerService: SummonerService, private searchCriteriaService: LOLSearchCriteriaService, private route: ActivatedRoute) {
+  private region!: string;
+  private tag!: string;
+  private name!: string;
+  protected selectedQueue!: string;
+  protected selectedRole!: string;
+  constructor(private summonerService: SummonerService, private route: ActivatedRoute) {
   }
 
   async ngOnInit() {
-    let region = "";
-    let tag = "";
-    let name = "";
-    let queue = "";
-    let role = "";
-    this.isThisComponentReady = false;
-    this.route.params.subscribe(params => {
-      region = params['region'];
-      tag = params['tag'];
-      name = params['name'];
-      queue = params['queue'];
-      role = params['role'];
+    this.route.params.subscribe(async params => {
+      this.isThisComponentReady = false;
+      this.region = params['region'];
+      this.tag = params['tag'];
+      this.name = params['name'];
+      this.selectedQueue = params['queue'];
+      this.selectedRole = params['role'];
+      if (this.localSummoner?.name != this.name || this.localSummoner?.region != this.region) {
+        const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(this.region, this.tag, this.name);
+        this.localSummoner = localSummoner;
+        this.remoteSummoner = remoteSummoner
+      }
+      this.isThisComponentReady = true;
     });
-    this.searchCriteriaService.initQueue(queue);
-    this.searchCriteriaService.initRole(role);
-    if (this.localSummoner?.name != name || this.localSummoner?.region != region) {
-      const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(region, tag, name);
-      this.localSummoner = localSummoner;
-      this.remoteSummoner = remoteSummoner
-    }
-    this.isThisComponentReady = true;
   }
 
 }
