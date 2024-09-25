@@ -17,9 +17,16 @@
           </div>
           <span *ngIf="championResult.wins != 0" class="results-number" style="justify-content: start">{{ championResult.wins }} V</span>
           <span *ngIf="championResult.losses != 0" class="results-number" style="justify-content: end"> {{ championResult.losses }} D</span>
+          <span class="win-rate results-number" style="justify-content: center">{{ getWinRate(championResult) }}%</span>
         </div>
-        <span class="win-rate">{{ getWinRate(championResult) }}%</span>
-        <span class="win-rate">245CS</span>
+        <div class="column">
+          <span class="win-rate">252 CS</span>
+          <span class="win-rate">6.4 CS/min</span>
+        </div>
+        <div class="column">
+          <span class="win-rate">12/12/12</span>
+          <span class="win-rate">3.5 KDA</span>
+        </div>
       </div>
     </div>
   </ng-container>
