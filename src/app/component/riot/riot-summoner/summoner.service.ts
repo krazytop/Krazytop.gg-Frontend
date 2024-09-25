@@ -34,6 +34,7 @@ export class SummonerService {
 
   public async updateLOLData(summoner: RIOTSummoner) {
     await this.updateSummoner(summoner);
+    await this.updateLOLMasteries(summoner);
     await this.updateLOLRanks(summoner);
     await this.updateLOLMatches(summoner);
   }
@@ -70,6 +71,12 @@ export class SummonerService {
 
   private async updateTFTMatches(summoner: RIOTSummoner) {
     const response = await fetch(`${environment.apiURL}tft/matches/${summoner.puuid}`,
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
+    await this.httpRequestService.hasResponse(response);
+  }
+
+  private async updateLOLMasteries(summoner: RIOTSummoner) {
+    const response = await fetch(`${environment.apiURL}lol/masteries/${summoner.puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }
