@@ -1,33 +1,33 @@
 <div class="component">
   <div *ngIf="!matches" class="no-matches-played-container">
-    <img src="assets/logo/loading.gif">
+    <img src="assets/logo/loading.gif" alt="Loading">
   </div>
-  <ng-container *ngIf="matches">
+  <div *ngIf="matches">
     <div *ngIf="matches.length == 0" class="no-matches-played-container">
       <div class="nothing-to-show-message">No matches played</div>
     </div>
     <div *ngIf="matches.length > 0" class="champion-list">
-      <div *ngFor="let championResult of mainChampionsList" class="champion-result">
+      <div *ngFor="let championResults of mainChampionsList" class="champion-result">
         <div class="champion-box">
-          <img src="{{ getImageUrl(championResult.champion.image) }}" alt="Champion">
+          <img src="{{ getImageUrl(championResults.champion.image) }}" alt="Champion">
         </div>
         <div class="results">
           <div class="results-bar background-color-defeat">
-            <div class="results-wins-bar background-color-victory" [style.width.%]="getWinRate(championResult)"></div>
+            <div class="results-wins-bar background-color-victory" [style.width.%]="getWinRate(championResults)"></div>
           </div>
-          <span *ngIf="championResult.wins != 0" class="results-number" style="justify-content: start">{{ championResult.wins }} V</span>
-          <span *ngIf="championResult.losses != 0" class="results-number" style="justify-content: end"> {{ championResult.losses }} D</span>
-          <span class="win-rate results-number" style="justify-content: center">{{ getWinRate(championResult) }}%</span>
+          <span *ngIf="championResults.wins != 0" class="results-number" style="justify-content: start">{{ championResults.wins }} V</span>
+          <span *ngIf="championResults.losses != 0" class="results-number" style="justify-content: end"> {{ championResults.losses }} D</span>
+          <span class="text results-number" style="justify-content: center">({{ getWinRate(championResults) }}%)</span>
         </div>
         <div class="column">
-          <span class="win-rate">252 CS</span>
-          <span class="win-rate">6.4 CS/min</span>
+          <span class="text">{{ getMinionsPerMatch(championResults) }} CS</span>
+          <span class="text">{{ getMinionsPerMin(championResults) }} / min</span>
         </div>
         <div class="column">
-          <span class="win-rate">12/12/12</span>
-          <span class="win-rate">3.5 KDA</span>
+          <span class="text">{{ getKDA(championResults) }} KDA</span>
+          <span class="text">{{ getSeparatedKDA(championResults) }}</span>
         </div>
       </div>
     </div>
-  </ng-container>
+  </div>
 </div>

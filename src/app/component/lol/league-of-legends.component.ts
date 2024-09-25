@@ -43,4 +43,5 @@ export class LeagueOfLegendsComponent implements OnInit {
     });
   }
 
+  protected readonly console = console;
 }

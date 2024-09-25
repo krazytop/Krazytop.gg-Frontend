@@ -43,7 +43,7 @@
     </div>
   </div>
   <div class="scores">{{ getGolds() }}</div>
-  <div class="scores">{{ participant.minions }}</div>
+  <div class="scores">{{ participant.minions + participant.neutralMinions }}</div>
   <div class="scores">{{ participant.visionScore }}</div>
   <div class="items">
     <img src="{{ getImageUrl(participant?.item0?.image!, 'item') }}" *ngIf="participant.item0?.image; else noItemImage" alt="Item">

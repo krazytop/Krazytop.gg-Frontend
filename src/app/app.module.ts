@@ -50,6 +50,7 @@ import {DestinyCatalystsComponent} from "./component/destiny/destiny-catalysts/d
 import {DestinyRecordComponent} from "./component/destiny/destiny-record/destiny-record.component";
 import { DestinyModelsComponent } from './component/destiny/destiny-models/destiny-models.component';
 import { LolMainChampionsComponent } from './component/lol/lol-stats/lol-main-champions/lol-main-champions.component';
+import { LolMainFriendsComponent } from './component/lol/lol-stats/lol-main-friends/lol-main-friends.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { LolMainChampionsComponent } from './component/lol/lol-stats/lol-main-ch
     DestinyCatalystsComponent,
     DestinyRecordComponent,
     DestinyModelsComponent,
-    LolMainChampionsComponent
+    LolMainChampionsComponent,
+    LolMainFriendsComponent
   ],
     imports: [
         BrowserModule,

@@ -1,4 +1,4 @@
-<div class="lol-match" >
+<div class="lol-match">
   <div class="less-data background-color-{{ getResult().toLowerCase() }}">
     <div class="game-summary">
       <div>
@@ -27,9 +27,9 @@
           <img src="{{ getRuneImageUrl(summonerParticipant.runes.secondaryRuneCategory.image) }}" *ngIf="summonerParticipant.runes.secondaryRuneCategory else noItemImage" alt="Rune">
         </div>
         <div>
-          <p class="scores">{{ summonerParticipant!.kills }} / {{ summonerParticipant!.deaths }} / {{ summonerParticipant!.assists }}</p>
+          <p class="scores">{{ summonerParticipant.kills }} / {{ summonerParticipant.deaths }} / {{ summonerParticipant.assists }}</p>
           <p class="minors-stats">{{ getKDA() }} KDA</p>
-          <p class="minors-stats">{{ summonerParticipant?.minions }} CS</p>
+          <p class="minors-stats">{{ summonerParticipant.minions + summonerParticipant.neutralMinions }} CS</p>
         </div>
 
       </div>

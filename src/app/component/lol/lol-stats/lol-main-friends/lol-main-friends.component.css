@@ -9,7 +9,7 @@
 
 .champion-result {
   display: grid;
-  grid-template-columns: 1fr 5fr 3fr 3fr;
+  grid-template-columns: 1fr 5fr 6fr;
   gap: 10px;
   align-items: center;
 }
@@ -64,8 +64,7 @@
 }
 
 .text {
-  display: flex;
-  flex-direction: column;
   color: #c2c2c2;
-  text-align: center;
+  font-size: 14px;
+  justify-self: center;
 }
