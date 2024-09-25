@@ -1,0 +1,28 @@
+.masteries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mastery {
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr;
+  gap: 10px;
+  color: #c2c2c2;
+  text-align: center;
+  align-items: center;
+}
+
+.champion-box {
+  border-radius: 10%;
+  height: 40px;
+  width: 40px;
+  overflow: hidden;
+
+  & img {
+    width: 50px;
+    height: 50px;
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+}

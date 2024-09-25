@@ -1,7 +1,8 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {SummonerService} from "./summoner.service";
+import {RiotSummonerService} from "./riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
+import {RiotImageService} from "./riot-image.service";
 
 @Component({
   selector: 'riot-summoner',
@@ -17,7 +18,7 @@ export class RiotSummonerComponent implements OnChanges {
   summoner: RIOTSummoner | undefined;
   nextAllowedUpdate: number = 0;
 
-  constructor(private summonerService: SummonerService, private route: ActivatedRoute) {
+  constructor(private summonerService: RiotSummonerService, private route: ActivatedRoute, protected imageService: RiotImageService) {
   }
 
   ngOnChanges(): void {

@@ -2,6 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
 import {LOLChampion} from "../../../../model/lol/lol-champion.model";
+import {RiotImageService} from "../../../riot/riot-summoner/riot-image.service";
 
 @Component({
   selector: 'lol-main-champions',
@@ -11,10 +12,14 @@ import {LOLChampion} from "../../../../model/lol/lol-champion.model";
 export class LolMainChampionsComponent implements OnChanges {
 
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
-  @Input() matches: LOLMatch[] | undefined;
+  @Input() matches?: LOLMatch[];
+  @Input() version?: string;
 
   mainChampions: Map<String, LolMainChampionsInterface> = new Map();
   mainChampionsList: LolMainChampionsInterface[] = [];
+
+  constructor(protected imageService: RiotImageService) {
+  }
 
   ngOnChanges() {
     if (this.matches) {
@@ -58,12 +63,6 @@ export class LolMainChampionsComponent implements OnChanges {
         .sort((a, b) => (b[1].wins + b[1].losses) - (a[1].wins + a[1].losses))
         .slice(0, 5)
         .map(([, value]) => value);
-  }
-
-  protected getImageUrl(image: string) {
-    let versionArray = this.matches![0].version.split('.');
-    const version = `${versionArray[0]}.${versionArray[1]}.1`;
-    return `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${image}`;
   }
 
   protected getWinRate(championResults: LolMainChampionsInterface) {

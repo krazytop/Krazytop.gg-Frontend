@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SummonerService} from "../riot/riot-summoner/summoner.service";
+import {RiotSummonerService} from "../riot/riot-summoner/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
 import {TftSearchCriteriaService} from "./tft-search-criteria/tft-search-criteria.service";
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
@@ -19,7 +19,7 @@ export class TeamfightTacticsComponent implements OnInit {
 
   protected readonly TftSearchCriteriaService = TftSearchCriteriaService;
 
-  constructor(private summonerService: SummonerService, private searchCriteriaService: TftSearchCriteriaService, private route: ActivatedRoute) {
+  constructor(private summonerService: RiotSummonerService, private searchCriteriaService: TftSearchCriteriaService, private route: ActivatedRoute) {
   }
 
   async ngOnInit() {

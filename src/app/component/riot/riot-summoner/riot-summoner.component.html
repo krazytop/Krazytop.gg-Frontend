@@ -1,7 +1,7 @@
 <div *ngIf="isThisComponentReady && summoner" class="profile">
   <div class="profile-icon-level">
     <img alt="" class="summoner-icon" height="200"
-         ngSrc="https://ddragon.leagueoflegends.com/cdn/14.6.1/img/profileicon/{{ summoner.icon }}.png"
+         ngSrc="{{ imageService.getProfileIconUrl(summoner.icon) }}"
          width="200"/>
     <h3 class="summoner-level">{{ summoner.level }}</h3>
   </div>

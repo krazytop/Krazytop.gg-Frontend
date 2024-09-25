@@ -1,1 +1,9 @@
-<p>lol-main-masteries works!</p>
+<div class="component masteries">
+  <div class="mastery" *ngFor="let mastery of masteries">
+    <div class="champion-box">
+      <img src="{{ imageService.getChampionImageUrl(mastery.champion) }}" alt="Champion">
+    </div>
+    <span>{{ mastery.level }}</span>
+    <span>{{ formatService.formatByThousands(mastery.points) }} PTS</span>
+  </div>
+</div>

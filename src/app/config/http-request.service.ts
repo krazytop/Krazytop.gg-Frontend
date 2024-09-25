@@ -14,14 +14,14 @@ export class HTTPRequestService {
   }
 
   async hasResponse(response: Response) {
-    if (response.status == 500) {
+    if (response.status == 500 || response.status == 404) {
       this.alertService.processAlert({
         message: "",
         duration: 3000
       })
       return false;
     } else {
-      return response.status != 204;
+      return response.status == 200;
     }
   }
 }

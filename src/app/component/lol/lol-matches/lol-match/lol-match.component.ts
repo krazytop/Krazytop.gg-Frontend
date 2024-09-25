@@ -4,6 +4,7 @@ import {LOLParticipant} from "../../../../model/lol/lol-participant.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
 import {LOLTeam} from "../../../../model/lol/lol-team.model";
 import {TimeService} from "../../../../service/time.service";
+import {RiotImageService} from "../../../riot/riot-summoner/riot-image.service";
 
 @Component({
   selector: 'lol-match',
@@ -13,7 +14,7 @@ import {TimeService} from "../../../../service/time.service";
 export class LolMatchComponent implements OnInit {
 
   @Input() match!: LOLMatch;
-  @Input() summoner: RIOTSummoner = new RIOTSummoner();
+  @Input() summoner!: RIOTSummoner;
 
   summonerParticipant!: LOLParticipant;
   allDataIsDisplayed: boolean = false;
@@ -21,14 +22,12 @@ export class LolMatchComponent implements OnInit {
   enemyTeam: LOLTeam = new LOLTeam();
   topDamage: number = 0;
 
-  constructor(protected timeService: TimeService) {
+  constructor(protected timeService: TimeService, protected imageService: RiotImageService) {
   }
 
   ngOnInit(): void {
     this.findSummonerTeamAndParticipant();
     this.setTopDamage();
-    const versionArray = this.match.version.split('.');
-    this.match.version = `${versionArray[0]}.${versionArray[1]}.1`;
   }
 
   findSummonerTeamAndParticipant(): void {
@@ -42,14 +41,6 @@ export class LolMatchComponent implements OnInit {
     })!;
     this.enemyTeam = this.match.teams.find(team => team != this.summonerTeam)!;
     //TODO make a list of enemy teams (arena)
-  }
-
-  getImageUrl(image: string, component: string) {
-    return `https://ddragon.leagueoflegends.com/cdn/${this.match.version}/img/${component}/${image}`;
-  }
-
-  getRuneImageUrl(image: string) {
-    return `https://ddragon.leagueoflegends.com/cdn/img/${image}`
   }
 
   showAllMatchData() {

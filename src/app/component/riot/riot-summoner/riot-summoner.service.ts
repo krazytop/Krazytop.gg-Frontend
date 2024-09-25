@@ -8,7 +8,7 @@ import {AlertModel} from "../../../model/alert.model";
 @Injectable({
   providedIn: 'root',
 })
-export class SummonerService {
+export class RiotSummonerService {
 
   constructor(private httpRequestService: HTTPRequestService) {
   }

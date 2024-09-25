@@ -1,31 +1,23 @@
 @import "src/app/component/lol/league-of-legends.component.css";
 
-.champion-list {
+.friends-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
   font-size: 12px;
 }
 
-.champion-result {
+.friend-results {
   display: grid;
   grid-template-columns: 1fr 5fr 6fr;
   gap: 10px;
   align-items: center;
 }
 
-.champion-box {
+.friend-icon {
   border-radius: 10%;
   height: 40px;
   width: 40px;
-  overflow: hidden;
-
-  & img {
-    width: 50px;
-    height: 50px;
-    margin-left: -5px;
-    margin-top: -5px;
-  }
 }
 
 .results {
@@ -67,4 +59,8 @@
   color: #c2c2c2;
   font-size: 14px;
   justify-self: center;
+}
+
+.win-rate {
+  font-size: 12px;
 }

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../../../../model/riot/riot-summoner.model";
 import {LOLParticipant} from "../../../../../model/lol/lol-participant.model";
+import {RiotImageService} from "../../../../riot/riot-summoner/riot-image.service";
 
 @Component({
   selector: 'lol-match-participant',
@@ -18,16 +19,11 @@ export class LolMatchParticipantComponent implements OnInit {
 
   damage: number = 0;
 
+  constructor(protected imageService: RiotImageService) {
+  }
+
   ngOnInit(): void {
     this.setDamage();
-  }
-
-  getImageUrl(image: string, component: string) {
-    return `https://ddragon.leagueoflegends.com/cdn/${this.matchVersion}/img/${component}/${image}`;
-  }
-
-  getRuneImageUrl(image: string) {
-    return `https://ddragon.leagueoflegends.com/cdn/img/${image}`
   }
 
   getKDA(): string {

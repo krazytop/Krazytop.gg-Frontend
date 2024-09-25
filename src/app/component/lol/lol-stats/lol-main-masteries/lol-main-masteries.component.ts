@@ -3,6 +3,8 @@ import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {environment} from "../../../../../environments/environment";
 import {LolMastery} from "../../../../model/lol/lol-mastery.model";
 import {HTTPRequestService} from "../../../../config/http-request.service";
+import {RiotImageService} from "../../../riot/riot-summoner/riot-image.service";
+import {FormatService} from "../../../../service/format.service";
 
 @Component({
   selector: 'lol-main-masteries',
@@ -11,21 +13,23 @@ import {HTTPRequestService} from "../../../../config/http-request.service";
 })
 export class LolMainMasteriesComponent implements OnChanges {
 
-  @Input() summoner: RIOTSummoner = new RIOTSummoner();
+  @Input() summoner!: RIOTSummoner;
+  @Input() version?: string;
 
   protected masteries: LolMastery[] = [];
 
-  constructor(private httpRequestService: HTTPRequestService) {
+  constructor(private httpRequestService: HTTPRequestService, protected imageService: RiotImageService, protected formatService:FormatService) {
   }
 
   async ngOnChanges() {
     await this.getMasteries();
-    console.log(this.masteries)
   }
 
   private async getMasteries() {
     const response = await fetch(`${environment.apiURL}lol/masteries/${this.summoner.puuid}`, {headers: HTTPRequestService.getBackendHeaders(),});
-    this.masteries = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
+    const masteries: LolMastery[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
+    console.log(masteries)
+    this.masteries = masteries.splice(0, 5);
   }
 
 }

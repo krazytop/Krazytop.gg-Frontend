@@ -14,17 +14,17 @@
       <div class="game-participant-main">
         <div class="game-participant-main-champion">
           <div class="champion-box">
-            <img src="{{ getImageUrl(summonerParticipant.champion.image, 'champion') }}" alt="Champion">
+            <img src="{{ imageService.getChampionImageUrl(summonerParticipant.champion, match.version) }}" alt="Champion">
           </div>
           <h4 class="champion-level">{{ summonerParticipant!.champLevel }}</h4>
         </div>
         <div class="game-participant-summoner-spells-and-runes">
-          <img src="{{ getImageUrl(summonerParticipant.summonerSpell1.image, 'spell') }}" *ngIf="summonerParticipant.summonerSpell1.image else noItemImage" alt="Summoner Spell">
-          <img src="{{ getImageUrl(summonerParticipant.summonerSpell2.image, 'spell') }}" *ngIf="summonerParticipant.summonerSpell2.image else noItemImage" alt="Summoner Spell">
+          <img src="{{ imageService.getSpellImageUrl(summonerParticipant.summonerSpell1, match.version) }}" alt="Summoner Spell">
+          <img src="{{ imageService.getSpellImageUrl(summonerParticipant.summonerSpell2, match.version) }}" alt="Summoner Spell">
         </div>
         <div class="game-participant-summoner-spells-and-runes">
-          <img src="{{ getRuneImageUrl(summonerParticipant.runes.primaryRuneFirstPerk.image) }}" *ngIf="summonerParticipant.runes.primaryRuneFirstPerk else noItemImage" alt="Rune">
-          <img src="{{ getRuneImageUrl(summonerParticipant.runes.secondaryRuneCategory.image) }}" *ngIf="summonerParticipant.runes.secondaryRuneCategory else noItemImage" alt="Rune">
+          <img src="{{ imageService.getRuneImageUrl(summonerParticipant.runes.primaryRuneFirstPerk) }}">
+          <img src="{{ imageService.getRuneImageUrl(summonerParticipant.runes.secondaryRuneCategory) }}">
         </div>
         <div>
           <p class="scores">{{ summonerParticipant.kills }} / {{ summonerParticipant.deaths }} / {{ summonerParticipant.assists }}</p>
@@ -34,13 +34,13 @@
 
       </div>
       <div class="game-participant-items">
-        <img src="{{ getImageUrl(summonerParticipant.item0?.image!, 'item') }}" *ngIf="summonerParticipant.item0?.image; else noItemImage" alt="Item">
-        <img src="{{ getImageUrl(summonerParticipant.item1?.image!, 'item') }}" *ngIf="summonerParticipant.item1?.image; else noItemImage" alt="Item">
-        <img src="{{ getImageUrl(summonerParticipant.item2?.image!, 'item') }}" *ngIf="summonerParticipant.item2?.image; else noItemImage" alt="Item">
-        <img src="{{ getImageUrl(summonerParticipant.item3?.image!, 'item') }}" *ngIf="summonerParticipant.item3?.image; else noItemImage" alt="Item">
-        <img src="{{ getImageUrl(summonerParticipant.item4?.image!, 'item') }}" *ngIf="summonerParticipant.item4?.image; else noItemImage" alt="Item">
-        <img src="{{ getImageUrl(summonerParticipant.item5?.image!, 'item') }}" *ngIf="summonerParticipant.item5?.image; else noItemImage" alt="Item">
-        <img src="{{ getImageUrl(summonerParticipant.ward?.image!, 'item') }}" *ngIf="summonerParticipant.ward?.image; else noItemImage" alt="Item">
+        <img src="{{ imageService.getItemImageUrl(summonerParticipant.item0, match.version) }}" alt="Item">
+        <img src="{{ imageService.getItemImageUrl(summonerParticipant.item1, match.version) }}" alt="Item">
+        <img src="{{ imageService.getItemImageUrl(summonerParticipant.item2, match.version) }}" alt="Item">
+        <img src="{{ imageService.getItemImageUrl(summonerParticipant.item3, match.version) }}" alt="Item">
+        <img src="{{ imageService.getItemImageUrl(summonerParticipant.item4, match.version) }}" alt="Item">
+        <img src="{{ imageService.getItemImageUrl(summonerParticipant.item5, match.version) }}" alt="Item">
+        <img src="{{ imageService.getItemImageUrl(summonerParticipant.ward, match.version) }}" alt="Item">
       </div>
     </div>
 
@@ -56,7 +56,7 @@
             </a>
           </ng-template>
           <div class="other-participants-champion-box">
-            <img class="game-participant-main-champion" src="{{ getImageUrl(participant.champion.image, 'champion') }}">
+            <img class="game-participant-main-champion" src="{{ imageService.getChampionImageUrl(participant.champion, match.version) }}">
           </div>
         </div>
       </div>
@@ -64,13 +64,13 @@
         <img src="assets/data/lol/lol-roles/top.png">
         <img src="assets/data/lol/lol-roles/jungle.png">
         <img src="assets/data/lol/lol-roles/middle.png">
-        <img src="../../../../../assets/data/lol/lol-roles/bottom.png">
-        <img src="../../../../../assets/data/lol/lol-roles/support.png">
+        <img src="assets/data/lol/lol-roles/bottom.png">
+        <img src="assets/data/lol/lol-roles/support.png">
       </div>
       <div class="game-team">
         <div *ngFor="let participant of match.teams[1].participants" class="other-summoner">
           <div class="other-participants-champion-box">
-            <img class="game-participant-main-champion" src="{{ getImageUrl(participant.champion.image, 'champion') }}">
+            <img class="game-participant-main-champion" src="{{ imageService.getChampionImageUrl(participant.champion, match.version) }}">
           </div>
           <ng-container *ngIf="participant.summoner.puuid === summoner.puuid; else elseBlock">
             <div class="participant-summoner-name">{{ participant.summoner.name }}</div>
@@ -132,8 +132,4 @@
     <p>Vision</p>
     <p>Items</p>
   </div>
-</ng-template>
-
-<ng-template #noItemImage>
-  <img src="assets/data/lol/empty.png" style="opacity: 0.3;">
 </ng-template>

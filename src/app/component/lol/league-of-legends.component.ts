@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
-import {SummonerService} from "../riot/riot-summoner/summoner.service";
+import {RiotSummonerService} from "../riot/riot-summoner/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
 import {LOLMatch} from "../../model/lol/lol-match.model";
 
@@ -23,7 +23,7 @@ export class LeagueOfLegendsComponent implements OnInit {
   protected selectedRole!: string;
   protected matches: LOLMatch[] | undefined;
 
-  constructor(private summonerService: SummonerService, private route: ActivatedRoute) {
+  constructor(private summonerService: RiotSummonerService, private route: ActivatedRoute) {
   }
 
   async ngOnInit() {

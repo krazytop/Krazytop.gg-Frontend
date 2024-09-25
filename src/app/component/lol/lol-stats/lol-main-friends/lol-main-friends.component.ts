@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
+import {RiotImageService} from "../../../riot/riot-summoner/riot-image.service";
 
 @Component({
   selector: 'lol-main-friends',
@@ -14,6 +15,9 @@ export class LolMainFriendsComponent implements OnChanges {
 
   mainFriends: Map<String, LolMainFriendsInterface> = new Map();
   mainFriendsList: LolMainFriendsInterface[] = [];
+
+  constructor(protected imageService: RiotImageService) {
+  }
 
   ngOnChanges() { //TODO mettre la streak avec chacun
     if (this.matches) {
@@ -51,12 +55,6 @@ export class LolMainFriendsComponent implements OnChanges {
         .filter(result => result.losses + result.wins > 1)
         .sort((a, b) => (b.wins + b.losses) - (a.wins + a.losses))
         .slice(0, 5);
-  }
-
-  protected getImageUrl(image: number) {
-    let versionArray = this.matches![0].version.split('.');
-    const version = `${versionArray[0]}.${versionArray[1]}.1`;
-    return `https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${image}`;
   }
 
   protected getWinRate(friendResults: LolMainFriendsInterface) {
