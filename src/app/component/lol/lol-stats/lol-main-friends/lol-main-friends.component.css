@@ -1,17 +1,11 @@
 @import "src/app/component/lol/league-of-legends.component.css";
 
-.friends-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 12px;
-}
-
 .friend-results {
   display: grid;
   grid-template-columns: 1fr 5fr 6fr;
   gap: 10px;
   align-items: center;
+  font-size: 12px;
 }
 
 .friend-icon {

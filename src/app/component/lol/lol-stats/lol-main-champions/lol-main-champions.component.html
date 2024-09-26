@@ -6,8 +6,8 @@
     <div *ngIf="matches.length == 0" class="no-matches-played-container">
       <div class="nothing-to-show-message">No matches played</div>
     </div>
-    <div *ngIf="matches.length > 0" class="champion-list">
-      <div *ngFor="let championResults of mainChampionsList" class="champion-result">
+    <div *ngIf="matches.length > 0" class="small-subcomponent-list">
+      <div *ngFor="let championResults of mainChampionsList" class="champion-result small-subcomponent">
         <div class="champion-box">
           <img src="{{ imageService.getChampionImageUrl(championResults.champion) }}" alt="Champion">
         </div>

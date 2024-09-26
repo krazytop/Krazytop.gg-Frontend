@@ -1,17 +1,11 @@
 @import "src/app/component/lol/league-of-legends.component.css";
 
-.champion-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 12px;
-}
-
 .champion-result {
   display: grid;
   grid-template-columns: 1fr 5fr 3fr 3fr;
   gap: 10px;
   align-items: center;
+  font-size: 12px;
 }
 
 .champion-box {
