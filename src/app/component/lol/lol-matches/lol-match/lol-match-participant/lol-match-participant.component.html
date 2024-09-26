@@ -37,7 +37,7 @@
     <div class="minors-stats">{{ getKDA() }} KDA</div>
   </div>
   <div class="damage">
-    <div>{{ getDamage() }}</div>
+    <div>{{ formatService.formatByThousands(damage) }}</div>
     <div class="damage-bar">
       <div class="participant-damage" [style.width.%]="(damage/topDamage*100 < 0.1 && damage/topDamage*100 != 0) ? 10 : damage/topDamage*100"></div>
     </div>

@@ -3,7 +3,10 @@
     <div class="champion-box">
       <img src="{{ imageService.getChampionImageUrl(mastery.champion) }}" alt="Champion">
     </div>
-    <span>{{ mastery.level }}</span>
-    <span>{{ formatService.formatByThousands(mastery.points) }} PTS</span>
+    <div class="mastery-box">
+      <img src="assets/data/lol/lol-masteries/mastery-{{ Math.min(mastery.level, 10) }}.png" alt="Mastery">
+      <span>{{ mastery.level }}</span>
+    </div>
+    <span>{{ formatService.formatByThousands(mastery.points) }} pts</span>
   </div>
 </div>

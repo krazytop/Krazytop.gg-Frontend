@@ -28,8 +28,8 @@ export class LolMainMasteriesComponent implements OnChanges {
   private async getMasteries() {
     const response = await fetch(`${environment.apiURL}lol/masteries/${this.summoner.puuid}`, {headers: HTTPRequestService.getBackendHeaders(),});
     const masteries: LolMastery[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
-    console.log(masteries)
-    this.masteries = masteries.splice(0, 5);
+    this.masteries = masteries.sort((a,b) => b.points - a.points).splice(0, 5);
   }
 
+  protected readonly Math = Math;
 }

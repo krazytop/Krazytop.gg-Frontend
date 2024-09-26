@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../../../../model/riot/riot-summoner.model";
 import {LOLParticipant} from "../../../../../model/lol/lol-participant.model";
 import {RiotImageService} from "../../../../riot/riot-summoner/riot-image.service";
+import {FormatService} from "../../../../../service/format.service";
 
 @Component({
   selector: 'lol-match-participant',
@@ -19,7 +20,7 @@ export class LolMatchParticipantComponent implements OnInit {
 
   damage: number = 0;
 
-  constructor(protected imageService: RiotImageService) {
+  constructor(protected imageService: RiotImageService, protected formatService: FormatService) {
   }
 
   ngOnInit(): void {
@@ -36,20 +37,6 @@ export class LolMatchParticipantComponent implements OnInit {
 
   getGolds(): string {
     return (this.participant.golds / 1000).toFixed(1) + 'k';
-  }
-
-  getDamage(): string {
-    if (this.damage > 1000) {
-      const thousands = Math.floor(this.damage / 1000);
-      const remainder = this.damage % 1000;
-      if (thousands > 0) {
-        return `${thousands} ${remainder.toString().padStart(3, '0')}`;
-      } else {
-        return `${remainder}`;
-      }
-    } else {
-      return this.damage.toString();
-    }
   }
 
 }

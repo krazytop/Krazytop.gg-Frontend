@@ -26,3 +26,20 @@
     margin-top: -5px;
   }
 }
+
+.mastery-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  & img {
+    position: absolute;
+    align-self: center;
+    width: 50px;
+  }
+
+  & span {
+    position: absolute;
+    align-self: start;
+  }
+}
