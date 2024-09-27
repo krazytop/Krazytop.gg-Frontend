@@ -20,8 +20,8 @@ export class AlertComponent implements OnChanges, AfterViewInit {
   showLoading() {
     const loadingElement = document.getElementById('loading')!;
     const initialWidth = loadingElement.offsetWidth;
-    const targetWidth = 0; // La largeur finale que vous voulez atteindre
-    const intervalTime = 10; // Interval de temps pour l'animation en millisecondes
+    const targetWidth = 0;
+    const intervalTime = 10;
 
     const stepWidth = (initialWidth - targetWidth) / (this.alert.duration / intervalTime);
 

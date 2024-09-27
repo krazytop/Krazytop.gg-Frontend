@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
+import {LOLMatchService} from "../../../../service/lol/lol-match.service";
 
 @Component({
   selector: 'lol-latest-matches-placement',
@@ -16,9 +17,13 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
 
   streak: number = 0;
 
+  constructor(protected matchService: LOLMatchService) {
+  }
+
   async ngOnChanges() {
     if (this.matches) {
       this.setLatestMatchesResults();
+      this.streak = this.matchService.getMatchesStreak(this.matches, this.summoner);
     }
   }
 
@@ -30,42 +35,6 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
       const summonerTeam = match.teams.find(team => team.participants.some(p => p.summoner.puuid === this.summoner.puuid))!;
       return summonerTeam.hasWin ? "VICTORY" : "DEFEAT";
     });
-
-    this.setStreak();
-  }
-
-  getLatestMatchesWinRate(): string {
-    let victories = 0;
-    let nbMatches = 0;
-    for (const result of this.latestMatchesResults) {
-      if (result !== "REMAKE") {
-        nbMatches ++;
-      }
-      if (result === "VICTORY") {
-        victories ++;
-      }
-    }
-    const winRate =  victories / nbMatches * 100;
-    return winRate % 1 === 0 ? winRate.toFixed(0) : winRate.toFixed(1);
-  }
-
-  private setStreak() {
-    let currentStreak = 0;
-    let lastResult: string | null = null;
-
-    for (const element of this.latestMatchesResults) {
-      const result = element;
-      if (result === 'REMAKE') {
-        continue;
-      }
-      if (lastResult === null || lastResult === result) {
-        currentStreak++;
-      } else {
-        break;
-      }
-      lastResult = result;
-    }
-    this.streak = (lastResult === 'VICTORY') ? currentStreak : -currentStreak;
   }
 
   protected readonly Math = Math;

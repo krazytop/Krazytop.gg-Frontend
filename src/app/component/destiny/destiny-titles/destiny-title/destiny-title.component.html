@@ -1,5 +1,5 @@
 <div class="title">
-  <div class="main-informations">
+  <div class="main-informations subcomponent-list">
     <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete() ? 'grayscale(1)' : 'none'" class="title-icon">
     <span class="title-name">{{ title.name }}</span>
     <span class="title-description">{{ title.description }}</span>
@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="records">
-    <destiny-record *ngFor="let record of title.childrenRecord" class="record"
+    <destiny-record *ngFor="let record of title.childrenRecord" class="record subcomponent-list"
                     [ngClass]="isRecordComplete(presentationNodeProgress.get(record.hash)!) ? 'completeRecord' : 'none'"
                     [record]="record"
                     [recordProgress]="presentationNodeProgress.get(record.hash)!">

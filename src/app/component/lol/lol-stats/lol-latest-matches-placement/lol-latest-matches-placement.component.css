@@ -1,4 +1,4 @@
-@import "src/app/component/lol/league-of-legends.component.css";
+@import "src/app/component/lol/lol-stats/lol-stats.css";
 
 .latest-matches-placements {
   border-radius: 10px;
@@ -11,36 +11,24 @@
   border-radius: 5px;
   color: white;
   font-weight: bold;
+  font-size: 14px;
   padding: 10px;
   text-align: center;
 }
 
-.win-rate-columns {
+.win-rate-box {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto 1fr;
+  align-items: center;
 }
 
-.win-rate {
+.win-rate-value {
   color: white;
   font-weight: bold;
-  display: inline;
+  text-align: start;
 }
 
-.average-placement-title {
+.win-rate-title {
   color: darkgrey;
-  display: inline;
-}
-
-.win-streak {
-  background-color: #ffac6e55;
-  color: orange;
-  border-radius: 5px;
-  padding: 5px 5px 5px 3px;
-}
-
-.lose-streak {
-  background-color: #54b3b455;
-  color: dodgerblue;
-  border-radius: 5px;
-  padding: 5px 5px 5px 3px;
+  text-align: start;
 }

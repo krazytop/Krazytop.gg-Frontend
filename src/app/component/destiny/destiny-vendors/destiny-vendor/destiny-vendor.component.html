@@ -5,14 +5,14 @@
       <img class="icon" src="{{ DestinyComponent.ASSET_URL + vendor.vendorNomenclature?.icon }}" alt="Vendor icon">
       <img class="icon-background" id= "{{ vendor.vendorNomenclature.hash }}" src="{{ DestinyComponent.ASSET_URL + vendor.vendorNomenclature?.iconBackground }}" alt="Vendor icon background">
     </div>
-    <div class="progressions" *ngIf="vendor.progression.levelCap != -1">
+    <div class="subcomponent-list" *ngIf="vendor.progression.levelCap != -1">
       <div>Rang {{ vendor.progression.level }} / {{ vendor.progression.levelCap }} ({{ Math.round(vendor.progression.progressToNextLevel / vendor.progression.nextLevelAt * 100) }}%)</div>
       <div>Prestige {{ vendor.progression.currentResetCount == undefined ? 0 : vendor.progression.currentResetCount }} ({{ Math.round(vendor.progression.currentProgress / totalXP * 100) }}%)</div>
     </div>
-    <div class="progressions" *ngIf="vendor.progression.levelCap === -1">
+    <div class="subcomponent-list" *ngIf="vendor.progression.levelCap === -1">
       <div>Rang {{ vendor.progression.level }}</div>
     </div>
-    <div class="progressions">
+    <div class="subcomponent-list">
       <div class="progression-separators">
         <div class="fill-progression">
           <span class="progression-stat">{{ vendor.progression.progressToNextLevel }} / {{ vendor.progression.nextLevelAt }}</span>
