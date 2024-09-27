@@ -16,18 +16,20 @@
   text-align: center;
 }
 
-.win-rate-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.win-rate-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
 }
 
-.win-rate {
+.win-rate-value {
   color: white;
   font-weight: bold;
-  display: inline;
+  text-align: start;
 }
 
-.average-placement-title {
+.win-rate-title {
   color: darkgrey;
-  display: inline;
+  text-align: start;
 }

@@ -23,10 +23,8 @@
             <span class="text win-rate bar-numbers" style="justify-content: center">({{ getWinRate(friendResults) }}%)</span>
           </div>
           <span class="text">{{ friendResults.summoner.name }}</span>
-          <div style="justify-self: end; margin-top: -3px; filter: saturate(2)">
-            <div class="{{ friendResults.streak > 0 ? 'win-streak' : 'lose-streak' }}">
-              {{ friendResults.streak > 0 ? '🔥' : '❄️' }} {{ Math.abs(friendResults.streak) }}
-            </div>
+          <div class="streak {{ friendResults.streak > 0 ? 'win-streak' : 'lose-streak' }}">
+            {{ friendResults.streak > 0 ? '🔥' : '❄️' }} {{ Math.abs(friendResults.streak) }}
           </div>
         </div>
       </div>

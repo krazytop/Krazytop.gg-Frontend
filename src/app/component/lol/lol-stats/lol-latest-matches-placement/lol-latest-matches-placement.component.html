@@ -9,15 +9,11 @@
         <div class="nothing-to-show-message">No matches played</div>
       </div>
       <div *ngIf="matches.length > 0" class="subcomponent-list">
-        <div class="win-rate-columns subcomponent">
-          <div>
-            <div class="average-placement-title">Win rate :&nbsp;</div>
-            <div class="win-rate">{{ matchService.getWinRate(matches, summoner) }} %</div>
-          </div>
-          <div style="justify-self: end; margin-top: -3px">
-            <div class="{{ streak > 0 ? 'win-streak' : 'lose-streak' }}">
+        <div class="win-rate-box small-subcomponent">
+          <span class="win-rate-title">Win rate :&nbsp;</span>
+          <span class="win-rate-value">{{ matchService.getWinRate(matches, summoner) }} %</span>
+          <div class="streak {{ streak > 0 ? 'win-streak' : 'lose-streak' }}">
               {{ streak > 0 ? '🔥' : '❄️' }} {{ Math.abs(streak) }}
-            </div>
           </div>
         </div>
         <div class="latest-matches-placements">

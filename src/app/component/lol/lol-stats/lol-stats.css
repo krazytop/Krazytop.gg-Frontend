@@ -63,20 +63,21 @@
   justify-self: center;
 }
 
-.win-streak {
-  background-color: #ffac6e55;
-  color: orange;
+.streak {
   border-radius: 5px;
   font-weight: bold;
   font-size: 16px;
   padding: 5px 5px 5px 3px;
+  margin-top: -3px;
+  justify-self: end;
+}
+
+.win-streak {
+  background-color: #ffac6e55;
+  color: orange;
 }
 
 .lose-streak {
   background-color: #54b3b455;
   color: dodgerblue;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 16px;
-  padding: 5px 5px 5px 3px;
 }
