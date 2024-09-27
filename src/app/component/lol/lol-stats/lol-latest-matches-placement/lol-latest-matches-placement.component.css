@@ -17,10 +17,9 @@
 }
 
 .win-rate-box {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 0;
 }
 
 .win-rate-value {
