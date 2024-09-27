@@ -1,9 +1,3 @@
-.weapon-categories {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 .records {
   display: grid;
   gap: 10px;

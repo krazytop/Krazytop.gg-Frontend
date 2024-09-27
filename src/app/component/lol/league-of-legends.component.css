@@ -1,13 +1,4 @@
-.lol-ranking {
-  grid-column: 1;
-}
-
-.lol-matches {
-  grid-column: 2;
-}
-
-.lol-stats {
-  grid-column: 3;
+.column {
   display: flex;
   flex-direction: column;
   gap: 10px;

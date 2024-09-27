@@ -11,8 +11,8 @@
     <img src="{{getDamageTypeImage(item)}}" alt="crafted" *ngIf="item.itemInstance?.damageType != ItemDamageTypeEnum.None" class="damage-type">
     <span style="margin-top: 2px">{{ item.itemInstance!.primaryStat?.value ?? 0 }}</span>
   </div>
-  <div title="Max Stack Size : {{ formatThousands(item.itemNomenclature?.maxStackSize!) }}" *ngIf="item.itemInstanceId === undefined" class="size-or-level">
-    <span  style="margin-top: 2px" *ngIf="item.itemInstanceId == undefined">{{ formatThousands(item.quantity) }}</span>
+  <div title="Max Stack Size : {{ formatService.formatByThousands(item.itemNomenclature?.maxStackSize!) }}" *ngIf="item.itemInstanceId === undefined" class="size-or-level">
+    <span  style="margin-top: 2px" *ngIf="item.itemInstanceId == undefined">{{ formatService.formatByThousands(item.quantity) }}</span>
     <span *ngIf="item.quantity === item.itemNomenclature?.maxStackSize" class="warning">⚠️</span>
   </div>
 </div>

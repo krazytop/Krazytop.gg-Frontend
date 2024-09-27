@@ -20,6 +20,7 @@ export class LOLParticipant {
   ward?: LOLItem;
   summoner!: RIOTSummoner;
   visionScore!: number;
+  neutralMinions!: number;
   minions!: number;
   doubleKills!: number;
   tripleKills!: number;

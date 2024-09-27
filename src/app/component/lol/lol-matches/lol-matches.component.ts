@@ -3,6 +3,7 @@ import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {HTTPRequestService} from "../../../config/http-request.service";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
 import {environment} from "../../../../environments/environment";
+import {RiotImageService} from "../../../service/riot/riot-image.service";
 
 @Component({
   selector: 'lol-matches',
@@ -16,7 +17,7 @@ export class LolMatchesComponent implements OnChanges {
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
   @Output() matchesUpdateEvent = new EventEmitter<LOLMatch[] | undefined>();
 
-  constructor(private httpRequestService: HTTPRequestService) {
+  constructor(private httpRequestService: HTTPRequestService, private imageService: RiotImageService) {
   }
 
   currentPage!: number;
@@ -39,6 +40,9 @@ export class LolMatchesComponent implements OnChanges {
     this.currentPage++;
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
     this.matches = this.matches.concat(await this.httpRequestService.hasResponse(response) ? await response.json() : []);
+    if (this.matches.length > 0) {
+      this.imageService.setVersion(this.matches[0].version);
+    }
     this.matchesUpdateEvent.emit(this.matches);
   }
 

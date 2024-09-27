@@ -29,13 +29,6 @@
   z-index: 0;
 }
 
-.progressions {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-}
-
 .fill-progression {
   position: relative;
   background-color: #1D1D1D;
