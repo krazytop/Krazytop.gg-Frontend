@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
-import {LOLItem} from "../../../model/lol/lol-item.model";
-import {LOLSummonerSpell} from "../../../model/lol/lol-summoner-spell.model";
-import {LOLRune} from "../../../model/lol/lol-rune.model";
-import {LOLChampion} from "../../../model/lol/lol-champion.model";
+import {LOLItem} from "../../model/lol/lol-item.model";
+import {LOLSummonerSpell} from "../../model/lol/lol-summoner-spell.model";
+import {LOLRune} from "../../model/lol/lol-rune.model";
+import {LOLChampion} from "../../model/lol/lol-champion.model";
 
 @Injectable({
   providedIn: 'root',

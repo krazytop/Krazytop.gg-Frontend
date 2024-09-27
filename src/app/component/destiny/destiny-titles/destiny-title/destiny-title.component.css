@@ -5,9 +5,6 @@
 }
 
 .main-informations {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   color: white;
   padding: 20px;
 }

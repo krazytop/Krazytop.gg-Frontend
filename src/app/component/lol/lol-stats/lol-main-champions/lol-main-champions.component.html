@@ -1,31 +1,34 @@
 <div class="component">
-  <div *ngIf="!matches" class="no-matches-played-container">
-    <img src="assets/logo/loading.gif" alt="Loading">
-  </div>
-  <div *ngIf="matches">
-    <div *ngIf="matches.length == 0" class="no-matches-played-container">
-      <div class="nothing-to-show-message">No matches played</div>
+  <div class="subcomponent-list">
+    <span class="component-title">Main Champions</span>
+    <div *ngIf="!matches" class="no-matches-played-container">
+      <img src="assets/logo/loading.gif" alt="Loading">
     </div>
-    <div *ngIf="matches.length > 0" class="small-subcomponent-list">
-      <div *ngFor="let championResults of mainChampionsList" class="champion-result small-subcomponent">
-        <div class="champion-box">
-          <img src="{{ imageService.getChampionImageUrl(championResults.champion) }}" alt="Champion">
-        </div>
-        <div class="results">
-          <div class="results-bar background-color-defeat">
-            <div class="results-wins-bar background-color-victory" [style.width.%]="getWinRate(championResults)"></div>
+    <div *ngIf="matches">
+      <div *ngIf="matches.length == 0" class="no-matches-played-container">
+        <div class="nothing-to-show-message">No matches played</div>
+      </div>
+      <div *ngIf="matches.length > 0" class="small-subcomponent-list">
+        <div *ngFor="let championResults of mainChampionsList" class="results small-subcomponent">
+          <div class="champion-box">
+            <img src="{{ imageService.getChampionImageUrl(championResults.champion) }}" alt="Champion">
           </div>
-          <span *ngIf="championResults.wins != 0" class="results-number" style="justify-content: start">{{ championResults.wins }} V</span>
-          <span *ngIf="championResults.losses != 0" class="results-number" style="justify-content: end"> {{ championResults.losses }} D</span>
-          <span class="text-column results-number" style="justify-content: center">({{ getWinRate(championResults) }}%)</span>
-        </div>
-        <div class="text-column">
-          <span>{{ getMinionsPerMatch(championResults) }} CS</span>
-          <span>{{ getMinionsPerMin(championResults) }} / min</span>
-        </div>
-        <div class="text-column">
-          <span>{{ getKDA(championResults) }} KDA</span>
-          <span>{{ getSeparatedKDA(championResults) }}</span>
+          <div class="bar">
+            <div class="defeats-bar background-color-defeat">
+              <div class="wins-bar background-color-victory" [style.width.%]="getWinRate(championResults)"></div>
+            </div>
+            <span *ngIf="championResults.wins != 0" class="bar-numbers" style="justify-content: start">{{ championResults.wins }} V</span>
+            <span *ngIf="championResults.losses != 0" class="bar-numbers" style="justify-content: end"> {{ championResults.losses }} D</span>
+            <span class="win-rate bar-numbers" style="justify-content: center">({{ getWinRate(championResults) }}%)</span>
+          </div>
+          <div class="text-column">
+            <span>{{ getMinionsPerMatch(championResults) }} CS</span>
+            <span>{{ getMinionsPerMin(championResults) }} / min</span>
+          </div>
+          <div class="text-column">
+            <span>{{ getKDA(championResults) }} KDA</span>
+            <span>{{ getSeparatedKDA(championResults) }}</span>
+          </div>
         </div>
       </div>
     </div>

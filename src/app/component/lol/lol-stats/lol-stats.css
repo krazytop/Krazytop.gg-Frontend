@@ -1,0 +1,82 @@
+@import "src/app/component/lol/league-of-legends.component.css";
+
+.champion-box {
+  border-radius: 10%;
+  height: 40px;
+  width: 40px;
+  overflow: hidden;
+
+  & img {
+    width: 50px;
+    height: 50px;
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+}
+
+.results {
+  display: grid;
+  grid-template-columns: 1fr 5fr 3fr 3fr;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.bar {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.wins-bar {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+.defeats-bar {
+  border-radius: 3px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  align-self: center;
+  overflow: hidden;
+}
+
+.bar-numbers {
+  position: absolute;
+  z-index: 2;
+  color: white;
+  display: flex;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+}
+
+.text {
+  color: #c2c2c2;
+  font-size: 14px;
+  justify-self: center;
+}
+
+.win-streak {
+  background-color: #ffac6e55;
+  color: orange;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px 5px 5px 3px;
+}
+
+.lose-streak {
+  background-color: #54b3b455;
+  color: dodgerblue;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px 5px 5px 3px;
+}

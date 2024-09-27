@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
 import {HTTPRequestService} from "../../../config/http-request.service";
 import {environment} from "../../../../environments/environment";
+import {TimeService} from "../../../service/time.service";
 
 @Component({
   selector: 'cr-player',
@@ -20,7 +21,7 @@ export class CrPlayerComponent implements OnChanges {
   player: CRPlayer | undefined;
   nextAllowedUpdate: number = 0;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, protected timeService: TimeService) {
   }
 
   ngOnChanges(): void {
@@ -77,32 +78,5 @@ export class CrPlayerComponent implements OnChanges {
     }
   }
 
-  getUpdateDateToString(): string {
-    const now = new Date().getTime();
-    const elapsedMilliseconds = now - new Date(this.player!.updateDate!).getTime();
-
-    const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60);
-    const elapsedHours = Math.floor(elapsedMinutes / 60);
-    const elapsedDays = Math.floor(elapsedHours / 24);
-    const elapsedMonths = Math.floor(elapsedDays / 30); // Approximation
-    const elapsedYears = Math.floor(elapsedDays / 365); // Approximation
-
-    let result = "Updated ";
-    if (elapsedYears >= 1) {
-      result += `${elapsedYears} year${elapsedYears > 1 ? 's' : ''}`;
-    } else if (elapsedMonths >= 1) {
-      result += `${elapsedMonths} month${elapsedMonths > 1 ? 's' : ''}`;
-    } else if (elapsedDays >= 1) {
-      result += `${elapsedDays} day${elapsedDays > 1 ? 's' : ''}`;
-    } else if (elapsedHours >= 1) {
-      result += `${elapsedHours} hour${elapsedHours > 1 ? 's' : ''}`;
-    } else if (elapsedMinutes >= 1) {
-      result += `${elapsedMinutes} minute${elapsedMinutes > 1 ? 's' : ''}`;
-    } else {
-      result += `${elapsedSeconds} second${elapsedSeconds > 1 ? 's' : ''}`;
-    }
-    return result + ' ago';
-  }
-
+  protected readonly Date = Date;
 }

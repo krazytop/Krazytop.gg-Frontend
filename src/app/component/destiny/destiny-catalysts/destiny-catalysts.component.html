@@ -1,11 +1,11 @@
-<div class="weapon-categories">
+<div class="subcomponent-list">
   <div class="subcomponent" *ngFor="let weaponCategory of catalystsPresentationTree.childrenNode">
     <div class="weapon-category-title" (click)="showWeaponCategories.set(weaponCategory, !showWeaponCategories.get(weaponCategory)!)">
       <div>{{ weaponCategory.name }}</div>
       <div [ngClass]="showWeaponCategories.get(weaponCategory) ? 'arrow-down' : 'arrow-up'"></div>
     </div>
     <div class="records" *ngIf="showWeaponCategories.get(weaponCategory)">
-      <destiny-record *ngFor="let record of weaponCategory.childrenRecord" class="record"
+      <destiny-record *ngFor="let record of weaponCategory.childrenRecord" class="record subcomponent-list"
                       [ngClass]="hasState(presentationNodeProgress.get(record.hash)!, DestinyRecordStateEnum.Obscured) ? 'obscured' : isRecordComplete(presentationNodeProgress.get(record.hash)!) ? 'completeRecord' : 'none'"
                       [record]="record"
                       [recordProgress]="presentationNodeProgress.get(record.hash)!"

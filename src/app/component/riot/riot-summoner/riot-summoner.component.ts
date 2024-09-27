@@ -1,8 +1,9 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {RiotSummonerService} from "./riot-summoner.service";
+import {RiotSummonerService} from "../../../service/riot/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
-import {RiotImageService} from "./riot-image.service";
+import {RiotImageService} from "../../../service/riot/riot-image.service";
+import {TimeService} from "../../../service/time.service";
 
 @Component({
   selector: 'riot-summoner',
@@ -18,7 +19,7 @@ export class RiotSummonerComponent implements OnChanges {
   summoner: RIOTSummoner | undefined;
   nextAllowedUpdate: number = 0;
 
-  constructor(private summonerService: RiotSummonerService, private route: ActivatedRoute, protected imageService: RiotImageService) {
+  constructor(private summonerService: RiotSummonerService, private route: ActivatedRoute, protected imageService: RiotImageService, protected timeService: TimeService) {
   }
 
   ngOnChanges(): void {
@@ -60,32 +61,5 @@ export class RiotSummonerComponent implements OnChanges {
     }
   }
 
-  getUpdateDateToString(): string {
-    const now = new Date().getTime();
-    const elapsedMilliseconds = now - new Date(this.summoner!.updateDate!).getTime();
-
-    const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60);
-    const elapsedHours = Math.floor(elapsedMinutes / 60);
-    const elapsedDays = Math.floor(elapsedHours / 24);
-    const elapsedMonths = Math.floor(elapsedDays / 30); // Approximation
-    const elapsedYears = Math.floor(elapsedDays / 365); // Approximation
-
-    let result = "Updated ";
-    if (elapsedYears >= 1) {
-      result += `${elapsedYears} year${elapsedYears > 1 ? 's' : ''}`;
-    } else if (elapsedMonths >= 1) {
-      result += `${elapsedMonths} month${elapsedMonths > 1 ? 's' : ''}`;
-    } else if (elapsedDays >= 1) {
-      result += `${elapsedDays} day${elapsedDays > 1 ? 's' : ''}`;
-    } else if (elapsedHours >= 1) {
-      result += `${elapsedHours} hour${elapsedHours > 1 ? 's' : ''}`;
-    } else if (elapsedMinutes >= 1) {
-      result += `${elapsedMinutes} minute${elapsedMinutes > 1 ? 's' : ''}`;
-    } else {
-      result += `${elapsedSeconds} second${elapsedSeconds > 1 ? 's' : ''}`;
-    }
-    return result + ' ago';
-  }
-
+  protected readonly Date = Date;
 }

@@ -3,7 +3,7 @@ import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {environment} from "../../../../../environments/environment";
 import {LolMastery} from "../../../../model/lol/lol-mastery.model";
 import {HTTPRequestService} from "../../../../config/http-request.service";
-import {RiotImageService} from "../../../riot/riot-summoner/riot-image.service";
+import {RiotImageService} from "../../../../service/riot/riot-image.service";
 import {FormatService} from "../../../../service/format.service";
 
 @Component({

@@ -3,7 +3,7 @@ import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {HTTPRequestService} from "../../../config/http-request.service";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
 import {environment} from "../../../../environments/environment";
-import {RiotImageService} from "../../riot/riot-summoner/riot-image.service";
+import {RiotImageService} from "../../../service/riot/riot-image.service";
 
 @Component({
   selector: 'lol-matches',

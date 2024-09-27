@@ -4,7 +4,7 @@ import {LOLParticipant} from "../../../../model/lol/lol-participant.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
 import {LOLTeam} from "../../../../model/lol/lol-team.model";
 import {TimeService} from "../../../../service/time.service";
-import {RiotImageService} from "../../../riot/riot-summoner/riot-image.service";
+import {RiotImageService} from "../../../../service/riot/riot-image.service";
 
 @Component({
   selector: 'lol-match',

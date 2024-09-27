@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../../../../model/riot/riot-summoner.model";
 import {LOLParticipant} from "../../../../../model/lol/lol-participant.model";
-import {RiotImageService} from "../../../../riot/riot-summoner/riot-image.service";
+import {RiotImageService} from "../../../../../service/riot/riot-image.service";
 import {FormatService} from "../../../../../service/format.service";
 
 @Component({

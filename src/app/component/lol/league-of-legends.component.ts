@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
-import {RiotSummonerService} from "../riot/riot-summoner/riot-summoner.service";
+import {RiotSummonerService} from "../../service/riot/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
 import {LOLMatch} from "../../model/lol/lol-match.model";
 

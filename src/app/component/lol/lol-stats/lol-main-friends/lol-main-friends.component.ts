@@ -1,7 +1,8 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
-import {RiotImageService} from "../../../riot/riot-summoner/riot-image.service";
+import {RiotImageService} from "../../../../service/riot/riot-image.service";
+import {LOLMatchService} from "../../../../service/lol/lol-match.service";
 
 @Component({
   selector: 'lol-main-friends',
@@ -16,10 +17,10 @@ export class LolMainFriendsComponent implements OnChanges {
   mainFriends: Map<String, LolMainFriendsInterface> = new Map();
   mainFriendsList: LolMainFriendsInterface[] = [];
 
-  constructor(protected imageService: RiotImageService) {
+  constructor(protected imageService: RiotImageService, protected matchService: LOLMatchService) {
   }
 
-  ngOnChanges() { //TODO mettre la streak avec chacun
+  ngOnChanges() {
     if (this.matches) {
       this.setMainFriends();
     }
@@ -41,11 +42,14 @@ export class LolMainFriendsComponent implements OnChanges {
               } else {
                 friendResults.losses ++;
               }
+              friendResults.matches.push(match)
             } else {
               this.mainFriends.set(participant.summoner.id,
                 {wins: summonerTeam.hasWin ? 1 : 0,
                   losses: summonerTeam.hasWin ? 0 : 1,
-                  summoner: participant.summoner});
+                  summoner: participant.summoner,
+                  streak: 0,
+                  matches: [match]});
             }
           })
       })
@@ -55,17 +59,23 @@ export class LolMainFriendsComponent implements OnChanges {
         .filter(result => result.losses + result.wins > 1)
         .sort((a, b) => (b.wins + b.losses) - (a.wins + a.losses))
         .slice(0, 5);
+    this.mainFriendsList.forEach(friend => {
+      friend.streak = this.matchService.getMatchesStreak(friend.matches, friend.summoner);
+    });
   }
 
   protected getWinRate(friendResults: LolMainFriendsInterface) {
     return (friendResults.wins / (friendResults.wins + friendResults.losses) * 100).toFixed(0);
   }
 
+  protected readonly Math = Math;
 }
 
 interface LolMainFriendsInterface {
   summoner: RIOTSummoner
   wins: number;
   losses: number;
+  streak: number;
+  matches: LOLMatch[];
 }
 

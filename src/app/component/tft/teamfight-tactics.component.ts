@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RiotSummonerService} from "../riot/riot-summoner/riot-summoner.service";
+import {RiotSummonerService} from "../../service/riot/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
 import {TftSearchCriteriaService} from "./tft-search-criteria/tft-search-criteria.service";
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";

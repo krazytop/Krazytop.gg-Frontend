@@ -22,7 +22,7 @@
           <p>Next possible update in {{ formatTime(nextAllowedUpdate) }}</p>
         </div>
         <div *ngIf="nextAllowedUpdate === 0">
-          <p>{{ getUpdateDateToString() }}</p>
+          <p>Updated {{ timeService.getTimeFrom(Date.parse(player!.updateDate!.toString())) }}</p>
         </div>
       </div>
       <div *ngIf="remotePlayer">
