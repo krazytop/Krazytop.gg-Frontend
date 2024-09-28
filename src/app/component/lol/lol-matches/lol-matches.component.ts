@@ -36,15 +36,16 @@ export class LolMatchesComponent implements OnChanges {
   }
 
   async getMatches() { //TODO empecher de spam
-    const loadingElement = document.getElementById('more-matches-loading-gif');
-    console.log(loadingElement)
-    if (loadingElement) console.log('a')
+    const moreMatchesButton = document.getElementById('more-matches-button') as HTMLButtonElement;
+    const loadingElement = document.getElementById('more-matches-loading-gif') as HTMLImageElement;
+    if (moreMatchesButton) moreMatchesButton.disabled = true;
     if (loadingElement) loadingElement.hidden = false;
     let url: string = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedRole}`;
     this.currentPage++;
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
     this.matches = this.matches.concat(await this.httpRequestService.hasResponse(response) ? await response.json() : []);
     if (loadingElement) loadingElement.hidden = true;
+    if (moreMatchesButton) moreMatchesButton.disabled = false;
     if (this.matches.length > 0) {
       this.imageService.setVersion(this.matches[0].version);
     }

@@ -66,6 +66,7 @@
   background-color: #1D1D1D;
   color: darkgrey;
   opacity: 25%;
+  max-width: fit-content;
 }
 
 .profile button {
@@ -74,6 +75,6 @@
   border-radius: 10px;
 }
 
-#loading-gif {
+#update-summoner-loading-gif {
   width: 21px;
 }
