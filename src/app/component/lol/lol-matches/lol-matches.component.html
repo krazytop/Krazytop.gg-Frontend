@@ -1,6 +1,6 @@
 <div *ngIf="!isThisComponentReady" class="no-matches-played-container">
   <div class="nothing-to-show-message">Retrieval matches&nbsp;&nbsp;</div>
-  <img src="assets/logo/loading.gif">
+  <img src="assets/logo/loading.gif" alt="Loading">
 </div>
 <ng-container *ngIf="isThisComponentReady">
   <div *ngIf="totalMatchesCount === 0" class="no-matches-played-container">
@@ -8,6 +8,9 @@
   </div>
   <div class="subcomponent-list" *ngIf="isThisComponentReady">
     <lol-match *ngFor="let match of matches" [match]="match" [summoner]="summoner"></lol-match>
-    <button *ngIf="matches.length < this.totalMatchesCount" (click)="getMatches()" class="more-matches">Show more matches</button>
+    <button *ngIf="matches.length < this.totalMatchesCount" (click)="getMatches()" class="active-profile-update-button" style="max-width: 100%" id="more-matches-button">
+      Show more matches
+      <img id="more-matches-loading-gif" src="assets/logo/loading.gif" alt="Loading" hidden>
+    </button>
   </div>
 </ng-container>

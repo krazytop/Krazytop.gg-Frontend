@@ -149,3 +149,22 @@ hr {
   width: 100%;
   border: none;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: #1D1D1D;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4c4c4c;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777777;
+}

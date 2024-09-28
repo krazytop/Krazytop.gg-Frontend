@@ -20,7 +20,7 @@
             </div>
             <span *ngIf="friendResults.wins != 0" class="bar-numbers" style="justify-content: start">{{ friendResults.wins }} V</span>
             <span *ngIf="friendResults.losses != 0" class="bar-numbers" style="justify-content: end"> {{ friendResults.losses }} D</span>
-            <span class="text win-rate bar-numbers" style="justify-content: center">({{ getWinRate(friendResults) }}%)</span>
+            <span class="bar-numbers text" style="justify-content: center">({{ getWinRate(friendResults) }}%)</span>
           </div>
           <span class="text">{{ friendResults.summoner.name }}</span>
           <div class="streak {{ friendResults.streak > 0 ? 'win-streak' : 'lose-streak' }}">

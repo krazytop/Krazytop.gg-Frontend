@@ -39,7 +39,8 @@ export class RiotSummonerComponent implements OnChanges {
 
   async updateData() {
     if (this.nextAllowedUpdate === 0) {
-      document.getElementById("loading-gif")!.hidden = false;
+      document.getElementById('update-summoner-loading-gif')!.hidden = false;
+      (document.getElementById('update-summoner-button')! as HTMLButtonElement).disabled = true;
       let role: string | null = this.route.snapshot.paramMap.get('role');
       role ? await this.summonerService.updateLOLData(this.summoner!) : await this.summonerService.updateTFTData(this.summoner!);
       window.location.reload();

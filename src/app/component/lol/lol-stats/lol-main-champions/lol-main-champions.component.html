@@ -19,7 +19,7 @@
             </div>
             <span *ngIf="championResults.wins != 0" class="bar-numbers" style="justify-content: start">{{ championResults.wins }} V</span>
             <span *ngIf="championResults.losses != 0" class="bar-numbers" style="justify-content: end"> {{ championResults.losses }} D</span>
-            <span class="win-rate bar-numbers" style="justify-content: center">({{ getWinRate(championResults) }}%)</span>
+            <span class="text bar-numbers" style="justify-content: center">({{ getWinRate(championResults) }}%)</span>
           </div>
           <div class="text-column">
             <span>{{ getMinionsPerMatch(championResults) }} CS</span>
