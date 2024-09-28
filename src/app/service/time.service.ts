@@ -4,31 +4,25 @@ import {Injectable} from "@angular/core";
 export class TimeService {
 
   public getTimeFrom(timeFrom: number): string {
-    const now = new Date().getTime();
-    const elapsedMilliseconds = now - timeFrom;
+    const now = Date.now();
+    let elapsedMilliseconds = now - timeFrom;
 
-    const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60);
-    const elapsedHours = Math.floor(elapsedMinutes / 60);
-    const elapsedDays = Math.floor(elapsedHours / 24);
-    const elapsedMonths = Math.floor(elapsedDays / 30);
-    const elapsedYears = Math.floor(elapsedDays / 365);
-
-    let result = "";
-    if (elapsedYears >= 1) {
-      result += `${elapsedYears} year${elapsedYears > 1 ? 's' : ''}`;
-    } else if (elapsedMonths >= 1) {
-      result += `${elapsedMonths} month${elapsedMonths > 1 ? 's' : ''}`;
-    } else if (elapsedDays >= 1) {
-      result += `${elapsedDays} day${elapsedDays > 1 ? 's' : ''}`;
-    } else if (elapsedHours >= 1) {
-      result += `${elapsedHours} hour${elapsedHours > 1 ? 's' : ''}`;
-    } else if (elapsedMinutes >= 1) {
-      result += `${elapsedMinutes} minute${elapsedMinutes > 1 ? 's' : ''}`;
-    } else {
-      result += `${elapsedSeconds} second${elapsedSeconds > 1 ? 's' : ''}`;
+    const units = [
+      { name: 'year', milliseconds: 365 * 24 * 60 * 60 * 1000 },
+      { name: 'month', milliseconds: 30 * 24 * 60 * 60 * 1000 },
+      { name: 'day', milliseconds: 24 * 60 * 60 * 1000 },
+      { name: 'hour', milliseconds: 60 * 60 * 1000 },
+      { name: 'minute', milliseconds: 60 * 1000 },
+      { name: 'second', milliseconds: 1000 }
+    ];
+    for (const unit of units) {
+      const elapsed = Math.floor(elapsedMilliseconds / unit.milliseconds);
+      if (elapsed > 0) {
+        return `${elapsed} ${unit.name}${elapsed > 1 ? 's' : ''} ago`;
+      }
+      elapsedMilliseconds -= elapsed * unit.milliseconds;
     }
-    return result + ' ago';
+    return '';
   }
 
   formatTimeMinSec(time: number): string {

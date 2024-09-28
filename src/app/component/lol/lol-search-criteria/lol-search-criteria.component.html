@@ -11,8 +11,9 @@
   <div class="tab-buttons">
     <button  *ngFor="let role of roles"
              (click)="selectRole(role)"
+             (keydown.enter)="selectRole(role)"
              [ngClass]="role == selectedRole ? 'tab-selected' : 'tab-not-selected'">
-      <img src="assets/data/lol/lol-roles/{{ role }}.png" style="filter: hue-rotate(193deg) saturate(300%)">
+      <img src="assets/data/lol/lol-roles/{{ role }}.png" style="filter: hue-rotate(193deg) saturate(300%)" alt="Role">
     </button>
   </div>
 </div>
