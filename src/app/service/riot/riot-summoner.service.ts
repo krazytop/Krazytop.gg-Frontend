@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import {HTTPRequestService} from "../../config/http-request.service";
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
 import {environment} from "../../../environments/environment";
-import {AlertService} from "../../component/alert/alert.service";
-import {AlertModel} from "../../model/alert.model";
 
 @Injectable({
   providedIn: 'root',

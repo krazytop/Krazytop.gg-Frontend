@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnChanges} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import {AlertModel} from "../../model/alert.model";
 
 @Component({
@@ -6,12 +6,9 @@ import {AlertModel} from "../../model/alert.model";
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.css']
 })
-export class AlertComponent implements OnChanges, AfterViewInit {
+export class AlertComponent implements AfterViewInit {
 
   @Input() alert!: AlertModel;
-
-  ngOnChanges() {
-  }
 
   ngAfterViewInit() {
     this.showLoading();
