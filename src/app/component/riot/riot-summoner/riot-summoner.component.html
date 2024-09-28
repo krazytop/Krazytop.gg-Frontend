@@ -1,29 +1,26 @@
 <div *ngIf="isThisComponentReady && summoner" class="profile">
   <div class="profile-icon-level">
-    <img alt="" class="summoner-icon" height="200"
-         ngSrc="{{ imageService.getProfileIconUrl(summoner.icon) }}"
-         width="200"/>
+    <img alt="" class="summoner-icon" height="120" width="120"
+         ngSrc="{{ imageService.getProfileIconUrl(summoner.icon) }}"/>
     <h3 class="summoner-level">{{ summoner.level }}</h3>
   </div>
-  <div class="profile-name-and-buttons">
+  <div class="profile-name-and-update">
     <h1 class="profile-name">{{ summoner.name }} #{{ summoner.tag }}</h1>
-    <div>
-      <div *ngIf="localSummoner">
-        <button (click)="updateData()" [disabled]="nextAllowedUpdate > 0" [ngClass]="{'inactive-profile-update-button': nextAllowedUpdate > 0, 'active-profile-update-button': nextAllowedUpdate === 0}">
-          <div>Update</div>
-          <img id="loading-gif" src="assets/logo/loading.gif" alt="Loading" hidden>
-        </button>
-        <div *ngIf="nextAllowedUpdate > 0">
-          <p>Next possible update in {{ formatTime(nextAllowedUpdate) }}</p>
-        </div>
-        <div *ngIf="nextAllowedUpdate === 0">
-          <p>Updated {{ timeService.getTimeFrom(Date.parse(summoner!.updateDate!.toString())) }}</p>
-        </div>
+    <ng-container *ngIf="localSummoner">
+      <button (click)="updateData()" [disabled]="nextAllowedUpdate > 0" [ngClass]="{'inactive-profile-update-button': nextAllowedUpdate > 0, 'active-profile-update-button': nextAllowedUpdate === 0}">
+        <div>Update</div>
+        <img id="update-summoner-loading-gif" src="assets/logo/loading.gif" alt="Loading" hidden>
+      </button>
+      <div *ngIf="nextAllowedUpdate > 0">
+        <span>Next possible update in {{ formatTime(nextAllowedUpdate) }}</span>
       </div>
-      <div *ngIf="remoteSummoner">
-        <button (click)="updateData()">Import</button>
+      <div *ngIf="nextAllowedUpdate === 0">
+        <span>Updated {{ timeService.getTimeFrom(Date.parse(summoner!.updateDate!.toString())) }}</span>
       </div>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="remoteSummoner">
+      <button (click)="updateData()">Import</button>
+    </ng-container>
   </div>
 </div>
 
