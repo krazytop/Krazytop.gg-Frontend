@@ -52,15 +52,5 @@ export class RiotSummonerComponent implements OnChanges {
     this.nextAllowedUpdate = Math.floor(Math.max(0, 60 - elapsedTimeInSeconds));
   }
 
-  formatTime(seconds: number): string {
-    if (seconds < 60) {
-      return `${seconds}s`;
-    } else {
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-      return `${minutes}min ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}s`;
-    }
-  }
-
   protected readonly Date = Date;
 }

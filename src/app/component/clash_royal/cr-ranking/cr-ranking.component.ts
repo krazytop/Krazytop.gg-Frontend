@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {CRPlayer} from "../../../model/clash-royal/cr-player.model";
+import {Component, Input} from '@angular/core';
+import {CRArenaNomenclature} from "../../../model/clash-royal/nomenclature/cr-arena.nomenclature";
+import {CRTrophies} from "../../../model/clash-royal/cr-trophies.model";
+import {CRLeagues} from "../../../model/clash-royal/cr-leagues.model";
 
 @Component({
   selector: 'cr-ranking',
@@ -8,7 +10,13 @@ import {CRPlayer} from "../../../model/clash-royal/cr-player.model";
 })
 export class CrRankingComponent {
 
-  @Input() isParentComponentReady: boolean = false;
-  @Input() player: CRPlayer = new CRPlayer();
+  @Input() seasonsLeagues!: CRLeagues;
+  @Input() seasonsTrophies!: CRTrophies;
+  @Input() arena!: CRArenaNomenclature;
 
+  getArenaImageUrl(image: string) {
+    return `https://royaleapi.github.io/cr-api-assets/arenas/${image}`;
+  }
+
+  protected readonly console = console;
 }

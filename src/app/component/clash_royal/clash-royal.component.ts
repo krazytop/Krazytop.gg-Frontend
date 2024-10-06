@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {CRPlayer} from "../../model/clash-royal/cr-player.model";
-import {Observable} from "rxjs";
 import {HTTPRequestService} from "../../config/http-request.service";
-import {HttpClient} from "@angular/common/http";
-import {CrTabSelectorService} from "./cr-tab-selector/cr-tab-selector.service";
 import {CrTabSelectorComponent} from "./cr-tab-selector/cr-tab-selector.component";
 import { environment } from 'src/environments/environment';
 
@@ -16,48 +13,39 @@ import { environment } from 'src/environments/environment';
 export class ClashRoyalComponent implements OnInit {
 
   isThisComponentReady: boolean = false;
+  component!: string;
 
   localPlayer: CRPlayer | undefined;
   remotePlayer: CRPlayer | undefined;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private crTabSelectorService: CrTabSelectorService) {
+  constructor(private route: ActivatedRoute, private httpRequestService: HTTPRequestService) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       const id = params['id'];
-      const tab = params['tab'];
-      this.crTabSelectorService.initTab(tab);
-      if (this.localPlayer?.id == id) {
+      this.component = params['component'];
+      if (this.localPlayer?.id === id) {
         this.isThisComponentReady = true;
       } else {
-        this.remotePlayer = undefined;
-        this.localPlayer = undefined;
-        this.getLocalPlayer(id).subscribe((localPlayer: CRPlayer) => {
-          if (localPlayer == null) {
-            this.getRemotePlayer(id).subscribe((remotePlayer: CRPlayer) => {
-              if (remotePlayer != null) {
-                this.remotePlayer = remotePlayer;
-              }
-              this.isThisComponentReady = true;
-            });
-          } else {
-            this.localPlayer = localPlayer
-            this.isThisComponentReady = true
-          }
-        });
+        this.localPlayer = await this.getLocalPlayer(id);
+        if (this.localPlayer == null) {
+          this.remotePlayer = await this.getRemotePlayer(id);
+        }
+        this.isThisComponentReady = true;
       }
     });
   }
 
-    getLocalPlayer(id: string): Observable<CRPlayer> {
-      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/local/' + id, {headers: HTTPRequestService.getBackendHeaders()});
+    async getLocalPlayer(id: string) {
+      const response = await fetch(environment.apiURL + 'clash-royal/player/local/' + id, {headers: HTTPRequestService.getBackendHeaders()});
+      return await this.httpRequestService.hasResponse(response) ? await response.json() as CRPlayer : undefined;
+  }
+
+  async getRemotePlayer(id: string) {
+      const response = await fetch(environment.apiURL + 'clash-royal/player/remote/' + id, {headers: HTTPRequestService.getBackendHeaders()});
+      return await this.httpRequestService.hasResponse(response) ? await response.json() as CRPlayer : undefined;
     }
 
-    getRemotePlayer(id: string): Observable<CRPlayer> {
-      return this.http.get<CRPlayer>(environment.apiURL + 'clash-royal/player/remote/' + id, {headers: HTTPRequestService.getBackendHeaders(),});
-    }
-
-  protected readonly CrTabSelectorService = CrTabSelectorService;
   protected readonly CrTabSelectorComponent = CrTabSelectorComponent;
 }

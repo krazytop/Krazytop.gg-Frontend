@@ -8,7 +8,6 @@ import {CRBadge} from "../../../model/clash-royal/cr-badge.model";
 })
 export class CrBadgesComponent {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() badges: CRBadge[] = [];
 
   getMasteriesBadges() {

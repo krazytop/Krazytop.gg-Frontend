@@ -1,6 +1,5 @@
 <div *ngIf="isThisComponentReady" class="game-component">
   <cr-player
-    [isParentComponentReady]="isThisComponentReady"
     [localPlayer]="localPlayer"
     [remotePlayer]="remotePlayer" class="component">
   </cr-player>
@@ -10,22 +9,20 @@
   </cr-tab-selector>
   <div *ngIf="localPlayer" class="game-data">
     <cr-ranking
-      [isParentComponentReady]="isThisComponentReady"
-      [player]="localPlayer" class="component">
+      [arena]="localPlayer.arenaNomenclature"
+      [seasonsLeagues]="localPlayer.seasonsLeagues"
+      [seasonsTrophies]="localPlayer.seasonsTrophies" class="component">
     </cr-ranking>
     <cr-cards
-      *ngIf="CrTabSelectorService.tab === CrTabSelectorComponent.cards"
-      [isParentComponentReady]="isThisComponentReady"
+      *ngIf="component === CrTabSelectorComponent.cards"
       [cards]="localPlayer.cards!" class="component">
     </cr-cards>
     <cr-chests
-      *ngIf="CrTabSelectorService.tab === CrTabSelectorComponent.chests"
-      [isParentComponentReady]="isThisComponentReady"
+      *ngIf="component === CrTabSelectorComponent.chests"
       [upcomingChests]="localPlayer.upcomingChests!" class="component">
     </cr-chests>
     <cr-badges
-      *ngIf="CrTabSelectorService.tab === CrTabSelectorComponent.badges"
-      [isParentComponentReady]="isThisComponentReady"
+      *ngIf="component === CrTabSelectorComponent.badges"
       [badges]="localPlayer.badges!" class="component">
     </cr-badges>
   </div>

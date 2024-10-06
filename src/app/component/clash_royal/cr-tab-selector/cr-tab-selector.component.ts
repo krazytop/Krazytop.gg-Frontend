@@ -1,8 +1,6 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CRPlayer} from "../../../model/clash-royal/cr-player.model";
-import {NgForm} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {CrTabSelectorService} from "./cr-tab-selector.service";
 
 @Component({
   selector: 'cr-tab-selector',
@@ -12,23 +10,22 @@ import {CrTabSelectorService} from "./cr-tab-selector.service";
 export class CrTabSelectorComponent {
 
   @Input() player: CRPlayer = new CRPlayer();
-  @ViewChild('setSelectionForm') setSelectionForm!: NgForm;
+  @Input() component!: string;
 
-  static battles: string = 'battles';
-  static cards: string = 'cards';
-  static chests: string = 'chests';
-  static badges: string = 'badges';
+  static readonly battles: string = 'battles';
+  static readonly cards: string = 'cards';
+  static readonly chests: string = 'chests';
+  static readonly badges: string = 'badges';
 
   protected readonly CrTabSelectorComponent = CrTabSelectorComponent;
 
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
-  selectTab(tab: string) {
-    this.route.params.subscribe(params => {
-      this.router.navigate([`/clash-royal/${this.player.id}/${tab}`]);
+  selectComponent(toComponent: string) {
+    this.route.params.subscribe(() => {
+      this.router.navigate([`/clash-royal/${this.player.id}/${toComponent}`]);
       });
   }
 
-  protected readonly CrTabSelectorService = CrTabSelectorService;
 }

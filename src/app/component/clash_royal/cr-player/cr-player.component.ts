@@ -13,11 +13,9 @@ import {TimeService} from "../../../service/time.service";
 })
 export class CrPlayerComponent implements OnChanges {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() localPlayer: CRPlayer | undefined;
   @Input() remotePlayer: CRPlayer | undefined;
 
-  isThisComponentReady: boolean = false;
   player: CRPlayer | undefined;
   nextAllowedUpdate: number = 0;
 
@@ -25,19 +23,16 @@ export class CrPlayerComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.isParentComponentReady) {
-      if (this.localPlayer != undefined) {
-        this.player = this.localPlayer;
+    if (this.localPlayer !== undefined) {
+      this.player = this.localPlayer;
+      this.updateRemainingTime();
+      setInterval(() => {
         this.updateRemainingTime();
-        setInterval(() => {
-          this.updateRemainingTime();
-        }, 1000);
-      } else if (this.remotePlayer != undefined) {
-        this.player = this.remotePlayer;
-      } else {
-        this.player = undefined;
-      }
-      this.isThisComponentReady = true;
+      }, 1000);
+    } else if (this.remotePlayer !== undefined) {
+      this.player = this.remotePlayer;
+    } else {
+      this.player = undefined;
     }
   }
 
@@ -66,16 +61,6 @@ export class CrPlayerComponent implements OnChanges {
     const currentTime = new Date();
     const elapsedTimeInSeconds = (currentTime.getTime() - new Date(this.player!.updateDate!).getTime()) / 1000;
     this.nextAllowedUpdate = Math.floor(Math.max(0, 30 - elapsedTimeInSeconds));
-  }
-
-  formatTime(seconds: number): string {
-    if (seconds < 60) {
-      return `${seconds}s`;
-    } else {
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-      return `${minutes}min ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}s`;
-    }
   }
 
   protected readonly Date = Date;

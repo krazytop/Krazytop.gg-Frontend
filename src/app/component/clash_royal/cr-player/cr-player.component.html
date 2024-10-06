@@ -1,16 +1,15 @@
-<div *ngIf="isThisComponentReady && player" class="profile">
+<div *ngIf="player" class="profile">
   <div class="profile-icon-level">
     <div class="player-level-component">
       <img alt="exp"
            ngSrc="assets/data/clash-royal/cr-exp.png" height="150" width="150"/>
-      <h3 class="player-level" *ngIf="localPlayer">{{ player.accountLevel?.level }}</h3>
-      <h3 class="player-level" *ngIf="remotePlayer">{{ player.expLevel }}</h3>
+      <h3 class="player-level">{{ player.accountLevelNomenclature.level }}</h3>
     </div>
     <div class="progress-bar" *ngIf="localPlayer">
       <div class="text-part">
-        {{ player.accountLevel!.currentExp! }}&nbsp;/&nbsp;{{ player.accountLevel!.expToNextLevel! }}
+        {{ player.expPoints }}&nbsp;/&nbsp;{{ player.accountLevelNomenclature.expToNextLevel }}
       </div>
-      <div class="filled-progress-bar" [style.width.%]="player.accountLevel!.currentExp! / player.accountLevel!.expToNextLevel! * 100"></div>
+      <div class="filled-progress-bar" [style.width.%]="player.expPoints / player.accountLevelNomenclature.expToNextLevel * 100"></div>
     </div>
   </div>
   <div class="profile-name-and-update">
@@ -19,7 +18,7 @@
       <div *ngIf="localPlayer">
         <button (click)="updatePlayer()" [disabled]="nextAllowedUpdate > 0" [ngClass]="{'inactive-profile-update-button': nextAllowedUpdate > 0, 'active-profile-update-button': nextAllowedUpdate === 0}">Update</button>
         <div *ngIf="nextAllowedUpdate > 0">
-          <p>Next possible update in {{ formatTime(nextAllowedUpdate) }}</p>
+          <p>Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</p>
         </div>
         <div *ngIf="nextAllowedUpdate === 0">
           <p>Updated {{ timeService.getTimeFrom(Date.parse(player!.updateDate!.toString())) }}</p>
@@ -32,7 +31,7 @@
   </div>
 </div>
 
-<div *ngIf="isThisComponentReady && !player" class="no-profile">
+<div *ngIf="!player" class="no-profile">
   <div *ngIf="!player">
     <h1>Sorry, this player does not exist ...</h1>
     <img ngSrc="assets/logo/oops.png" alt="oops" height="512" width="512">

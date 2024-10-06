@@ -1,16 +1,16 @@
-<div *ngIf="isParentComponentReady" class="cr-ranking">
+<div class="cr-ranking">{{console.log(arena)}}
   <div class="rank-container">
     <div class="rank-title">Trophy Road</div>
     <hr>
     <div class="dual-column-rank-content">
       <div class="rank-content">
-            <img class="cr-rank-image" ngSrc="assets/data/clash-royal/cr-arenas/{{ player.arena?.name }}.png" alt="arena" height="125" width="125">
+            <img class="cr-rank-image" ngSrc="{{ getArenaImageUrl(arena.image) }}" alt="arena" height="125" width="125">
       </div>
 
       <div class="rank-content rank-information">
-          <div>{{ player.arena?.name }}</div>
+          <div>{{ arena.name }}</div>
         <div class="trophies">
-          <div>{{ player.seasonsTrophies?.currentSeason?.trophies }}</div>
+          <div>{{ seasonsTrophies!.currentSeason!.trophies }}</div>
           <img class="cr-rank-image" ngSrc="assets/data/clash-royal/cr-trophy.png" alt="trophy icon" height="25" width="25">
         </div>
       </div>
@@ -22,11 +22,11 @@
     <hr>
     <div class="dual-column-rank-content">
       <div class="rank-content">
-        <img class="cr-rank-image" ngSrc="assets/data/clash-royal/cr-leagues/League {{ player.seasonsLeagues?.currentSeason?.leagueNumber }}.png" alt="league" height="150" width="150">
+        <img class="cr-rank-image" ngSrc="{{ getArenaImageUrl( 'league' + seasonsLeagues.currentSeason.leagueNumber) }}.png" alt="league" height="150" width="150">
       </div>
 
       <div class="rank-content rank-information">
-        <div>League {{ player.seasonsLeagues?.currentSeason?.leagueNumber }}</div>
+        <div>League {{ seasonsLeagues!.currentSeason!.leagueNumber }}</div>
       </div>
     </div>
   </div>

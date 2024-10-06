@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {CRCard} from "../../../model/clash-royal/cr-card.model";
-import {min} from "rxjs";
 
 @Component({
   selector: 'cr-cards',
@@ -9,16 +8,16 @@ import {min} from "rxjs";
 })
 export class CrCardsComponent {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() cards: CRCard[] = [];
 
-  getCardName(card: CRCard): string {
-    return card.name!.toLowerCase().replaceAll(' ', '-').replaceAll('.', '');
+  getCardImageUrl(card: CRCard) {
+    return `https://royaleapi.github.io/cr-api-assets/cards/${card.nomenclature.image}`;
   }
 
-  getOrderedCardsByLevel(cards: CRCard[]): CRCard[]{
-    return cards.sort((a, b) => b.level! - a.level!);
+  getOrderedCardsByLevel(cards: CRCard[]) {
+    return cards
+      .sort((a, b) => b.level! - a.level!)
+      .sort((a, b) => b.count! - a.count!);
   }
 
-    protected readonly min = min;
 }
