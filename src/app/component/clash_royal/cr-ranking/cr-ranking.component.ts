@@ -15,7 +15,7 @@ export class CrRankingComponent {
   @Input() arena!: CRArenaNomenclature;
 
   getArenaImageUrl(image: string) {
-    return `https://royaleapi.github.io/cr-api-assets/arenas/${image}`;
+    return `https://cdn.royaleapi.com/static/img/arenas/512x512/${image}`;
   }
 
   protected readonly console = console;

@@ -12,7 +12,7 @@
         {{ card.count }}&nbsp;/&nbsp;{{ card.upgradeCost }}
       </div>
       <div *ngIf="card.count! / card.upgradeCost! < 1" class="filled-progress-bar" [style.width.%]="(card.count! / card.upgradeCost! < 0.1 && card.count! / card.upgradeCost! != 0) ? 10 : card.count! / card.upgradeCost! * 100"></div>
-      <div *ngIf="card.count! / card.upgradeCost! > 1" class="filled-progress-bar" style="background-color: lawngreen" [style.width.%]="100"></div>
+      <div *ngIf="card.count! / card.upgradeCost! >= 1" class="filled-progress-bar" style="background-color: lawngreen" [style.width.%]="100"></div>
     </div>
   </div>
 </div>

@@ -1,10 +1,10 @@
-<div class="cr-ranking">{{console.log(arena)}}
+<div class="cr-ranking">
   <div class="rank-container">
     <div class="rank-title">Trophy Road</div>
     <hr>
     <div class="dual-column-rank-content">
       <div class="rank-content">
-            <img class="cr-rank-image" ngSrc="{{ getArenaImageUrl(arena.image) }}" alt="arena" height="125" width="125">
+        <img class="cr-rank-image" ngSrc="{{ getArenaImageUrl(arena.name.replace(' ', '').toLowerCase()) }}.png" alt="arena" height="125" width="125">
       </div>
 
       <div class="rank-content rank-information">
@@ -22,7 +22,7 @@
     <hr>
     <div class="dual-column-rank-content">
       <div class="rank-content">
-        <img class="cr-rank-image" ngSrc="{{ getArenaImageUrl( 'league' + seasonsLeagues.currentSeason.leagueNumber) }}.png" alt="league" height="150" width="150">
+        <img class="cr-rank-image" ngSrc="{{ getArenaImageUrl( 'league' + seasonsLeagues.currentSeason.leagueNumber) }}.png" alt="league" height="125" width="125">
       </div>
 
       <div class="rank-content rank-information">

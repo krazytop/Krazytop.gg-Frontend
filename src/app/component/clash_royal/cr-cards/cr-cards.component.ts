@@ -16,8 +16,16 @@ export class CrCardsComponent {
 
   getOrderedCardsByLevel(cards: CRCard[]) {
     return cards
-      .sort((a, b) => b.level! - a.level!)
-      .sort((a, b) => b.count! - a.count!);
+      .filter(card => card.nomenclature)
+      .sort((a, b) => {
+        if (a.level < b.level) return 1;
+        if (a.level > b.level) return -1;
+        if (a.count < b.count) return 1;
+        if (a.count > b.count) return -1;
+        return 0;
+
+      });
   }
 
+  protected readonly console = console;
 }
