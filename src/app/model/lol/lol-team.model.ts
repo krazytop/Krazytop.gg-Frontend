@@ -8,4 +8,5 @@ export class LOLTeam {
   bans!: LOLChampion[];
   participants!: LOLParticipant[];
   id!: string;
+  placement?: number;
 }

@@ -7,7 +7,6 @@
       <div class="complementary-summary">{{ timeService.getTimeFrom(match.datetime) }}</div>
       <hr>
       <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.duration) }}</div>
-      <img src="assets/data/tft/tft-queues/1100.png">
     </div>
 
     <div class="game-participant">
@@ -18,13 +17,21 @@
           </div>
           <h4 class="champion-level">{{ summonerParticipant!.champLevel }}</h4>
         </div>
-        <div class="game-participant-summoner-spells-and-runes">
+        <div class="game-participant-summoner-spells-and-runes" *ngIf="!summonerParticipant.augment1">
           <img src="{{ imageService.getSpellImageUrl(summonerParticipant.summonerSpell1, match.version) }}" alt="Summoner Spell">
           <img src="{{ imageService.getSpellImageUrl(summonerParticipant.summonerSpell2, match.version) }}" alt="Summoner Spell">
         </div>
-        <div class="game-participant-summoner-spells-and-runes">
-          <img src="{{ imageService.getRuneImageUrl(summonerParticipant.runes.primaryRuneFirstPerk) }}">
-          <img src="{{ imageService.getRuneImageUrl(summonerParticipant.runes.secondaryRuneCategory) }}">
+        <div class="game-participant-summoner-spells-and-runes" *ngIf="!summonerParticipant.augment1">
+          <img src="{{ imageService.getRuneImageUrl(summonerParticipant.runes?.primaryRuneFirstPerk) }}" alt="Rune">
+          <img src="{{ imageService.getRuneImageUrl(summonerParticipant.runes?.secondaryRuneCategory) }}" alt="Rune">
+        </div>
+        <div class="game-participant-summoner-spells-and-runes" *ngIf="summonerParticipant.augment1">
+          <img *ngIf="summonerParticipant.augment1" src="{{ imageService.getAugmentImageUrl(summonerParticipant.augment1) }}" alt="Augment">
+          <img *ngIf="summonerParticipant.augment2" src="{{ imageService.getAugmentImageUrl(summonerParticipant.augment2) }}" alt="Augment">
+        </div>
+        <div class="game-participant-summoner-spells-and-runes" *ngIf="summonerParticipant.augment1">
+          <img *ngIf="summonerParticipant.augment3" src="{{ imageService.getAugmentImageUrl(summonerParticipant.augment3) }}" alt="Augment">
+          <img *ngIf="summonerParticipant.augment4" src="{{ imageService.getAugmentImageUrl(summonerParticipant.augment4) }}" alt="Augment">
         </div>
         <div>
           <p class="scores">{{ summonerParticipant.kills }} / {{ summonerParticipant.deaths }} / {{ summonerParticipant.assists }}</p>
@@ -44,75 +51,78 @@
       </div>
     </div>
 
-    <div class="game-teams">
+    <div class="game-teams" *ngIf="match.queue.id !== '1700' && match.queue.id !== '1710'">
       <div class="game-team first-team">
         <div *ngFor="let participant of match.teams[0].participants" class="other-summoner">
-          <ng-container *ngIf="participant.summoner.puuid === summoner.puuid; else elseBlock">
-            <div class="participant-summoner-name">{{ participant.summoner.name }}</div>
-          </ng-container>
-          <ng-template #elseBlock>
-            <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']" class="other-summoner-name">
-              <div>{{ participant.summoner.name }}</div>
-            </a>
-          </ng-template>
+          <div *ngIf="participant.summoner.puuid === summoner.puuid" class="participant-summoner-name">{{ participant.summoner.name }}</div>
+          <a *ngIf="participant.summoner.puuid !== summoner.puuid" [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']" class="other-summoner-name">
+            <span>{{ participant.summoner.name }}</span>
+          </a>
           <div class="other-participants-champion-box">
-            <img class="game-participant-main-champion" src="{{ imageService.getChampionImageUrl(participant.champion, match.version) }}">
+            <img class="game-participant-main-champion" src="{{ imageService.getChampionImageUrl(participant.champion, match.version) }}" alt="Champion">
           </div>
         </div>
       </div>
       <div class="game-team roles">
-        <img src="assets/data/lol/lol-roles/top.png">
-        <img src="assets/data/lol/lol-roles/jungle.png">
-        <img src="assets/data/lol/lol-roles/middle.png">
-        <img src="assets/data/lol/lol-roles/bottom.png">
-        <img src="assets/data/lol/lol-roles/support.png">
+        <img src="assets/data/lol/lol-roles/top.png" alt="Top">
+        <img src="assets/data/lol/lol-roles/jungle.png" alt="Jungle">
+        <img src="assets/data/lol/lol-roles/middle.png" alt="Middle">
+        <img src="assets/data/lol/lol-roles/bottom.png" alt="Bottom">
+        <img src="assets/data/lol/lol-roles/support.png" alt="Support">
       </div>
       <div class="game-team">
         <div *ngFor="let participant of match.teams[1].participants" class="other-summoner">
           <div class="other-participants-champion-box">
-            <img class="game-participant-main-champion" src="{{ imageService.getChampionImageUrl(participant.champion, match.version) }}">
+            <img class="game-participant-main-champion" src="{{ imageService.getChampionImageUrl(participant.champion, match.version) }}" alt="Champion">
           </div>
-          <ng-container *ngIf="participant.summoner.puuid === summoner.puuid; else elseBlock">
-            <div class="participant-summoner-name">{{ participant.summoner.name }}</div>
-          </ng-container>
-          <ng-template #elseBlock>
-            <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']" class="other-summoner-name">
-              <div>{{ participant.summoner.name }}</div>
-            </a>
-          </ng-template>
+          <div *ngIf="participant.summoner.puuid === summoner.puuid" class="participant-summoner-name">{{ participant.summoner.name }}</div>
+          <a *ngIf="participant.summoner.puuid !== summoner.puuid" [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']" class="other-summoner-name">
+            <span>{{ participant.summoner.name }}</span>
+          </a>
         </div>
       </div>
     </div>
 
-    <div (click)="showAllMatchData()" class="all-game-stats-button">
+    <div class="game-teams" *ngIf="match.queue.id === '1700' || match.queue.id === '1710'">
+      <div class="game-team first-team">
+        <div *ngFor="let participant of match.teams[0].participants" class="other-summoner">
+          <div *ngIf="participant.summoner.puuid === summoner.puuid" class="participant-summoner-name">{{ participant.summoner.name }}</div>
+          <a *ngIf="participant.summoner.puuid !== summoner.puuid" [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']" class="other-summoner-name">
+            <span>{{ participant.summoner.name }}</span>
+          </a>
+          <div class="other-participants-champion-box">
+            <img class="game-participant-main-champion" src="{{ imageService.getChampionImageUrl(participant.champion, match.version) }}" alt="Champion">
+          </div>
+        </div>
+      </div>
+      <div class="game-team">
+        <div *ngFor="let participant of match.teams[1].participants" class="other-summoner">
+          <div class="other-participants-champion-box">
+            <img class="game-participant-main-champion" src="{{ imageService.getChampionImageUrl(participant.champion, match.version) }}" alt="Champion">
+          </div>
+          <div *ngIf="participant.summoner.puuid === summoner.puuid" class="participant-summoner-name">{{ participant.summoner.name }}</div>
+          <a *ngIf="participant.summoner.puuid !== summoner.puuid" [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']" class="other-summoner-name">
+            <span>{{ participant.summoner.name }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div (click)="toggleShowAllMatchData()" class="all-game-stats-button">
       <div [ngClass]="{'arrow-down': !allDataIsDisplayed, 'arrow-up': allDataIsDisplayed}" class="arrow-up"></div>
     </div>
   </div>
 
   <div class="subcomponent-list" *ngIf="allDataIsDisplayed">
-    <div class="team-data">
+    <div class="team-data" *ngFor="let team of match.teams">
       <ng-container *ngTemplateOutlet="teamDataHeaderTemplate"></ng-container>
       <div class="more-data-participants">
         <lol-match-participant
-          *ngFor="let participant of summonerTeam?.participants"
+          *ngFor="let participant of team.participants"
           [participant]="participant"
-          [topDamage]="topDamage"
+          [topDamage]="getTopDamage()"
           [summoner]="summoner"
-          [hasWin]="summonerTeam.hasWin"
-          [matchVersion]="match.version"
-          [remake]="match.remake">
-        </lol-match-participant>
-      </div>
-    </div>
-    <div class="team-data">
-      <ng-container *ngTemplateOutlet="teamDataHeaderTemplate"></ng-container>
-      <div class="more-data-participants">
-        <lol-match-participant
-          *ngFor="let participant of enemyTeam?.participants"
-          [participant]="participant"
-          [topDamage]="topDamage"
-          [summoner]="summoner"
-          [hasWin]="enemyTeam.hasWin"
+          [hasWin]="team.hasWin"
           [matchVersion]="match.version"
           [remake]="match.remake">
         </lol-match-participant>

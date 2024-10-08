@@ -13,13 +13,21 @@
       </div>
 
     </div>
-    <div class="rune-and-summoner-spells">
+    <div class="rune-and-summoner-spells" *ngIf="!participant.augment1">
       <img src="{{ imageService.getSpellImageUrl(participant.summonerSpell1, matchVersion) }}" alt="Summoner Spell">
       <img src="{{ imageService.getSpellImageUrl(participant.summonerSpell2, matchVersion) }}" alt="Summoner Spell">
     </div>
-    <div class="rune-and-summoner-spells">
-      <img src="{{ imageService.getRuneImageUrl(participant.runes.primaryRuneFirstPerk) }}" alt="Rune">
-      <img src="{{ imageService.getRuneImageUrl(participant.runes.secondaryRuneCategory) }}" alt="Rune">
+    <div class="rune-and-summoner-spells" *ngIf="!participant.augment1">
+      <img src="{{ imageService.getRuneImageUrl(participant.runes?.primaryRuneFirstPerk) }}" alt="Rune">
+      <img src="{{ imageService.getRuneImageUrl(participant.runes?.secondaryRuneCategory) }}" alt="Rune">
+    </div>
+    <div class="rune-and-summoner-spells" *ngIf="participant.augment1">
+      <img src="{{ imageService.getAugmentImageUrl(participant.augment1) }}" alt="Augment">
+      <img src="{{ imageService.getAugmentImageUrl(participant.augment2) }}" alt="Augment">
+    </div>
+    <div class="rune-and-summoner-spells" *ngIf="participant.augment1">
+      <img src="{{ imageService.getAugmentImageUrl(participant.augment3) }}" alt="Augment">
+      <img src="{{ imageService.getAugmentImageUrl(participant.augment4) }}" alt="Augment">
     </div>
   </div>
   <div style="display: flex; align-items: center; justify-content: center;">

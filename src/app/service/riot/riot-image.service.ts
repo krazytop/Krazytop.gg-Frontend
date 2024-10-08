@@ -3,6 +3,7 @@ import {LOLItem} from "../../model/lol/lol-item.model";
 import {LOLSummonerSpell} from "../../model/lol/lol-summoner-spell.model";
 import {LOLRune} from "../../model/lol/lol-rune.model";
 import {LOLChampion} from "../../model/lol/lol-champion.model";
+import {LOLAugmentNomenclature} from "../../model/lol/nomenclature/lol-augment.nomenclature";
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,10 @@ export class RiotImageService {
 
   public getRuneImageUrl(rune?: LOLRune) {
     return rune ? `https://ddragon.leagueoflegends.com/cdn/img/${rune.image}` : RiotImageService.EMPTY_URL;
+  }
+
+  public getAugmentImageUrl(augment?: LOLAugmentNomenclature) {
+    return augment ? `https://raw.communitydragon.org/14.18/game/${augment.image}` : RiotImageService.EMPTY_URL;
   }
 
   public getProfileIconUrl(icon: number, matchVersion?: string) {
