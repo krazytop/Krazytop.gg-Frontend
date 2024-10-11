@@ -1,6 +1,6 @@
 <div class="cards">
   <div *ngFor="let card of getOrderedCardsByLevel(cards)" class="card">
-    <img class="card-image" src="assets/data/clash-royal/cr-cards/{{ getCardName(card) }}.png">
+    <img class="card-image" src="{{ getCardImageUrl(card) }}" alt="Card Name">
     <div class="level-container">
       <img alt="exp" ngSrc="assets/data/clash-royal/cr-exp.png" height="30" width="30"
         [ngStyle]="{'filter': (card.level! >= 14) ? 'hue-rotate(206deg) saturate(200%) sepia(50%)' : 'none'}"
@@ -12,7 +12,7 @@
         {{ card.count }}&nbsp;/&nbsp;{{ card.upgradeCost }}
       </div>
       <div *ngIf="card.count! / card.upgradeCost! < 1" class="filled-progress-bar" [style.width.%]="(card.count! / card.upgradeCost! < 0.1 && card.count! / card.upgradeCost! != 0) ? 10 : card.count! / card.upgradeCost! * 100"></div>
-      <div *ngIf="card.count! / card.upgradeCost! > 1" class="filled-progress-bar" style="background-color: lawngreen" [style.width.%]="100"></div>
+      <div *ngIf="card.count! / card.upgradeCost! >= 1" class="filled-progress-bar" style="background-color: lawngreen" [style.width.%]="100"></div>
     </div>
   </div>
 </div>

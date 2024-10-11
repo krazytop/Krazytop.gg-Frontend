@@ -8,7 +8,6 @@ import {CRChest} from "../../../model/clash-royal/cr-chest.model";
 })
 export class CrChestsComponent {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() upcomingChests: CRChest[] = [];
 
 }

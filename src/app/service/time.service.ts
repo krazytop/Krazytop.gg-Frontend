@@ -31,4 +31,14 @@ export class TimeService {
     return minutes.toString().padStart(2, '0') + 'm ' + seconds.toString().padStart(2, '0') + 's';
   }
 
+  formatTimeOptMinSec(time: number): string {
+    if (time < 60) {
+      return `${time}s`;
+    } else {
+      const minutes = Math.floor(time / 60);
+      const remainingSeconds = time % 60;
+      return `${minutes}min ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}s`;
+    }
+  }
+
 }
