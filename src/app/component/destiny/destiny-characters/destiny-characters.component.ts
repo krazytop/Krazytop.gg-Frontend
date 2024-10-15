@@ -35,6 +35,7 @@ export class DestinyCharactersComponent implements OnChanges {
 
   private platform?: string;
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
+  highlightDuplicateItems = false;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
   }
@@ -94,6 +95,10 @@ export class DestinyCharactersComponent implements OnChanges {
         }
       })!
     }
+  }
+
+  private shouldItemBeDisplayed(item: DestinyItemModel) {
+    const allItems = this.characterInventories.flatMap(inve)
   }
 
   currentDraggedItem: {

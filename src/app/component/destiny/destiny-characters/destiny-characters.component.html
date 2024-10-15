@@ -1,3 +1,6 @@
+<div *ngIf="isParentComponentReady">
+  <button>Montrer les doublons</button>
+</div>
 <div class="item-categories" *ngIf="isParentComponentReady">
   <div class="characters">
     <div *ngFor="let characterInventory of characterInventories" class="title">{{ getCharacterClassName(characterInventory.characterHash) }}</div>
