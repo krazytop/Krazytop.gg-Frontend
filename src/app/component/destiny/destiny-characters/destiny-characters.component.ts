@@ -98,7 +98,9 @@ export class DestinyCharactersComponent implements OnChanges {
   }
 
   private shouldItemBeDisplayed(item: DestinyItemModel) {
-    const allItems = this.characterInventories.flatMap(inve)
+    const allItems = this.characterInventories.flatMap(inventory => inventory.items)
+      .concat(this.characterEquipment.flatMap(equipment => equipment.items));
+   return allItems.filter(i => i.itemHash === item.itemHash).length > 1;
   }
 
   currentDraggedItem: {
