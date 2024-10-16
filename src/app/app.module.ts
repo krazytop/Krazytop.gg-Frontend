@@ -52,6 +52,7 @@ import { DestinyModelsComponent } from './component/destiny/destiny-models/desti
 import { LolMainChampionsComponent } from './component/lol/lol-stats/lol-main-champions/lol-main-champions.component';
 import { LolMainFriendsComponent } from './component/lol/lol-stats/lol-main-friends/lol-main-friends.component';
 import { LolMainMasteriesComponent } from './component/lol/lol-stats/lol-main-masteries/lol-main-masteries.component';
+import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { LolMainMasteriesComponent } from './component/lol/lol-stats/lol-main-ma
     DestinyModelsComponent,
     LolMainChampionsComponent,
     LolMainFriendsComponent,
-    LolMainMasteriesComponent
+    LolMainMasteriesComponent,
+    ToggleSwitchComponent
   ],
     imports: [
         BrowserModule,

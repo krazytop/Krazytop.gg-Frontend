@@ -17,6 +17,10 @@ import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
+import {DestinyItemStateEnum} from "../../../model/destiny/enum/DestinyItemStateEnum";
+import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
+import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
+import { DestinyRecordNomenclature } from 'src/app/model/destiny/nomenclature/destiny-record.nomenclature';
 
 @Component({
   selector: 'destiny-characters',
@@ -25,27 +29,42 @@ import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEn
 })
 export class DestinyCharactersComponent implements OnChanges {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() profileInventory!: DestinyItemModel[];
   @Input() characters!: DestinyCharacterModel[];
   @Input() characterEquipment!: DestinyCharacterInventoryModel[];
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
+  @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>;
+  @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
 
   private platform?: string;
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
+  allItems: DestinyItemModel[] = [];
+  allCraftedWeaponRecords: DestinyRecordNomenclature[] = [];
   highlightDuplicateItems = false;
+  highlightExoticItems = false;
+  highlightUnlockedItems = false;
+  highlightNotCraftedItems = false;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
   }
 
   ngOnChanges(): void {
-    if (this.isParentComponentReady) {
-      this.route.params.subscribe(params => {
-        this.platform = params['platform'];
-      });
-    }
+    this.route.params.subscribe(params => {
+      this.platform = params['platform'];
+      this.allItems = this.characterInventories.flatMap(inventory => inventory.items)
+        .concat(this.characterEquipment.flatMap(equipment => equipment.items))
+        .concat(this.profileInventory.filter(item => item.bucketHash === DestinyInventoryBucketEnum.General));
+      const kineticWeaponRecords = this.kineticWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+      const energyWeaponRecords = this.energyWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+      const powerWeaponRecords = this.powerWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+      this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
+      console.log(this.allCraftedWeaponRecords[0])//TODO comparer à l image pour savoir si une arme à son modele craftable
+      console.log(this.presentationNodeProgress.get(this.allCraftedWeaponRecords[0].hash))
+    });
   }
 
   getCharacterClassName(characterId: string) {
@@ -77,9 +96,7 @@ export class DestinyCharactersComponent implements OnChanges {
 
   getVaultItems(bucketHash: number | null) {
     if (bucketHash == null) {
-      return this.profileInventory.filter(item => {
-        return item.bucketHash === DestinyInventoryBucketEnum.General;
-      });
+      return this.profileInventory.filter(item => item.bucketHash === DestinyInventoryBucketEnum.General);
     } else {
       return this.profileInventory.filter(item =>  {
         if (item.bucketHash === DestinyInventoryBucketEnum.General) {
@@ -97,10 +114,22 @@ export class DestinyCharactersComponent implements OnChanges {
     }
   }
 
-  private shouldItemBeDisplayed(item: DestinyItemModel) {
-    const allItems = this.characterInventories.flatMap(inventory => inventory.items)
-      .concat(this.characterEquipment.flatMap(equipment => equipment.items));
-   return allItems.filter(i => i.itemHash === item.itemHash).length > 1;
+  shouldItemBeDisplayed(item: DestinyItemModel) {
+    let shouldBeDisplayed = true;
+    if (this.highlightDuplicateItems) {
+      shouldBeDisplayed = shouldBeDisplayed && this.allItems.filter(i => i.itemHash === item.itemHash).length > 1;
+    }
+    if (this.highlightExoticItems) {
+      shouldBeDisplayed = shouldBeDisplayed && item.itemNomenclature?.tierTypeHash === DestinyTierTypeEnum.Exotic;
+    }
+    if (this.highlightUnlockedItems) {
+      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Locked))) === 0;
+    }
+    if (this.highlightNotCraftedItems) {
+      //TODO check si un model est dispo
+      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Crafted))) === 0;
+    }
+    return shouldBeDisplayed;
   }
 
   currentDraggedItem: {
