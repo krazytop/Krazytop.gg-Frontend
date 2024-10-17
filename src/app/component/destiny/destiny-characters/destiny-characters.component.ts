@@ -63,7 +63,7 @@ export class DestinyCharactersComponent implements OnChanges {
       const powerWeaponRecords = this.powerWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
       this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
       console.log(this.allCraftedWeaponRecords[0])//TODO comparer à l image pour savoir si une arme à son modele craftable
-      console.log(this.presentationNodeProgress.get(this.allCraftedWeaponRecords[0].hash))
+      console.log(this.allItems.filter(item => item.itemHash))
     });
   }
 
