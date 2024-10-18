@@ -53,6 +53,7 @@ import { LolMainChampionsComponent } from './component/lol/lol-stats/lol-main-ch
 import { LolMainFriendsComponent } from './component/lol/lol-stats/lol-main-friends/lol-main-friends.component';
 import { LolMainMasteriesComponent } from './component/lol/lol-stats/lol-main-masteries/lol-main-masteries.component';
 import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.component';
+import { DestinyCharacterItemFiltersComponent } from './component/destiny/destiny-characters/destiny-character-item-filters/destiny-character-item-filters.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.componen
     LolMainChampionsComponent,
     LolMainFriendsComponent,
     LolMainMasteriesComponent,
-    ToggleSwitchComponent
+    ToggleSwitchComponent,
+    DestinyCharacterItemFiltersComponent
   ],
     imports: [
         BrowserModule,

@@ -1,0 +1,26 @@
+<div class="filter-subcomponent-title component-title" (click)="showFilters = !showFilters">
+  <div>Show Filters</div>
+  <div [ngClass]="showFilters ? 'arrow-down' : 'arrow-up'" style="left: 57%;"></div>
+</div>
+<div *ngIf="showFilters" class="filter-columns">
+  <div class="filter-column">
+    <span class="filter-title">Rarity :</span>
+    <toggle-switch (toggle)="characterItemFiltersService.highlightBasicItems = $event" [title]="'Basic'"></toggle-switch>
+    <toggle-switch (toggle)="characterItemFiltersService.highlightOrdinaryItems = $event" [title]="'Ordinary'"></toggle-switch>
+    <toggle-switch (toggle)="characterItemFiltersService.highlightUncommonItems = $event" [title]="'Uncommon'"></toggle-switch>
+    <toggle-switch (toggle)="characterItemFiltersService.highlightLegendaryItems = $event" [title]="'Legendary'"></toggle-switch>
+    <toggle-switch (toggle)="characterItemFiltersService.highlightExoticItems = $event" [title]="'Exotic'"></toggle-switch>
+  </div>
+  <div class="filter-column">
+    <span class="filter-title">Damage Type :</span>
+  </div>
+  <div class="filter-column">
+    <span class="filter-title">Status :</span>
+  </div>
+  <div class="filter-column">
+    <span class="filter-title">Management :</span>
+    <toggle-switch (toggle)="characterItemFiltersService.highlightDuplicateItems = $event" [title]="'Duplicated'"></toggle-switch>
+    <toggle-switch (toggle)="characterItemFiltersService.highlightUnlockedItems = $event" [title]="'Must be locked'"></toggle-switch>
+    <toggle-switch (toggle)="characterItemFiltersService.highlightNotCraftedItems = $event" [title]="'Must be crafted'"></toggle-switch>
+  </div>
+</div>

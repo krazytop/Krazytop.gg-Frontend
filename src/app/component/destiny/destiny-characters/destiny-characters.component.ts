@@ -17,10 +17,10 @@ import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
-import {DestinyItemStateEnum} from "../../../model/destiny/enum/DestinyItemStateEnum";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
 import { DestinyRecordNomenclature } from 'src/app/model/destiny/nomenclature/destiny-record.nomenclature';
+import {DestinyCharacterItemFiltersService} from "../../../service/destiny/destiny-character-item-filters.service";
 
 @Component({
   selector: 'destiny-characters',
@@ -28,6 +28,7 @@ import { DestinyRecordNomenclature } from 'src/app/model/destiny/nomenclature/de
   styleUrls: ['./destiny-characters.component.css']
 })
 export class DestinyCharactersComponent implements OnChanges {
+  //TODO create destiny.moving-item.service.ts
 
   @Input() profileInventory!: DestinyItemModel[];
   @Input() characters!: DestinyCharacterModel[];
@@ -44,12 +45,8 @@ export class DestinyCharactersComponent implements OnChanges {
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
   allItems: DestinyItemModel[] = [];
   allCraftedWeaponRecords: DestinyRecordNomenclature[] = [];
-  highlightDuplicateItems = false;
-  highlightExoticItems = false;
-  highlightUnlockedItems = false;
-  highlightNotCraftedItems = false;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService) {
   }
 
   ngOnChanges(): void {
@@ -62,9 +59,14 @@ export class DestinyCharactersComponent implements OnChanges {
       const energyWeaponRecords = this.energyWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
       const powerWeaponRecords = this.powerWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
       this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
-      console.log(this.allCraftedWeaponRecords[0])//TODO comparer à l image pour savoir si une arme à son modele craftable
-      console.log(this.allItems.filter(item => item.itemHash))
     });
+  }
+
+  shouldItemBeDisplayed(item: DestinyItemModel) {
+    const isItemDuplicated = this.allItems.filter(i => i.itemHash === item.itemHash).length > 1;
+    const itemName = this.itemNomenclatures.get(item.itemHash)!.name;
+    const itemCraftedRecord = this.allCraftedWeaponRecords.find(record => record.name === itemName);
+    return this.characterItemFiltersService.shouldItemBeDisplayed(item, itemCraftedRecord, isItemDuplicated);
   }
 
   getCharacterClassName(characterId: string) {
@@ -112,24 +114,6 @@ export class DestinyCharactersComponent implements OnChanges {
         }
       })!
     }
-  }
-
-  shouldItemBeDisplayed(item: DestinyItemModel) {
-    let shouldBeDisplayed = true;
-    if (this.highlightDuplicateItems) {
-      shouldBeDisplayed = shouldBeDisplayed && this.allItems.filter(i => i.itemHash === item.itemHash).length > 1;
-    }
-    if (this.highlightExoticItems) {
-      shouldBeDisplayed = shouldBeDisplayed && item.itemNomenclature?.tierTypeHash === DestinyTierTypeEnum.Exotic;
-    }
-    if (this.highlightUnlockedItems) {
-      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Locked))) === 0;
-    }
-    if (this.highlightNotCraftedItems) {
-      //TODO check si un model est dispo
-      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Crafted))) === 0;
-    }
-    return shouldBeDisplayed;
   }
 
   currentDraggedItem: {
