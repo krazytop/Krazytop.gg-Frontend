@@ -1,3 +1,5 @@
+@import 'src/app/component/destiny/destiny.component.css';
+
 .records {
   display: grid;
   gap: 10px;
@@ -11,18 +13,6 @@
   justify-content: center;
   display: flex;
   position: relative;
-}
-
-.arrow-down{
-  top: 0;
-  left: 65%;
-  border-color: white;
-}
-
-.arrow-up {
-  top: 10px;
-  left: 65%;
-  border-color: white;
 }
 
 .sub-weapon-category-title {

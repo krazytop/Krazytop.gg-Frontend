@@ -31,13 +31,16 @@
                     [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-title>
     <destiny-characters *ngIf="componentToShow === 'characters'" class="component"
-                        [isParentComponentReady]="isThisComponentReady"
                         [profileInventory]="profile.profileInventory"
                         [characterEquipment]="profile.characterEquipment"
                         [characterInventories]="profile.characterInventories"
                         [itemInstances]="profile.itemInstances"
                         [itemNomenclatures]="itemNomenclatures"
-                        [characters]="profile.characters">
+                        [characters]="profile.characters"
+                        [kineticWeaponModelsPresentationTree]="presentationTrees.kineticWeaponModels!"
+                        [energyWeaponModelsPresentationTree]="presentationTrees.energyWeaponModels!"
+                        [powerWeaponModelsPresentationTree]="presentationTrees.powerWeaponModels!"
+                        [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-characters>
     <destiny-models *ngIf="componentToShow === 'models'" class="component"
                     [kineticWeaponModelsPresentationTree]="presentationTrees.kineticWeaponModels!"

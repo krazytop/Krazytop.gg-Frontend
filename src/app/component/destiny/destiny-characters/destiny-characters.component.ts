@@ -17,6 +17,10 @@ import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
+import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
+import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
+import { DestinyRecordNomenclature } from '../../../model/destiny/nomenclature/destiny-record.nomenclature';
+import {DestinyCharacterItemFiltersService} from "../../../service/destiny/destiny-character-item-filters.service";
 
 @Component({
   selector: 'destiny-characters',
@@ -24,27 +28,45 @@ import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEn
   styleUrls: ['./destiny-characters.component.css']
 })
 export class DestinyCharactersComponent implements OnChanges {
+  //TODO create destiny.moving-item.service.ts
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() profileInventory!: DestinyItemModel[];
   @Input() characters!: DestinyCharacterModel[];
   @Input() characterEquipment!: DestinyCharacterInventoryModel[];
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
+  @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>;
+  @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
 
   private platform?: string;
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
+  allItems: DestinyItemModel[] = [];
+  allCraftedWeaponRecords: DestinyRecordNomenclature[] = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService) {
   }
 
   ngOnChanges(): void {
-    if (this.isParentComponentReady) {
-      this.route.params.subscribe(params => {
-        this.platform = params['platform'];
-      });
-    }
+    this.route.params.subscribe(params => {
+      this.platform = params['platform'];
+      this.allItems = this.characterInventories.flatMap(inventory => inventory.items)
+        .concat(this.characterEquipment.flatMap(equipment => equipment.items))
+        .concat(this.profileInventory.filter(item => item.bucketHash === DestinyInventoryBucketEnum.General));
+      const kineticWeaponRecords = this.kineticWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+      const energyWeaponRecords = this.energyWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+      const powerWeaponRecords = this.powerWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+      this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
+    });
+  }
+
+  shouldItemBeDisplayed(item: DestinyItemModel) {
+    const isItemDuplicated = this.allItems.filter(i => i.itemHash === item.itemHash).length > 1;
+    const itemName = this.itemNomenclatures.get(item.itemHash)!.name;
+    const itemCraftedRecord = this.allCraftedWeaponRecords.find(record => record.name === itemName);
+    return this.characterItemFiltersService.shouldItemBeDisplayed(item, itemCraftedRecord, isItemDuplicated);
   }
 
   getCharacterClassName(characterId: string) {
@@ -76,9 +98,7 @@ export class DestinyCharactersComponent implements OnChanges {
 
   getVaultItems(bucketHash: number | null) {
     if (bucketHash == null) {
-      return this.profileInventory.filter(item => {
-        return item.bucketHash === DestinyInventoryBucketEnum.General;
-      });
+      return this.profileInventory.filter(item => item.bucketHash === DestinyInventoryBucketEnum.General);
     } else {
       return this.profileInventory.filter(item =>  {
         if (item.bucketHash === DestinyInventoryBucketEnum.General) {

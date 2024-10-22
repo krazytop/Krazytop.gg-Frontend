@@ -1,29 +1,37 @@
-<div class="item-categories" *ngIf="isParentComponentReady">
+<div class="subcomponent-list">
+  <div class="subcomponent">
+    <destiny-character-item-filters class="subcomponent-list"></destiny-character-item-filters>
+  </div>
   <div class="characters">
     <div *ngFor="let characterInventory of characterInventories" class="title">{{ getCharacterClassName(characterInventory.characterHash) }}</div>
     <div class="title">Vault ({{ getVaultItems(null).length }} / {{ 700 }})</div>
   </div>
-  <div class="characters" *ngFor="let bucketHash of getAllCharacterBuckets()" cdkDropListGroup>
-    <div id="character-inventory-{{ bucketHash + '-' + characterInventory.characterHash }}" *ngFor="let characterInventory of characterInventories" class="character-item-category subcomponent">
-      <div class="equippedItem" cdkDropList (cdkDropListDropped)="dropItem(characterInventory, bucketHash, true)">
-        <destiny-item [item]="getEquippedItem(characterInventory.characterHash, bucketHash)" class="item-that-can-move" cdkDrag
-                      (cdkDragStarted)="startDraggingItem(getEquippedItem(characterInventory.characterHash, bucketHash), characterInventory, bucketHash, true)">
+  <div class="item-categories">
+    <div class="characters" *ngFor="let bucketHash of getAllCharacterBuckets()" cdkDropListGroup>
+      <div id="character-inventory-{{ bucketHash + '-' + characterInventory.characterHash }}" *ngFor="let characterInventory of characterInventories" class="character-item-category subcomponent">
+        <div class="equippedItem" cdkDropList (cdkDropListDropped)="dropItem(characterInventory, bucketHash, true)">
+          <destiny-item [item]="getEquippedItem(characterInventory.characterHash, bucketHash)" cdkDrag
+                        [ngClass]="{'item-to-hide': !shouldItemBeDisplayed(getEquippedItem(characterInventory.characterHash, bucketHash))}"
+                        (cdkDragStarted)="startDraggingItem(getEquippedItem(characterInventory.characterHash, bucketHash), characterInventory, bucketHash, true)">
+          </destiny-item>
+        </div>
+        <div class="items" cdkDropList (cdkDropListDropped)="dropItem(characterInventory, bucketHash, false)" [cdkDropListSortingDisabled]="true">
+          <destiny-item *ngFor="let item of getUnequippedItems(characterInventory.characterHash, bucketHash)" id="item-{{ item.itemInstanceId }}"
+                        [ngClass]="{'item-to-hide': !shouldItemBeDisplayed(item)}"
+                        [item]="item" cdkDrag
+                        (cdkDragStarted)="startDraggingItem(item, characterInventory, bucketHash, false)">
+          </destiny-item>
+        </div>
+      </div>
+      <div class="items subcomponent vault-items" cdkDropList
+           (cdkDropListDropped)="dropItem(vaultInventory, bucketHash, false)" [cdkDropListSortingDisabled]="true"
+           id="inventory-{{ bucketHash }}-vault" >
+        <destiny-item *ngFor="let item of getVaultItems(bucketHash)" id="item-{{ item.itemInstanceId }}"
+                      [ngClass]="{'item-to-hide': !shouldItemBeDisplayed(item)}"
+                      [item]="item" cdkDrag
+                      (cdkDragStarted)="startDraggingItem(item, vaultInventory, bucketHash, false)">
         </destiny-item>
       </div>
-      <div class="items" cdkDropList (cdkDropListDropped)="dropItem(characterInventory, bucketHash, false)" [cdkDropListSortingDisabled]="true">
-        <destiny-item *ngFor="let item of getUnequippedItems(characterInventory.characterHash, bucketHash)" id="item-{{ item.itemInstanceId }}"
-                      [item]="item" class="item-that-can-move" cdkDrag
-                      (cdkDragStarted)="startDraggingItem(item, characterInventory, bucketHash, false)">
-        </destiny-item>
-      </div>
-    </div>
-    <div class="items subcomponent vault-items" cdkDropList
-         (cdkDropListDropped)="dropItem(vaultInventory, bucketHash, false)" [cdkDropListSortingDisabled]="true"
-         id="inventory-{{ bucketHash }}-vault" >
-      <destiny-item *ngFor="let item of getVaultItems(bucketHash)" id="item-{{ item.itemInstanceId }}"
-                    [item]="item" class="item-that-can-move" cdkDrag
-                    (cdkDragStarted)="startDraggingItem(item, vaultInventory, bucketHash, false)">
-      </destiny-item>
     </div>
   </div>
 </div>

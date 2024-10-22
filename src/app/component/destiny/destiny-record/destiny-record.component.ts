@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 import {DestinyRecordNomenclature} from "../../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {DestinyComponent} from "../destiny.component";
@@ -13,15 +13,12 @@ import {DestinyObjectiveProgressModel} from "../../../model/destiny/destiny-obje
   templateUrl: './destiny-record.component.html',
   styleUrls: ['./destiny-record.component.css']
 })
-export class DestinyRecordComponent implements OnChanges {
+export class DestinyRecordComponent {
 
   @Input() record!: DestinyRecordNomenclature;
   @Input() recordProgress!: DestinyNodeProgressionModel
 
   private noDescription: string = "Terminé";
-
-  ngOnChanges(): void {
-  }
 
   getSimpleObjectiveProgress(objective: DestinyObjectiveNomenclature) {
     return this.recordProgress.objectives.find(objectiveProgress => objectiveProgress.objectiveHash === objective.hash)!;

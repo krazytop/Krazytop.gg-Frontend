@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {DestinyComponent} from "../destiny.component";
 import {DestinyItemStateEnum} from "../../../model/destiny/enum/DestinyItemStateEnum";
@@ -10,14 +10,11 @@ import {FormatService} from "../../../service/format.service";
   templateUrl: './destiny-item.component.html',
   styleUrls: ['./destiny-item.component.css']
 })
-export class DestinyItemComponent implements OnChanges {
+export class DestinyItemComponent {
 
   @Input() item!: DestinyItemModel;
 
   constructor(protected formatService: FormatService) {
-  }
-
-  ngOnChanges() {
   }
 
   hasState(item: DestinyItemModel, state: DestinyItemStateEnum): boolean {

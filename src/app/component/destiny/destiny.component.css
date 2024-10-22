@@ -1,0 +1,11 @@
+.arrow-down{
+  top: -2px;
+  left: 60%;
+  border-color: #c2c2c2;
+}
+
+.arrow-up {
+  top: 8px;
+  left: 60%;
+  border-color: #c2c2c2;
+}

@@ -1,0 +1,7 @@
+<div class="checkbox-and-title">
+  <label class="switch">
+    <input type="checkbox" [(ngModel)]="checked" (change)="this.toggle.emit(this.checked)"/>
+    <div class="slider"></div>
+  </label>
+  <span>{{ title }}</span>
+</div>

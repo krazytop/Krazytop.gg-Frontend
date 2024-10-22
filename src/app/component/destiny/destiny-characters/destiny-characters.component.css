@@ -1,3 +1,5 @@
+@import 'src/app/component/destiny/destiny.component.css';
+
 .characters {
   display: grid;
   grid-template-columns: repeat(3, 1fr) 2fr;
@@ -92,11 +94,15 @@ destiny-item:active {
 }
 
 .cdk-drag-placeholder {
-  opacity: 0.5;
+  opacity: 50%;
 }
 
 .item-being-transferred {
   animation: item-being-transferred 0.5s infinite alternate;
+}
+
+.item-to-hide {
+  opacity: 20%;
 }
 
 @keyframes item-being-transferred {

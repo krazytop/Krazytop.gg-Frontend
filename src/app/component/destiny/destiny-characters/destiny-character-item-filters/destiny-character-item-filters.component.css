@@ -1,0 +1,26 @@
+@import 'src/app/component/destiny/destiny.component.css';
+
+.filter-subcomponent-title {
+  justify-content: center;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  align-self: auto;
+}
+
+.filter-columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.filter-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-title {
+  color: white;
+  text-decoration: underline;
+}
