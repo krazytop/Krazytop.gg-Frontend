@@ -19,7 +19,7 @@ import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
-import { DestinyRecordNomenclature } from 'src/app/model/destiny/nomenclature/destiny-record.nomenclature';
+import { DestinyRecordNomenclature } from '../../../model/destiny/nomenclature/destiny-record.nomenclature';
 import {DestinyCharacterItemFiltersService} from "../../../service/destiny/destiny-character-item-filters.service";
 
 @Component({

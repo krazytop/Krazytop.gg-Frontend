@@ -94,7 +94,7 @@ destiny-item:active {
 }
 
 .cdk-drag-placeholder {
-  opacity: 0.5;
+  opacity: 50%;
 }
 
 .item-being-transferred {
@@ -102,7 +102,7 @@ destiny-item:active {
 }
 
 .item-to-hide {
-  opacity: 0.3;
+  opacity: 20%;
 }
 
 @keyframes item-being-transferred {
