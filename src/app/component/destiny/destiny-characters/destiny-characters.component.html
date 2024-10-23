@@ -3,7 +3,8 @@
     <destiny-character-item-filters class="subcomponent-list"></destiny-character-item-filters>
   </div>
   <div class="characters">
-    <div *ngFor="let characterInventory of characterInventories" class="title">{{ getCharacterClassName(characterInventory.characterHash) }}</div>
+    <!--<div *ngFor="let characterInventory of characterInventories" class="title">{{ getCharacterClassName(characterInventory.characterHash) }}</div>-->
+    <img class="character-image" *ngFor="let characterInventory of characterInventories" src="assets/data/destiny/classes/{{ getCharacterImage(characterInventory.characterHash) }}">
     <div class="title">Vault ({{ getVaultItems(null).length }} / {{ 700 }})</div>
   </div>
   <div class="item-categories">

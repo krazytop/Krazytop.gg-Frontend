@@ -16,6 +16,12 @@
   gap: 8px;
 }
 
+
+.character-image {
+  height: 30px;
+  filter: invert(70%);
+}
+
 .character-item-category {
   padding: 5px 0 5px 5px;
   display: grid;

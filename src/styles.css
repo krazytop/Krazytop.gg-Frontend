@@ -1,3 +1,9 @@
+.primary-component {
+  display: flex;
+  height: 93vh;
+  width: 100vw;
+}
+
 .component-list {
   display: grid;
   grid-template-rows: repeat(auto-fill, 1fr);

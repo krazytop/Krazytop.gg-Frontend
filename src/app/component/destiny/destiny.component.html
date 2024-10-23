@@ -54,4 +54,5 @@
     </destiny-main-inventory>
   </div>
 </div>
-<!-- faire un chargement si les components sont en attente-->
+<loading-screen *ngIf="!isDatabaseUpToDate" [message]="'Downloading last Destiny database'" class="primary-component"></loading-screen>
+<loading-screen *ngIf="isDatabaseUpToDate && !isThisComponentReady" [message]="'Recovering your Destiny data'" class="primary-component"></loading-screen>

@@ -29,6 +29,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   isFirstDisplay: boolean = true;
   requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
   lastUpdate: Date = new Date();
+  isDatabaseUpToDate = false;
 
   componentArgs: DestinyComponentArgs = new DestinyComponentArgs();
 
@@ -53,6 +54,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
       this.componentToShow = params['component'];
     });
     await this.databaseUpdateService.manageDatabase();
+    this.isDatabaseUpToDate = true;
     if (this.isFirstDisplay) {
       this.requestDataRefreshing.subscribe(async requestDataRefreshing => {
         if (requestDataRefreshing) {

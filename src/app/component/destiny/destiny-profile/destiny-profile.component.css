@@ -25,10 +25,7 @@
   display: flex;
   width: 355px;
   height: 72px;
-  border-radius: 5px;
   overflow: hidden;
-  background-color: #212121;
-  border: black solid 2px;
 }
 
 .unselected-character {

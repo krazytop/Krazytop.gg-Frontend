@@ -13,7 +13,7 @@ import {
   isWeapon
 } from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
 import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
-import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum";
+import {getClassNameByGender, getImageByClassHash} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
@@ -68,6 +68,11 @@ export class DestinyCharactersComponent implements OnChanges {
   getCharacterClassName(characterId: string) {
     const character = this.characters.find(character => character.characterId === characterId);
     return getClassNameByGender(character!.classHash, character!.genderHash)
+  }
+
+  getCharacterImage(characterId: string) {
+    const character = this.characters.find(character => character.characterId === characterId);
+    return getImageByClassHash(Number(character!.classHash))
   }
 
   getEquippedItem(characterHash: string, bucketHash: number) {
@@ -294,4 +299,5 @@ export class DestinyCharactersComponent implements OnChanges {
   }
 
   protected readonly getAllCharacterBuckets = getAllCharacterBuckets;
+  protected readonly getImageByClassHash = getImageByClassHash;
 }
