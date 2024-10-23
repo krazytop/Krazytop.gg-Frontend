@@ -18,6 +18,7 @@ export class CrPlayerComponent implements OnChanges {
 
   player: CRPlayer | undefined;
   nextAllowedUpdate: number = 0;
+  currentlyUpdating = false;
 
   constructor(private http: HttpClient, protected timeService: TimeService) {
   }
@@ -25,9 +26,9 @@ export class CrPlayerComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.localPlayer !== undefined) {
       this.player = this.localPlayer;
-      this.updateRemainingTime();
+      this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.player!.updateDate!, environment.updateClashRoyalFrequency);
       setInterval(() => {
-        this.updateRemainingTime();
+        this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.player!.updateDate!, environment.updateClashRoyalFrequency);
       }, 1000);
     } else if (this.remotePlayer !== undefined) {
       this.player = this.remotePlayer;
@@ -48,19 +49,12 @@ export class CrPlayerComponent implements OnChanges {
   }
 
   updatePlayer(): void {
-    if (this.nextAllowedUpdate === 0) {
-      this.importRemotePlayer()
-        .pipe(
-          tap(() => location.reload())
-        )
-        .subscribe();
-    }
-  }
-
-  updateRemainingTime() {
-    const currentTime = new Date();
-    const elapsedTimeInSeconds = (currentTime.getTime() - new Date(this.player!.updateDate!).getTime()) / 1000;
-    this.nextAllowedUpdate = Math.floor(Math.max(0, 30 - elapsedTimeInSeconds));
+    this.currentlyUpdating = true;
+    this.importRemotePlayer()
+      .pipe(
+        tap(() => location.reload())
+      )
+      .subscribe();
   }
 
   protected readonly Date = Date;

@@ -7,11 +7,10 @@
   <destiny-component-selector class="component">
   </destiny-component-selector>
   <div class="game-data">
-    <destiny-postmaster class="component"
-                        [isParentComponentReady]="isThisComponentReady"
-                        [characterInventories]="profile.characterInventories"
-                        [itemInstances]="profile.itemInstances"
-                        [itemNomenclatures]="itemNomenclatures">
+    <destiny-postmaster
+      [characterInventories]="profile.characterInventories"
+      [itemInstances]="profile.itemInstances"
+      [itemNomenclatures]="itemNomenclatures">
     </destiny-postmaster>
     <destiny-vendors *ngIf="componentToShow === 'vendors'" class="component"
                      [vendorGroups]="vendorGroups"
@@ -52,11 +51,11 @@
                        [catalystsPresentationTree]="presentationTrees.catalysts!"
                        [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-catalysts>
-    <destiny-main-inventory class="component"
-                            [isParentComponentReady]="isThisComponentReady"
-                            [profileInventory]="profile.profileInventory"
-                            [profileCurrencies]="profile.profileCurrencies"
-                            [itemNomenclatures]="itemNomenclatures">
+    <destiny-main-inventory
+      [isParentComponentReady]="isThisComponentReady"
+      [profileInventory]="profile.profileInventory"
+      [profileCurrencies]="profile.profileCurrencies"
+      [itemNomenclatures]="itemNomenclatures">
     </destiny-main-inventory>
   </div>
 </div>

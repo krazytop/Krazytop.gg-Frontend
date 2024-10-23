@@ -4,7 +4,7 @@
       <div>
         <div class="main-summary">{{ getResult() }}</div>
       </div>
-      <div class="complementary-summary">{{ timeService.getTimeFrom(match.datetime) }}</div>
+      <div class="complementary-summary">{{ timeService.getStringTimeFromMs(match.datetime) }}</div>
       <hr>
       <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.duration) }}</div>
       <img src="assets/data/tft/tft-queues/1100.png">

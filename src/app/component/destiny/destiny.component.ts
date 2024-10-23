@@ -30,6 +30,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   isThisComponentReady: boolean = false;
   isFirstDisplay: boolean = true;
   requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
+  lastUpdate: Date = new Date();
 
   componentArgs: DestinyComponentArgs = new DestinyComponentArgs();
 
@@ -45,6 +46,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
 
   private platform?: number;
   private membership?: string;
+  currentlyUpdating = false;
 
   async ngOnInit() {
     this.route.params.subscribe(params => {
@@ -53,11 +55,13 @@ export class DestinyComponent implements OnInit, OnDestroy {
       this.componentToShow = params['component'];
       this.componentToShowArg1 = params['arg1'];
     });
-    await this.databaseUpdateService.manageDatabase(); //TODO arranger pour tout faire en meme temps
+    await this.databaseUpdateService.manageDatabase();
     if (this.isFirstDisplay) {
       this.requestDataRefreshing.subscribe(async requestDataRefreshing => {
         if (requestDataRefreshing) {
+          this.currentlyUpdating = true;
           await this.retrieveAllDestinyData(this.platform!, this.membership!);
+          this.currentlyUpdating = false;
         }
       });
       this.refreshData();

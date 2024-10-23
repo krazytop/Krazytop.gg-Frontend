@@ -1,12 +1,13 @@
-<div class="destiny-profile">
-  <div class="linked-profiles">
-    <img class="bungie-profile-icon" src="{{ DestinyComponent.ASSET_URL + bungieProfile!.iconPath }}" alt="Bungie Profile Icon">
-    <div class="bungie-profile-and-platforms">
-      <h1 class="bungie-profile">{{ bungieProfile!.displayName + "#" + bungieProfile!.bungieGlobalDisplayNameCode }}</h1>
-      <div class="other-plaforms">
-        <img *ngFor="let linkedProfile of linkedProfilesToShow" src="assets/logo/{{ linkedProfile.platformIcon }}" title="{{ linkedProfile.displayName }}" alt="Connected Platform Icon">
-      </div>
-    </div>
+<div class="profile">
+  <img class="profile-icon" ngSrc="{{ DestinyComponent.ASSET_URL + bungieProfile!.iconPath }}" alt="Bungie Profile Icon" height="120" width="120">
+  <div class="profile-name-and-update">
+    <div class="profile-name">{{ bungieProfile!.displayName + " #" + bungieProfile!.bungieGlobalDisplayNameCode }}</div>
+    <request-button (request)="destinyComponent.refreshData()" [loading]="destinyComponent.currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="destinyComponent.currentlyUpdating ? 'Updating' : 'Update'"></request-button>
+    <span *ngIf="nextAllowedUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
+    <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(destinyComponent.lastUpdate.toString())) }}</span>
+  </div>
+  <div class="other-platforms">
+    <img *ngFor="let linkedProfile of linkedProfilesToShow" src="assets/logo/{{ linkedProfile.platformIcon }}" title="{{ linkedProfile.displayName }}" alt="Connected Platform Icon">
   </div>
   <div class="characters">
     <div *ngFor="let character of profile.characters" class="character" (click)="selectCharacter(character.characterId!)"
@@ -23,8 +24,5 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="other-section tab-selectors">
-    <button class="tab-not-selected" (click)="destinyComponent.refreshData()">Update</button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DestinyCharacterInventoryModel} from "../../../model/destiny/destiny-character-inventory.model";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
@@ -15,28 +15,23 @@ import {DestinyInventoryBucketEnum} from "../../../model/destiny/enum/DestinyInv
   templateUrl: './destiny-postmaster.component.html',
   styleUrls: ['./destiny-postmaster.component.css']
 })
-export class DestinyPostmasterComponent implements OnChanges {
+export class DestinyPostmasterComponent implements OnInit { //TODO pb refresh en boucle
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
 
-  private platform?: string;
+  postmasters: DestinyCharacterInventoryModel[] = [];
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
   }
 
-  ngOnChanges(): void {
-    if (this.isParentComponentReady) {
-      this.route.params.subscribe(params => {
-        this.platform = params['platform'];
-      });
-    }
+  ngOnInit() {
+    this.setPostmasters();
   }
 
-  getPostmasters() {
-    const postmasters: DestinyCharacterInventoryModel[] = [];
+  setPostmasters() {
+    this.postmasters = [];
     this.characterInventories.forEach(characterInventory => {
       const items = characterInventory.items.filter(item =>  {
         if (item.bucketHash === DestinyInventoryBucketEnum.Postmaster) {
@@ -47,18 +42,18 @@ export class DestinyPostmasterComponent implements OnChanges {
           return false;
         }
       })
-      postmasters.push({characterHash: characterInventory.characterHash, items: items});
+      this.postmasters.push({characterHash: characterInventory.characterHash, items: items});
     });
-    return postmasters;
   }
 
+  //TODO supprimer de la liste en input et affichée
   async moveItem(itemToMove: DestinyItemModel, characterInventory: DestinyCharacterInventoryModel) {//TODO stack
     const body = { //TODO async in html ?
       "itemReferenceHash": itemToMove.itemHash,
       "stackSize": itemToMove.quantity,
       "itemId": itemToMove.itemInstanceId,
       "characterId": characterInventory.characterHash,
-      "membershipType": this.platform
+      "membershipType": this.route.snapshot.paramMap.get('platform')
     };
     if (await this.bungieAuthService.checkTokenValidity()) {
       this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/PullFromPostmaster/`, body, {headers: this.bungieAuthService.getHeaders()})

@@ -2,7 +2,7 @@
   <div class="profile-icon-level">
     <div class="player-level-component">
       <img alt="exp"
-           ngSrc="assets/data/clash-royal/cr-exp.png" height="150" width="150"/>
+           ngSrc="assets/data/clash-royal/cr-exp.png" height="90" width="90"/>
       <h3 class="player-level">{{ player.accountLevelNomenclature.level }}</h3>
     </div>
     <div class="progress-bar" *ngIf="localPlayer">
@@ -13,21 +13,13 @@
     </div>
   </div>
   <div class="profile-name-and-update">
-    <h1 class="profile-name">{{ player.name }} #{{ player.id }}</h1>
-    <div>
-      <div *ngIf="localPlayer">
-        <button (click)="updatePlayer()" [disabled]="nextAllowedUpdate > 0" [ngClass]="{'inactive-profile-update-button': nextAllowedUpdate > 0, 'active-profile-update-button': nextAllowedUpdate === 0}">Update</button>
-        <div *ngIf="nextAllowedUpdate > 0">
-          <p>Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</p>
-        </div>
-        <div *ngIf="nextAllowedUpdate === 0">
-          <p>Updated {{ timeService.getTimeFrom(Date.parse(player!.updateDate!.toString())) }}</p>
-        </div>
-      </div>
-      <div *ngIf="remotePlayer">
-        <button (click)="updatePlayer()">Import</button>
-      </div>
-    </div>
+    <div class="profile-name">{{ player.name }} #{{ player.id }}</div>
+    <ng-container *ngIf="localPlayer">
+      <request-button (request)="updatePlayer()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Updating' : 'Update'"></request-button>
+      <span *ngIf="nextAllowedUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
+      <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(player!.updateDate!.toString())) }}</span>
+    </ng-container>
+    <request-button *ngIf="remotePlayer" (request)="updatePlayer()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Updating' : 'Update'"></request-button>
   </div>
 </div>
 

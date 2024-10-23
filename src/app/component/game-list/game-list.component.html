@@ -42,14 +42,11 @@
       </form>
     </div>
     <div *ngIf="selectedGame == 'destiny'" class="player player-information">
-      <button *ngIf="getBungieCurrentLoggedUser()">
+      <button *ngIf="isBungieUserCurrentlyLogged()">
         <div (click)="this.redirectToDestinyPage()">Login as {{ getBungieCurrentLoggedUser() }}</div>
       </button>
-      <button *ngIf="getBungieCurrentLoggedUser()">
-        <div (click)="this.loginToBungie()">Login as another user</div>
-      </button>
-      <button *ngIf="!getBungieCurrentLoggedUser()">
-        <div (click)="this.loginToBungie()">Login to Bungie</div>
+      <button>
+        <div (click)="this.loginToBungie()">Login {{ isBungieUserCurrentlyLogged() ? "as another user" : "to Bungie"}}</div>
       </button>
     </div>
   </div>
