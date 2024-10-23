@@ -39,6 +39,7 @@ export class DestinyNomenclatureService {
     treesModel.kineticWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.KineticWeaponModels);
     treesModel.powerWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.PowerWeaponModels);
     treesModel.catalysts = nomenclature.get(DestinyPresentationTreeEnum.Catalysts);
+    treesModel.badges = nomenclature.get(DestinyPresentationTreeEnum.Badges);
     return treesModel;
   }
 

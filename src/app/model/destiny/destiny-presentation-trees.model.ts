@@ -7,4 +7,5 @@ export class DestinyPresentationTreesModel {
   kineticWeaponModels?: DestinyPresentationTreeNomenclature;
   energyWeaponModels?: DestinyPresentationTreeNomenclature;
   powerWeaponModels?: DestinyPresentationTreeNomenclature;
+  badges?: DestinyPresentationTreeNomenclature;
 }
