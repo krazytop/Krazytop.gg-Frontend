@@ -1,11 +1,11 @@
-<div class="subcomponent-list" *ngIf="isParentComponentReady">
-  <div class="title-category">
-    <div class="title-category-name">Titles</div>
+<div class="component-list">
+  <div class="component subcomponent-list">
+    <div class="big-component-title">Titles</div>
     <div class="active-titles">
-      <div *ngFor="let title of titlesPresentationTree.childrenNode" title="{{ title.description }}" class="title">
-        <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'" class="active-titles-img"
-             (click)="redirectToTitlePage(title)" style="cursor: pointer">
-        <div class="title-name">{{ title.name }}</div>
+      <div *ngFor="let title of titlesPresentationTree.childrenNode" title="{{ title.description }}" class="title subcomponent selectable"
+           (click)="redirectToTitlePage(title)">
+        <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'">
+        <div class="subcomponent-title">{{ title.name }}</div>
         <div class="progression">
           <div class="progression-bar">
             <span>{{ currentTitleNodeProgress?.progressValue! }} / {{ currentTitleNodeProgress?.completionValue! }}</span>
@@ -15,11 +15,11 @@
       </div>
     </div>
   </div>
-  <div class="title-category">
-    <div class="title-category-name">Archived Titles</div>
+  <div class="component subcomponent-list">
+    <div class="big-component-title">Archived Titles</div>
       <div class="archived-titles">
-        <div *ngFor="let title of archivedTitlesPresentationTree.childrenNode" title="{{ title.name }}" class="title">
-          <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'" class="archived-titles-img">
+        <div *ngFor="let title of archivedTitlesPresentationTree.childrenNode" title="{{ title.name }}" class="title subcomponent">
+          <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'">
         </div>
       </div>
   </div>

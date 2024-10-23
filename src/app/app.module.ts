@@ -54,6 +54,8 @@ import { LolMainFriendsComponent } from './component/lol/lol-stats/lol-main-frie
 import { LolMainMasteriesComponent } from './component/lol/lol-stats/lol-main-masteries/lol-main-masteries.component';
 import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.component';
 import { DestinyCharacterItemFiltersComponent } from './component/destiny/destiny-characters/destiny-character-item-filters/destiny-character-item-filters.component';
+import { RequestButtonComponent } from './ui/request-button/request-button.component';
+import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +106,9 @@ import { DestinyCharacterItemFiltersComponent } from './component/destiny/destin
     LolMainFriendsComponent,
     LolMainMasteriesComponent,
     ToggleSwitchComponent,
-    DestinyCharacterItemFiltersComponent
+    DestinyCharacterItemFiltersComponent,
+    RequestButtonComponent,
+    LoadingScreenComponent
   ],
     imports: [
         BrowserModule,

@@ -1,32 +1,23 @@
 <div *ngIf="isThisComponentReady && summoner" class="profile">
   <div class="profile-icon-level">
-    <img alt="" class="summoner-icon" height="120" width="120"
+    <img alt="Profile icon" class="profile-icon" height="120" width="120"
          ngSrc="{{ imageService.getProfileIconUrl(summoner.icon) }}"/>
-    <h3 class="summoner-level">{{ summoner.level }}</h3>
+    <h3 class="profile-level">{{ summoner.level }}</h3>
   </div>
   <div class="profile-name-and-update">
-    <h1 class="profile-name">{{ summoner.name }} #{{ summoner.tag }}</h1>
+    <div class="profile-name">{{ summoner.name }} #{{ summoner.tag }}</div>
     <ng-container *ngIf="localSummoner">
-      <button (click)="updateData()" [disabled]="nextAllowedUpdate > 0" [ngClass]="{'inactive-profile-update-button': nextAllowedUpdate > 0, 'active-profile-update-button': nextAllowedUpdate === 0}" id="update-summoner-button">
-        <div>Update</div>
-        <img id="update-summoner-loading-gif" src="assets/logo/loading.gif" alt="Loading" hidden>
-      </button>
-      <div *ngIf="nextAllowedUpdate > 0">
-        <span>Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
-      </div>
-      <div *ngIf="nextAllowedUpdate === 0">
-        <span>Updated {{ timeService.getTimeFrom(Date.parse(summoner!.updateDate!.toString())) }}</span>
-      </div>
+      <request-button (request)="updateData()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Updating' : 'Update'"></request-button>
+      <span *ngIf="nextAllowedUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
+      <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(summoner!.updateDate!.toString())) }}</span>
     </ng-container>
-    <ng-container *ngIf="remoteSummoner">
-      <button (click)="updateData()" class="active-profile-update-button">Import</button>
-    </ng-container>
+    <request-button *ngIf="remoteSummoner" (request)="updateData()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Importing' : 'Import'"></request-button>
   </div>
 </div>
 
 <div *ngIf="isThisComponentReady && !summoner" class="no-profile">
   <div *ngIf="!summoner">
     <h1>Sorry, this summoner does not exist ...</h1>
-    <img src="assets/logo/oops.png">
+    <img src="assets/logo/oops.png" alt="Oups">
   </div>
 </div>

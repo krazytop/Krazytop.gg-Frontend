@@ -9,3 +9,19 @@
   left: 60%;
   border-color: #c2c2c2;
 }
+
+.items {
+  gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+}
+
+.warning {
+  margin-top: -3px;
+}
+
+.item {
+  justify-self: center;
+  align-self: center;
+  cursor: pointer;
+}

@@ -8,12 +8,7 @@
 .profile-name-and-update {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  & h1 {
-    margin-bottom: 10px;
-    margin-top: 10px;
-  }
+  gap: 8px;
 
   & span {
     color: darkgrey;
@@ -22,6 +17,9 @@
 
 .profile-name {
   color: white;
+  margin-bottom: 4px;
+  font-size: 35px;
+  font-weight: bold;
 }
 
 .no-profile {
@@ -39,42 +37,28 @@
   justify-content: center;
   display: flex;
   flex-direction: column;
+  position: relative;
+  width: 124px;
+  height: 124px;
 }
 
-.active-profile-update-button {
-  border: #727272 1px solid;
-  background-color: #1D1D1D;
-  color: darkgrey;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  max-width: fit-content;
-}
-
-.active-profile-update-button:hover {
-  background-color: rgba(194, 194, 194, 0.25);
-  border: 1px solid #1D1D1D;
-  cursor: pointer;
-  color: #000000;
-}
-
-.inactive-profile-update-button {
-  border: #727272 1px solid;
-  background-color: #1D1D1D;
-  color: darkgrey;
-  opacity: 25%;
-  max-width: fit-content;
-}
-
-.profile button {
-  padding: 10px;
-  font-size: 18px;
+.profile-icon {
   border-radius: 10px;
+  border: #4b4b4b 2px solid;
 }
 
-#update-summoner-loading-gif {
-  width: 21px;
+.profile-level {
+  position: absolute;
+  background-color: #1D1D1DBB;
+  border-radius: 50%;
+  padding: 2px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-top: 100px;
+  height: 25px;
+  width: 37px;
+  display: flex;
+  place-items: center;
+  justify-content: center;
 }

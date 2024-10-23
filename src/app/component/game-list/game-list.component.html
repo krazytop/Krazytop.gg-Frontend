@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container primary-component">
   <div class="global-form">
     <div class="games">
       <button (click)="selectGame('lol')"
@@ -42,14 +42,11 @@
       </form>
     </div>
     <div *ngIf="selectedGame == 'destiny'" class="player player-information">
-      <button *ngIf="getBungieCurrentLoggedUser()">
-        <div (click)="this.redirectToDestinyPage()">Login as {{ getBungieCurrentLoggedUser() }}</div>
+      <button *ngIf="isBungieUserCurrentlyLogged()" (click)="this.redirectToDestinyPage()">
+        <span>Login as {{ getBungieCurrentLoggedUser() }}</span>
       </button>
-      <button *ngIf="getBungieCurrentLoggedUser()">
-        <div (click)="this.loginToBungie()">Login as another user</div>
-      </button>
-      <button *ngIf="!getBungieCurrentLoggedUser()">
-        <div (click)="this.loginToBungie()">Login to Bungie</div>
+      <button (click)="this.loginToBungie()">
+        <span>Login {{ isBungieUserCurrentlyLogged() ? "as another user" : "to Bungie"}}</span>
       </button>
     </div>
   </div>

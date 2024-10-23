@@ -12,8 +12,7 @@ import {
   getAllCharacterBuckets, isArmor,
   isWeapon
 } from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
-import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
-import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum";
+import {getClassName, getClassImage} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
@@ -21,6 +20,7 @@ import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-p
 import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
 import { DestinyRecordNomenclature } from '../../../model/destiny/nomenclature/destiny-record.nomenclature';
 import {DestinyCharacterItemFiltersService} from "../../../service/destiny/destiny-character-item-filters.service";
+import {DestinyComponent} from "../destiny.component";
 
 @Component({
   selector: 'destiny-characters',
@@ -31,7 +31,6 @@ export class DestinyCharactersComponent implements OnChanges {
   //TODO create destiny.moving-item.service.ts
 
   @Input() profileInventory!: DestinyItemModel[];
-  @Input() characters!: DestinyCharacterModel[];
   @Input() characterEquipment!: DestinyCharacterInventoryModel[];
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
@@ -41,25 +40,21 @@ export class DestinyCharactersComponent implements OnChanges {
   @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
   @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
 
-  private platform?: string;
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
   allItems: DestinyItemModel[] = [];
   allCraftedWeaponRecords: DestinyRecordNomenclature[] = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService, protected destinyComponent: DestinyComponent) {
   }
 
   ngOnChanges(): void {
-    this.route.params.subscribe(params => {
-      this.platform = params['platform'];
-      this.allItems = this.characterInventories.flatMap(inventory => inventory.items)
-        .concat(this.characterEquipment.flatMap(equipment => equipment.items))
-        .concat(this.profileInventory.filter(item => item.bucketHash === DestinyInventoryBucketEnum.General));
-      const kineticWeaponRecords = this.kineticWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
-      const energyWeaponRecords = this.energyWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
-      const powerWeaponRecords = this.powerWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
-      this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
-    });
+    this.allItems = this.characterInventories.flatMap(inventory => inventory.items)
+      .concat(this.characterEquipment.flatMap(equipment => equipment.items))
+      .concat(this.profileInventory.filter(item => item.bucketHash === DestinyInventoryBucketEnum.General));
+    const kineticWeaponRecords = this.kineticWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+    const energyWeaponRecords = this.energyWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+    const powerWeaponRecords = this.powerWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+    this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
   }
 
   shouldItemBeDisplayed(item: DestinyItemModel) {
@@ -67,11 +62,6 @@ export class DestinyCharactersComponent implements OnChanges {
     const itemName = this.itemNomenclatures.get(item.itemHash)!.name;
     const itemCraftedRecord = this.allCraftedWeaponRecords.find(record => record.name === itemName);
     return this.characterItemFiltersService.shouldItemBeDisplayed(item, itemCraftedRecord, isItemDuplicated);
-  }
-
-  getCharacterClassName(characterId: string) {
-    const character = this.characters.find(character => character.characterId === characterId);
-    return getClassNameByGender(character!.classHash, character!.genderHash)
   }
 
   getEquippedItem(characterHash: string, bucketHash: number) {
@@ -283,7 +273,7 @@ export class DestinyCharactersComponent implements OnChanges {
       "itemId": itemToMove.itemInstanceId,
       "characterId": fromCharacterInventory.characterHash != 'vault' ? fromCharacterInventory.characterHash : toCharacterInventory!.characterHash,
       "transferToVault": fromCharacterInventory.characterHash != 'vault',
-      "membershipType": this.platform
+      "membershipType": this.route.snapshot.paramMap.get('platform')
     };
     return this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/TransferItem/`, body, {headers: this.bungieAuthService.getHeaders()});
   }
@@ -292,10 +282,12 @@ export class DestinyCharactersComponent implements OnChanges {
     const body = {
       "itemId": itemToMove.itemInstanceId,
       "characterId": characterInventory.characterHash,
-      "membershipType": this.platform
+      "membershipType": this.route.snapshot.paramMap.get('platform')
     };
     return this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/EquipItem/`, body, {headers: this.bungieAuthService.getHeaders()});
   }
 
   protected readonly getAllCharacterBuckets = getAllCharacterBuckets;
+  protected readonly getImageByClassHash = getClassImage;
+  protected readonly getClassNameByGender = getClassName;
 }

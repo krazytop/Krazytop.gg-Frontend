@@ -11,10 +11,10 @@
   </lol-search-criteria>
   <div *ngIf="localSummoner" class="game-data">
     <div class="column">
-      <lol-ranking
+      <lol-ranking class="component"
         [summoner]="localSummoner">
       </lol-ranking>
-      <lol-main-masteries
+      <lol-main-masteries class="component"
         [summoner]="localSummoner">
       </lol-main-masteries>
     </div>
@@ -25,15 +25,15 @@
       (matchesUpdateEvent)="matches = $event">
     </lol-matches>
     <div class="column">
-      <lol-latest-matches-placement
+      <lol-latest-matches-placement class="component"
         [summoner]="localSummoner"
         [matches]="matches">
       </lol-latest-matches-placement>
-      <lol-main-champions
+      <lol-main-champions class="component"
         [summoner]="localSummoner"
         [matches]="matches">
       </lol-main-champions>
-      <lol-main-friends
+      <lol-main-friends class="component"
         [summoner]="localSummoner"
         [matches]="matches">
       </lol-main-friends>

@@ -3,8 +3,14 @@
     <destiny-character-item-filters class="subcomponent-list"></destiny-character-item-filters>
   </div>
   <div class="characters">
-    <div *ngFor="let characterInventory of characterInventories" class="title">{{ getCharacterClassName(characterInventory.characterHash) }}</div>
-    <div class="title">Vault ({{ getVaultItems(null).length }} / {{ 700 }})</div>
+    <div class="character-image-container" *ngFor="let characterInventory of characterInventories">
+      <img class="character-image" src="assets/data/destiny/classes/{{ getImageByClassHash(this.destinyComponent.profile.characters, characterInventory.characterHash) }}"
+           title="{{ getClassNameByGender(this.destinyComponent.profile.characters, characterInventory.characterHash) }}" alt="Class">
+    </div>
+    <div class="vault subcomponent-title">
+      <img class="character-image-container character-image" src="assets/data/destiny/vault.png" title="Vault" alt="Vault">
+      <span>({{ getVaultItems(null).length }} / {{ 700 }})</span>
+    </div>
   </div>
   <div class="item-categories">
     <div class="characters" *ngFor="let bucketHash of getAllCharacterBuckets()" cdkDropListGroup>

@@ -9,7 +9,7 @@ import {LOLMatch} from "../../model/lol/lol-match.model";
   templateUrl: './league-of-legends.component.html',
   styleUrls: ['./league-of-legends.component.css']
 })
-export class LeagueOfLegendsComponent implements OnInit {
+export class LeagueOfLegendsComponent implements OnInit { //TODO streak => space-between
 
   isThisComponentReady: boolean = true;
 

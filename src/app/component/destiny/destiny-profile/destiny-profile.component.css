@@ -1,33 +1,10 @@
-.destiny-profile {
-  display: grid;
-  grid-template-columns: 2fr 10fr 1fr 1fr;
-  gap: 20px;
-}
-
-.bungie-profile-and-platforms {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.bungie-profile-icon {
-  height: 120px;
-  border-radius: 10px;
-  border: #4b4b4b 2px solid;
-}
-
-.linked-profiles {
-  grid-column: 1;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-}
-
-.other-plaforms {
+.other-platforms {
   display: flex;
   flex-direction: row;
   gap: 5px;
+  align-self: start;
+  margin-top: 12px;
+  margin-left: -30px;
 
   & img {
     height: 20px;
@@ -35,22 +12,7 @@
   }
 }
 
-.bungie-profile {
-  color: white;
-  margin-bottom: 15px;
-  margin-top: 15px;
-}
-
-.other-section {
-  grid-column: 3;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .characters {
-  grid-column: 2;
   padding: 10px;
   display: flex;
   gap: 10px;
@@ -63,10 +25,7 @@
   display: flex;
   width: 355px;
   height: 72px;
-  border-radius: 5px;
   overflow: hidden;
-  background-color: #212121;
-  border: black solid 2px;
 }
 
 .unselected-character {

@@ -1,14 +1,15 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from "@angular/router";
 import {BungieAuthService} from "../destiny/bungie-authentification/bungie-auth.service";
+import {AlertService} from "../alert/alert.service";
 
 @Component({
   selector: 'game-list',
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css'],
 })
-export class GameListComponent implements OnInit {
+export class GameListComponent {
 
   selectedGame: string = '';
   regions: string[] = ['EUW'];
@@ -20,10 +21,7 @@ export class GameListComponent implements OnInit {
   @ViewChild('riotForm') riotForm!: NgForm;
   @ViewChild('supercellForm') supercellForm!: NgForm;
 
-  constructor(private router: Router, private destinyAuthService: BungieAuthService) {
-  }
-
-  ngOnInit(): void {
+  constructor(private router: Router, private destinyAuthService: BungieAuthService, private alertService: AlertService) {
   }
 
   selectGame(game: string) {
@@ -32,16 +30,23 @@ export class GameListComponent implements OnInit {
 
   redirectToSummonerPage() {
     if (this.riotTag === '') {
-      this.riotForm.value.riotTag ='EUW';
+      this.riotForm.value.riotTag = 'EUW';
     }
     if (this.riotForm.valid) {
       const region = this.riotForm.value.region;
       const tag = this.riotForm.value.riotTag;
       const name = this.riotForm.value.riotName;
-      if (this.selectedGame == "lol") {
-        this.router.navigate([`/${this.selectedGame}/${region}/${tag}/${name}/all-queues/all-roles`]);
-      } else {
-        this.router.navigate([`/${this.selectedGame}/${region}/${tag}/${name}/set-9.5`]);
+      if (name !== "" && tag !== "") {
+        console.log('a')
+        if (this.selectedGame === "lol") {
+          this.router.navigate([`/lol/${region}/${tag}/${name}/all-queues/all-roles`]);
+        } else {
+          this.alertService.processAlert({
+            message: 'TFT is currently disabled',
+            duration: 3000
+          });
+          //this.router.navigate([`/tft/${region}/${tag}/${name}/set-9.5`]);
+        }
       }
     }
   }
@@ -49,7 +54,7 @@ export class GameListComponent implements OnInit {
   redirectToSupercellPage() {
     if (this.supercellForm.valid) {
       const name = this.supercellForm.value.name;
-      this.router.navigate([`/${this.selectedGame}/${name}/battles`]);
+      this.router.navigate([`/clash-royal/${name}/battles`]);
     }
   }
 
@@ -58,14 +63,16 @@ export class GameListComponent implements OnInit {
     this.destinyAuthService.login();
   }
 
+  isBungieUserCurrentlyLogged() {
+    return !this.destinyAuthService.isTokenExpired() || !this.destinyAuthService.isRefreshTokenExpired();
+  }
+
   getBungieCurrentLoggedUser() {
     return this.destinyAuthService.getPlayerTokens()?.uniqueName;
   }
 
   async redirectToDestinyPage() {
-    if(await this.destinyAuthService.checkTokenValidity()) { //TODO check aussi avant d afficher comme quoi il y a une user connecté
-      await this.destinyAuthService.redirectToDestinyPage(this.destinyAuthService.getPlayerTokens()!)
-    }
+    await this.router.navigate([`/bungie`]);
   }
 
 }

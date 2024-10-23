@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 @Injectable({ providedIn: 'root' })
 export class TimeService {
 
-  public getTimeFrom(timeFrom: number): string {
+  public getStringTimeFromMs(timeFrom: number): string {
     const now = Date.now();
     let elapsedMilliseconds = now - timeFrom;
 
@@ -39,6 +39,11 @@ export class TimeService {
       const remainingSeconds = time % 60;
       return `${minutes}min ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}s`;
     }
+  }
+
+  getSecondsRemainingUntilNextAllowedUpdate(date: Date, updateFrequency: number) { //TODO
+    const elapsedTimeInSeconds = (new Date().getTime() - new Date(date).getTime()) / 1000;
+    return Math.floor(Math.max(0, updateFrequency - elapsedTimeInSeconds + 1));
   }
 
 }

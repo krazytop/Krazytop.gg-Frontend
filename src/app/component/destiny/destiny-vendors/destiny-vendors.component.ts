@@ -8,7 +8,5 @@ import {DestinyVendorGroupNomenclature} from "../../../model/destiny/nomenclatur
 })
 export class DestinyVendorsComponent {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() vendorGroups!: DestinyVendorGroupNomenclature[];
-
 }

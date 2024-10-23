@@ -16,6 +16,20 @@
   gap: 8px;
 }
 
+.character-image {
+  filter: invert(70%);
+  justify-self: center;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.character-image-container {
+  width: 60px;
+  height: 40px;
+  justify-self: center;
+}
+
 .character-item-category {
   padding: 5px 0 5px 5px;
   display: grid;
@@ -78,15 +92,9 @@ destiny-item:active {
 
 .vault {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.title {
-  color: white;
-  font-size: 20px;
-  display: flex;
   justify-content: center;
+  gap: 20px;
+  font-size: 20px;
 }
 
 .character-item-category-droppable {
