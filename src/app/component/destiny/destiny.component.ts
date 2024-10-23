@@ -14,7 +14,6 @@ import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destin
 import {DestinyNomenclatureService} from "../../service/destiny/destiny-nomenclature.service";
 import {DestinyComponentArgs} from "../../model/destiny/destiny-component-args";
 import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-presentation-trees.model";
-import {DestinyDatabaseApi} from "../../service/destiny/destiny-database.api";
 import {DestinyDatabaseUpdateService} from "../../service/destiny/destiny-database-update.service";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
 
@@ -26,7 +25,6 @@ import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/d
 export class DestinyComponent implements OnInit, OnDestroy {
 
   componentToShow: string | undefined;
-  title: string | undefined;
   isThisComponentReady: boolean = false;
   isFirstDisplay: boolean = true;
   requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
@@ -42,7 +40,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
 
   public static readonly ASSET_URL: string = "https://www.bungie.net";
 
-  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseApi: DestinyDatabaseApi, private databaseUpdateService: DestinyDatabaseUpdateService) {}
+  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService) {}
 
   private platform?: number;
   private membership?: string;
@@ -54,7 +52,6 @@ export class DestinyComponent implements OnInit, OnDestroy {
       this.membership = params['membership'];
       this.componentToShow = params['component'];
     });
-    if(this.componentToShow === 'titles' && this.title !== undefined) this.setSelectedTitle();
     await this.databaseUpdateService.manageDatabase();
     if (this.isFirstDisplay) {
       this.requestDataRefreshing.subscribe(async requestDataRefreshing => {
@@ -94,8 +91,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
 
   manageComponentArgs() {
     this.route.queryParams.subscribe(params => {
-      this.title = params['title']; //TODO plus besoin de set title (à supprimer) et gérer les arguments lors des redirects de changement de characters
-      if(this.componentToShow === 'titles' && this.title !== undefined) this.setSelectedTitle(); //TODO ne pas set mais directement get dans l'argument du composant
+      if(this.componentToShow === 'titles') this.setSelectedTitle(Number(params['hash'])); //TODO ne pas set mais directement get dans l'argument du composant
     });
   }
 
@@ -147,17 +143,15 @@ export class DestinyComponent implements OnInit, OnDestroy {
     this.profile = destinyProfile;
   }
 
-  setSelectedTitle() {
+  setSelectedTitle(hash: number) {
     const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.titles?.childrenNode
-      .find(title => title.hash === Number(this.title))
-    if (selectedTitle != undefined) {
-      this.componentArgs.selectedTitle = selectedTitle;
-    } else {
-      this.route.params.subscribe(params => {
-        this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/titles`]);
-      });
+      .find(title => title.hash === hash)
+    this.componentArgs.selectedTitle = selectedTitle;
+    if (selectedTitle === undefined) {
+      const params = this.route.snapshot.paramMap;
+      this.router.navigate([`/destiny/${params.get('platform')}/${params.get('membership')}/${params.get('character')}/titles`]);
     }
-  }//TODO supprmier tous les isparentcomponentready parce que l affichage se fait uniquement sur cette condition donc always TRUE
+  }
 
   async getVendors(platform: number, membership: string, character: string) {
     const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/Character/${character}/Vendors/?components=400`, {headers: this.bungieAuthService.getHeaders()});
@@ -173,7 +167,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
           vendor.progression = vendorData['progression'];
           vendor.progression.progressionNomenclature = (await this.nomenclatureService.getProgressionNomenclatures(vendor.progression.progressionHash));
         } else {
-          group.vendors = group.vendors.filter(vendorNotHere => vendor.vendorNomenclature.hash != vendorNotHere.vendorNomenclature.hash);
+          group.vendors = group.vendors.filter(vendorNotHere => vendor.vendorNomenclature.hash !== vendorNotHere.vendorNomenclature.hash);
         }
       }
     }

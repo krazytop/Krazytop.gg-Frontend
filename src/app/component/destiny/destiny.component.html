@@ -16,13 +16,12 @@
     </destiny-vendors>
     <destiny-collections *ngIf="componentToShow === 'collections'" class="component">
     </destiny-collections>
-    <destiny-titles *ngIf="componentToShow === 'titles' && title === undefined" class="component"
+    <destiny-titles *ngIf="componentToShow === 'titles' && !componentArgs.selectedTitle"
                     [titlesPresentationTree]="presentationTrees.titles!"
                     [archivedTitlesPresentationTree]="presentationTrees.archivedTitles!"
                     [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-titles>
-    <destiny-title *ngIf="componentToShow === 'titles' && title !== undefined" class="component"
-                    [isParentComponentReady]="isThisComponentReady"
+    <destiny-title *ngIf="componentToShow === 'titles' && componentArgs.selectedTitle" class="component"
                     [title]="componentArgs.selectedTitle!"
                     [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-title>

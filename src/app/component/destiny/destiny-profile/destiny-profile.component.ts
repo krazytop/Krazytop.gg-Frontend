@@ -47,9 +47,13 @@ export class DestinyProfileComponent implements OnChanges {
   }
 
   selectCharacter(characterId: string) {
-    this.route.params.subscribe(params => {
-      this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${characterId}/${params['component']}`]);
-    });
+    const { paramMap, queryParamMap } = this.route.snapshot;
+    const title = queryParamMap.get('hash');
+    if (paramMap.get('component') === 'titles' && title) {
+      this.router.navigate([`/destiny/${paramMap.get('platform')}/${paramMap.get('membership')}/${characterId}/${paramMap.get('component')}`], { queryParams: { hash: title }});
+    } else {
+      this.router.navigate([`/destiny/${paramMap.get('platform')}/${paramMap.get('membership')}/${characterId}/${paramMap.get('component')}`]);
+    }
   }
 
   protected readonly DestinyComponent = DestinyComponent;

@@ -27,7 +27,7 @@ export class DestinyTitlesComponent {
 
   redirectToTitlePage(title: DestinyPresentationTreeNomenclature) {
     this.route.params.subscribe(params => {
-      this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/titles`], { queryParams: { title: title.hash }});
+      this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/titles`], { queryParams: { hash: title.hash }});
     });
   }
 
