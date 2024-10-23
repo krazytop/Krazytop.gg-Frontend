@@ -1,8 +1,11 @@
 <div class="component-list">
   <div *ngFor="let postmaster of postmasters" class="component subcomponent-list">
-    <div class="component-title">
-      <span>Postmaster &nbsp;</span>
-      <span>({{ postmaster.items.length }} / 21)</span>
+    <div class="postmaster-title component-title">
+      <div class="character-image-container">
+        <img class="character-image" src="assets/data/destiny/classes/{{ getImageByClassHash(this.destinyComponent.profile.characters, postmaster.characterHash) }}"
+             title="{{ getClassNameByGender(this.destinyComponent.profile.characters, postmaster.characterHash) }}" alt="Class">
+      </div>
+      <span>Postmaster &nbsp;({{ postmaster.items.length }} / 21)</span>
       <span *ngIf="postmaster.items.length > 15" class="warning">⚠️</span>
     </div>
     <div class="items small-subcomponent">

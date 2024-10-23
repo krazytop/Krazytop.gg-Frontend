@@ -12,8 +12,7 @@ import {
   getAllCharacterBuckets, isArmor,
   isWeapon
 } from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
-import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
-import {getClassNameByGender, getImageByClassHash} from "../../../model/destiny/enum/DestinyClassEnum";
+import {getClassName, getClassImage} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
@@ -21,6 +20,7 @@ import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-p
 import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
 import { DestinyRecordNomenclature } from '../../../model/destiny/nomenclature/destiny-record.nomenclature';
 import {DestinyCharacterItemFiltersService} from "../../../service/destiny/destiny-character-item-filters.service";
+import {DestinyComponent} from "../destiny.component";
 
 @Component({
   selector: 'destiny-characters',
@@ -31,7 +31,6 @@ export class DestinyCharactersComponent implements OnChanges {
   //TODO create destiny.moving-item.service.ts
 
   @Input() profileInventory!: DestinyItemModel[];
-  @Input() characters!: DestinyCharacterModel[];
   @Input() characterEquipment!: DestinyCharacterInventoryModel[];
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
@@ -45,7 +44,7 @@ export class DestinyCharactersComponent implements OnChanges {
   allItems: DestinyItemModel[] = [];
   allCraftedWeaponRecords: DestinyRecordNomenclature[] = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService, protected destinyComponent: DestinyComponent) {
   }
 
   ngOnChanges(): void {
@@ -63,16 +62,6 @@ export class DestinyCharactersComponent implements OnChanges {
     const itemName = this.itemNomenclatures.get(item.itemHash)!.name;
     const itemCraftedRecord = this.allCraftedWeaponRecords.find(record => record.name === itemName);
     return this.characterItemFiltersService.shouldItemBeDisplayed(item, itemCraftedRecord, isItemDuplicated);
-  }
-
-  getCharacterClassName(characterId: string) {
-    const character = this.characters.find(character => character.characterId === characterId);
-    return getClassNameByGender(character!.classHash, character!.genderHash)
-  }
-
-  getCharacterImage(characterId: string) {
-    const character = this.characters.find(character => character.characterId === characterId);
-    return getImageByClassHash(Number(character!.classHash))
   }
 
   getEquippedItem(characterHash: string, bucketHash: number) {
@@ -299,5 +288,6 @@ export class DestinyCharactersComponent implements OnChanges {
   }
 
   protected readonly getAllCharacterBuckets = getAllCharacterBuckets;
-  protected readonly getImageByClassHash = getImageByClassHash;
+  protected readonly getImageByClassHash = getClassImage;
+  protected readonly getClassNameByGender = getClassName;
 }

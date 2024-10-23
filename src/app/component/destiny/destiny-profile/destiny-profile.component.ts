@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DestinyLinkedProfilesModel} from "../../../model/destiny/destiny-linked-profiles.model";
 import {DestinyPlatformEnum} from "../../../model/destiny/enum/DestinyPlatformEnum";
 import {DestinyProfileModel} from "../../../model/destiny/destiny-profile.model";
-import {getClassNameByGender} from "../../../model/destiny/enum/DestinyClassEnum"
+import {getClassName} from "../../../model/destiny/enum/DestinyClassEnum"
 import {DestinyRecordNomenclature} from "../../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {TimeService} from "../../../service/time.service";
 import {environment} from "../../../../environments/environment";
@@ -58,6 +58,6 @@ export class DestinyProfileComponent implements OnChanges {
 
   protected readonly DestinyComponent = DestinyComponent;
   protected readonly String = String;
-  protected readonly getClassNameByGender = getClassNameByGender;
+  protected readonly getClassNameByGender = getClassName;
   protected readonly Date = Date;
 }

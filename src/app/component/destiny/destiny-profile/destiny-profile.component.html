@@ -15,7 +15,7 @@
       <img class="banner" src="{{ DestinyComponent.ASSET_URL + character.emblemBackgroundPath }}" alt="Character Emblem">
       <div class="information">
         <div class="class-and-title">
-          <span class="class">{{ getClassNameByGender(character.classHash, character.genderHash) }}</span>
+          <span class="class">{{ getClassNameByGender(profile.characters, character.characterId) }}</span>
           <span *ngIf="character.titleRecordHash != undefined" class="title">{{ this.characterTitleNomenclatures.get(character.titleRecordHash)?.titlesByGender![character.genderHash] }}</span>
         </div>
         <div class="light">

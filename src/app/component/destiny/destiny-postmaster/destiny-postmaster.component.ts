@@ -9,6 +9,8 @@ import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {AlertService} from "../../alert/alert.service";
 import {DestinyInventoryBucketEnum} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
+import {getClassName, getClassImage} from "../../../model/destiny/enum/DestinyClassEnum";
+import {DestinyComponent} from "../destiny.component";
 
 @Component({
   selector: 'destiny-postmaster',
@@ -23,7 +25,7 @@ export class DestinyPostmasterComponent implements OnInit { //TODO pb refresh en
 
   postmasters: DestinyCharacterInventoryModel[] = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected destinyComponent: DestinyComponent) {
   }
 
   ngOnInit() {
@@ -75,4 +77,6 @@ export class DestinyPostmasterComponent implements OnInit { //TODO pb refresh en
     }
   }
 
+  protected readonly getClassNameByGender = getClassName;
+  protected readonly getImageByClassHash = getClassImage;
 }

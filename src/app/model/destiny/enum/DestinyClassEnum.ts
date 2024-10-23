@@ -1,3 +1,5 @@
+import {DestinyCharacterModel} from "../destiny-character.model";
+
 const DestinyClassEnum: {[index: number]:any} = {
   671679327: {
     genders: {
@@ -22,10 +24,12 @@ const DestinyClassEnum: {[index: number]:any} = {
   }
 }
 
-export function getClassNameByGender(classHash: number, genderHash: number): string {
-  return DestinyClassEnum[classHash]['genders'][genderHash];
+export function getClassName(characters: DestinyCharacterModel[], characterId: string): string {
+  const character = characters.find(character => character.characterId === characterId);
+  return DestinyClassEnum[character!.classHash]['genders'][character!.genderHash];
 }
 
-export function getImageByClassHash(classHash: number): string {
-  return DestinyClassEnum[classHash]['image'];
+export function getClassImage(characters: DestinyCharacterModel[], characterId: string): string {
+  const character = characters.find(character => character.characterId === characterId);
+  return DestinyClassEnum[character!.classHash]['image'];
 }
