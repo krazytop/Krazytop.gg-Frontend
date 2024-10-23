@@ -26,7 +26,7 @@ import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/d
 export class DestinyComponent implements OnInit, OnDestroy {
 
   componentToShow: string | undefined;
-  componentToShowArg1: string | undefined;
+  title: string | undefined;
   isThisComponentReady: boolean = false;
   isFirstDisplay: boolean = true;
   requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
@@ -53,8 +53,8 @@ export class DestinyComponent implements OnInit, OnDestroy {
       this.platform = params['platform'];
       this.membership = params['membership'];
       this.componentToShow = params['component'];
-      this.componentToShowArg1 = params['arg1'];
     });
+    if(this.componentToShow === 'titles' && this.title !== undefined) this.setSelectedTitle();
     await this.databaseUpdateService.manageDatabase();
     if (this.isFirstDisplay) {
       this.requestDataRefreshing.subscribe(async requestDataRefreshing => {
@@ -93,7 +93,10 @@ export class DestinyComponent implements OnInit, OnDestroy {
   }
 
   manageComponentArgs() {
-    if(this.componentToShow === 'titles' && this.componentToShowArg1 !== undefined) this.setSelectedTitle();
+    this.route.queryParams.subscribe(params => {
+      this.title = params['title']; //TODO plus besoin de set title (à supprimer) et gérer les arguments lors des redirects de changement de characters
+      if(this.componentToShow === 'titles' && this.title !== undefined) this.setSelectedTitle(); //TODO ne pas set mais directement get dans l'argument du composant
+    });
   }
 
   async getLinkedProfile(platform: number, membership: string) {
@@ -146,7 +149,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
 
   setSelectedTitle() {
     const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.titles?.childrenNode
-      .find(title => title.hash === Number(this.componentToShowArg1))
+      .find(title => title.hash === Number(this.title))
     if (selectedTitle != undefined) {
       this.componentArgs.selectedTitle = selectedTitle;
     } else {

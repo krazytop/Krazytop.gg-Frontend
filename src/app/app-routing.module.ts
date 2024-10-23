@@ -14,7 +14,6 @@ const routes: Routes = [
   {path: 'lol/:region/:tag/:name/:queue/:role', component: LeagueOfLegendsComponent},
   {path: 'clash-royal/:id/:component', component: ClashRoyalComponent},
   {path: 'bungie', component: BungieAuthComponent},
-  {path: 'destiny/:platform/:membership/:character/:component/:arg1', component: DestinyComponent},
   {path: 'destiny/:platform/:membership/:character/:component', component: DestinyComponent},
   {path: '', component: GameListComponent},
   {path: '**', redirectTo: ''}

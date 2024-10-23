@@ -1,11 +1,1 @@
 @import 'src/app/component/destiny/destiny.component.css';
-
-.warning {
-  margin-top: -3px;
-}
-
-.item {
-  justify-self: center;
-  align-self: center;
-  cursor: pointer;
-}
