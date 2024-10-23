@@ -41,7 +41,6 @@ export class DestinyCharactersComponent implements OnChanges {
   @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
   @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
 
-  private platform?: string;
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
   allItems: DestinyItemModel[] = [];
   allCraftedWeaponRecords: DestinyRecordNomenclature[] = [];
@@ -50,16 +49,13 @@ export class DestinyCharactersComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    this.route.params.subscribe(params => {
-      this.platform = params['platform'];
-      this.allItems = this.characterInventories.flatMap(inventory => inventory.items)
-        .concat(this.characterEquipment.flatMap(equipment => equipment.items))
-        .concat(this.profileInventory.filter(item => item.bucketHash === DestinyInventoryBucketEnum.General));
-      const kineticWeaponRecords = this.kineticWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
-      const energyWeaponRecords = this.energyWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
-      const powerWeaponRecords = this.powerWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
-      this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
-    });
+    this.allItems = this.characterInventories.flatMap(inventory => inventory.items)
+      .concat(this.characterEquipment.flatMap(equipment => equipment.items))
+      .concat(this.profileInventory.filter(item => item.bucketHash === DestinyInventoryBucketEnum.General));
+    const kineticWeaponRecords = this.kineticWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+    const energyWeaponRecords = this.energyWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+    const powerWeaponRecords = this.powerWeaponModelsPresentationTree.childrenNode.flatMap(weaponCategory => weaponCategory.childrenRecord);
+    this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
   }
 
   shouldItemBeDisplayed(item: DestinyItemModel) {
@@ -283,7 +279,7 @@ export class DestinyCharactersComponent implements OnChanges {
       "itemId": itemToMove.itemInstanceId,
       "characterId": fromCharacterInventory.characterHash != 'vault' ? fromCharacterInventory.characterHash : toCharacterInventory!.characterHash,
       "transferToVault": fromCharacterInventory.characterHash != 'vault',
-      "membershipType": this.platform
+      "membershipType": this.route.snapshot.paramMap.get('platform')
     };
     return this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/TransferItem/`, body, {headers: this.bungieAuthService.getHeaders()});
   }
@@ -292,7 +288,7 @@ export class DestinyCharactersComponent implements OnChanges {
     const body = {
       "itemId": itemToMove.itemInstanceId,
       "characterId": characterInventory.characterHash,
-      "membershipType": this.platform
+      "membershipType": this.route.snapshot.paramMap.get('platform')
     };
     return this.http.post(`https://www.bungie.net/Platform/Destiny2/Actions/Items/EquipItem/`, body, {headers: this.bungieAuthService.getHeaders()});
   }

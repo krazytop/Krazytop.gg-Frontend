@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
 import {DestinyComponent} from "../destiny.component";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
@@ -9,9 +9,8 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './destiny-titles.component.html',
   styleUrls: ['./destiny-titles.component.css']
 })
-export class DestinyTitlesComponent implements OnChanges {
+export class DestinyTitlesComponent {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() titlesPresentationTree!: DestinyPresentationTreeNomenclature;
   @Input() archivedTitlesPresentationTree!: DestinyPresentationTreeNomenclature;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
@@ -19,9 +18,6 @@ export class DestinyTitlesComponent implements OnChanges {
   currentTitleNodeProgress?: DestinyNodeProgressionModel;
 
   constructor(private router: Router, private route: ActivatedRoute) {
-  }
-
-  ngOnChanges(): void {
   }
 
   isTitleComplete(title: DestinyPresentationTreeNomenclature): boolean {

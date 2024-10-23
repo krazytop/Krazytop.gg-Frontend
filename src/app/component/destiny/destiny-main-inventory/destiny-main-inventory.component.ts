@@ -14,22 +14,19 @@ export class DestinyMainInventoryComponent implements OnChanges {
   @Input() profileInventory!: DestinyItemModel[];
   @Input() profileCurrencies!: DestinyItemModel[];
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
-  @Input() isParentComponentReady: boolean = false;
 
   mainCurrencies: DestinyItemModel[] = [];
   engrams: DestinyItemModel[] = [];
 
   ngOnChanges(): void {
-    if (this.isParentComponentReady) {
-      this.mainCurrencies = [];
-      this.engrams = [];
-      MainCurrencies.forEach(itemHash => {
-        this.mainCurrencies.push(this.findItem(itemHash));
-      })
-      Engrams.forEach(itemHash => {
-        this.engrams.push(this.findItem(itemHash));
-      })
-    }
+    this.mainCurrencies = [];
+    this.engrams = [];
+    MainCurrencies.forEach(itemHash => {
+      this.mainCurrencies.push(this.findItem(itemHash));
+    })
+    Engrams.forEach(itemHash => {
+      this.engrams.push(this.findItem(itemHash));
+    })
   }
 
   findItem(itemHash: number){

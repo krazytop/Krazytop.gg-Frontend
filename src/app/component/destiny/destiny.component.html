@@ -1,6 +1,5 @@
 <div *ngIf="isThisComponentReady" class="game-component">
   <destiny-profile class="component"
-                   [isParentComponentReady]="isThisComponentReady"
                    [profile]="profile"
                    [characterTitleNomenclatures]="characterTitleNomenclatures">
   </destiny-profile>
@@ -13,13 +12,11 @@
       [itemNomenclatures]="itemNomenclatures">
     </destiny-postmaster>
     <destiny-vendors *ngIf="componentToShow === 'vendors'" class="component"
-                     [vendorGroups]="vendorGroups"
-                     [isParentComponentReady]="isThisComponentReady">
+                     [vendorGroups]="vendorGroups">
     </destiny-vendors>
     <destiny-collections *ngIf="componentToShow === 'collections'" class="component">
     </destiny-collections>
     <destiny-titles *ngIf="componentToShow === 'titles' && componentToShowArg1 === undefined" class="component"
-                    [isParentComponentReady]="isThisComponentReady"
                     [titlesPresentationTree]="presentationTrees.titles!"
                     [archivedTitlesPresentationTree]="presentationTrees.archivedTitles!"
                     [presentationNodeProgress]="profile.presentationNodeProgress">
@@ -52,7 +49,6 @@
                        [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-catalysts>
     <destiny-main-inventory
-      [isParentComponentReady]="isThisComponentReady"
       [profileInventory]="profile.profileInventory"
       [profileCurrencies]="profile.profileCurrencies"
       [itemNomenclatures]="itemNomenclatures">

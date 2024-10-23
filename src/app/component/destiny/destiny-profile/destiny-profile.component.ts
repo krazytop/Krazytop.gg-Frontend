@@ -16,7 +16,6 @@ import {environment} from "../../../../environments/environment";
 })
 export class DestinyProfileComponent implements OnChanges {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() profile!: DestinyProfileModel;
   @Input() characterTitleNomenclatures!: Map<number, DestinyRecordNomenclature>;
 
