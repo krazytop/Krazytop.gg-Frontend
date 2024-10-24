@@ -2,10 +2,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
-
-  img {
-    width: 100%;
-  }
 }
 
 .badge {
@@ -16,9 +12,35 @@
   gap: 10px;
 }
 
+.badge-image {
+  box-shadow: 0 0 9px 3px rgba(0,0,0,0.75);
+  border-radius: 10px;
+  width: 100%;
+}
+
 .characters {
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
+}
+
+.character {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+
+  img {
+    max-height: 20px;
+    max-width: 25px;
+    width: fit-content;
+    filter: invert(70%);
+  }
+}
+
+.fully-completed {
+  background-color: #BDAB6D33;
+  border: 2px solid #93884c;
 }

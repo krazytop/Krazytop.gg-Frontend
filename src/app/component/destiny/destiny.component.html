@@ -18,6 +18,7 @@
     </destiny-collections>
     <destiny-badges *ngIf="componentToShow === 'badges'"
                     [badgesPresentationTree]="presentationTrees.badges!"
+                    [itemNomenclatures]="itemNomenclatures"
                     [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-badges>
     <destiny-titles *ngIf="componentToShow === 'titles' && !componentArgs.selectedTitle"
