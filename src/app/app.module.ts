@@ -57,6 +57,7 @@ import { DestinyCharacterItemFiltersComponent } from './component/destiny/destin
 import { RequestButtonComponent } from './ui/request-button/request-button.component';
 import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.component';
 import { ProgressBarComponent } from './ui/progression-bar/progress-bar.component';
+import { DestinyBadgeComponent } from './component/destiny/destiny-badges/destiny-badge/destiny-badge.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { ProgressBarComponent } from './ui/progression-bar/progress-bar.componen
     DestinyCharacterItemFiltersComponent,
     RequestButtonComponent,
     LoadingScreenComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    DestinyBadgeComponent
   ],
     imports: [
         BrowserModule,

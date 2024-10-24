@@ -16,11 +16,15 @@
     </destiny-vendors>
     <destiny-collections *ngIf="componentToShow === 'collections'" class="component">
     </destiny-collections>
-    <destiny-badges *ngIf="componentToShow === 'badges'"
+    <destiny-badges *ngIf="componentToShow === 'badges' && !componentArgs.selectedBadge"
                     [badgesPresentationTree]="presentationTrees.badges!"
                     [itemNomenclatures]="itemNomenclatures"
                     [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-badges>
+    <destiny-badge *ngIf="componentToShow === 'badges' && componentArgs.selectedBadge" class="component"
+                   [title]="componentArgs.selectedBadge!"
+                   [presentationNodeProgress]="profile.presentationNodeProgress">
+    </destiny-badge>
     <destiny-titles *ngIf="componentToShow === 'titles' && !componentArgs.selectedTitle"
                     [titlesPresentationTree]="presentationTrees.titles!"
                     [archivedTitlesPresentationTree]="presentationTrees.archivedTitles!"

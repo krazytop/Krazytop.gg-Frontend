@@ -4,6 +4,7 @@ import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-p
 import {DestinyComponent} from "../destiny.component";
 import {DestinyItemNomenclature} from "../../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {getClassImageByClassType} from "../../../model/destiny/enum/DestinyClassEnum";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'destiny-badges',
@@ -16,15 +17,21 @@ export class DestinyBadgesComponent {
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
 
+  constructor(private router: Router, private route: ActivatedRoute) {
+  }
+
   redirectToBadgePage(badge: DestinyPresentationTreeNomenclature) {
+    this.route.params.subscribe(params => {
+      this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/badges`], { queryParams: { hash: badge.hash }});
+    });
   }
 
   isBadgeCompleted(badge: DestinyPresentationTreeNomenclature) {
     const completedCharacter = badge.childrenNode.find(character => this.presentationNodeProgress.get(character.hash)!.progressValue >= this.presentationNodeProgress.get(character.hash)!.completionValue);
-    return completedCharacter != undefined;
+    return completedCharacter !== undefined;
   }
 
-  isBadgeFullyComplete(badge: DestinyPresentationTreeNomenclature) {
+  isBadgeFullyCompleted(badge: DestinyPresentationTreeNomenclature) {
     const completedCharacters = badge.childrenNode.filter(character => this.presentationNodeProgress.get(character.hash)!.progressValue >= this.presentationNodeProgress.get(character.hash)!.completionValue);
     return completedCharacters.length === 3;
   }

@@ -2,4 +2,5 @@ import {DestinyPresentationTreeNomenclature} from "./destiny-presentation-tree.m
 
 export class DestinyComponentArgs {
   selectedTitle?: DestinyPresentationTreeNomenclature;
+  selectedBadge?: DestinyPresentationTreeNomenclature;
 }
