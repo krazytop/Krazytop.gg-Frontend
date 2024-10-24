@@ -80,6 +80,10 @@ hr {
   cursor: pointer;
 }
 
+progress-bar {
+  width: 100%;
+}
+
 select {
   padding: 7px;
   font-size: 20px;

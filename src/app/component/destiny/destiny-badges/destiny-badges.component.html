@@ -5,6 +5,12 @@
          (click)="redirectToBadgePage(badge)">
       <img src="{{ DestinyComponent.ASSET_URL + badge.icon }}" alt="{{ badge.name }} title icon" [style.filter]="!isBadgeComplete(badge) ? 'grayscale(1)' : 'none'">
       <div class="subcomponent-title">{{ badge.name }}</div>
+      <div class="characters">
+        <progress-bar *ngFor="let character of badge.childrenNode"
+                      [completionValue]="presentationNodeProgress.get(character.hash)!.completionValue!"
+                      [progressValue]="presentationNodeProgress.get(character.hash)!.progressValue!">
+        </progress-bar>
+      </div>
     </div>
   </div>
 </div>

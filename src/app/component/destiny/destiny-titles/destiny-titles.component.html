@@ -4,7 +4,9 @@
     <div class="active-titles">
       <div *ngFor="let title of titlesPresentationTree.childrenNode" title="{{ title.description }}" class="title subcomponent selectable"
            (click)="redirectToTitlePage(title)">
-        <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'">
+        <div class="badge-image-container">
+          <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'">
+        </div>
         <div class="subcomponent-title">{{ title.name }}</div>
         <progress-bar
           [completionValue]="presentationNodeProgress.get(title.hash)!.completionValue!"

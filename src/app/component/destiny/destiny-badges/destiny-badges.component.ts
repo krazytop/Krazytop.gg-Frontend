@@ -17,7 +17,8 @@ export class DestinyBadgesComponent {
   }
 
   isBadgeComplete(badge: DestinyPresentationTreeNomenclature) {
-    return false && Math.random() >= 0.5;
+    badge.childrenNode.find(character => this.presentationNodeProgress.get(character.hash)!.completionValue! >= this.presentationNodeProgress.get(character.hash)!.completionValue!);
+    return false;
   }
 
   protected readonly DestinyComponent = DestinyComponent;
