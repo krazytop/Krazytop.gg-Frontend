@@ -175,6 +175,7 @@ export class DestinyDatabaseUpdateService {
       collectibleNomenclature.hash = Number(entryData["hash"]);
       collectibleNomenclature.sourceString = String(entryData["sourceString"]);
       collectibleNomenclature.sourceHash = Number(entryData["sourceHash"]);
+      collectibleNomenclature.itemHash = Number(entryData["itemHash"]);
       collectibleNomenclature.nodeType = Number(entryData["presentationNodeType"]);
       collectibleNomenclatures.set(Number(key), collectibleNomenclature);
     }

@@ -15,12 +15,14 @@ export class DestinyNomenclatureService {
   constructor(private databaseApi: DestinyDatabaseApi) {
   }
 
-  async getItemNomenclatures(profile: DestinyProfileModel) {
+  async getItemNomenclatures(profile: DestinyProfileModel, presentationTrees: DestinyPresentationTreesModel) {
     const hashes: number[] = [...new Set([
       ...profile.profileInventory.flatMap(item => item.itemHash),
       ...profile.profileCurrencies.flatMap(item => item.itemHash),
       ...profile.characterEquipment.flatMap(inventory => inventory.items.flatMap(item => item.itemHash)),
       ...profile.characterInventories.flatMap(inventory => inventory.items.flatMap(item => item.itemHash)),
+      ...profile.profileInventory.flatMap(item => item.itemHash),
+      ...presentationTrees.badges.childrenNode.flatMap(badge => badge.childrenNode.flatMap(character => character.childrenCollectible.map(collectible => collectible.itemHash))),
       ...MainCurrencies, ...Engrams])];
     return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE)
   }
@@ -33,13 +35,13 @@ export class DestinyNomenclatureService {
   async getPresentationTreesNomenclatures() {
     let treesModel: DestinyPresentationTreesModel = new DestinyPresentationTreesModel();
     const nomenclature: Map<number, DestinyPresentationTreeNomenclature> = await this.databaseApi.getAllObjectsByIds(getAllPresentationTrees(), DestinyDatabaseApi.PRESENTATION_TREE_STORE) as unknown as  Map<number, DestinyPresentationTreeNomenclature>;
-    treesModel.archivedTitles = nomenclature.get(DestinyPresentationTreeEnum.ArchivedTitles);
-    treesModel.titles = nomenclature.get(DestinyPresentationTreeEnum.Titles);
-    treesModel.energyWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.EnergyWeaponModels);
-    treesModel.kineticWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.KineticWeaponModels);
-    treesModel.powerWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.PowerWeaponModels);
-    treesModel.catalysts = nomenclature.get(DestinyPresentationTreeEnum.Catalysts);
-    treesModel.badges = nomenclature.get(DestinyPresentationTreeEnum.Badges);
+    treesModel.archivedTitles = nomenclature.get(DestinyPresentationTreeEnum.ArchivedTitles)!;
+    treesModel.titles = nomenclature.get(DestinyPresentationTreeEnum.Titles)!;
+    treesModel.energyWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.EnergyWeaponModels)!;
+    treesModel.kineticWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.KineticWeaponModels)!;
+    treesModel.powerWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.PowerWeaponModels)!;
+    treesModel.catalysts = nomenclature.get(DestinyPresentationTreeEnum.Catalysts)!;
+    treesModel.badges = nomenclature.get(DestinyPresentationTreeEnum.Badges)!;
     return treesModel;
   }
 

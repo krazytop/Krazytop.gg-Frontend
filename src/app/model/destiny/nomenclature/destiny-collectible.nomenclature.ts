@@ -3,4 +3,5 @@ export class DestinyCollectibleNomenclature {
   sourceString!: string;
   sourceHash!: number;
   nodeType!: number;
+  itemHash!: number
 }

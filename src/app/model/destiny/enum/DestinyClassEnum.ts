@@ -6,21 +6,24 @@ const DestinyClassEnum: {[index: number]:any} = {
       2204441813: "Chasseuse",
       3111576190: "Chasseur"
     },
-    image: 'hunter.png'
+    image: 'hunter.png',
+    classType: 1
   },
   2271682572: {
     genders: {
       2204441813: "Arcaniste",
       3111576190: "Arcaniste"
     },
-    image: 'warlock.png'
+    image: 'warlock.png',
+    classType: 2
   },
   3655393761: {
     genders: {
       2204441813: "Titan",
       3111576190: "Titan"
     },
-    image: 'titan.png'
+    image: 'titan.png',
+    classType: 0
   }
 }
 
@@ -32,4 +35,13 @@ export function getClassName(characters: DestinyCharacterModel[], characterId: s
 export function getClassImage(characters: DestinyCharacterModel[], characterId: string): string {
   const character = characters.find(character => character.characterId === characterId);
   return DestinyClassEnum[character!.classHash]['image'];
+}
+
+export function getClassImageByClassType(classType: number): string | undefined {
+  for (const key in DestinyClassEnum) {
+    if (DestinyClassEnum[key].classType === classType) {
+      return DestinyClassEnum[key].image;
+    }
+  }
+  return undefined;
 }

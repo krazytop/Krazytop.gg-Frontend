@@ -83,9 +83,9 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
 
   async manageAllRequest(platform: number, membership: string) {
     await this.getLinkedProfile(platform, membership);
-    this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile);
     this.characterTitleNomenclatures = await this.nomenclatureService.getRecordNomenclatures(this.profile.characters.map(character => character.titleRecordHash));
     this.presentationTrees = await this.nomenclatureService.getPresentationTreesNomenclatures();
+    this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile, this.presentationTrees);
     this.vendorGroups = await this.getVendors(this.platform!, this.membership!, this.profile.characters[0].characterId)
     this.manageComponentArgs();
     this.isThisComponentReady = true;
