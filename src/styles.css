@@ -82,35 +82,6 @@
   grid-gap: 10px;
 }
 
-.filled-progress-bar {
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-  background-color: #25aecb;
-  position: absolute;
-}
-
-.progress-bar {
-  border-radius: 10px;
-  width: 100px;
-  height: 15px;
-  background-color: darkgrey;
-  color: #1D1D1D;
-  font-size: 15px;
-  position: relative;
-  margin-top: 10px;
-}
-
-.text-progress-bar {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-}
-
 .nothing-to-show-message {
   color: darkgrey;
   font-size: 30px;

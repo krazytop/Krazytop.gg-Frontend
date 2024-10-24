@@ -1,0 +1,26 @@
+.filled-progress-bar {
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  background-color: #25aecb;
+  position: absolute;
+}
+
+.progress-bar {
+  border-radius: 10px;
+  height: 15px;
+  background-color: darkgrey;
+  color: #1D1D1D;
+  font-size: 15px;
+  position: relative;
+}
+
+.text-progress-bar {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}

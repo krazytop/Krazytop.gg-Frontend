@@ -1,3 +1,5 @@
+@import 'src/app/component/clash_royal/clash-royal.component.css';
+
 .cr-badges {
   display: grid;
   grid-template-columns: repeat(10, 1fr);

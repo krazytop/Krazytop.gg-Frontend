@@ -17,7 +17,7 @@ export class DestinyBadgesComponent {
   }
 
   isBadgeComplete(badge: DestinyPresentationTreeNomenclature) {
-    return Math.random() >= 0.5;
+    return false && Math.random() >= 0.5;
   }
 
   protected readonly DestinyComponent = DestinyComponent;
