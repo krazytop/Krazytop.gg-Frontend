@@ -1,0 +1,42 @@
+.progress {
+  display: flex;
+  flex-direction: column;
+}
+
+.current-progress {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+.progress-bar {
+  border-radius: 3px;
+  height: 15px;
+  background-color: #1D1D1D;
+  position: relative;
+  align-self: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.text {
+  position: absolute;
+  z-index: 2;
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-left: 3%;
+  margin-right: 3%;
+  width: 94%;
+  height: 100%;
+  font-size: 14px;
+}
+
+.with-description {
+  justify-content: space-between;
+}
+
+.without-description {
+  justify-content: center;
+}

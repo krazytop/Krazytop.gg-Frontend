@@ -55,6 +55,7 @@ import { DestinyCharacterItemFiltersComponent } from './component/destiny/destin
 import { RequestButtonComponent } from './ui/request-button/request-button.component';
 import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.component';
 import { DropdownComponent } from './ui/dropdown/dropdown.component';
+import { ProgressBarComponent } from './ui/progression-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { DropdownComponent } from './ui/dropdown/dropdown.component';
     DestinyCharacterItemFiltersComponent,
     RequestButtonComponent,
     LoadingScreenComponent,
+    ProgressBarComponent,
     DropdownComponent
   ],
     imports: [

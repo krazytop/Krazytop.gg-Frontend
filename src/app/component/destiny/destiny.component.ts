@@ -22,7 +22,7 @@ import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/d
   templateUrl: './destiny.component.html',
   styleUrls: ['./destiny.component.css']
 })
-export class DestinyComponent implements OnInit, OnDestroy {
+export class DestinyComponent implements OnInit, OnDestroy { //TODO progression bar models & catalysts must use space-between + margin left & right
 
   componentToShow: string | undefined;
   isThisComponentReady: boolean = false;

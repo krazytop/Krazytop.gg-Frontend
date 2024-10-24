@@ -7,6 +7,7 @@
 .main-informations {
   color: white;
   padding: 20px;
+  align-items: center;
 }
 
 .title-name {
@@ -26,4 +27,8 @@
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+progress-bar {
+  width: 190px;
 }

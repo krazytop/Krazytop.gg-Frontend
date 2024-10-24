@@ -15,14 +15,12 @@ export class DestinyTitlesComponent {
   @Input() archivedTitlesPresentationTree!: DestinyPresentationTreeNomenclature;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
 
-  currentTitleNodeProgress?: DestinyNodeProgressionModel;
-
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
   isTitleComplete(title: DestinyPresentationTreeNomenclature): boolean {
-    this.currentTitleNodeProgress = this.presentationNodeProgress.get(title.hash)
-    return this.currentTitleNodeProgress?.progressValue! >= this.currentTitleNodeProgress?.completionValue!;
+    const currentTitleNodeProgress = this.presentationNodeProgress.get(title.hash);
+    return currentTitleNodeProgress?.progressValue! >= currentTitleNodeProgress?.completionValue!;
   }
 
   redirectToTitlePage(title: DestinyPresentationTreeNomenclature) {

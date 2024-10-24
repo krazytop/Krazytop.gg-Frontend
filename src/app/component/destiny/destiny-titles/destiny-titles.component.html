@@ -6,12 +6,10 @@
            (click)="redirectToTitlePage(title)">
         <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'">
         <div class="subcomponent-title">{{ title.name }}</div>
-        <div class="progression">
-          <div class="progression-bar">
-            <span>{{ currentTitleNodeProgress?.progressValue! }} / {{ currentTitleNodeProgress?.completionValue! }}</span>
-            <div class="current-progression" [style.width.%]="currentTitleNodeProgress?.progressValue! / currentTitleNodeProgress?.completionValue! * 100" [style.background-color]="currentTitleNodeProgress?.progressValue! >= currentTitleNodeProgress?.completionValue! ? '#93884c': '#757575'"></div>
-          </div>
-        </div>
+        <progress-bar
+          [completionValue]="presentationNodeProgress.get(title.hash)!.completionValue!"
+          [progressValue]="presentationNodeProgress.get(title.hash)!.progressValue!">
+        </progress-bar>
       </div>
     </div>
   </div>
