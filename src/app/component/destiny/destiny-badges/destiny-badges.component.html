@@ -2,14 +2,14 @@
   <div class="big-component-title">Badges (TODO / TODO)</div>
   <div class="badges">
     <div *ngFor="let badge of badgesPresentationTree.childrenNode" title="{{ badge.description }}" class="badge subcomponent selectable"
-         (click)="redirectToBadgePage(badge)" [ngClass]="isBadgeFullyComplete(badge) ? 'fully-completed' : 'none'">
-      <img src="{{ DestinyComponent.ASSET_URL + badge.icon }}" alt="{{ badge.name }} title icon" [style.filter]="!isBadgeCompleted(badge) ? 'grayscale(1)' : 'none'" class="badge-image">
+         (click)="redirectToBadgePage(badge)" [ngClass]="isBadgeFullyCompleted(badge) ? 'fully-completed' : 'none'">
+      <img src="{{ DestinyComponent.ASSET_URL + badge.icon }}" alt="{{ badge.name }} title icon" [ngClass]="isBadgeCompleted(badge) ? 'partially-completed' : 'none'" class="badge-image">
       <div class="subcomponent-title">{{ badge.name }}</div>
       <div class="characters">
         <div class="character" *ngFor="let character of badge.childrenNode">
           <img src="assets/data/destiny/classes/{{ getClassImage(character) }}">
           <progress-bar
-            [allProgressAreCompleted]="isBadgeFullyComplete(badge)"
+            [allProgressAreCompleted]="isBadgeFullyCompleted(badge)"
             [completionValue]="presentationNodeProgress.get(character.hash)!.completionValue!"
             [progressValue]="presentationNodeProgress.get(character.hash)!.progressValue!">
           </progress-bar>

@@ -13,9 +13,9 @@
 }
 
 .badge-image {
-  box-shadow: 0 0 9px 3px rgba(0,0,0,0.75);
   border-radius: 10px;
   width: 100%;
+  filter: grayscale(100%);
 }
 
 .characters {
@@ -33,11 +33,16 @@
   align-items: center;
 
   img {
-    max-height: 20px;
-    max-width: 25px;
+    max-height: 15px;
+    max-width: 20px;
     width: fit-content;
     filter: invert(70%);
   }
+}
+
+.partially-completed {
+  box-shadow: 0 0 9px 3px rgba(0,0,0,0.75);
+  filter: grayscale(0);
 }
 
 .fully-completed {

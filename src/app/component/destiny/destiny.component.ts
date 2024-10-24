@@ -94,6 +94,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   manageComponentArgs() {
     this.route.queryParams.subscribe(params => {
       if(this.componentToShow === 'titles') this.setSelectedTitle(Number(params['hash'])); //TODO ne pas set mais directement get dans l'argument du composant
+      if(this.componentToShow === 'badges') this.setSelectedBadge(Number(params['hash']));
     });
   }
 
@@ -146,12 +147,22 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   }
 
   setSelectedTitle(hash: number) {
-    const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.titles?.childrenNode
+    const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.titles.childrenNode
       .find(title => title.hash === hash)
     this.componentArgs.selectedTitle = selectedTitle;
     if (selectedTitle === undefined) {
       const params = this.route.snapshot.paramMap;
       this.router.navigate([`/destiny/${params.get('platform')}/${params.get('membership')}/${params.get('character')}/titles`]);
+    }
+  }
+
+  setSelectedBadge(hash: number) {
+    const selectedBadge: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.badges.childrenNode
+      .find(badge => badge.hash === hash)
+    this.componentArgs.selectedBadge = selectedBadge;
+    if (selectedBadge === undefined) {
+      const params = this.route.snapshot.paramMap;
+      this.router.navigate([`/destiny/${params.get('platform')}/${params.get('membership')}/${params.get('character')}/badges`]);
     }
   }
 
