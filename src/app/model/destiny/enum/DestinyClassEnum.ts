@@ -1,6 +1,14 @@
 import {DestinyCharacterModel} from "../destiny-character.model";
 
-const DestinyClassEnum: {[index: number]:any} = {
+export const DestinyClassEnum: {[index: number]:any} = {
+  3655393761: {
+    genders: {
+      2204441813: "Titan",
+      3111576190: "Titan"
+    },
+    image: 'titan.png',
+    classType: 0
+  },
   671679327: {
     genders: {
       2204441813: "Chasseuse",
@@ -16,14 +24,6 @@ const DestinyClassEnum: {[index: number]:any} = {
     },
     image: 'warlock.png',
     classType: 2
-  },
-  3655393761: {
-    genders: {
-      2204441813: "Titan",
-      3111576190: "Titan"
-    },
-    image: 'titan.png',
-    classType: 0
   }
 }
 

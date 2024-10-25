@@ -1,0 +1,30 @@
+.badge {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+}
+
+.characters {
+  display: grid;
+  grid-template-columns: repeat(3, 59px);
+  gap: 40px;
+  justify-content: center;
+}
+
+.character {
+  display: flex;
+  border-radius: 50%;
+  background-color: red;
+  border: 2px solid green;
+  justify-content: center;
+  align-items: center;
+  width: 55px;
+  height: 55px;
+}
+
+.character-image {
+  max-height: 30px;
+  max-width: 40px;
+  width: fit-content;
+  filter: invert(70%);
+}
+
