@@ -17,13 +17,13 @@
       </div>
 
       <div class="rank-content rank-information">
-        <div *ngIf="soloRank; else elseBlockRankInformations">
+        <div *ngIf="soloRank; else elseBlockRankInformation">
           <div>{{ soloRank.tier }} {{ soloRank.rank }}</div>
           <div>{{ soloRank.leaguePoints }} LP</div>
           <div>{{ soloRank.wins}}W / {{ soloRank.losses}}L</div>
         </div>
 
-        <ng-template #elseBlockRankInformations>
+        <ng-template #elseBlockRankInformation>
           <div>Unranked</div>
         </ng-template>
       </div>
@@ -50,13 +50,13 @@
       </div>
 
       <div class="rank-content rank-information">
-        <div *ngIf="flexRank; else elseBlockRankInformations">
+        <div *ngIf="flexRank; else elseBlockRankInformation">
           <div>{{ flexRank.tier }} {{ flexRank.rank }}</div>
           <div>{{ flexRank.leaguePoints }} LP</div>
           <div>{{ flexRank.wins}}W / {{ flexRank.losses}}L</div>
         </div>
 
-        <ng-template #elseBlockRankInformations>
+        <ng-template #elseBlockRankInformation>
           <div>Unranked</div>
         </ng-template>
       </div>

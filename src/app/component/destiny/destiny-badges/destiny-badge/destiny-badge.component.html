@@ -2,14 +2,14 @@
   <div class="badge-recap">
 
   </div>
-  <div class="">
+  <div class="information">
     <div class="characters">
       <div class="character selectable" *ngFor="let character of Object.values(DestinyClassEnum)" (click)="selectCharacterClass(character)">
-        <img class="character-image" src="assets/data/destiny/classes/{{ character['image'] }}">
+        <img class="character-image" src="assets/data/destiny/classes/{{ character.image }}">
       </div>
     </div>
     <div class="collectibles">
-      <destiny-item *ngFor="let collectible of focusedCollectibles" [item]="getItem(collectible.itemHash)"></destiny-item>
+      <destiny-collectible *ngFor="let collectible of focusedCollectibles" [collectible]="collectible"></destiny-collectible>
     </div>
   </div>
 </div>

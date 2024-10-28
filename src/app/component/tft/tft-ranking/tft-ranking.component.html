@@ -17,12 +17,12 @@
       </div>
 
       <div class="rank-content rank-information">
-        <div *ngIf="soloRank != null && soloRank.tier != ''; else elseBlockRankInformations">
+        <div *ngIf="soloRank != null && soloRank.tier != ''; else elseBlockRankInformation">
           <div>{{ soloRank.tier }} {{ soloRank.rank }}</div>
           <div>{{ soloRank.leaguePoints }} LP</div>
         </div>
 
-        <ng-template #elseBlockRankInformations>
+        <ng-template #elseBlockRankInformation>
           <div>Unranked</div>
         </ng-template>
       </div>
