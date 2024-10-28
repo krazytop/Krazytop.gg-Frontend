@@ -177,6 +177,10 @@ export class DestinyDatabaseUpdateService {
       collectibleNomenclature.sourceHash = Number(entryData["sourceHash"]);
       collectibleNomenclature.itemHash = Number(entryData["itemHash"]);
       collectibleNomenclature.nodeType = Number(entryData["presentationNodeType"]);
+      const displayProperties = entryData["displayProperties"];
+      collectibleNomenclature.icon = String(displayProperties["icon"]);
+      collectibleNomenclature.name = String(displayProperties["name"]);
+      collectibleNomenclature.description = String(displayProperties["description"]);
       collectibleNomenclatures.set(Number(key), collectibleNomenclature);
     }
     console.log(`${collectibleNomenclatures.size} collectibles added`)

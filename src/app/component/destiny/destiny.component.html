@@ -22,7 +22,8 @@
                     [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-badges>
     <destiny-badge *ngIf="componentToShow === 'badges' && componentArgs.selectedBadge" class="component"
-                   [title]="componentArgs.selectedBadge!"
+                   [badge]="componentArgs.selectedBadge!"
+                   [itemNomenclatures]="itemNomenclatures"
                    [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-badge>
     <destiny-titles *ngIf="componentToShow === 'titles' && !componentArgs.selectedTitle"
