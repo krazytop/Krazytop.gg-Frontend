@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {BungieAuthService} from "../../component/destiny/bungie-authentification/bungie-auth.service";
+import {BungieAuthService} from "./bungie-auth.service";
 import {DestinyDatabaseApi} from "./destiny-database.api";
 import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {DestinyObjectiveNomenclature} from "../../model/destiny/nomenclature/destiny-objective.nomenclature";

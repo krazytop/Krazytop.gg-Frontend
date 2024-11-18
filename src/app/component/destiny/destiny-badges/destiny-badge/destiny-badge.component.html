@@ -5,11 +5,16 @@
   <div class="information">
     <div class="characters">
       <div class="character selectable" *ngFor="let character of Object.values(DestinyClassEnum)" (click)="selectCharacterClass(character)">
-        <img class="character-image" src="assets/data/destiny/classes/{{ character.image }}">
+        <img class="character-image" src="assets/data/destiny/classes/{{ character.image }}" alt="Character">
       </div>
     </div>
     <div class="collectibles">
-      <destiny-collectible *ngFor="let collectible of focusedCollectibles" [collectible]="collectible"></destiny-collectible>
+      <destiny-collectible
+        *ngFor="let collectibleNomenclature of focusedCollectibles"
+        [collectibleNomenclature]="collectibleNomenclature"
+        [collectible]="getCollectible(collectibleNomenclature.hash)"
+        [itemNomenclature]="itemNomenclatures.get(collectibleNomenclature.itemHash)!"
+      ></destiny-collectible>
     </div>
   </div>
 </div>

@@ -1,7 +1,10 @@
-<div class="collectible">
-  <img class="collectible-icon" src="{{ DestinyComponent.ASSET_URL + collectible.icon}}" alt="Icon">
+<div class="collectible" [ngClass]="{'item-to-hide': collectible.state !== 0 && collectible.state !== 64}">
+  <div class="item-images">
+    <img class="collectible-watermark" src="{{ DestinyComponent.ASSET_URL + itemNomenclature.iconWatermark}}" alt="item watermark" *ngIf="itemNomenclature.iconWatermark">
+    <img class="collectible-icon" src="{{ DestinyComponent.ASSET_URL + itemNomenclature.icon}}" alt="item">
+  </div>
   <div class="information">
-    <span class="name">{{ collectible.name }}</span>
-    <span class="source">{{ collectible.sourceString }}</span>
+    <span class="name" title="{{ itemNomenclature.name }}">{{ itemNomenclature.name }}</span>
+    <span class="source" title="{{ collectibleNomenclature.sourceString }}">{{ collectibleNomenclature.sourceString }}</span>
   </div>
 </div>

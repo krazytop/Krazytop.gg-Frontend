@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {BungieAuthService} from "./bungie-auth.service";
+import {BungieAuthService} from "../../../service/destiny/bungie-auth.service";
 
 @Component({
   selector: 'bungie-auth',
@@ -15,12 +15,13 @@ export class BungieAuthComponent implements OnInit {
   async ngOnInit() {
     let playerTokens = this.destinyAuthService.getPlayerTokens();
     if (playerTokens) {
-      await this.destinyAuthService.redirectToDestinyPage(playerTokens);
+      await this.destinyAuthService.checkTokenValidity();
+      await this.destinyAuthService.redirectToDestinyPage(this.destinyAuthService.getPlayerTokens()!);
     } else {
       this.route.params.subscribe(async () => {
         const code = this.route.snapshot.queryParamMap.get('code');
         if (code === null) {
-          console.log("failed get player code")
+          this.destinyAuthService.disconnectWithError("Failed to get your Bungie player code");
         } else {
           playerTokens = await this.destinyAuthService.getPlayerTokensFromBungieCode(code);
           if (playerTokens) {

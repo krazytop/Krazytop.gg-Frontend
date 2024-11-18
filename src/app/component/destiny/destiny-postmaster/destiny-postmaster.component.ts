@@ -4,7 +4,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {DestinyItemInstanceModel} from "../../../model/destiny/destiny-item-instance.model";
 import {DestinyItemNomenclature} from "../../../model/destiny/nomenclature/destiny-item.nomenclature";
-import {BungieAuthService} from "../bungie-authentification/bungie-auth.service";
+import {BungieAuthService} from "../../../service/destiny/bungie-auth.service";
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
 import {AlertService} from "../../alert/alert.service";

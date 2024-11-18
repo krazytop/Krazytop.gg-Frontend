@@ -1,6 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {DestinyCollectibleNomenclature} from "../../../model/destiny/nomenclature/destiny-collectible.nomenclature";
 import {DestinyComponent} from "../destiny.component";
+import {DestinyCollectibleModel} from "../../../model/destiny/destiny-collectible.model";
+import {DestinyItemNomenclature} from "../../../model/destiny/nomenclature/destiny-item.nomenclature";
+import {DestinyItemStateEnum} from "../../../model/destiny/enum/DestinyItemStateEnum";
 
 @Component({
   selector: 'destiny-collectible',
@@ -9,6 +12,11 @@ import {DestinyComponent} from "../destiny.component";
 })
 export class DestinyCollectibleComponent {
 
-  @Input() collectible!: DestinyCollectibleNomenclature;
+  @Input() collectible!: DestinyCollectibleModel;
+  @Input() collectibleNomenclature!: DestinyCollectibleNomenclature;
+  @Input() itemNomenclature!: DestinyItemNomenclature;
+
   protected readonly DestinyComponent = DestinyComponent;
+  protected readonly console = console;
+  protected readonly ItemStateEnum = DestinyItemStateEnum;
 }

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {BungieAuthService} from "./bungie-authentification/bungie-auth.service";
+import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
 import {Subject} from "rxjs";
 import {DestinyProfileModel} from "../../model/destiny/destiny-profile.model";
 import {DestinyCharacterInventoryModel} from "../../model/destiny/destiny-character-inventory.model";
@@ -16,6 +16,7 @@ import {DestinyComponentArgs} from "../../model/destiny/destiny-component-args";
 import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-presentation-trees.model";
 import {DestinyDatabaseUpdateService} from "../../service/destiny/destiny-database-update.service";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
+import {DestinyCollectibleModel} from "../../model/destiny/destiny-collectible.model";
 
 @Component({
   selector: 'destiny',
@@ -109,7 +110,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   }
 
   async getProfile(platform: number, membership: string) {
-    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,700,900`, {headers: this.bungieAuthService.getHeaders()})
+    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,700,800,900`, {headers: this.bungieAuthService.getHeaders()})
     const json = await response.json();
     const destinyProfile: DestinyProfileModel = new DestinyProfileModel();
     destinyProfile.characters = Object.values(json['Response']['characters']['data']);
@@ -117,12 +118,17 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     destinyProfile.profileInventory = Object.values(json['Response']['profileInventory']['data']['items']);
     destinyProfile.characterInventories = Object.entries(json['Response']['characterInventories']['data'])
       .map(([characterHash, items]) => {
-        return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
+        return {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
       });
     destinyProfile.characterEquipment = Object.entries(json['Response']['characterEquipment']['data'])
       .map(([characterHash, items]) => {
-        return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
+        return {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
       });
+    Object.entries(json['Response']['characterCollectibles']['data'])
+      .map(([characterHash, collectibles]) => {
+        destinyProfile.characterCollectibles.set(Number(characterHash), (collectibles as any)['collectibles'] as Map<number, DestinyCollectibleModel>)
+      });
+    destinyProfile.profileCollectibles = json['Response']['profileCollectibles']['data']['collectibles'];
     Object.entries(json['Response']['itemComponents']['instances']['data'])
       .forEach(([itemHash, item]) => {
         destinyProfile.itemInstances.set(Number(itemHash), item as DestinyItemInstanceModel);
