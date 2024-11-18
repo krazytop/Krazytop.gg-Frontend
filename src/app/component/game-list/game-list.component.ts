@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from "@angular/router";
-import {BungieAuthService} from "../destiny/bungie-authentification/bungie-auth.service";
+import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
 import {AlertService} from "../alert/alert.service";
 
 @Component({

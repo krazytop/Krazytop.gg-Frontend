@@ -7,6 +7,7 @@ import {
   DestinyClassModel
 } from '../../../../model/destiny/enum/DestinyClassEnum';
 import {DestinyCollectibleNomenclature} from "../../../../model/destiny/nomenclature/destiny-collectible.nomenclature";
+import {DestinyCollectibleModel} from "../../../../model/destiny/destiny-collectible.model";
 
 @Component({
   selector: 'destiny-badge',
@@ -18,8 +19,10 @@ export class DestinyBadgeComponent implements OnChanges {
   @Input() badge!: DestinyPresentationTreeNomenclature;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>
+  @Input() characterCollectibles!: Map<number, Map<number, DestinyCollectibleModel>>;
+  @Input() profileCollectibles!: Map<number, DestinyCollectibleModel>;
 
-  focusedCollectibles: DestinyCollectibleNomenclature[] = [];
+  focusedCollectibles!: DestinyCollectibleNomenclature[];
 
   ngOnChanges() {
     this.selectCharacterClass(Object.values(DestinyClassEnum)[0]);
@@ -30,8 +33,24 @@ export class DestinyBadgeComponent implements OnChanges {
     return presentationNodeProgress.progressValue! >= presentationNodeProgress.completionValue!;
   }
 
+  getCollectible(collectibleHash: number) {
+    const allCollectibles = new Map<number, DestinyCollectibleModel>();
+    Object.entries(this.profileCollectibles).forEach(
+      ([collectibleHash, collectible]) => {
+        allCollectibles.set(Number(collectibleHash), collectible);
+      }
+    )
+    for (let collectibles of this.characterCollectibles.values()) {
+      Object.entries(collectibles).forEach(
+        ([collectibleHash, collectible]) => {
+          allCollectibles.set(Number(collectibleHash), collectible as unknown as DestinyCollectibleModel);
+        }
+      )
+    }
+    return allCollectibles.get(collectibleHash)!;
+  }
+
   selectCharacterClass(character: DestinyClassModel) {
-    console.log(this.badge)
     for (let node of this.badge.childrenNode) {
       for (let collectible of node.childrenCollectible) {
         const item = this.itemNomenclatures.get(collectible.itemHash)!;

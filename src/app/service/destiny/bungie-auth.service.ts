@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {BungieAuthModel} from "../../../model/destiny/bungie-auth.model";
-import {HTTPRequestService} from "../../../config/http-request.service";
-import {DestinyMembershipsModel} from "../../../model/destiny/destiny-memberships.model";
+import {BungieAuthModel} from "../../model/destiny/bungie-auth.model";
+import {HTTPRequestService} from "../../config/http-request.service";
+import {DestinyMembershipsModel} from "../../model/destiny/destiny-memberships.model";
 import {Router} from "@angular/router";
-import {DestinyCharacterModel} from "../../../model/destiny/destiny-character.model";
-import {environment} from "../../../../environments/environment";
-import {AlertService} from "../../alert/alert.service";
+import {DestinyCharacterModel} from "../../model/destiny/destiny-character.model";
+import {environment} from "../../../environments/environment";
+import {AlertService} from "../../component/alert/alert.service";
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +52,7 @@ export class BungieAuthService {
 
   async getPlayerTokensFromBungieCode(playerCode: string) {
     const response = await fetch(`${environment.apiURL}destiny/get/${playerCode}`, {headers: HTTPRequestService.getBackendHeaders()})
-    return await response.json()
+    return await response.json();
   }
 
   async getCharactersFromMembership(membershipType: number, membershipId: string) {
@@ -62,7 +62,7 @@ export class BungieAuthService {
     return characters.sort((a, b) => new Date(b.dateLastPlayed).getTime() - new Date(a.dateLastPlayed).getTime());
   }
 
-  async checkTokenValidity() { //TODO mettre dans error si expired
+  async checkTokenValidity() {
     if (this.isTokenExpired()) {
       if (this.isRefreshTokenExpired()) {
         return false;

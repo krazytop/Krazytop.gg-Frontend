@@ -1,4 +1,4 @@
-<div *ngIf="isThisComponentReady" class="game-component">
+<div *ngIf="isThisComponentReady" class="game-component"><!-- TODO component dans les enfants-->
   <destiny-profile class="component"
                    [profile]="profile"
                    [characterTitleNomenclatures]="characterTitleNomenclatures">
@@ -24,6 +24,8 @@
     <destiny-badge *ngIf="componentToShow === 'badges' && componentArgs.selectedBadge" class="component"
                    [badge]="componentArgs.selectedBadge!"
                    [itemNomenclatures]="itemNomenclatures"
+                   [characterCollectibles]="profile.characterCollectibles"
+                   [profileCollectibles]="profile.profileCollectibles"
                    [presentationNodeProgress]="profile.presentationNodeProgress">
     </destiny-badge>
     <destiny-titles *ngIf="componentToShow === 'titles' && !componentArgs.selectedTitle"
