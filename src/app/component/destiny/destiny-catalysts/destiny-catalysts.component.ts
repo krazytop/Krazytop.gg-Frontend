@@ -32,4 +32,6 @@ export class DestinyCatalystsComponent implements OnChanges {
 
   protected readonly isRecordComplete = isRecordComplete;
   protected readonly DestinyRecordStateEnum = DestinyRecordStateEnum;
+    protected readonly console = console
+  protected readonly Math = Math;
 }

@@ -23,14 +23,16 @@ export class DestinyProfileComponent implements OnChanges {
   bungieProfile: DestinyLinkedProfilesModel | undefined;
   nextAllowedUpdate: number = 0;
   linkedProfilesToShow: DestinyLinkedProfilesModel[] = [];
+  lastUpdate: Date = new Date();
 
   constructor(private router: Router, private route: ActivatedRoute, protected destinyComponent: DestinyComponent, protected timeService: TimeService) {
   }
 
   ngOnChanges(): void {
-    this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.destinyComponent.lastUpdate, environment.updateBungieFrequency);
-    setInterval(() => {
-      this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.destinyComponent.lastUpdate, environment.updateBungieFrequency);
+    this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.lastUpdate, environment.updateBungieFrequency);
+    setInterval(() => {//TODO ORIGINE DU RECHARGEMENT INTEMPESTIF && supprimer setInterval quand à 0
+      this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.lastUpdate, environment.updateBungieFrequency);
+      //this.changeDetectorRef.markForCheck();
     }, 1000);
     this.route.params.subscribe(params => {
       this.selectedCharacterId = params['character'];
