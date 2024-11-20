@@ -24,7 +24,6 @@ export class DestinyDatabaseUpdateService {
   }
 
   async manageDatabase(): Promise<void> {
-    console.log("manage database");
     const manifest = await this.downloadJson("/Platform/Destiny2/Manifest", true);
     const manifestVersion: string = manifest.get('Response')['version'];
     if (await this.checkIfDatabaseNeedToBeUpdate(manifestVersion)) {
@@ -33,7 +32,6 @@ export class DestinyDatabaseUpdateService {
     } else {
       await this.databaseApi.initDb(false);
     }
-    console.log("database is ready");
   }
 
   async checkIfDatabaseNeedToBeUpdate(manifestVersion: string): Promise<boolean> {
@@ -42,7 +40,7 @@ export class DestinyDatabaseUpdateService {
   }
 
   async updateDatabase(definitions: any, manifestVersion: string) {
-    console.log("update database")
+    console.log("Destiny database is updating")
     const objectives = await this.updateObjectives(definitions['DestinyObjectiveDefinition']);
     const presentationNodes = await this.updatePresentationNodes(definitions['DestinyPresentationNodeDefinition']);
     const collectibles = await this.updateCollectibles(definitions['DestinyCollectibleDefinition']);

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
 
 @Injectable({ providedIn: 'root' })
 export class DestinyDatabaseApi {
@@ -14,7 +15,6 @@ export class DestinyDatabaseApi {
   constructor() {}
 
   private async resetDB(): Promise<void> {
-    console.log("reset database")
     const request = indexedDB.deleteDatabase('Destiny');
       return new Promise((resolve, reject) => {
       request.onsuccess = () => resolve();
@@ -23,7 +23,6 @@ export class DestinyDatabaseApi {
   }
 
   async initDb(needToReset: boolean): Promise<void> {
-    console.log(`init database with reset: ${needToReset}`)
     if (needToReset) {
       await this.resetDB();
     }
@@ -76,5 +75,16 @@ export class DestinyDatabaseApi {
       }
     });
     return results;
+  }
+
+  async getItemNomenclature(hash: number): Promise<DestinyItemNomenclature | undefined> {
+    const transaction = this.db.transaction(DestinyDatabaseApi.ITEM_STORE, 'readonly');
+    const objectStore = transaction.objectStore(DestinyDatabaseApi.ITEM_STORE);
+
+    return new Promise((resolve, reject) => {
+      const request = objectStore.get(hash);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject();
+    });
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
 import {Subject} from "rxjs";
@@ -29,7 +29,6 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   isThisComponentReady: boolean = false;
   isFirstDisplay: boolean = true;
   requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
-  lastUpdate: Date = new Date();
   isDatabaseUpToDate = false;
 
   componentArgs: DestinyComponentArgs = new DestinyComponentArgs();
@@ -42,7 +41,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
 
   public static readonly ASSET_URL: string = "https://www.bungie.net";
 
-  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService) {}
+  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService, private changeDetectorRef: ChangeDetectorRef) {}
 
   private platform?: number;
   private membership?: string;
@@ -203,4 +202,6 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.requestDataRefreshing.unsubscribe();
   }
 
+  protected readonly console = console
+  protected readonly Math = Math;
 }
