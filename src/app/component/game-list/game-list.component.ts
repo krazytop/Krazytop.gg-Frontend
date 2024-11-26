@@ -67,11 +67,11 @@ export class GameListComponent {
   }
 
   getBungieCurrentLoggedUser() {
-    return this.destinyAuthService.getPlayerTokens()?.uniqueName;
+    return this.destinyAuthService.getLastLoggedPlayer().playerName;
   }
 
   async redirectToDestinyPage() {
-    await this.router.navigate([`/bungie`]);
+    this.destinyAuthService.redirectToDestinyPage();
   }
 
 }

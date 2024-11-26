@@ -16,7 +16,7 @@ export class BungieAuthComponent implements OnInit {
     let playerTokens = this.destinyAuthService.getPlayerTokens();
     if (playerTokens) {
       await this.destinyAuthService.checkTokenValidity();
-      await this.destinyAuthService.redirectToDestinyPage(this.destinyAuthService.getPlayerTokens()!);
+      await this.destinyAuthService.getBungieProfileToRedirectToDestinyPage();
     } else {
       this.route.params.subscribe(async () => {
         const code = this.route.snapshot.queryParamMap.get('code');
@@ -26,7 +26,7 @@ export class BungieAuthComponent implements OnInit {
           playerTokens = await this.destinyAuthService.getPlayerTokensFromBungieCode(code);
           if (playerTokens) {
             this.destinyAuthService.setExpirationsAndSaveTokens(playerTokens);
-            await this.destinyAuthService.redirectToDestinyPage(playerTokens);
+            await this.destinyAuthService.getBungieProfileToRedirectToDestinyPage();
           } else {
             this.destinyAuthService.disconnectWithError("Failed to retrieve your Bungie profile");
           }

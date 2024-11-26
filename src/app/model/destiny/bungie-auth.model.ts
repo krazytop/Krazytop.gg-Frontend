@@ -7,5 +7,4 @@ export class BungieAuthModel {
   refresh_expires_in?: number;
   refresh_expires_timestamp?: number;
   membership_id?: string;
-  uniqueName?: string;
 }
