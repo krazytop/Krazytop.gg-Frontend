@@ -55,5 +55,21 @@ export class LolMatchComponent implements OnInit {
     return topDamage;
   }
 
+  isArena() {
+    return this.match.queue.id === '1700' || this.match.queue.id === '1710';
+  }
 
+  getPlacement() {
+    const placement = this.matchService.getSummonerTeam(this.match, this.summoner).placement;
+    if (placement === 1) {
+      return '1st';
+    } else if (placement === 2) {
+      return '2nd';
+    } else if (placement === 3) {
+      return '3rd';
+    } else {
+      return `${placement}th`;
+    }
+
+  }
 }
