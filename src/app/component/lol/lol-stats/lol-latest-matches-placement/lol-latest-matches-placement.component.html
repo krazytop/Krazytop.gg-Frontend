@@ -17,10 +17,10 @@
           {{ streak > 0 ? '🔥' : '❄️' }} {{ Math.abs(streak) }}
       </div>
     </div>
-  </div>
-  <div class="latest-matches-placements">
-    <div *ngFor="let result of latestMatchesResults"
-         class="placement background-color-{{ result.toLowerCase() }}">{{ result.charAt(0) }}
+    <div class="latest-matches-placements">
+      <div *ngFor="let result of latestMatchesResults"
+           class="placement background-color-{{ result.toLowerCase() }}">{{ result.charAt(0) }}
+      </div>
     </div>
   </div>
 </div>
