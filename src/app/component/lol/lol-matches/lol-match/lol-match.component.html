@@ -3,7 +3,7 @@
     <div class="game-summary">
       <div class="main-summary">{{ getResult() }}</div>
       <div class="main-summary" *ngIf="isArena()">{{ getPlacement() }}</div>
-      <div class="complementary-summary">{{ timeService.getTimeFrom(match.datetime) }}</div>
+      <div class="complementary-summary">{{ timeService.getStringTimeFromMs(match.datetime) }}</div>
       <hr>
       <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.duration) }}</div>
       <div class="complementary-summary">{{ match.queue.name.replace('games', '').replace('5v5', '') }}</div>
