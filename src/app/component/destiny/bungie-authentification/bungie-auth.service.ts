@@ -80,7 +80,7 @@ export class BungieAuthService {
   isTokenExpired(): boolean {
     const tokens = this.getPlayerTokens();
     if (!tokens) {
-      return false;
+      return true;
     } else {
       return tokens.expires_timestamp! < Math.floor(new Date().getTime() / 1000) + 60;
     }
@@ -89,7 +89,7 @@ export class BungieAuthService {
   isRefreshTokenExpired() {
     const tokens = this.getPlayerTokens();
     if (!tokens) {
-      return false;
+      return true;
     }
     return tokens.refresh_expires_timestamp! < Math.floor(new Date().getTime() / 1000) + 60;
   }

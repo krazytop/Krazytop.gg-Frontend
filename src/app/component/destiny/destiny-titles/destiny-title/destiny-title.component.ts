@@ -11,7 +11,6 @@ import {isRecordComplete} from "../../destiny-record/destiny-record.component";
 })
 export class DestinyTitleComponent implements OnChanges {
 
-  @Input() isParentComponentReady: boolean = false;
   @Input() title!: DestinyPresentationTreeNomenclature;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
 

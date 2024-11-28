@@ -1,3 +1,5 @@
+@import 'src/app/component/destiny/destiny.component.css';
+
 .characters {
   display: grid;
   grid-template-columns: repeat(3, 1fr) 2fr;
@@ -12,6 +14,20 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.character-image {
+  filter: invert(70%);
+  justify-self: center;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.character-image-container {
+  width: 60px;
+  height: 40px;
+  justify-self: center;
 }
 
 .character-item-category {
@@ -76,15 +92,9 @@ destiny-item:active {
 
 .vault {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.title {
-  color: white;
-  font-size: 20px;
-  display: flex;
   justify-content: center;
+  gap: 20px;
+  font-size: 20px;
 }
 
 .character-item-category-droppable {
@@ -92,11 +102,15 @@ destiny-item:active {
 }
 
 .cdk-drag-placeholder {
-  opacity: 0.5;
+  opacity: 50%;
 }
 
 .item-being-transferred {
   animation: item-being-transferred 0.5s infinite alternate;
+}
+
+.item-to-hide {
+  opacity: 20%;
 }
 
 @keyframes item-being-transferred {

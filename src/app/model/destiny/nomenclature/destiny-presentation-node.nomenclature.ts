@@ -6,9 +6,9 @@ export class DestinyPresentationNodeNomenclature {
   nodeType!: number;
   isSeasonal!: boolean;
   objective!: number;
-  childrenNode!: number[];
-  childrenCollectible!: number[];
-  childrenRecord!: number[];
-  childrenMetric!: number[];
-  childrenCraftable!: number[];
+  childrenNode: number[] = [];
+  childrenCollectible: number[] = [];
+  childrenRecord: number[] = [];
+  childrenMetric: number[] = [];
+  childrenCraftable: number[] = [];
 }

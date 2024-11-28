@@ -1,7 +1,7 @@
 .player {
-  display: grid;
-  grid-template-columns: 1fr 9fr;
-  grid-gap: 50px;
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
   align-items: center;
 }
 
@@ -23,7 +23,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -145%);
-  font-size: 60px;
+  font-size: 45px;
   color: white;
 }
 
@@ -33,7 +33,6 @@
 
 .progress-bar {
   border-radius: 10px;
-  width: 150px;
   height: 15px;
   background-color: darkgrey;
   color: #1D1D1D;

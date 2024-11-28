@@ -4,6 +4,7 @@ import {RiotSummonerService} from "../../../service/riot/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
 import {RiotImageService} from "../../../service/riot/riot-image.service";
 import {TimeService} from "../../../service/time.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'riot-summoner',
@@ -18,18 +19,19 @@ export class RiotSummonerComponent implements OnChanges {
   isThisComponentReady: boolean = false;
   summoner: RIOTSummoner | undefined;
   nextAllowedUpdate: number = 0;
+  currentlyUpdating = false;
 
   constructor(private summonerService: RiotSummonerService, private route: ActivatedRoute, protected imageService: RiotImageService, protected timeService: TimeService) {
   }
 
   ngOnChanges(): void {
-    if (this.localSummoner != undefined) {
+    if (this.localSummoner !== undefined) {
       this.summoner = this.localSummoner;
-      this.updateRemainingTime();
+      this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.summoner!.updateDate!, environment.updateRIOTFrequency);
       setInterval(() => {
-        this.updateRemainingTime();
+        this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.summoner!.updateDate!, environment.updateRIOTFrequency);
       }, 1000);
-    } else if (this.remoteSummoner != undefined) {
+    } else if (this.remoteSummoner !== undefined) {
       this.summoner = this.remoteSummoner;
     } else {
       this.summoner = undefined;
@@ -38,28 +40,10 @@ export class RiotSummonerComponent implements OnChanges {
   }
 
   async updateData() {
-    if (this.nextAllowedUpdate === 0) {
-      document.getElementById('update-summoner-loading-gif')!.hidden = false;
-      (document.getElementById('update-summoner-button')! as HTMLButtonElement).disabled = true;
-      let role: string | null = this.route.snapshot.paramMap.get('role');
-      role ? await this.summonerService.updateLOLData(this.summoner!) : await this.summonerService.updateTFTData(this.summoner!);
-      window.location.reload();
-    }
-  }
-
-  updateRemainingTime() {
-    const elapsedTimeInSeconds = (new Date().getTime() - new Date(this.summoner!.updateDate!).getTime()) / 1000;
-    this.nextAllowedUpdate = Math.floor(Math.max(0, 60 - elapsedTimeInSeconds));
-  }
-
-  formatTime(seconds: number): string {
-    if (seconds < 60) {
-      return `${seconds}s`;
-    } else {
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-      return `${minutes}min ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}s`;
-    }
+    this.currentlyUpdating = true;
+    let role: string | null = this.route.snapshot.paramMap.get('role');
+    role ? await this.summonerService.updateLOLData(this.summoner!) : await this.summonerService.updateTFTData(this.summoner!);
+    window.location.reload();
   }
 
   protected readonly Date = Date;

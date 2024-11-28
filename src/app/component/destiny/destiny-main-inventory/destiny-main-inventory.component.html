@@ -1,18 +1,14 @@
-<div class="main-inventories">
-  <div class="main-inventory">
-    <div class="inventory-title">Main Inventory</div>
-    <div class="items">
-      <div *ngFor="let currency of mainCurrencies">
-        <destiny-item [item]="currency"></destiny-item>
-      </div>
+<div class="component-list">
+  <div class="component subcomponent-list">
+    <div class="component-title">Main Inventory</div>
+    <div class="items small-subcomponent">
+      <destiny-item class="item" *ngFor="let currency of mainCurrencies" [item]="currency"></destiny-item>
     </div>
   </div>
-  <div class="main-inventory">
-    <div class="inventory-title">Engrams</div>
-    <div class="items">
-      <div *ngFor="let engram of engrams">
-        <destiny-item [item]="engram"></destiny-item>
-      </div>
+  <div class="component subcomponent-list">
+    <div class="component-title">Engrams</div>
+    <div class="items small-subcomponent">
+      <destiny-item class="item" *ngFor="let engram of engrams" [item]="engram"></destiny-item>
     </div>
   </div>
 </div>

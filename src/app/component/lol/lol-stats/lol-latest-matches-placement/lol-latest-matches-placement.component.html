@@ -1,8 +1,11 @@
-<div class="component">
-  <div class="subcomponent-list">
-    <span class="component-title">Recent Results</span>
-    <div *ngIf="!matches" class="no-matches-played-container">
-      <img src="assets/logo/loading.gif">
+<div class="subcomponent-list">
+  <span class="component-title">Recent Results</span>
+  <div *ngIf="!matches" class="no-matches-played-container">
+    <img src="assets/logo/loading.gif">
+  </div>
+  <ng-container *ngIf="matches">
+    <div *ngIf="matches.length == 0" class="no-matches-played-container">
+      <div class="nothing-to-show-message">No matches played</div>
     </div>
     <ng-container *ngIf="matches">
       <div *ngIf="matches.length == 0" class="no-matches-played-container">
@@ -19,12 +22,15 @@
               {{ streak > 0 ? '🔥' : '❄️' }} {{ Math.abs(streak) }}
           </div>
         </div>
-        <div class="latest-matches-placements">
-          <div *ngFor="let result of latestMatchesResults"
-               class="placement background-color-{{ result.toLowerCase() }}">{{ result.charAt(0) }}
-          </div>
+        <div class="streak {{ streak > 0 ? 'win-streak' : 'lose-streak' }}">
+            {{ streak > 0 ? '🔥' : '❄️' }} {{ Math.abs(streak) }}
         </div>
       </div>
-    </ng-container>
-  </div>
+      <div class="latest-matches-placements">
+        <div *ngFor="let result of latestMatchesResults"
+             class="placement background-color-{{ result.toLowerCase() }}">{{ result.charAt(0) }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>

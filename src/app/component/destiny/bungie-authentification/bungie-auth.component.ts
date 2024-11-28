@@ -12,21 +12,26 @@ export class BungieAuthComponent implements OnInit {
   constructor(private route: ActivatedRoute, public destinyAuthService: BungieAuthService) {
   }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(async () => {
-      const code = this.route.snapshot.queryParamMap.get('code');
-      if (code === null) {
-        console.log("failed get player code")
-      } else {
-        const playerTokens = await this.destinyAuthService.getPlayerTokensFromBungieCode(code);
-        if (playerTokens) {
-          this.destinyAuthService.setExpirationsAndSaveTokens(playerTokens);
-          await this.destinyAuthService.redirectToDestinyPage(playerTokens);
+  async ngOnInit() {
+    let playerTokens = this.destinyAuthService.getPlayerTokens();
+    if (playerTokens) {
+      await this.destinyAuthService.redirectToDestinyPage(playerTokens);
+    } else {
+      this.route.params.subscribe(async () => {
+        const code = this.route.snapshot.queryParamMap.get('code');
+        if (code === null) {
+          console.log("failed get player code")
         } else {
-          this.destinyAuthService.disconnectWithError("Failed to retrieve your Bungie profile");
+          playerTokens = await this.destinyAuthService.getPlayerTokensFromBungieCode(code);
+          if (playerTokens) {
+            this.destinyAuthService.setExpirationsAndSaveTokens(playerTokens);
+            await this.destinyAuthService.redirectToDestinyPage(playerTokens);
+          } else {
+            this.destinyAuthService.disconnectWithError("Failed to retrieve your Bungie profile");
+          }
         }
-      }
-    });
+      });
+    }
   }
 
 }

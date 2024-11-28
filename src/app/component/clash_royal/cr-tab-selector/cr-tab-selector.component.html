@@ -1,20 +1,19 @@
 <div class="tab-selectors">
-  <div></div>
   <div class="tab-buttons">
-    <button (click)="selectTab(CrTabSelectorComponent.battles)"
-            [ngClass]="{'tab-selected': CrTabSelectorService.tab === CrTabSelectorComponent.battles, 'tab-not-selected': CrTabSelectorService.tab !== CrTabSelectorComponent.battles}">
-      <span>Battles</span>
+    <button (click)="selectComponent(CrTabSelectorComponent.battles)"
+            [ngClass]="component === CrTabSelectorComponent.battles ? 'tab-selected' : 'tab-not-selected'">
+    <span>Battles</span>
     </button>
-    <button (click)="selectTab(CrTabSelectorComponent.cards)"
-            [ngClass]="{'tab-selected': CrTabSelectorService.tab === CrTabSelectorComponent.cards, 'tab-not-selected': CrTabSelectorService.tab !== CrTabSelectorComponent.cards}">
+    <button (click)="selectComponent(CrTabSelectorComponent.cards)"
+            [ngClass]="component === CrTabSelectorComponent.cards ? 'tab-selected' : 'tab-not-selected'">
       <span>Cards</span>
     </button>
-    <button (click)="selectTab(CrTabSelectorComponent.chests)"
-            [ngClass]="{'tab-selected': CrTabSelectorService.tab === CrTabSelectorComponent.chests, 'tab-not-selected': CrTabSelectorService.tab !== CrTabSelectorComponent.chests}">
+    <button (click)="selectComponent(CrTabSelectorComponent.chests)"
+            [ngClass]="component === CrTabSelectorComponent.chests ? 'tab-selected' : 'tab-not-selected'">
       <span>Chests</span>
     </button>
-    <button (click)="selectTab(CrTabSelectorComponent.badges)"
-            [ngClass]="{'tab-selected': CrTabSelectorService.tab === CrTabSelectorComponent.badges, 'tab-not-selected': CrTabSelectorService.tab !== CrTabSelectorComponent.badges}">
+    <button (click)="selectComponent(CrTabSelectorComponent.badges)"
+            [ngClass]="component === CrTabSelectorComponent.badges ? 'tab-selected' : 'tab-not-selected'">
       <span>Badges</span>
     </button>
   </div>

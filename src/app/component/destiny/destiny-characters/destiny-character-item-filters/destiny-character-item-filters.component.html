@@ -1,0 +1,35 @@
+<div class="filter-subcomponent-title component-title" (click)="showFilters = !showFilters">
+  <div>Show Filters</div>
+  <div [ngClass]="showFilters ? 'arrow-down' : 'arrow-up'" style="left: 57%;"></div>
+</div>
+<div *ngIf="showFilters" class="filter-columns">
+  <div class="filter-column">
+    <span class="filter-title">Rarity :</span>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.basic = $event" [title]="'Basic'" [checked]="filterService.rarityFilters.basic"></toggle-switch>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.ordinary = $event" [title]="'Ordinary'" [checked]="filterService.rarityFilters.ordinary"></toggle-switch>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.uncommon = $event" [title]="'Uncommon'" [checked]="filterService.rarityFilters.uncommon"></toggle-switch>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.legendary = $event" [title]="'Legendary'" [checked]="filterService.rarityFilters.legendary"></toggle-switch>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.exotic = $event" [title]="'Exotic'" [checked]="filterService.rarityFilters.exotic"></toggle-switch>
+  </div>
+  <div class="filter-column">
+    <span class="filter-title">Damage Type :</span>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.kinetic = $event" [title]="'Kinetic'" [checked]="filterService.damageTypeFilters.kinetic"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.thermal = $event" [title]="'Solar'" [checked]="filterService.damageTypeFilters.thermal"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.arc = $event" [title]="'Arc'" [checked]="filterService.damageTypeFilters.arc"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.void = $event" [title]="'Void'" [checked]="filterService.damageTypeFilters.void"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.stasis = $event" [title]="'Stasis'" [checked]="filterService.damageTypeFilters.stasis"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.strand = $event" [title]="'Strand'" [checked]="filterService.damageTypeFilters.strand"></toggle-switch>
+  </div>
+  <div class="filter-column">
+    <span class="filter-title">Status :</span>
+    <toggle-switch (toggle)="filterService.statusFilters.crafted = $event" [title]="'Crafted'" [checked]="filterService.statusFilters.crafted"></toggle-switch>
+    <toggle-switch (toggle)="filterService.statusFilters.locked = $event" [title]="'Locked'" [checked]="filterService.statusFilters.locked"></toggle-switch>
+    <toggle-switch (toggle)="filterService.statusFilters.masterwork = $event" [title]="'Masterwork'" [checked]="filterService.statusFilters.masterwork"></toggle-switch>
+  </div>
+  <div class="filter-column">
+    <span class="filter-title">Management :</span>
+    <toggle-switch (toggle)="filterService.managementFilters.duplicated = $event" [title]="'Duplicated'" [checked]="filterService.managementFilters.duplicated"></toggle-switch>
+    <toggle-switch (toggle)="filterService.managementFilters.notLocked = $event" [title]="'Must be locked'" [checked]="filterService.managementFilters.notLocked"></toggle-switch>
+    <toggle-switch (toggle)="filterService.managementFilters.notCrafted = $event" [title]="'Must be crafted'" [checked]="filterService.managementFilters.notCrafted"></toggle-switch>
+  </div>
+</div>

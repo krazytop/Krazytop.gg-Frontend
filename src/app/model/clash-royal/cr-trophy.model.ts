@@ -1,5 +1,4 @@
 export class CRTrophy {
-  date?: string;
-  trophies?: number;
-  bestTrophies?: number;
+  date!: string;
+  trophies!: number;
 }
