@@ -10,9 +10,10 @@
       </div>
       <div *ngIf="matches.length > 0" class="small-subcomponent-list">
         <div class="win-rate-box small-subcomponent">
-          <div>
-            <span class="win-rate-title">Win rate :&nbsp;</span>
-            <span class="win-rate-value">{{ matchService.getWinRate(matches, summoner) }} %</span>
+          <div class="win-rate">
+            <span class="win-rate-title">Win rate :</span>
+            <span class="win-rate-value">{{ winRate }} %</span>
+            <span class="win-rate-title">({{ wins }}V / {{ looses }}D)</span>
           </div>
           <div class="streak {{ streak > 0 ? 'win-streak' : 'lose-streak' }}">
               {{ streak > 0 ? '🔥' : '❄️' }} {{ Math.abs(streak) }}

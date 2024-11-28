@@ -14,8 +14,11 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
   @Input() matches: LOLMatch[] | undefined;
 
   latestMatchesResults: string[] = [];
+  wins: number = 0;
+  looses: number = 0;
 
   streak: number = 0;
+  winRate: string = '';
 
   constructor(protected matchService: LOLMatchService) {
   }
@@ -23,6 +26,9 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
   async ngOnChanges() {
     if (this.matches) {
       this.setLatestMatchesResults();
+      this.setWinsNumber();
+      this.setLoosesNumber();
+      this.winRate = this.matchService.getWinRate(this.matches, this.summoner);
       this.streak = this.matchService.getMatchesStreak(this.matches, this.summoner);
     }
   }
@@ -35,6 +41,20 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
       const summonerTeam = match.teams.find(team => team.participants.some(p => p.summoner.puuid === this.summoner.puuid))!;
       return summonerTeam.hasWin ? "VICTORY" : "DEFEAT";
     });
+  }
+
+  protected setWinsNumber() {
+    this.wins = this.matches!
+      .filter(match => !match.remake)
+      .filter(match => this.matchService.isMatchWon(match, this.summoner))
+      .length;
+  }
+
+  protected setLoosesNumber() {
+    this.looses = this.matches!
+      .filter(match => !match.remake)
+      .filter(match => !this.matchService.isMatchWon(match, this.summoner))
+      .length;
   }
 
   protected readonly Math = Math;

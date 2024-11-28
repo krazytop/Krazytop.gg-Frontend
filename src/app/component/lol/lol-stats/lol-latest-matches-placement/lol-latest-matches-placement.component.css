@@ -20,6 +20,7 @@
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
+  gap: 0;
 }
 
 .win-rate-value {
@@ -31,4 +32,11 @@
 .win-rate-title {
   color: darkgrey;
   text-align: start;
+}
+
+.win-rate {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }
