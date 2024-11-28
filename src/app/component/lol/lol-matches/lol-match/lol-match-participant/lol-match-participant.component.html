@@ -13,24 +13,30 @@
       </div>
 
     </div>
-    <div class="rune-and-summoner-spells">
+    <div class="summoners-runes-augments" *ngIf="!participant.augment1">
       <img src="{{ imageService.getSpellImageUrl(participant.summonerSpell1, matchVersion) }}" alt="Summoner Spell">
       <img src="{{ imageService.getSpellImageUrl(participant.summonerSpell2, matchVersion) }}" alt="Summoner Spell">
     </div>
-    <div class="rune-and-summoner-spells">
-      <img src="{{ imageService.getRuneImageUrl(participant.runes.primaryRuneFirstPerk) }}" alt="Rune">
-      <img src="{{ imageService.getRuneImageUrl(participant.runes.secondaryRuneCategory) }}" alt="Rune">
+    <div class="summoners-runes-augments" *ngIf="!participant.augment1">
+      <img src="{{ imageService.getRuneImageUrl(participant.runes?.primaryRuneFirstPerk) }}" alt="Rune">
+      <img src="{{ imageService.getRuneImageUrl(participant.runes?.secondaryRuneCategory) }}" alt="Rune">
+    </div>
+    <div class="summoners-runes-augments" *ngIf="participant.augment1">
+      <img src="{{ imageService.getAugmentImageUrl(participant.augment1) }}" alt="Augment">
+      <img src="{{ imageService.getAugmentImageUrl(participant.augment2) }}" alt="Augment">
+    </div>
+    <div class="summoners-runes-augments" *ngIf="participant.augment1">
+      <img src="{{ imageService.getAugmentImageUrl(participant.augment3) }}" alt="Augment">
+      <img src="{{ imageService.getAugmentImageUrl(participant.augment4) }}" alt="Augment">
     </div>
   </div>
-  <div style="display: flex; align-items: center; justify-content: center;">
-    <ng-container *ngIf="participant.summoner.puuid === summoner.puuid; else elseBlock">
-      <div style="font-weight: bold; color: white">{{ participant.summoner.name }}</div>
-    </ng-container>
-    <ng-template #elseBlock>
-      <a [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']">
-        {{ participant.summoner.name }}
-      </a>
-    </ng-template>
+  <div class="summoner-name-box">
+    <div *ngIf="participant.summoner.puuid === summoner.puuid" title="{{ participant.summoner.name }}">
+      <span style="color: white; font-weight: bold">{{ participant.summoner.name }}</span>
+    </div>
+    <a *ngIf="participant.summoner.puuid !== summoner.puuid" [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']" class="other-summoner-name" title="{{ participant.summoner.name }}">
+      <span>{{ participant.summoner.name }}</span>
+    </a>
   </div>
   <div>
     <div class="scores">{{ participant.kills }} / {{ participant.deaths }} / {{ participant.assists }}</div>
