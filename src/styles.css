@@ -128,22 +128,6 @@
   }
 }
 
-.more-matches {
-  background-color: #424242;
-  border-radius: 10px;
-  color: #dcdcdc;
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  width: 100%;
-  cursor: pointer;
-}
-
-.more-matches:hover {
-  background-color: #646464;
-}
-
 .arrow-down {
   position: absolute;
   top: 70%;

@@ -8,7 +8,7 @@
   </div>
   <div class="subcomponent-list" *ngIf="isThisComponentReady">
     <lol-match *ngFor="let match of matches" [match]="match" [summoner]="summoner"></lol-match>
-    <button *ngIf="matches.length < this.totalMatchesCount" (click)="getMatches()" class="active-profile-update-button" style="max-width: 100%" id="more-matches-button">
+    <button *ngIf="matches.length < this.totalMatchesCount" (click)="getMatches()" class="tab-not-selected" style="max-width: 100%" id="more-matches-button">
       Show more matches
       <img id="more-matches-loading-gif" src="assets/logo/loading.gif" alt="Loading" hidden>
     </button>
