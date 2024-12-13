@@ -10,7 +10,6 @@ import {NavbarComponent} from './component/navbar/navbar.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {TeamfightTacticsComponent} from './component/tft/teamfight-tactics.component';
 import {LeagueOfLegendsComponent} from './component/lol/league-of-legends.component';
-import {TftMatchesComponent} from './component/tft/tft-matches/tft-matches.component';
 import {TftMatchUnitComponent} from './component/tft/tft-matches/tft-match/tft-match-unit/tft-match-unit.component';
 import {TftLatestMatchesPlacementComponent} from './component/tft/tft-stats/tft-latest-matches-placement/tft-latest-matches-placement.component';
 import {GameListComponent} from './component/game-list/game-list.component';
@@ -23,12 +22,12 @@ import { CrCardsComponent } from './component/clash_royal/cr-cards/cr-cards.comp
 import { CrRankingComponent } from './component/clash_royal/cr-ranking/cr-ranking.component';
 import { CrChestsComponent } from './component/clash_royal/cr-chests/cr-chests.component';
 import { CrBadgesComponent } from './component/clash_royal/cr-badges/cr-badges.component';
-import { RiotMatchesComponent } from './component/lol/lol-matches/riot-matches.component';
+import { RiotMatchesComponent } from './component/riot/riot-matches/riot-matches.component';
 import { RiotRankingComponent } from './component/riot/riot-ranking/riot-ranking.component';
 import { LolLatestMatchesPlacementComponent } from './component/lol/lol-stats/lol-latest-matches-placement/lol-latest-matches-placement.component';
 import { LolSearchCriteriaComponent } from './component/lol/lol-search-criteria/lol-search-criteria.component';
-import { LolMatchComponent } from './component/lol/lol-matches/riot-match/lol-match.component';
-import { LolMatchParticipantComponent } from './component/lol/lol-matches/riot-match/lol-match-participant/lol-match-participant.component';
+import { LolMatchComponent } from './component/lol/lol-match/lol-match.component';
+import { LolMatchParticipantComponent } from './component/lol/lol-match/lol-match-participant/lol-match-participant.component';
 import { BungieAuthComponent } from './component/destiny/bungie-authentification/bungie-auth.component';
 import { DestinyCollectionsComponent } from './component/destiny/destiny-collections/destiny-collections.component';
 import { DestinyVendorsComponent } from './component/destiny/destiny-vendors/destiny-vendors.component';
@@ -64,7 +63,6 @@ import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.compo
     NavbarComponent,
     TeamfightTacticsComponent,
     LeagueOfLegendsComponent,
-    TftMatchesComponent,
     TftMatchUnitComponent,
     TftLatestMatchesPlacementComponent,
     GameListComponent,

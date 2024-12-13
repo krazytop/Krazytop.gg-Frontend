@@ -19,24 +19,24 @@
         [summoner]="localSummoner">
       </lol-main-masteries>
     </div>
-    <lol-matches
+    <riot-matches
       [selectedQueue]="selectedQueue"
       [selectedRole]="selectedRole"
       [summoner]="localSummoner"
       (matchesUpdateEvent)="matches = $event">
-    </lol-matches>
+    </riot-matches>
     <div class="column">
       <lol-latest-matches-placement
         [summoner]="localSummoner"
-        [matches]="matches">
+        [matches]="lolMatches">
       </lol-latest-matches-placement>
       <lol-main-champions
         [summoner]="localSummoner"
-        [matches]="matches">
+        [matches]="lolMatches">
       </lol-main-champions>
       <lol-main-friends
         [summoner]="localSummoner"
-        [matches]="matches">
+        [matches]="lolMatches">
       </lol-main-friends>
     </div>
   </div>

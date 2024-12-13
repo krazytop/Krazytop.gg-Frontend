@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RIOTSummoner} from "../../../../../model/riot/riot-summoner.model";
-import {LOLParticipant} from "../../../../../model/lol/lol-participant.model";
-import {RIOTImageService} from "../../../../../service/riot/riot-image.service";
-import {FormatService} from "../../../../../service/format.service";
+import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
+import {LOLParticipant} from "../../../../model/lol/lol-participant.model";
+import {RIOTImageService} from "../../../../service/riot/riot-image.service";
+import {FormatService} from "../../../../service/format.service";
 
 @Component({
   selector: 'lol-match-participant',

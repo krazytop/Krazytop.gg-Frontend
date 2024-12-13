@@ -18,8 +18,8 @@ export class RiotMatchesComponent implements OnChanges {
   @Input() selectedQueue!: string;
   @Input() selectedRole!: string;
   @Input() selectedSet!: string;
-  @Input() summoner: RIOTSummoner = new RIOTSummoner();
-  @Output() matchesUpdateEvent = new EventEmitter<RIOTMatch[] | undefined>();//TODO RIOTMatch ?
+  @Input() summoner!: RIOTSummoner;
+  @Output() matchesUpdateEvent = new EventEmitter<RIOTMatch[] | undefined>();
 
   constructor(private httpRequestService: HTTPRequestService, private imageService: RIOTImageService, private route: ActivatedRoute) {
   }
@@ -28,6 +28,7 @@ export class RiotMatchesComponent implements OnChanges {
   matches: RIOTMatch[] = [];
   totalMatchesCount!: number;
   isThisComponentReady!: boolean;
+  isLOLMatches!: boolean;
 
   async ngOnChanges() {
     this.isThisComponentReady = false;
@@ -46,11 +47,13 @@ export class RiotMatchesComponent implements OnChanges {
     if (loadingElement) loadingElement.hidden = false;
     let url;
     if (this.route.snapshot.paramMap.get('role')) {
+      this.isLOLMatches = true;
       url = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedRole}`;
       const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
       const newMatches: LOLMatch[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
       this.matches = this.matches.concat(newMatches);
     } else {
+      this.isLOLMatches = false;
       url = `${environment.apiURL}tft/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedSet.replace('set-', '')}`;
       const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
       const newMatches: TFTMatch[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
@@ -70,7 +73,7 @@ export class RiotMatchesComponent implements OnChanges {
     if (this.route.snapshot.paramMap.get('role')) {
       url = `${environment.apiURL}lol/matches/count/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedRole}`;
     } else {
-      url = `${environment.apiURL}lol/matches/count/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedSet.replace('set-', '')}`;
+      url = `${environment.apiURL}tft/matches/count/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedSet.replace('set-', '')}`;
     }
     const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
     this.totalMatchesCount = await this.httpRequestService.hasResponse(response) ? await response.json() : 0;

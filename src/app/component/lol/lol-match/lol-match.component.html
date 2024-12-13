@@ -1,8 +1,8 @@
 <div class="lol-match">
-  <div class="less-data background-color-{{ getResult().toLowerCase() }}">
+  <div class="less-data background-color-{{ result.toLowerCase() }}">
     <div class="game-summary">
-      <div class="main-summary">{{ getResult() }}</div>
-      <div class="main-summary" *ngIf="isArena()">{{ getPlacement() }}</div>
+      <div class="main-summary">{{ result }}</div>
+      <div class="main-summary" *ngIf="isArena">{{ placement }}</div>
       <div class="complementary-summary">{{ timeService.getStringTimeFromMs(match.datetime) }}</div>
       <hr>
       <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.duration) }}</div>
@@ -35,7 +35,7 @@
         </div>
         <div>
           <p class="scores">{{ summonerParticipant.kills }} / {{ summonerParticipant.deaths }} / {{ summonerParticipant.assists }}</p>
-          <p class="minors-stats">{{ getKDA() }} KDA</p>
+          <p class="minors-stats">{{ kda }} KDA</p>
           <p class="minors-stats">{{ summonerParticipant.minions + summonerParticipant.neutralMinions }} CS</p>
         </div>
 
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="teams" *ngIf="!isArena()">
+    <div class="teams" *ngIf="!isArena">
       <div class="team">
         <div *ngFor="let participant of match.teams[0].participants" class="summoner justify-right">
           <div *ngIf="participant.summoner.puuid === summoner.puuid" class="participant-summoner-name other-summoner-name justify-right" title="{{ participant.summoner.name }}">
@@ -64,11 +64,11 @@
         </div>
       </div>
       <div class="team roles">
-        <img src="assets/data/lol/lol-roles/top.png" alt="Top">
-        <img src="assets/data/lol/lol-roles/jungle.png" alt="Jungle">
-        <img src="assets/data/lol/lol-roles/middle.png" alt="Middle">
-        <img src="assets/data/lol/lol-roles/bottom.png" alt="Bottom">
-        <img src="assets/data/lol/lol-roles/support.png" alt="Support">
+        <img src="../../../../assets/data/lol/lol-roles/top.png" alt="Top">
+        <img src="../../../../assets/data/lol/lol-roles/jungle.png" alt="Jungle">
+        <img src="../../../../assets/data/lol/lol-roles/middle.png" alt="Middle">
+        <img src="../../../../assets/data/lol/lol-roles/bottom.png" alt="Bottom">
+        <img src="../../../../assets/data/lol/lol-roles/support.png" alt="Support">
       </div>
       <div class="team">
         <div *ngFor="let participant of match.teams[1].participants" class="summoner">
@@ -83,7 +83,7 @@
       </div>
     </div>
 
-    <div class="teams" *ngIf="isArena()">
+    <div class="teams" *ngIf="isArena">
       <div class="team">
         <div *ngFor="let team of match.teams" class="summoner justify-right">
           <div *ngIf="team.participants[0].summoner.puuid === summoner.puuid" class="participant-summoner-name" title="{{ team.participants[0].summoner.name }}">{{ team.participants[0].summoner.name }}</div>
@@ -116,7 +116,7 @@
         <lol-match-participant
           *ngFor="let participant of team.participants"
           [participant]="participant"
-          [topDamage]="getTopDamage()"
+          [topDamage]="topDamage"
           [summoner]="summoner"
           [hasWin]="team.hasWin"
           [matchVersion]="match.version"

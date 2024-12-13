@@ -21,22 +21,19 @@ export class RiotRankingComponent implements OnChanges {
 
   allRanks?: Map<number, Map<string, RIOTRankInformations[]>>;
   currentSeasonOrSet!: number;
+  isLOL!: boolean;
 
   async ngOnChanges() {
     if (this.metadata) {
+      this.isLOL = !!this.route.snapshot.paramMap.get('role');
+      this.currentSeasonOrSet = this.isLOL ? this.metadata.currentLOLSeason : this.metadata.currentTFTSet;
+      this.metadata.ranks = this.metadata.ranks.filter(rank => this.isLOL ? rank.isLOL : !rank.isLOL);
       await this.getRanks();
-      if (this.route.snapshot.paramMap.get('role')) {
-        this.currentSeasonOrSet = this.metadata.currentLOLSeason;
-        this.metadata.ranks = this.metadata.ranks.filter(rank => rank.isLOL);
-      } else {
-        this.currentSeasonOrSet = this.metadata.currentTFTSet;
-        this.metadata.ranks = this.metadata.ranks.filter(rank => !rank.isLOL);
-      }
     }
   }
 
   async getRanks() {
-    const response = await fetch(`${environment.apiURL}lol/rank/${this.summoner.puuid}`, {headers: HTTPRequestService.getBackendHeaders(),});
+    const response = await fetch(`${environment.apiURL}${this.isLOL ? 'lol' : 'tft'}/rank/${this.summoner.puuid}`, {headers: HTTPRequestService.getBackendHeaders(),});
     const rank: RIOTRank | undefined = await this.httpRequestService.hasResponse(response) ? await response.json() : undefined;
     if (rank) {
       this.allRanks = this.getMap(rank.ranks);

@@ -2,7 +2,7 @@
   <div class="tab-buttons">
     <button *ngFor="let queue of queues"
             (click)="selectQueue(queue)"
-            [routerLink]="['/lol', summoner.region, summoner.tag, summoner.name, queue, selectedRole]"
+            [routerLink]="['/lol', summoner.region, summoner.tag, summoner.name, queue, selectedSet]"
             [ngClass]="queue == selectedQueue ? 'tab-selected' : 'tab-not-selected'">
       <span>{{ formatQueueName(queue) }}</span>
     </button>

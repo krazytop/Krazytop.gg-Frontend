@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
-import {LOLParticipant} from "../../../../model/lol/lol-participant.model";
-import {LOLMatch} from "../../../../model/lol/lol-match.model";
-import {LOLTeam} from "../../../../model/lol/lol-team.model";
-import {TimeService} from "../../../../service/time.service";
-import {RIOTImageService} from "../../../../service/riot/riot-image.service";
-import {LOLMatchService} from "../../../../service/lol/lol-match.service";
+import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
+import {LOLParticipant} from "../../../model/lol/lol-participant.model";
+import {LOLMatch} from "../../../model/lol/lol-match.model";
+import {TimeService} from "../../../service/time.service";
+import {RIOTImageService} from "../../../service/riot/riot-image.service";
+import {LOLMatchService} from "../../../service/lol/lol-match.service";
+import {RIOTMatch} from "../../../model/riot/riot-match.model";
 
 @Component({
   selector: 'lol-match',
@@ -14,7 +14,7 @@ import {LOLMatchService} from "../../../../service/lol/lol-match.service";
 })
 export class LolMatchComponent implements OnInit {
 
-  @Input() match!: LOLMatch;
+  @Input({ transform: (match: RIOTMatch): LOLMatch => match as LOLMatch }) match!: LOLMatch;
   @Input() summoner!: RIOTSummoner;
 
   summonerParticipant!: LOLParticipant;
@@ -32,7 +32,7 @@ export class LolMatchComponent implements OnInit {
     this.allDataIsDisplayed = !this.allDataIsDisplayed;
   }
 
-  getResult(): string {
+  get result(): string {
     if (this.match.remake) {
       return "REMAKE";
     } else {
@@ -40,11 +40,11 @@ export class LolMatchComponent implements OnInit {
     }
   }
 
-  getKDA(): string {
+  get kda(): string {
     return ((this.summonerParticipant.kills + this.summonerParticipant.assists) / Math.max(this.summonerParticipant.deaths, 1)).toFixed(2);
   }
 
-  getTopDamage() {
+  get topDamage() {
     let topDamage = 0;
     this.match.teams.forEach(team => {
       team.participants.forEach(participant => {
@@ -55,11 +55,11 @@ export class LolMatchComponent implements OnInit {
     return topDamage;
   }
 
-  isArena() {
+  get isArena() {
     return this.match.queue.id === '1700' || this.match.queue.id === '1710';
   }
 
-  getPlacement() {
+  get placement() {
     const placement = this.matchService.getSummonerTeam(this.match, this.summoner).placement;
     if (placement === 1) {
       return '1st';
@@ -70,6 +70,5 @@ export class LolMatchComponent implements OnInit {
     } else {
       return `${placement}th`;
     }
-
   }
 }

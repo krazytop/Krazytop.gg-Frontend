@@ -40,11 +40,7 @@ export class GameListComponent {
         if (this.selectedGame === "lol") {
           this.router.navigate([`/lol/${region}/${tag}/${name}/all-queues/all-roles`]);
         } else {
-          this.alertService.processAlert({
-            message: 'TFT is currently disabled',
-            duration: 3000
-          });
-          //this.router.navigate([`/tft/${region}/${tag}/${name}/set-9.5`]);
+          this.router.navigate([`/tft/${region}/${tag}/${name}/all-queues/set-13`]);
         }
       }
     }

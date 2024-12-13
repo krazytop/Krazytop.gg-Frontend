@@ -4,25 +4,28 @@ import {ActivatedRoute} from "@angular/router";
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
 import {RIOTMetadataService} from "../../service/riot/riot-metadata.service";
 import {RIOTMetadata} from "../../model/riot/riot-metadata.model";
+import {RIOTMatch} from "../../model/riot/riot-match.model";
+import {TFTMatch} from "../../model/tft/tft-match.model";
 
 @Component({
   selector: 'teamfight-tactics',
   templateUrl: './teamfight-tactics.component.html',
   styleUrls: ['./teamfight-tactics.component.css']
 })
-
 export class TeamfightTacticsComponent implements OnInit {
 
   isThisComponentReady: boolean = true;
 
   localSummoner: RIOTSummoner | undefined;
   remoteSummoner: RIOTSummoner | undefined;
+
   protected metadata: RIOTMetadata | undefined;
   private region!: string;
   private tag!: string;
   private name!: string;
   protected selectedQueue!: string;
   protected selectedSet!: string;
+  protected matches: RIOTMatch[] | undefined;
 
   constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, private metadataService: RIOTMetadataService) {
   }
@@ -43,5 +46,9 @@ export class TeamfightTacticsComponent implements OnInit {
       }
       this.isThisComponentReady = true;
     });
+  }
+
+  get tftMatches() {
+    return this.matches as TFTMatch[];
   }
 }

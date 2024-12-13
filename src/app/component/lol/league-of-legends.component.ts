@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../model/riot/riot-summoner.model";
 import {RIOTSummonerService} from "../../service/riot/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
-import {LOLMatch} from "../../model/lol/lol-match.model";
 import {RIOTMetadataService} from "../../service/riot/riot-metadata.service";
 import {RIOTMetadata} from "../../model/riot/riot-metadata.model";
+import {RIOTMatch} from "../../model/riot/riot-match.model";
+import {LOLMatch} from "../../model/lol/lol-match.model";
 
 @Component({
   selector: 'league-of-legends',
@@ -23,7 +24,7 @@ export class LeagueOfLegendsComponent implements OnInit {
   private name!: string;
   protected selectedQueue!: string;
   protected selectedRole!: string;
-  protected matches: LOLMatch[] | undefined;
+  protected matches: RIOTMatch[] | undefined;
   protected metadata: RIOTMetadata | undefined;
 
   constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, private metadataService: RIOTMetadataService) {
@@ -45,6 +46,10 @@ export class LeagueOfLegendsComponent implements OnInit {
       }
       this.isThisComponentReady = true;
     });
+  }
+
+  get lolMatches() {
+    return this.matches as LOLMatch[];
   }
 
   protected readonly console = console;
