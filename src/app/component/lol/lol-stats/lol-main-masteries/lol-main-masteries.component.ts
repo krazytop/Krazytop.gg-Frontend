@@ -3,7 +3,7 @@ import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {environment} from "../../../../../environments/environment";
 import {LolMastery} from "../../../../model/lol/lol-mastery.model";
 import {HTTPRequestService} from "../../../../config/http-request.service";
-import {RiotImageService} from "../../../../service/riot/riot-image.service";
+import {RIOTImageService} from "../../../../service/riot/riot-image.service";
 import {FormatService} from "../../../../service/format.service";
 
 @Component({
@@ -18,7 +18,7 @@ export class LolMainMasteriesComponent implements OnChanges {
 
   protected masteries: LolMastery[] = [];
 
-  constructor(private httpRequestService: HTTPRequestService, protected imageService: RiotImageService, protected formatService:FormatService) {
+  constructor(private httpRequestService: HTTPRequestService, protected imageService: RIOTImageService, protected formatService:FormatService) {
   }
 
   async ngOnChanges() {

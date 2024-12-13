@@ -2,7 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
 import {LOLChampion} from "../../../../model/lol/lol-champion.model";
-import {RiotImageService} from "../../../../service/riot/riot-image.service";
+import {RIOTImageService} from "../../../../service/riot/riot-image.service";
 import {LOLMatchService} from "../../../../service/lol/lol-match.service";
 
 @Component({
@@ -19,7 +19,7 @@ export class LolMainChampionsComponent implements OnChanges {
   mainChampions: Map<String, LolMainChampionsInterface> = new Map();
   mainChampionsList: LolMainChampionsInterface[] = [];
 
-  constructor(protected imageService: RiotImageService, private matchService: LOLMatchService) {
+  constructor(protected imageService: RIOTImageService, private matchService: LOLMatchService) {
   }
 
   ngOnChanges() {

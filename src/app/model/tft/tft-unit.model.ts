@@ -1,9 +1,9 @@
-import {TFTItem} from "./tft-item.model";
+import {TFTItemNomenclature} from "./nomenclature/tft-item.nomenclature";
+import {TftUnitNomenclature} from "./nomenclature/tft-unit.nomenclature";
 
 export class TFTUnit {
-  id: string = "";
-  rarity: number = 0;
-  tier: number = 0;
-  items: TFTItem[] = [];
-  name: string = "";
+  rarity!: number;
+  tier!: number;
+  nomenclature!: TftUnitNomenclature;
+  items!: TFTItemNomenclature[];
 }

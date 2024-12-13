@@ -37,7 +37,6 @@ export class GameListComponent {
       const tag = this.riotForm.value.riotTag;
       const name = this.riotForm.value.riotName;
       if (name !== "" && tag !== "") {
-        console.log('a')
         if (this.selectedGame === "lol") {
           this.router.navigate([`/lol/${region}/${tag}/${name}/all-queues/all-roles`]);
         } else {

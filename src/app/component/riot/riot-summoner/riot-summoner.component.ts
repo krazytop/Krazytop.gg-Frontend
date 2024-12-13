@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {RiotSummonerService} from "../../../service/riot/riot-summoner.service";
+import {RIOTSummonerService} from "../../../service/riot/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
-import {RiotImageService} from "../../../service/riot/riot-image.service";
+import {RIOTImageService} from "../../../service/riot/riot-image.service";
 import {TimeService} from "../../../service/time.service";
 import {environment} from "../../../../environments/environment";
 
@@ -21,7 +21,7 @@ export class RiotSummonerComponent implements OnChanges {
   nextAllowedUpdate: number = 0;
   currentlyUpdating = false;
 
-  constructor(private summonerService: RiotSummonerService, private route: ActivatedRoute, protected imageService: RiotImageService, protected timeService: TimeService) {
+  constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, protected imageService: RIOTImageService, protected timeService: TimeService) {
   }
 
   ngOnChanges(): void {

@@ -6,7 +6,7 @@ import {environment} from "../../../environments/environment";
 @Injectable({
   providedIn: 'root',
 })
-export class RiotSummonerService {
+export class RIOTSummonerService {
 
   constructor(private httpRequestService: HTTPRequestService) {
   }

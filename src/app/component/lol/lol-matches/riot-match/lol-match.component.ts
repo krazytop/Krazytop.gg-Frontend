@@ -4,7 +4,7 @@ import {LOLParticipant} from "../../../../model/lol/lol-participant.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
 import {LOLTeam} from "../../../../model/lol/lol-team.model";
 import {TimeService} from "../../../../service/time.service";
-import {RiotImageService} from "../../../../service/riot/riot-image.service";
+import {RIOTImageService} from "../../../../service/riot/riot-image.service";
 import {LOLMatchService} from "../../../../service/lol/lol-match.service";
 
 @Component({
@@ -20,7 +20,7 @@ export class LolMatchComponent implements OnInit {
   summonerParticipant!: LOLParticipant;
   allDataIsDisplayed: boolean = false;
 
-  constructor(protected timeService: TimeService, protected imageService: RiotImageService, private matchService: LOLMatchService) {
+  constructor(protected timeService: TimeService, protected imageService: RIOTImageService, private matchService: LOLMatchService) {
   }
 
   ngOnInit(): void {

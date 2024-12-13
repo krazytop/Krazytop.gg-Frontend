@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RIOTSummoner} from "../../../../../model/riot/riot-summoner.model";
 import {LOLParticipant} from "../../../../../model/lol/lol-participant.model";
-import {RiotImageService} from "../../../../../service/riot/riot-image.service";
+import {RIOTImageService} from "../../../../../service/riot/riot-image.service";
 import {FormatService} from "../../../../../service/format.service";
 
 @Component({
@@ -20,7 +20,7 @@ export class LolMatchParticipantComponent implements OnInit {
 
   damage: number = 0;
 
-  constructor(protected imageService: RiotImageService, protected formatService: FormatService) {
+  constructor(protected imageService: RIOTImageService, protected formatService: FormatService) {
   }
 
   ngOnInit(): void {

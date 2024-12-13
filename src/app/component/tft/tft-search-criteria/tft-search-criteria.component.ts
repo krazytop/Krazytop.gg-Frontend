@@ -1,63 +1,35 @@
-import {Component, Input, OnChanges, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {TftSearchCriteriaService} from "./tft-search-criteria.service";
+import {Component, Input} from '@angular/core';
+import {Router} from "@angular/router";
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'tft-search-criteria',
   templateUrl: './tft-search-criteria.component.html',
   styleUrls: ['./tft-search-criteria.component.css']
 })
-export class TftSearchCriteriaComponent implements OnChanges {
+export class TftSearchCriteriaComponent {
 
-  @Input() summoner: RIOTSummoner = new RIOTSummoner();
-  @ViewChild('setSelectionForm') setSelectionForm!: NgForm;
+  @Input() summoner!: RIOTSummoner;
+  @Input() selectedQueue!: string;
+  @Input() selectedSet!: string;
 
-  static all: string = 'all';
-  static soloRanked: string = 'solo-ranked';
-  static hyperRoll: string = 'hyper-roll';
-  static doubleUp: string = 'double-up';
-  static normal: string = 'normal';
+  queues: string[] = ['all-queues', 'normal', 'ranked', 'double-up', 'hyper-roll'];
+  sets: string[] = ['set-7', 'set-8', 'set-9', 'set-10', 'set-11', 'set-12', 'set-13', 'set-14'];
 
-  availableSets: string[] = ['Set 9.5', 'Set 9', 'Set 8.5', 'Set 8'];
-  selectedSet: string = 'Set 9';
-
-  protected readonly TftSearchCriteriaComponent = TftSearchCriteriaComponent;
-  protected readonly TftSearchCriteriaService = TftSearchCriteriaService;
-
-  constructor(private router: Router, private route: ActivatedRoute) {
-  }
-
-  ngOnChanges() {
-    this.route.params.subscribe(params => {
-      const setUrl = params['set'];
-      this.selectedSet = setUrl.replace('s','S').replace('_',' ').replace('-','.');
-    });
+  constructor(private router: Router) {
   }
 
   selectQueue(queue: string) {
-    this.route.params.subscribe(params => {
-      const set = params['set'];
-      if (queue != "all") {
-        this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.name}/${set}/${queue}`]);
-      } else {
-        this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.name}/${set}`]);
-      }
-    });
+    this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${queue}/${this.selectedSet}`]);
   }
 
-  selectSet() {
-    this.route.params.subscribe(params => {
-      const set = this.setSelectionForm.value.set;
-      const setUrl = set.replace('S','s').replace(' ','_').replace('.','-');
-      const queue = params['queue'];
-      if (queue != undefined) {
-        this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.name}/${setUrl}/${queue}`]);
-      } else {
-        this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.name}/${setUrl}`]);
-      }
-    });
+  selectSet(set: string) {
+    this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${this.selectedQueue}/${set}`]);
   }
+
+  formatQueueName(queue: string) {
+    return queue.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
+
 
 }

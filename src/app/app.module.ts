@@ -13,7 +13,6 @@ import {LeagueOfLegendsComponent} from './component/lol/league-of-legends.compon
 import {TftMatchesComponent} from './component/tft/tft-matches/tft-matches.component';
 import {TftMatchUnitComponent} from './component/tft/tft-matches/tft-match/tft-match-unit/tft-match-unit.component';
 import {TftLatestMatchesPlacementComponent} from './component/tft/tft-stats/tft-latest-matches-placement/tft-latest-matches-placement.component';
-import {TftRankingComponent} from './component/tft/tft-ranking/tft-ranking.component';
 import {GameListComponent} from './component/game-list/game-list.component';
 import {FormsModule} from "@angular/forms";
 import {TftSearchCriteriaComponent} from './component/tft/tft-search-criteria/tft-search-criteria.component';
@@ -24,12 +23,12 @@ import { CrCardsComponent } from './component/clash_royal/cr-cards/cr-cards.comp
 import { CrRankingComponent } from './component/clash_royal/cr-ranking/cr-ranking.component';
 import { CrChestsComponent } from './component/clash_royal/cr-chests/cr-chests.component';
 import { CrBadgesComponent } from './component/clash_royal/cr-badges/cr-badges.component';
-import { LolMatchesComponent } from './component/lol/lol-matches/lol-matches.component';
-import { LolRankingComponent } from './component/lol/lol-ranking/lol-ranking.component';
+import { RiotMatchesComponent } from './component/lol/lol-matches/riot-matches.component';
+import { RiotRankingComponent } from './component/riot/riot-ranking/riot-ranking.component';
 import { LolLatestMatchesPlacementComponent } from './component/lol/lol-stats/lol-latest-matches-placement/lol-latest-matches-placement.component';
 import { LolSearchCriteriaComponent } from './component/lol/lol-search-criteria/lol-search-criteria.component';
-import { LolMatchComponent } from './component/lol/lol-matches/lol-match/lol-match.component';
-import { LolMatchParticipantComponent } from './component/lol/lol-matches/lol-match/lol-match-participant/lol-match-participant.component';
+import { LolMatchComponent } from './component/lol/lol-matches/riot-match/lol-match.component';
+import { LolMatchParticipantComponent } from './component/lol/lol-matches/riot-match/lol-match-participant/lol-match-participant.component';
 import { BungieAuthComponent } from './component/destiny/bungie-authentification/bungie-auth.component';
 import { DestinyCollectionsComponent } from './component/destiny/destiny-collections/destiny-collections.component';
 import { DestinyVendorsComponent } from './component/destiny/destiny-vendors/destiny-vendors.component';
@@ -68,7 +67,6 @@ import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.compo
     TftMatchesComponent,
     TftMatchUnitComponent,
     TftLatestMatchesPlacementComponent,
-    TftRankingComponent,
     GameListComponent,
     TftSearchCriteriaComponent,
     ClashRoyalComponent,
@@ -78,8 +76,8 @@ import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.compo
     CrRankingComponent,
     CrChestsComponent,
     CrBadgesComponent,
-    LolMatchesComponent,
-    LolRankingComponent,
+    RiotMatchesComponent,
+    RiotRankingComponent,
     LolLatestMatchesPlacementComponent,
     LolSearchCriteriaComponent,
     LolMatchComponent,

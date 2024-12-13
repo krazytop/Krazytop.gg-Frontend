@@ -8,10 +8,9 @@
     [summoner]="localSummoner" class="component">
   </tft-search-criteria>
   <div *ngIf="localSummoner" class="game-data">
-    <tft-ranking
-      [isParentComponentReady]="isThisComponentReady"
+    <riot-ranking
       [summoner]="localSummoner" class="tft-ranking component">
-    </tft-ranking>
+    </riot-ranking>
     <tft-matches
       [isParentComponentReady]="isThisComponentReady"
       [queue]="TftSearchCriteriaService.queue"

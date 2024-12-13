@@ -8,10 +8,10 @@ import {LOLAugmentNomenclature} from "../../model/lol/nomenclature/lol-augment.n
 @Injectable({
   providedIn: 'root',
 })
-export class RiotImageService {
+export class RIOTImageService {
 
   private version?: string;
-  private defaultVersion: string = '14.19.1';
+  private defaultVersion: string = '14.24.1';
   private static EMPTY_URL = 'assets/data/lol/empty.png';
 
   setVersion(version: string) {
@@ -35,20 +35,20 @@ export class RiotImageService {
     return this.getImageUrl(champion.image, 'champion', matchVersion);
   }
 
-  public getItemImageUrl(item?: LOLItem, matchVersion?: string) {
-    return item ? this.getImageUrl(item.image, 'item', matchVersion) : RiotImageService.EMPTY_URL;
+  public getItemImageUrl(item: LOLItem | undefined, matchVersion?: string) {
+    return item ? this.getImageUrl(item.image, 'item', matchVersion) : RIOTImageService.EMPTY_URL;
   }
 
-  public getSpellImageUrl(spell?: LOLSummonerSpell, matchVersion?: string) {
-    return spell ? this.getImageUrl(spell.image, 'spell', matchVersion) : RiotImageService.EMPTY_URL;
+  public getSpellImageUrl(spell: LOLSummonerSpell | undefined, matchVersion?: string) {
+    return spell ? this.getImageUrl(spell.image, 'spell', matchVersion) : RIOTImageService.EMPTY_URL;
   }
 
-  public getRuneImageUrl(rune?: LOLRune) {
-    return rune ? `https://ddragon.leagueoflegends.com/cdn/img/${rune.image}` : RiotImageService.EMPTY_URL;
+  public getRuneImageUrl(rune: LOLRune | undefined) {
+    return rune ? `https://ddragon.leagueoflegends.com/cdn/img/${rune.image}` : RIOTImageService.EMPTY_URL;
   }
 
-  public getAugmentImageUrl(augment?: LOLAugmentNomenclature) {
-    return augment ? `https://raw.communitydragon.org/14.18/game/${augment.image}` : RiotImageService.EMPTY_URL;
+  public getAugmentImageUrl(augment: LOLAugmentNomenclature | undefined) {
+    return augment ? `https://raw.communitydragon.org/14.18/game/${augment.image}` : RIOTImageService.EMPTY_URL;
   }
 
   public getProfileIconUrl(icon: number, matchVersion?: string) {
