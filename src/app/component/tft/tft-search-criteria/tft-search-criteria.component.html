@@ -4,7 +4,7 @@
             (click)="selectQueue(queue)"
             [routerLink]="['/lol', summoner.region, summoner.tag, summoner.name, queue, selectedSet]"
             [ngClass]="queue == selectedQueue ? 'tab-selected' : 'tab-not-selected'">
-      <span>{{ formatQueueName(queue) }}</span>
+      <span>{{ formatQueueAndSetName(queue) }}</span>
     </button>
   </div>
 
@@ -12,7 +12,7 @@
     <button  *ngFor="let set of sets"
              (click)="selectSet(set)"
              [ngClass]="set == selectedSet ? 'tab-selected' : 'tab-not-selected'">
-      <div>{{ set }}</div>
+      <div>{{ formatQueueAndSetName(set) }}</div>
     </button>
   </div>
 </div>

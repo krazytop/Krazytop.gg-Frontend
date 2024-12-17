@@ -1,0 +1,111 @@
+@import 'src/app/component/tft/teamfight-tactics.component.css';
+
+.tft-match {
+  display: grid;
+  grid-template-columns: 2fr 2fr 18fr 2fr 1fr;
+  border-radius: 10px;
+}
+
+.game-summary {
+  margin-left: 15px;
+  margin-top: 7px;
+  grid-column: 1;
+}
+
+.main-summary {
+  font-weight: bold;
+  color: white;
+  font-size: 30px;
+}
+
+.complementary-summary {
+  color: darkgrey;
+}
+
+.traits-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.game-traits {
+  grid-column: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.augments-and-traits-containers {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  background: #1D1D1D;
+}
+
+.trait-style-1 {
+  background-color: #9a5858;
+}
+
+.trait-style-3 {
+  background-color: silver;
+}
+
+.trait-style-4 {
+  background-color: purple;
+}
+
+.trait-style-5 {
+  background-color: gold;
+}
+
+.trait-style-6 {
+  background-color: purple;
+}
+
+.image {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+}
+
+.game-units {
+  grid-column: 3;
+  display: flex;
+}
+
+.game-augments {
+  grid-column: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.all-game-stats-button {
+  display: flex;
+  justify-content: center;
+  grid-column: 5;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: relative;
+}
+
+hr {
+  background-color: rgba(211, 211, 211, 0.4);
+  height: 1px;
+  width: 50px;
+  border: none;
+  margin: 10px 0;
+}

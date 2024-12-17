@@ -27,7 +27,7 @@ export class TftSearchCriteriaComponent {
     this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${this.selectedQueue}/${set}`]);
   }
 
-  formatQueueName(queue: string) {
+  formatQueueAndSetName(queue: string) {
     return queue.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   }
 

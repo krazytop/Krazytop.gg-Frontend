@@ -24,29 +24,15 @@ export class TFTMatchService {
   }
 
   public isMatchWon(match: TFTMatch, summoner: RIOTSummoner) {
-    return this.getSummonerParticipant(match, summoner).win;
+    return this.getSummonerParticipant(match, summoner).hasWin;
   }
-/**
-  public getSummonerTeam(match: LOLMatch, summoner: RIOTSummoner) {
-    return match.teams.find(team => team.participants.some(p => p.summoner.puuid === summoner.puuid))!;
-  }
-**/
+
   public getSummonerParticipant(match: TFTMatch, summoner: RIOTSummoner) {
     return match.participants.find(participant => participant.summoner.puuid === summoner.puuid)!;
   }
 
-  public getWinRate(matches: TFTMatch[], summoner: RIOTSummoner) {
-    let victories = 0;
-    let defeats = 0;
-    matches.forEach(match => {
-      if (this.isMatchWon(match, summoner)) {
-        victories++;
-      } else {
-        defeats++;
-      }
-    });
-    const winRate =  victories / (victories + defeats) * 100;
-    return winRate % 1 === 0 ? winRate.toFixed(0) : winRate.toFixed(1);
+  public getPlacement(match: TFTMatch, summoner: RIOTSummoner) {
+    return this.getSummonerParticipant(match, summoner).placement;
   }
 
 }

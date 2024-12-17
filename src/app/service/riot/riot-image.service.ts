@@ -10,13 +10,31 @@ import {LOLAugmentNomenclature} from "../../model/lol/nomenclature/lol-augment.n
 })
 export class RIOTImageService {
 
-  private version?: string;
   private defaultVersion: string = '14.24.1';
   private static EMPTY_URL = 'assets/data/lol/empty.png';
-
-  setVersion(version: string) {
-    this.version = this.formatVersion(version);
-  }
+  private static COMMUNITY_RAW_URL = "https://raw.communitydragon.org/";
+  private static BUGGED_COMMUNITY_VERSIONS: Map<string, string> = new Map([
+    ['13.1', '13.22'],
+    ['13.2', '13.22'],
+    ['13.3', '13.22'],
+    ['13.4', '13.22'],
+    ['13.5', '13.22'],
+    ['13.6', '13.22'],
+    ['13.7', '13.22'],
+    ['13.8', '13.22'],
+    ['13.9', '13.22'],
+    ['13.10', '13.22'],
+    ['13.11', '13.22'],
+    ['13.12', '13.22'],
+    ['13.13', '13.22'],
+    ['13.14', '13.22'],
+    ['13.15', '13.22'],
+    ['13.16', '13.22'],
+    ['13.17', '13.22'],
+    ['13.18', '13.22'],
+    ['13.19', '13.22'],
+    ['13.20', '13.22'],
+    ['13.21', '13.22']/**['12.23', '13.22'], ['13.22', '13.24'], ['13.23', '13.24']**/]);
 
   private formatVersion(version: string) {
     let versionArray = version.split('.');
@@ -27,7 +45,7 @@ export class RIOTImageService {
     if (matchVersion) {
       return this.formatVersion(matchVersion)
     } else {
-      return this.version ? this.version : this.defaultVersion;
+      return this.defaultVersion;
     }
   }
 
@@ -57,5 +75,22 @@ export class RIOTImageService {
 
   private getImageUrl(image: string, component: string, matchVersion?: string) {
     return `https://ddragon.leagueoflegends.com/cdn/${this.getVersion(matchVersion)}/img/${component}/${image}`;
+  }
+
+  public getCommunityImage(image: string, matchVersion: string) {
+    return `${RIOTImageService.COMMUNITY_RAW_URL}${this.getSafeCommunityVersion(matchVersion)}/game/${image.toLowerCase().replace('.tex', '.png').replace('.dds', '.png')}`;
+  }
+
+  private getSafeCommunityVersion(version: string) {
+    if (RIOTImageService.BUGGED_COMMUNITY_VERSIONS.has(version)) {
+      return RIOTImageService.BUGGED_COMMUNITY_VERSIONS.get(version);
+    } else {
+      return version;
+    }
+  }
+
+  public fixCommunityImage(image: string, version: string, event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = this.getCommunityImage(image, version);
   }
 }

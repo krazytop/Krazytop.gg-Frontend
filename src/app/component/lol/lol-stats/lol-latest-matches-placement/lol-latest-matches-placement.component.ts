@@ -10,8 +10,8 @@ import {LOLMatchService} from "../../../../service/lol/lol-match.service";
 })
 export class LolLatestMatchesPlacementComponent implements OnChanges {
 
-  @Input() summoner: RIOTSummoner = new RIOTSummoner();
-  @Input() matches: LOLMatch[] | undefined;
+  @Input() summoner!: RIOTSummoner;
+  @Input() matches!: LOLMatch[];
 
   latestMatchesResults: string[] = [];
   wins: number = 0;
@@ -24,13 +24,11 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
   }
 
   async ngOnChanges() {
-    if (this.matches) {
-      this.setLatestMatchesResults();
-      this.setWinsNumber();
-      this.setLoosesNumber();
-      this.winRate = this.matchService.getWinRate(this.matches, this.summoner);
-      this.streak = this.matchService.getMatchesStreak(this.matches, this.summoner);
-    }
+    this.setLatestMatchesResults();
+    this.setWinsNumber();
+    this.setLoosesNumber();
+    this.winRate = this.matchService.getWinRate(this.matches, this.summoner);
+    this.streak = this.matchService.getMatchesStreak(this.matches, this.summoner);
   }
 
   private setLatestMatchesResults() {
@@ -38,8 +36,7 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
       if (match.remake) {
         return 'REMAKE';
       }
-      const summonerTeam = match.teams.find(team => team.participants.some(p => p.summoner.puuid === this.summoner.puuid))!;
-      return summonerTeam.hasWin ? "VICTORY" : "DEFEAT";
+      return this.matchService.isMatchWon(match, this.summoner) ? "VICTORY" : "DEFEAT";
     });
   }
 

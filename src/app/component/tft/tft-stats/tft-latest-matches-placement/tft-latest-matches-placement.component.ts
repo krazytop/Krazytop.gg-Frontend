@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
+import {TFTMatch} from "../../../../model/tft/tft-match.model";
+import {TFTMatchService} from "../../../../service/tft/tft-match.service";
 
 @Component({
   selector: 'tft-latest-matches-placement',
@@ -9,25 +10,34 @@ import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 })
 export class TftLatestMatchesPlacementComponent implements OnChanges {
 
-  @Input() set!: string;
-  @Input() queue!: string;
   @Input() summoner!: RIOTSummoner;
+  @Input() matches!: TFTMatch[];
 
-  latestMatchesPlacement: number[] = [];
+  latestMatchesResults: number[] = [];
 
-  constructor(private http: HttpClient) {
+  streak: number = 0;
+
+  constructor(protected matchService: TFTMatchService) {
   }
 
-  ngOnChanges() {
+  async ngOnChanges() {
+    this.setLatestMatchesResults();
+    this.streak = this.matchService.getMatchesStreak(this.matches, this.summoner);
   }
 
-  getLatestMatchesAveragePlacement(): string {
-    let sum = 0;
-    for (const placement of this.latestMatchesPlacement) {
-      sum += placement;
-    }
-    return (sum / this.latestMatchesPlacement.length).toFixed(2);
+  private setLatestMatchesResults() {
+    this.latestMatchesResults = this.matches!.map(match => {
+      return this.matchService.getPlacement(match, this.summoner);
+    });
+  }
+
+  get averagePlacement() {
+    const averagePlacement = this.latestMatchesResults.length > 0
+      ? this.latestMatchesResults.reduce((acc, num) => acc + num, 0) / this.latestMatchesResults.length
+      : 0;
+    return averagePlacement % 1 === 0 ? averagePlacement.toFixed(0) : averagePlacement.toFixed(2);
   }
 
 // TODO check EUW1_6183285029 augments qui posent pb
+  protected readonly Math = Math;
 }

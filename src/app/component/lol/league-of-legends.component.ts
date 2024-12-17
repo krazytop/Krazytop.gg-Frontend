@@ -24,7 +24,7 @@ export class LeagueOfLegendsComponent implements OnInit {
   private name!: string;
   protected selectedQueue!: string;
   protected selectedRole!: string;
-  protected matches: RIOTMatch[] | undefined;
+  protected matches: RIOTMatch[] = [];
   protected metadata: RIOTMetadata | undefined;
 
   constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, private metadataService: RIOTMetadataService) {

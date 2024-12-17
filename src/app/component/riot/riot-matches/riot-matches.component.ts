@@ -19,7 +19,7 @@ export class RiotMatchesComponent implements OnChanges {
   @Input() selectedRole!: string;
   @Input() selectedSet!: string;
   @Input() summoner!: RIOTSummoner;
-  @Output() matchesUpdateEvent = new EventEmitter<RIOTMatch[] | undefined>();
+  @Output() matchesUpdateEvent = new EventEmitter<RIOTMatch[]>();
 
   constructor(private httpRequestService: HTTPRequestService, private imageService: RIOTImageService, private route: ActivatedRoute) {
   }
@@ -34,7 +34,6 @@ export class RiotMatchesComponent implements OnChanges {
     this.isThisComponentReady = false;
     this.matches = [];
     this.currentPage = 0;
-    this.matchesUpdateEvent.emit(undefined);
     await this.getMatches();
     await this.setMatchesCount();
     this.isThisComponentReady = true;
@@ -62,9 +61,6 @@ export class RiotMatchesComponent implements OnChanges {
     this.currentPage++;
     if (loadingElement) loadingElement.hidden = true;
     if (moreMatchesButton) moreMatchesButton.disabled = false;
-    if (this.matches.length > 0) {
-      this.imageService.setVersion(this.matches[0].version);
-    }
     this.matchesUpdateEvent.emit(this.matches);
   }
 

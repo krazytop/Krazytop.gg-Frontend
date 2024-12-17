@@ -1,27 +1,42 @@
-@import "src/app/component/tft/teamfight-tactics.component.css";
+@import "src/app/component/tft/tft-stats/tft-stats.css";
 
 .latest-matches-placements {
   border-radius: 10px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Crée 10 colonnes de largeur égale */
-  grid-gap: 5px; /* Espace entre les éléments (ajustez selon vos besoins) */
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  grid-gap: 5px;
 }
 
 .placement {
   border-radius: 5px;
   color: white;
   font-weight: bold;
-  padding: 10px; /* Espacement interne pour chaque élément (ajustez selon vos besoins) */
-  text-align: center; /* Centrage du texte horizontalement (facultatif) */
+  font-size: 14px;
+  padding: 10px;
+  text-align: center;
+}
+
+.win-rate-box {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0;
+}
+
+.win-rate-value {
+  color: white;
+  font-weight: bold;
+  text-align: start;
+}
+
+.win-rate-title {
+  color: darkgrey;
+  text-align: start;
 }
 
 .win-rate {
-  color: white;
-  font-weight: bold;
-  display: inline;
-}
-
-.average-placement-title {
-  color: darkgrey;
-  display: inline;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }

@@ -25,7 +25,7 @@ export class TeamfightTacticsComponent implements OnInit {
   private name!: string;
   protected selectedQueue!: string;
   protected selectedSet!: string;
-  protected matches: RIOTMatch[] | undefined;
+  protected matches: RIOTMatch[] = [];
 
   constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, private metadataService: RIOTMetadataService) {
   }

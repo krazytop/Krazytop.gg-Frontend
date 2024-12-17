@@ -13,7 +13,7 @@ export class TFTParticipant {
   timeEliminated!: number;
   damageToPlayers!: number;
   teamId!: number;
-  win!: boolean;
+  hasWin!: boolean;
   augments: TFTItemNomenclature[] = [];
   units!: TFTUnit[];
   traits!: TFTTrait[];
