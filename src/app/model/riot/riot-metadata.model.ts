@@ -1,3 +1,5 @@
+import {RIOTLanguage} from "./riot-language.model";
+
 class RIOTQueueRank {
   id!: string;
   name!: string;
@@ -7,5 +9,9 @@ class RIOTQueueRank {
 export class RIOTMetadata {
   currentLOLSeason!: number;
   currentTFTSet!: number;
-  ranks!: RIOTQueueRank[];
+  currentPatch!: string;
+  allTFTPatches!: string[];
+  allLOLPatches!: string[];
+  allLanguages!: RIOTLanguage[];
+  allRanks!: RIOTQueueRank[];
 }

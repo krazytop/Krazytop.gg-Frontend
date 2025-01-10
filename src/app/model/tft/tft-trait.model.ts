@@ -1,6 +1,7 @@
-import {TFTTraitNomenclature} from "./nomenclature/tft-trait.nomenclature";
-
 export class TFTTrait {
+  id!: string;
   tier!: number;
-  nomenclature!: TFTTraitNomenclature;
+  maxTier!: number;
+  unitsNb!: number;
+  style!: number;
 }

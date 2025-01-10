@@ -7,6 +7,7 @@ import {TimeService} from "../../../service/time.service";
 import {TFTMatchService} from "../../../service/tft/tft-match.service";
 import {RIOTMatch} from "../../../model/riot/riot-match.model";
 import {RIOTImageService} from "../../../service/riot/riot-image.service";
+import {RIOTPatchService} from "../../../service/riot/riot-patch.service";
 
 @Component({
   selector: 'tft-match',
@@ -23,7 +24,7 @@ export class TftMatchComponent implements OnInit {
   matchVersion!: string;
   activeTraits!: TFTTrait[][];
 
-  constructor(protected timeService: TimeService, private matchService: TFTMatchService, protected imageService: RIOTImageService) {
+  constructor(protected timeService: TimeService, private matchService: TFTMatchService, protected imageService: RIOTImageService, protected patchService: RIOTPatchService) {
   }
 
   ngOnInit(): void {
@@ -40,15 +41,11 @@ export class TftMatchComponent implements OnInit {
     let activeTraits: TFTTrait[][] = [];
     const sortedTraits = this.summonerParticipant.traits
       .filter(trait => trait.tier !== 0)
-      .sort((a, b) => b.nomenclature.effects[b.tier - 1].style - a.nomenclature.effects[a.tier - 1].style);
+      .sort((a, b) => this.patchService.getTFTTraitNomenclature(this.matchVersion, b.id)!.effects[b.tier - 1].style - this.patchService.getTFTTraitNomenclature(this.matchVersion, a.id)!.effects[a.tier - 1].style);
     for (let i = 0; i < sortedTraits.length; i += 3) {
       activeTraits.push(sortedTraits.slice(i, i + 3));
     }
     this.activeTraits = activeTraits;
-  }
-
-  showAllMatchData() {
-    this.allDataIsDisplayed = !this.allDataIsDisplayed;
   }
 
   get placement() {
@@ -65,12 +62,11 @@ export class TftMatchComponent implements OnInit {
   }
 
   get queueName() {
-    return this.match.queue.name
+    return this.patchService.getTFTQueueNomenclature(this.match.version, this.match.queue)?.name
       .replace(' (ATELIER)', '')
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ')
   }
 
-  protected readonly console = console;
 }

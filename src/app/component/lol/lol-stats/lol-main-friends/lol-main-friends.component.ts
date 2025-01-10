@@ -9,12 +9,12 @@ import {LOLMatchService} from "../../../../service/lol/lol-match.service";
   templateUrl: './lol-main-friends.component.html',
   styleUrls: ['./lol-main-friends.component.css']
 })
-export class LolMainFriendsComponent implements OnChanges {
+export class LOLMainFriendsComponent implements OnChanges {
 
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
   @Input() matches: LOLMatch[] | undefined;
 
-  mainFriends: Map<String, LolMainFriendsInterface> = new Map();
+  mainFriends: Map<string, LolMainFriendsInterface> = new Map();
   mainFriendsList: LolMainFriendsInterface[] = [];
 
   constructor(protected imageService: RIOTImageService, protected matchService: LOLMatchService) {

@@ -6,6 +6,7 @@ import {RIOTMetadataService} from "../../service/riot/riot-metadata.service";
 import {RIOTMetadata} from "../../model/riot/riot-metadata.model";
 import {RIOTMatch} from "../../model/riot/riot-match.model";
 import {TFTMatch} from "../../model/tft/tft-match.model";
+import {RIOTPatchService} from "../../service/riot/riot-patch.service";
 
 @Component({
   selector: 'teamfight-tactics',
@@ -27,7 +28,7 @@ export class TeamfightTacticsComponent implements OnInit {
   protected selectedSet!: string;
   protected matches: RIOTMatch[] = [];
 
-  constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, private metadataService: RIOTMetadataService) {
+  constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, private metadataService: RIOTMetadataService, private patchService: RIOTPatchService) {
   }
 
   async ngOnInit() {
@@ -43,6 +44,7 @@ export class TeamfightTacticsComponent implements OnInit {
         this.localSummoner = localSummoner;
         this.remoteSummoner = remoteSummoner
         this.metadata = await this.metadataService.getMetadata();
+        await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch)
       }
       this.isThisComponentReady = true;
     });

@@ -13,11 +13,11 @@
 
 <div class="units-container">
   <div class="unit-bg rarity-{{ unit.rarity }}"></div>
-  <img [alt]="" class="unit-img" [src]="imageService.getCommunityImage(unit.nomenclature.image, matchVersion)">
+  <img [alt]="" class="unit-img" [src]="imageService.getTFTUnitImageUrl(unit.id, matchVersion)" (error)="imageService.fixTFTUnitImage($event)">
 </div>
 
 <div class="items-container">
   <div *ngFor="let item of unit.items">
-    <img [alt]="" class="item-image" [src]="imageService.getCommunityImage(item.image, 'latest')" (error)="imageService.fixCommunityImage(item.image, matchVersion, $event)">
+    <img [alt]="" class="item-image" [src]="imageService.getTFTItemImageUrl(item, matchVersion)">
   </div>
 </div>

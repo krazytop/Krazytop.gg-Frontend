@@ -50,13 +50,13 @@ export class RIOTSummonerService {
   }
 
   private async updateLOLRanks(summoner: RIOTSummoner) {
-    const response = await fetch(`${environment.apiURL}lol/rank/${summoner.puuid}`,
+    const response = await fetch(`${environment.apiURL}lol/ranks/${summoner.puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }
 
   private async updateTFTRanks(summoner: RIOTSummoner) {
-    const response = await fetch(`${environment.apiURL}tft/rank/${summoner.puuid}`,
+    const response = await fetch(`${environment.apiURL}tft/ranks/${summoner.puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }

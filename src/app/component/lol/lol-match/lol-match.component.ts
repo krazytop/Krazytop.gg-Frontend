@@ -6,6 +6,7 @@ import {TimeService} from "../../../service/time.service";
 import {RIOTImageService} from "../../../service/riot/riot-image.service";
 import {LOLMatchService} from "../../../service/lol/lol-match.service";
 import {RIOTMatch} from "../../../model/riot/riot-match.model";
+import {RIOTPatchService} from "../../../service/riot/riot-patch.service";
 
 @Component({
   selector: 'lol-match',
@@ -20,7 +21,7 @@ export class LolMatchComponent implements OnInit {
   summonerParticipant!: LOLParticipant;
   allDataIsDisplayed: boolean = false;
 
-  constructor(protected timeService: TimeService, protected imageService: RIOTImageService, private matchService: LOLMatchService) {
+  constructor(protected timeService: TimeService, protected imageService: RIOTImageService, private matchService: LOLMatchService, protected patchService: RIOTPatchService) {
   }
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class LolMatchComponent implements OnInit {
   }
 
   get isArena() {
-    return this.match.queue.id === '1700' || this.match.queue.id === '1710';
+    return this.match.queue === '1700' || this.match.queue === '1710';
   }
 
   get placement() {
@@ -71,4 +72,11 @@ export class LolMatchComponent implements OnInit {
       return `${placement}th`;
     }
   }
+
+  get queueName() {
+    return this.patchService.getLOLQueueNomenclature(this.match.version, this.match.queue)?.name
+      .replace('games', '')
+      .replace('5v5', '')
+  }
+
 }

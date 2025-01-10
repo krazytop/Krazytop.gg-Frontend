@@ -3,4 +3,5 @@ export class RIOTMatch {
   version!: string;
   datetime!: number;
   duration!: number;
+  queue!: string;
 }

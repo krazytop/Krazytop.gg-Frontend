@@ -1,6 +1,6 @@
 import {TFTAbilityNomenclature} from "./tft-ability.nomenclature";
 
-export class TftUnitNomenclature {
+export class TFTUnitNomenclature {
   id!: string;
   name!: string;
   image!: string;

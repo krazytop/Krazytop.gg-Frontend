@@ -1,83 +1,89 @@
 import {Injectable} from "@angular/core";
-import {LOLItem} from "../../model/lol/lol-item.model";
-import {LOLSummonerSpell} from "../../model/lol/lol-summoner-spell.model";
-import {LOLRune} from "../../model/lol/lol-rune.model";
-import {LOLChampion} from "../../model/lol/lol-champion.model";
-import {LOLAugmentNomenclature} from "../../model/lol/nomenclature/lol-augment.nomenclature";
+import {RIOTPatchService} from "./riot-patch.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class RIOTImageService {
 
+  constructor(private patchService: RIOTPatchService) {
+  }
+
   private defaultVersion: string = '14.24.1';
   private static EMPTY_URL = 'assets/data/lol/empty.png';
+  private static OFFICIAL_CDN_URL = "https://ddragon.leagueoflegends.com/cdn/";
   private static COMMUNITY_RAW_URL = "https://raw.communitydragon.org/";
   private static BUGGED_COMMUNITY_VERSIONS: Map<string, string> = new Map([
-    ['13.1', '13.22'],
-    ['13.2', '13.22'],
-    ['13.3', '13.22'],
-    ['13.4', '13.22'],
-    ['13.5', '13.22'],
-    ['13.6', '13.22'],
-    ['13.7', '13.22'],
-    ['13.8', '13.22'],
-    ['13.9', '13.22'],
-    ['13.10', '13.22'],
-    ['13.11', '13.22'],
-    ['13.12', '13.22'],
-    ['13.13', '13.22'],
-    ['13.14', '13.22'],
-    ['13.15', '13.22'],
-    ['13.16', '13.22'],
-    ['13.17', '13.22'],
-    ['13.18', '13.22'],
-    ['13.19', '13.22'],
-    ['13.20', '13.22'],
-    ['13.21', '13.22']/**['12.23', '13.22'], ['13.22', '13.24'], ['13.23', '13.24']**/]);
-
-  private formatVersion(version: string) {
-    let versionArray = version.split('.');
-    return `${versionArray[0]}.${versionArray[1]}.1`;
-  }
+    ['13.8', '13.10'],
+    ['13.9', '13.10']]);
 
   private getVersion(matchVersion: string | undefined) {
     if (matchVersion) {
-      return this.formatVersion(matchVersion)
+      return matchVersion + '.1';
     } else {
-      return this.defaultVersion;
+      return this.defaultVersion;//TODO metadata
     }
   }
 
-  public getChampionImageUrl(champion: LOLChampion, matchVersion?: string) {
-    return this.getImageUrl(champion.image, 'champion', matchVersion);
+  public getLOLChampionImageUrl(id: string, matchVersion: string) {
+    const nomenclature = this.patchService.getLOLChampionNomenclature(matchVersion, id);
+    return nomenclature ? this.getOfficialImageUrl(nomenclature.image, 'champion', matchVersion) : RIOTImageService.EMPTY_URL;
   }
 
-  public getItemImageUrl(item: LOLItem | undefined, matchVersion?: string) {
-    return item ? this.getImageUrl(item.image, 'item', matchVersion) : RIOTImageService.EMPTY_URL;
+  public getLOLItemImageUrl(id: string | undefined, matchVersion: string) {
+    const nomenclature = this.patchService.getLOLItemNomenclature(matchVersion, id);
+    return nomenclature ? this.getOfficialImageUrl(nomenclature.image, 'item', matchVersion) : RIOTImageService.EMPTY_URL;
   }
 
-  public getSpellImageUrl(spell: LOLSummonerSpell | undefined, matchVersion?: string) {
-    return spell ? this.getImageUrl(spell.image, 'spell', matchVersion) : RIOTImageService.EMPTY_URL;
+  public getLOLSpellImageUrl(id: string, matchVersion: string) {
+    const nomenclature = this.patchService.getLOLSummonerSpellNomenclature(matchVersion, id);
+    return nomenclature ? this.getOfficialImageUrl(nomenclature.image, 'spell', matchVersion) : RIOTImageService.EMPTY_URL;
   }
 
-  public getRuneImageUrl(rune: LOLRune | undefined) {
-    return rune ? `https://ddragon.leagueoflegends.com/cdn/img/${rune.image}` : RIOTImageService.EMPTY_URL;
+  public getLOLRuneCategoryImageUrl(id: string, matchVersion: string) {
+    const nomenclature = this.patchService.getLOLRuneCategoryNomenclature(matchVersion, id);
+    return nomenclature ? `${RIOTImageService.OFFICIAL_CDN_URL}img/${nomenclature.image}` : RIOTImageService.EMPTY_URL;
   }
 
-  public getAugmentImageUrl(augment: LOLAugmentNomenclature | undefined) {
-    return augment ? `https://raw.communitydragon.org/14.18/game/${augment.image}` : RIOTImageService.EMPTY_URL;
+  public getLOLRunePerkImageUrl(id: string, matchVersion: string) {
+    const nomenclature = this.patchService.getLOLRunePerkNomenclature(matchVersion, id);
+    return nomenclature ? `${RIOTImageService.OFFICIAL_CDN_URL}img/${nomenclature.image}` : RIOTImageService.EMPTY_URL;
+  }
+
+  public getLOLAugmentImageUrl(id: string | undefined, matchVersion: string) {
+    const nomenclature = this.patchService.getLOLAugmentNomenclature(matchVersion, id);
+    return nomenclature ? `${RIOTImageService.COMMUNITY_RAW_URL}${matchVersion}/game/${nomenclature.image}` : RIOTImageService.EMPTY_URL;
   }
 
   public getProfileIconUrl(icon: number, matchVersion?: string) {
-    return `https://ddragon.leagueoflegends.com/cdn/${this.getVersion(matchVersion)}/img/profileicon/${icon}.png`;
+    return `${RIOTImageService.OFFICIAL_CDN_URL}${this.getVersion(matchVersion)}/img/profileicon/${icon}.png`;
   }
 
-  private getImageUrl(image: string, component: string, matchVersion?: string) {
-    return `https://ddragon.leagueoflegends.com/cdn/${this.getVersion(matchVersion)}/img/${component}/${image}`;
+  private getOfficialImageUrl(image: string, component: string, matchVersion?: string) {
+    return `${RIOTImageService.OFFICIAL_CDN_URL}${this.getVersion(matchVersion)}/img/${component}/${image}`;
   }
 
-  public getCommunityImage(image: string, matchVersion: string) {
+  public getTFTUnitImageUrl(id: string, matchVersion: string) {
+    const nomenclature = this.patchService.getTFTUnitNomenclature(matchVersion, id);
+    return nomenclature ? this.getCommunityImageUrl(nomenclature.image, matchVersion) : RIOTImageService.EMPTY_URL;
+  }
+
+  public getTFTItemImageUrl(id: string, matchVersion: string) {
+    const nomenclature = this.patchService.getTFTItemNomenclature(matchVersion, id);
+    return nomenclature ? this.getCommunityImageUrl(nomenclature.image, matchVersion) : RIOTImageService.EMPTY_URL;
+  }
+
+  public getTFTAugmentImageUrl(id: string, matchVersion: string) {
+    const nomenclature = this.patchService.getTFTAugmentNomenclature(matchVersion, id);
+    return nomenclature ? this.getCommunityImageUrl(nomenclature.image, matchVersion) : RIOTImageService.EMPTY_URL;
+  }
+
+  public getTFTTraitImageUrl(id: string, matchVersion: string) {
+    const nomenclature = this.patchService.getTFTTraitNomenclature(matchVersion, id);
+    return nomenclature ? this.getCommunityImageUrl(nomenclature.image, matchVersion) : RIOTImageService.EMPTY_URL;
+  }
+
+  private getCommunityImageUrl(image: string, matchVersion: string) {
     return `${RIOTImageService.COMMUNITY_RAW_URL}${this.getSafeCommunityVersion(matchVersion)}/game/${image.toLowerCase().replace('.tex', '.png').replace('.dds', '.png')}`;
   }
 
@@ -89,8 +95,13 @@ export class RIOTImageService {
     }
   }
 
+  public fixTFTUnitImage(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = target.src.replace('_square','');
+  }
+
   public fixCommunityImage(image: string, version: string, event: Event) {
     const target = event.target as HTMLImageElement;
-    target.src = this.getCommunityImage(image, version);
+    target.src = this.getCommunityImageUrl(image, version);
   }
 }

@@ -47,9 +47,9 @@ import {CdkDrag, CdkDragHandle, CdkDragPreview, CdkDropList, CdkDropListGroup} f
 import {DestinyCatalystsComponent} from "./component/destiny/destiny-catalysts/destiny-catalysts.component";
 import {DestinyRecordComponent} from "./component/destiny/destiny-record/destiny-record.component";
 import { DestinyModelsComponent } from './component/destiny/destiny-models/destiny-models.component';
-import { LolMainChampionsComponent } from './component/lol/lol-stats/lol-main-champions/lol-main-champions.component';
-import { LolMainFriendsComponent } from './component/lol/lol-stats/lol-main-friends/lol-main-friends.component';
-import { LolMainMasteriesComponent } from './component/lol/lol-stats/lol-main-masteries/lol-main-masteries.component';
+import { LOLMainChampionsComponent } from './component/lol/lol-stats/lol-main-champions/lol-main-champions.component';
+import { LOLMainFriendsComponent } from './component/lol/lol-stats/lol-main-friends/lol-main-friends.component';
+import { LOLMainMasteriesComponent } from './component/lol/lol-stats/lol-main-masteries/lol-main-masteries.component';
 import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.component';
 import { DestinyCharacterItemFiltersComponent } from './component/destiny/destiny-characters/destiny-character-item-filters/destiny-character-item-filters.component';
 import { RequestButtonComponent } from './ui/request-button/request-button.component';
@@ -98,9 +98,9 @@ import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.compo
     DestinyCatalystsComponent,
     DestinyRecordComponent,
     DestinyModelsComponent,
-    LolMainChampionsComponent,
-    LolMainFriendsComponent,
-    LolMainMasteriesComponent,
+    LOLMainChampionsComponent,
+    LOLMainFriendsComponent,
+    LOLMainMasteriesComponent,
     ToggleSwitchComponent,
     DestinyCharacterItemFiltersComponent,
     RequestButtonComponent,

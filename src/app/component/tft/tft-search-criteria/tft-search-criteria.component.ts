@@ -14,7 +14,7 @@ export class TftSearchCriteriaComponent {
   @Input() selectedSet!: string;
 
   queues: string[] = ['all-queues', 'normal', 'ranked', 'double-up', 'hyper-roll'];
-  sets: string[] = ['set-7', 'set-8', 'set-9', 'set-10', 'set-11', 'set-12', 'set-13', 'set-14'];
+  sets: string[] = ['set-7', 'set-8', 'set-9', 'set-10', 'set-11', 'set-12', 'set-13', 'set-14'];//TODO metadata dans summoner stocker les set actifs ?
 
   constructor(private router: Router) {
   }

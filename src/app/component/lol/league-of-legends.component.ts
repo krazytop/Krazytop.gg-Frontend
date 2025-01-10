@@ -6,6 +6,7 @@ import {RIOTMetadataService} from "../../service/riot/riot-metadata.service";
 import {RIOTMetadata} from "../../model/riot/riot-metadata.model";
 import {RIOTMatch} from "../../model/riot/riot-match.model";
 import {LOLMatch} from "../../model/lol/lol-match.model";
+import {RIOTPatchService} from "../../service/riot/riot-patch.service";
 
 @Component({
   selector: 'league-of-legends',
@@ -27,7 +28,7 @@ export class LeagueOfLegendsComponent implements OnInit {
   protected matches: RIOTMatch[] = [];
   protected metadata: RIOTMetadata | undefined;
 
-  constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, private metadataService: RIOTMetadataService) {
+  constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, private metadataService: RIOTMetadataService, private patchService: RIOTPatchService) {
   }
 
   async ngOnInit() {
@@ -43,6 +44,7 @@ export class LeagueOfLegendsComponent implements OnInit {
         this.localSummoner = localSummoner;
         this.remoteSummoner = remoteSummoner
         this.metadata = await this.metadataService.getMetadata();
+        await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch)
       }
       this.isThisComponentReady = true;
     });
@@ -52,5 +54,4 @@ export class LeagueOfLegendsComponent implements OnInit {
     return this.matches as LOLMatch[];
   }
 
-  protected readonly console = console;
 }

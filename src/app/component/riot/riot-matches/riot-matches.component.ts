@@ -3,10 +3,10 @@ import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {HTTPRequestService} from "../../../config/http-request.service";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
 import {environment} from "../../../../environments/environment";
-import {RIOTImageService} from "../../../service/riot/riot-image.service";
 import {TFTMatch} from "../../../model/tft/tft-match.model";
 import {ActivatedRoute} from "@angular/router";
 import {RIOTMatch} from "../../../model/riot/riot-match.model";
+import {RIOTPatchService} from "../../../service/riot/riot-patch.service";
 
 @Component({
   selector: 'riot-matches',
@@ -21,7 +21,7 @@ export class RiotMatchesComponent implements OnChanges {
   @Input() summoner!: RIOTSummoner;
   @Output() matchesUpdateEvent = new EventEmitter<RIOTMatch[]>();
 
-  constructor(private httpRequestService: HTTPRequestService, private imageService: RIOTImageService, private route: ActivatedRoute) {
+  constructor(private httpRequestService: HTTPRequestService, private route: ActivatedRoute, private patchService: RIOTPatchService) {
   }
 
   currentPage!: number;
@@ -50,12 +50,21 @@ export class RiotMatchesComponent implements OnChanges {
       url = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedRole}`;
       const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
       const newMatches: LOLMatch[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
+      newMatches.forEach(newMatch => newMatch.version = newMatch.version.match(/^(\d+\.\d+)/)?.[1]!);
+      for (const newMatch of newMatches) {
+        await this.patchService.checkAndGetNewLOLPatchIfNeeded(newMatch.version);
+      }
       this.matches = this.matches.concat(newMatches);
     } else {
       this.isLOLMatches = false;
       url = `${environment.apiURL}tft/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedSet.replace('set-', '')}`;
       const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
       const newMatches: TFTMatch[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
+      newMatches.forEach(newMatch => newMatch.version = newMatch.version.match(/(?<=<Releases\/)(\d+\.\d+)(?=>)/)?.[1]!);
+      for (const newMatch of newMatches) {
+        console.log(newMatch)
+        await this.patchService.checkAndGetNewTFTPatchIfNeeded(newMatch.version);
+      }
       this.matches = this.matches.concat(newMatches);
     }
     this.currentPage++;

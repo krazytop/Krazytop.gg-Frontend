@@ -1,7 +1,6 @@
 import {TFTTrait} from "./tft-trait.model";
 import {TFTUnit} from "./tft-unit.model";
 import {RIOTSummoner} from "../riot/riot-summoner.model";
-import {TFTItemNomenclature} from "./nomenclature/tft-item.nomenclature";
 
 export class TFTParticipant {
   summoner!: RIOTSummoner;
@@ -12,9 +11,8 @@ export class TFTParticipant {
   playersEliminated!: number;
   timeEliminated!: number;
   damageToPlayers!: number;
-  teamId!: number;
-  hasWin!: boolean;
-  augments: TFTItemNomenclature[] = [];
+  augments!: string[];
   units!: TFTUnit[];
   traits!: TFTTrait[];
+  hasWin!: boolean;
 }

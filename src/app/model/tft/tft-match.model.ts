@@ -1,9 +1,7 @@
 import {TFTParticipant} from "./tft-participant.model";
-import {TFTQueue} from "./tft-queue.model";
 import {RIOTMatch} from "../riot/riot-match.model";
 
 export class TFTMatch extends RIOTMatch {
   set!: number;
-  queue!: TFTQueue;
   participants!: TFTParticipant[];
 }

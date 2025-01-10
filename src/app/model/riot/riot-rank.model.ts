@@ -1,6 +1,16 @@
 export class RIOTRank {
   puuid!: string;
-  ranks!: RanksJson;
+  seasonOrSetRanks!: RIOTSeasonOrSetRanks[];
+}
+
+export class RIOTSeasonOrSetRanks {
+  nb!: number;
+  queueRanks!: RIOTQueueRanks[];
+}
+
+export class RIOTQueueRanks {
+  name!: string;
+  rankInformations!: RIOTRankInformations[];
 }
 
 export class RIOTRankInformations {
@@ -11,9 +21,3 @@ export class RIOTRankInformations {
   wins!: number;
   losses!: number;
 }
-
-export type RanksJson = {
-  [seasonOrSet: number]: {
-    [queueId: string]: RIOTRankInformations[];
-  };
-};

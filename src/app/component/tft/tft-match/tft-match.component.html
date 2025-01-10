@@ -11,8 +11,8 @@
   <div class="game-traits">
     <div *ngFor="let column of activeTraits" class="traits-column">
       <div *ngFor="let trait of column" class="augments-and-traits-containers">
-        <div class="image trait-style-{{ trait.nomenclature.effects[trait.tier - 1].style }}"
-             style="-webkit-mask: url('{{ imageService.getCommunityImage(trait.nomenclature.image, matchVersion) }}'); -webkit-mask-size: 100%;">
+        <div class="image trait-style-{{ patchService.getTFTTraitNomenclature(matchVersion, trait.id)!.effects[trait.tier - 1].style }}"
+             style="-webkit-mask: url('{{ imageService.getTFTTraitImageUrl(trait.id, matchVersion) }}'); -webkit-mask-size: 100%;">
         </div>
       </div>
     </div>
@@ -26,11 +26,11 @@
 
   <div class="game-augments">
     <div *ngFor="let augment of summonerParticipant.augments" class="augments-and-traits-containers">
-      <img class="image" [src]="imageService.getCommunityImage(augment.image, 'latest')" (error)="imageService.fixCommunityImage(augment.image, matchVersion, $event)" alt="Augment Icon">
+      <img class="image" [src]="imageService.getTFTAugmentImageUrl(augment, matchVersion)" alt="Augment Icon">
     </div>
   </div>
 
-  <div (click)="showAllMatchData()" class="all-game-stats-button">
+  <div (click)="toggleShowAllMatchData()" class="all-game-stats-button">
     <div [ngClass]="{'arrow-down': !allDataIsDisplayed, 'arrow-up': allDataIsDisplayed}" class="arrow-up"></div>
   </div>
 </div>
