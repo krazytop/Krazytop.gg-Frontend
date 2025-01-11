@@ -1,7 +1,8 @@
 <div *ngIf="isThisComponentReady" class="game-component">
   <riot-summoner
     [localSummoner]="localSummoner"
-    [remoteSummoner]="remoteSummoner">
+    [remoteSummoner]="remoteSummoner"
+    [metadata]="metadata!">
   </riot-summoner>
   <tft-search-criteria
     *ngIf="localSummoner"

@@ -3,6 +3,7 @@ import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
 import {RIOTImageService} from "../../../../service/riot/riot-image.service";
 import {LOLMatchService} from "../../../../service/lol/lol-match.service";
+import {RIOTMetadata} from "../../../../model/riot/riot-metadata.model";
 
 @Component({
   selector: 'lol-main-friends',
@@ -13,6 +14,7 @@ export class LOLMainFriendsComponent implements OnChanges {
 
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
   @Input() matches: LOLMatch[] | undefined;
+  @Input() metadata!: RIOTMetadata;
 
   mainFriends: Map<string, LolMainFriendsInterface> = new Map();
   mainFriendsList: LolMainFriendsInterface[] = [];

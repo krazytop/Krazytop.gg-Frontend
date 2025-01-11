@@ -17,12 +17,8 @@ export class RIOTImageService {
     ['13.8', '13.10'],
     ['13.9', '13.10']]);
 
-  private getVersion(matchVersion: string | undefined) {
-    if (matchVersion) {
-      return matchVersion + '.1';
-    } else {
-      return this.defaultVersion;//TODO metadata
-    }
+  private getVersion(matchVersion: string) {
+    return matchVersion + '.1';
   }
 
   public getLOLChampionImageUrl(id: string, matchVersion: string) {
@@ -55,11 +51,11 @@ export class RIOTImageService {
     return nomenclature ? `${RIOTImageService.COMMUNITY_RAW_URL}${matchVersion}/game/${nomenclature.image}` : RIOTImageService.EMPTY_URL;
   }
 
-  public getProfileIconUrl(icon: number, matchVersion?: string) {
+  public getProfileIconUrl(icon: number, matchVersion: string) {
     return `${RIOTImageService.OFFICIAL_CDN_URL}${this.getVersion(matchVersion)}/img/profileicon/${icon}.png`;
   }
 
-  private getOfficialImageUrl(image: string, component: string, matchVersion?: string) {
+  private getOfficialImageUrl(image: string, component: string, matchVersion: string) {
     return `${RIOTImageService.OFFICIAL_CDN_URL}${this.getVersion(matchVersion)}/img/${component}/${image}`;
   }
 
@@ -100,8 +96,4 @@ export class RIOTImageService {
     target.src = target.src.replace('_square','');
   }
 
-  public fixCommunityImage(image: string, version: string, event: Event) {
-    const target = event.target as HTMLImageElement;
-    target.src = this.getCommunityImageUrl(image, version);
-  }
 }

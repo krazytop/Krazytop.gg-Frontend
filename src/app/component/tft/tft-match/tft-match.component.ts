@@ -63,7 +63,11 @@ export class TftMatchComponent implements OnInit {
 
   get queueName() {
     return this.patchService.getTFTQueueNomenclature(this.match.version, this.match.queue)?.name
-      .replace(' (ATELIER)', '')
+      .replace('Atelier', '')
+      .replace('atelier', '')
+      .replace('Teamfight Tactics ', '')
+      .replace('(', '')
+      .replace(')', '')
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ')

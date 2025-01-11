@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import {RIOTImageService} from "../../../service/riot/riot-image.service";
 import {TimeService} from "../../../service/time.service";
 import {environment} from "../../../../environments/environment";
+import {RIOTMetadata} from "../../../model/riot/riot-metadata.model";
 
 @Component({
   selector: 'riot-summoner',
@@ -15,6 +16,7 @@ export class RiotSummonerComponent implements OnChanges {
 
   @Input() localSummoner: RIOTSummoner | undefined;
   @Input() remoteSummoner: RIOTSummoner | undefined;
+  @Input() metadata!: RIOTMetadata;
 
   isThisComponentReady: boolean = false;
   summoner: RIOTSummoner | undefined;

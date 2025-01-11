@@ -12,7 +12,7 @@
     </div>
     <div *ngIf="matches.length > 0 && mainFriendsList.length > 0" class="small-subcomponent-list">
       <div *ngFor="let friendResults of mainFriendsList" class="results small-subcomponent">
-        <img class="friend-icon" src="{{ imageService.getProfileIconUrl(friendResults.summoner.icon) }}" alt="Profile Icon">
+        <img class="friend-icon" src="{{ imageService.getProfileIconUrl(friendResults.summoner.icon, metadata.currentPatch) }}" alt="Profile Icon">
         <div class="bar">
           <div class="defeats-bar background-color-defeat">
             <div class="wins-bar background-color-victory" [style.width.%]="getWinRate(friendResults)"></div>
