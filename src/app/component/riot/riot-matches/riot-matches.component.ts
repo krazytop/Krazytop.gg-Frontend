@@ -50,7 +50,6 @@ export class RiotMatchesComponent implements OnChanges {
       url = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedRole}`;
       const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
       const newMatches: LOLMatch[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
-      newMatches.forEach(newMatch => newMatch.version = newMatch.version.match(/^(\d+\.\d+)/)?.[1]!);
       for (const newMatch of newMatches) {
         await this.patchService.checkAndGetNewLOLPatchIfNeeded(newMatch.version);
       }
@@ -60,9 +59,7 @@ export class RiotMatchesComponent implements OnChanges {
       url = `${environment.apiURL}tft/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedSet.replace('set-', '')}`;
       const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
       const newMatches: TFTMatch[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
-      newMatches.forEach(newMatch => newMatch.version = newMatch.version.match(/(?<=<Releases\/)(\d+\.\d+)(?=>)/)?.[1]!);
       for (const newMatch of newMatches) {
-        console.log(newMatch)
         await this.patchService.checkAndGetNewTFTPatchIfNeeded(newMatch.version);
       }
       this.matches = this.matches.concat(newMatches);

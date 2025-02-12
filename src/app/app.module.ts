@@ -54,6 +54,7 @@ import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.componen
 import { DestinyCharacterItemFiltersComponent } from './component/destiny/destiny-characters/destiny-character-item-filters/destiny-character-item-filters.component';
 import { RequestButtonComponent } from './ui/request-button/request-button.component';
 import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.component';
+import { DropdownComponent } from './ui/dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.compo
     ToggleSwitchComponent,
     DestinyCharacterItemFiltersComponent,
     RequestButtonComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    DropdownComponent
   ],
     imports: [
         BrowserModule,

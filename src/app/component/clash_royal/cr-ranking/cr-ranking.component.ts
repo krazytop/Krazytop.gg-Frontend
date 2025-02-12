@@ -18,5 +18,4 @@ export class CrRankingComponent {
     return `https://cdn.royaleapi.com/static/img/arenas/512x512/${image}`;
   }
 
-  protected readonly console = console;
 }

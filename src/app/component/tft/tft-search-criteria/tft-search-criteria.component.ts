@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {Router} from "@angular/router";
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 
@@ -7,29 +7,29 @@ import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
   templateUrl: './tft-search-criteria.component.html',
   styleUrls: ['./tft-search-criteria.component.css']
 })
-export class TftSearchCriteriaComponent {
+export class TftSearchCriteriaComponent implements OnChanges {
 
   @Input() summoner!: RIOTSummoner;
   @Input() selectedQueue!: string;
   @Input() selectedSet!: string;
+  @Input() currentSet!: number;
 
   queues: string[] = ['all-queues', 'normal', 'ranked', 'double-up', 'hyper-roll'];
-  sets: string[] = ['set-7', 'set-8', 'set-9', 'set-10', 'set-11', 'set-12', 'set-13', 'set-14'];//TODO metadata dans summoner stocker les set actifs ?
+  sets: string[] = [];
 
   constructor(private router: Router) {
   }
 
-  selectQueue(queue: string) {
-    this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${queue}/${this.selectedSet}`]);
+  ngOnChanges() {
+    const playedSets = this.summoner.playedSeasonsOrSets;
+    if (!playedSets.includes(this.currentSet)) {
+      playedSets.push(this.currentSet)
+    }
+    this.sets = playedSets.map(set => `set-${set}`)
   }
 
-  selectSet(set: string) {
-    this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${this.selectedQueue}/${set}`]);
+  redirect() {
+    this.router.navigate([`/tft/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${this.selectedQueue}/${this.selectedSet}`]);
   }
-
-  formatQueueAndSetName(queue: string) {
-    return queue.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-  }
-
 
 }

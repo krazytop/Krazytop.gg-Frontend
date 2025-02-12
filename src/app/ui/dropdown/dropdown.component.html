@@ -1,0 +1,17 @@
+<div class="custom-dropdown">
+  <div class="dropdown-selected" (click)="toggleDropdown()">
+    <ng-container *ngTemplateOutlet="option; context: { value: selectedValue }"></ng-container>
+    <span class="dropdown-arrow">▼</span>
+  </div>
+
+  <ul *ngIf="dropdownOpen" class="dropdown-options">
+    <li *ngFor="let value of values" (click)="selectValue(value)" class="dropdown-option">
+      <ng-container *ngTemplateOutlet="option; context: { value: value }"></ng-container>
+    </li>
+  </ul>
+</div>
+
+<ng-template  #option let-value="value">
+  <img *ngIf="imageUrl" [src]="imageUrl + value + '.png'" alt="{{ value }}" class="dropdown-img" />
+  {{ formatValue(value) }}
+</ng-template >

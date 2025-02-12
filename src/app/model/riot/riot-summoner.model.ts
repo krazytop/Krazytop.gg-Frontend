@@ -8,6 +8,6 @@ export class RIOTSummoner {
   level?: number;
   icon!: number;
   updateDate?: Date;
-  spentTimeOnLOL!: number;
-  spentTimeOnTFT!: number;
+  spentTime!: number;
+  playedSeasonsOrSets!: number[];
 }

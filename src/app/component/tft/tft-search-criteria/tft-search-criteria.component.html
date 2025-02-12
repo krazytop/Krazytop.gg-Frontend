@@ -1,18 +1,11 @@
 <div class="tab-selectors component">
-  <div class="tab-buttons">
-    <button *ngFor="let queue of queues"
-            (click)="selectQueue(queue)"
-            [routerLink]="['/lol', summoner.region, summoner.tag, summoner.name, queue, selectedSet]"
-            [ngClass]="queue == selectedQueue ? 'tab-selected' : 'tab-not-selected'">
-      <span>{{ formatQueueAndSetName(queue) }}</span>
-    </button>
-  </div>
-
-  <div class="tab-buttons">
-    <button  *ngFor="let set of sets"
-             (click)="selectSet(set)"
-             [ngClass]="set == selectedSet ? 'tab-selected' : 'tab-not-selected'">
-      <div>{{ formatQueueAndSetName(set) }}</div>
-    </button>
-  </div>
+  <dropdown
+    [values]="queues"
+    [selectedValue]="selectedQueue"
+    [imageUrl]="'assets/data/tft/tft-queues/'"
+    (updateEvent)="selectedQueue = $event; redirect()"></dropdown>
+  <dropdown
+    [values]="sets"
+    [selectedValue]="selectedSet"
+    (updateEvent)="selectedSet = $event; redirect()"></dropdown>
 </div>

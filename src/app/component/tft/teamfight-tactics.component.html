@@ -8,7 +8,8 @@
     *ngIf="localSummoner"
     [summoner]="localSummoner"
     [selectedQueue]="selectedQueue"
-    [selectedSet]="selectedSet">
+    [selectedSet]="selectedSet"
+    [currentSet]="this.metadata!.currentTFTSet">
   </tft-search-criteria>
   <div *ngIf="localSummoner" class="game-data">
     <div class="column">

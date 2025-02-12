@@ -15,5 +15,4 @@ export class TftMatchUnitComponent {
   constructor(protected imageService: RIOTImageService) {
   }
 
-  protected readonly console = console;
 }

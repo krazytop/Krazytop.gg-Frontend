@@ -23,7 +23,7 @@
     "@types/color-thief-node": "^1.0.4",
     "angular-oauth2-oidc": "github:manfredsteyer/angular-oauth2-oidc",
     "colorthief": "^2.4.0",
-    "express": "^4.19.2",
+    "express": "5.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

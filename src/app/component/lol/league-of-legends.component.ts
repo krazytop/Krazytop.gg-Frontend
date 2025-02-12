@@ -40,7 +40,7 @@ export class LeagueOfLegendsComponent implements OnInit {
       this.selectedQueue = params['queue'];
       this.selectedRole = params['role'];
       if (this.localSummoner?.name !== this.name || this.localSummoner?.region !== this.region) {
-        const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(this.region, this.tag, this.name);
+        const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(this.region, this.tag, this.name, true);
         this.localSummoner = localSummoner;
         this.remoteSummoner = remoteSummoner
         this.metadata = await this.metadataService.getMetadata();
