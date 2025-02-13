@@ -27,5 +27,4 @@ export class CrCardsComponent {
       });
   }
 
-  protected readonly console = console;
 }

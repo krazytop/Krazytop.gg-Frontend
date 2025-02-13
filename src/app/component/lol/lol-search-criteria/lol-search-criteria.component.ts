@@ -19,16 +19,8 @@ export class LolSearchCriteriaComponent {
   constructor(private router: Router) {
   }
 
-  selectQueue(queue: string) {
-    this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${queue}/${this.selectedRole}`]);
-  }
-
-  selectRole(role: string) {
-    this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${this.selectedQueue}/${role}`]);
-  }
-
-  formatQueueName(queue: string) {
-    return queue.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  redirect() {
+    this.router.navigate([`/lol/${this.summoner.region}/${this.summoner.tag}/${this.summoner.name}/${this.selectedQueue}/${this.selectedRole}`]);
   }
 
 }

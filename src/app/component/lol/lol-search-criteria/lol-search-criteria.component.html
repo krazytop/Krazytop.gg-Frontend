@@ -1,18 +1,12 @@
-<div class="tab-selectors">
-  <div class="tab-buttons">
-    <button *ngFor="let queue of queues"
-            (click)="selectQueue(queue)"
-            [routerLink]="['/lol', summoner.region, summoner.tag, summoner.name, queue, selectedRole]"
-            [ngClass]="queue == selectedQueue ? 'tab-selected' : 'tab-not-selected'">
-      <span>{{ formatQueueName(queue) }}</span>
-    </button>
-  </div>
-
-  <div class="tab-buttons">
-    <button  *ngFor="let role of roles"
-             (click)="selectRole(role)"
-             [ngClass]="role == selectedRole ? 'tab-selected' : 'tab-not-selected'">
-      <img src="assets/data/lol/lol-roles/{{ role }}.png" style="filter: hue-rotate(193deg) saturate(300%)" alt="Role">
-    </button>
-  </div>
+<div class="tab-selectors component">
+  <dropdown
+    [values]="queues"
+    [selectedValue]="selectedQueue"
+    [imageUrl]="'assets/data/lol/lol-queues/'"
+    (updateEvent)="selectedQueue = $event; redirect()"></dropdown>
+  <dropdown
+    [values]="roles"
+    [selectedValue]="selectedRole"
+    [imageUrl]="'assets/data/lol/lol-roles/'"
+    (updateEvent)="selectedRole = $event; redirect()"></dropdown>
 </div>

@@ -1,7 +1,5 @@
-export class LOLAugmentNomenclature {
-  id!: string;
-  name!: string;
-  image!: string;
-  description!: string;
-  dataValues!: Map<string, number>;
+import {LOLNomenclature} from "./lol.nomenclature";
+
+export class LOLAugmentNomenclature extends LOLNomenclature {
+  dataValues!: {[key: string]: number};
 }

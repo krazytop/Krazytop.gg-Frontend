@@ -1,25 +1,26 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
-import {LOLChampion} from "../../../../model/lol/lol-champion.model";
-import {RiotImageService} from "../../../../service/riot/riot-image.service";
+import {RIOTImageService} from "../../../../service/riot/riot-image.service";
 import {LOLMatchService} from "../../../../service/lol/lol-match.service";
+import {RIOTMetadata} from "../../../../model/riot/riot-metadata.model";
 
 @Component({
   selector: 'lol-main-champions',
   templateUrl: './lol-main-champions.component.html',
   styleUrls: ['./lol-main-champions.component.css']
 })
-export class LolMainChampionsComponent implements OnChanges {
+export class LOLMainChampionsComponent implements OnChanges {
 
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
   @Input() matches?: LOLMatch[];
   @Input() version?: string;
+  @Input() metadata!: RIOTMetadata;
 
-  mainChampions: Map<String, LolMainChampionsInterface> = new Map();
+  mainChampions: Map<string, LolMainChampionsInterface> = new Map();
   mainChampionsList: LolMainChampionsInterface[] = [];
 
-  constructor(protected imageService: RiotImageService, private matchService: LOLMatchService) {
+  constructor(protected imageService: RIOTImageService, private matchService: LOLMatchService) {
   }
 
   ngOnChanges() {
@@ -35,7 +36,7 @@ export class LolMainChampionsComponent implements OnChanges {
       .forEach(match => {
         const summonerTeam = this.matchService.getSummonerTeam(match, this.summoner);
         const summonerParticipant = this.matchService.getSummonerParticipant(match, this.summoner);
-        const championResults = this.mainChampions.get(summonerParticipant.champion.id);
+        const championResults = this.mainChampions.get(summonerParticipant.champion);
         if (championResults) {
           championResults.minions += summonerParticipant.minions + summonerParticipant.neutralMinions;
           championResults.kills += summonerParticipant.kills;
@@ -48,7 +49,7 @@ export class LolMainChampionsComponent implements OnChanges {
             championResults.losses ++;
           }
         } else {
-          this.mainChampions.set(summonerParticipant.champion.id,
+          this.mainChampions.set(summonerParticipant.champion,
             {wins: summonerTeam.hasWin ? 1 : 0,
               losses: summonerTeam.hasWin ? 0 : 1,
               minions: summonerParticipant.minions + summonerParticipant.neutralMinions,
@@ -61,6 +62,7 @@ export class LolMainChampionsComponent implements OnChanges {
     });
     this.mainChampionsList =
       Array.from(this.mainChampions.entries())
+        .filter(champion => champion[1].wins + champion[1].losses > 1)
         .sort((a, b) => (b[1].wins + b[1].losses) - (a[1].wins + a[1].losses))
         .slice(0, 5)
         .map(([, value]) => value);
@@ -94,7 +96,7 @@ export class LolMainChampionsComponent implements OnChanges {
 }
 
 interface LolMainChampionsInterface {
-  champion: LOLChampion
+  champion: string
   wins: number;
   losses: number;
   minions: number;

@@ -6,57 +6,63 @@ import {environment} from "../../../environments/environment";
 @Injectable({
   providedIn: 'root',
 })
-export class RiotSummonerService {
+export class RIOTSummonerService {
 
   constructor(private httpRequestService: HTTPRequestService) {
   }
 
-  private async getLocalSummoner(region: string, tag: string, name: string) {
-    const response = await fetch(`${environment.apiURL}riot/summoner/local/${region}/${tag}/${name}`, {headers: HTTPRequestService.getBackendHeaders()});
+  private async getLocalSummoner(region: string, tag: string, name: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/summoner/local/${region}/${tag}/${name}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
-  private async getRemoteSummoner(region: string, tag: string, name: string) {
-    const response = await fetch(`${environment.apiURL}riot/summoner/remote/${region}/${tag}/${name}`, {headers: HTTPRequestService.getBackendHeaders()});
+  private async getRemoteSummoner(region: string, tag: string, name: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/summoner/remote/${region}/${tag}/${name}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
-  public async getSummoner(region: string, tag: string, name: string) {
+  public async getSummoner(region: string, tag: string, name: string, isLOL: boolean) {
     let remoteSummoner: RIOTSummoner | undefined;
-    const localSummoner: RIOTSummoner | undefined = await this.getLocalSummoner(region, tag, name);
+    const localSummoner: RIOTSummoner | undefined = await this.getLocalSummoner(region, tag, name, isLOL);
     if (!localSummoner) {
-      remoteSummoner = await this.getRemoteSummoner(region, tag, name);
+      remoteSummoner = await this.getRemoteSummoner(region, tag, name, isLOL);
     }
     return [localSummoner, remoteSummoner];
   }
 
   public async updateLOLData(summoner: RIOTSummoner) {
-    await this.updateSummoner(summoner);
+    await this.updateLOLSummoner(summoner);
     await this.updateLOLMasteries(summoner);
     await this.updateLOLRanks(summoner);
     await this.updateLOLMatches(summoner);
   }
 
   public async updateTFTData(summoner: RIOTSummoner) {
-    await this.updateSummoner(summoner);
+    await this.updateTFTSummoner(summoner);
     await this.updateTFTRanks(summoner);
     await this.updateTFTMatches(summoner);
   }
 
-  private async updateSummoner(summoner: RIOTSummoner) {
-    const response = await fetch(`${environment.apiURL}riot/summoner/update/${summoner.region}/${summoner.tag}/${summoner.name}`,
+  private async updateLOLSummoner(summoner: RIOTSummoner) {
+    const response = await fetch(`${environment.apiURL}lol/summoner/update/${summoner.region}/${summoner.tag}/${summoner.name}`,
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'})
+    await this.httpRequestService.hasResponse(response);
+  }
+
+  private async updateTFTSummoner(summoner: RIOTSummoner) {
+    const response = await fetch(`${environment.apiURL}tft/summoner/update/${summoner.region}/${summoner.tag}/${summoner.name}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'})
     await this.httpRequestService.hasResponse(response);
   }
 
   private async updateLOLRanks(summoner: RIOTSummoner) {
-    const response = await fetch(`${environment.apiURL}lol/rank/${summoner.id}`,
+    const response = await fetch(`${environment.apiURL}lol/ranks/${summoner.puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }
 
   private async updateTFTRanks(summoner: RIOTSummoner) {
-    const response = await fetch(`${environment.apiURL}tft/rank/${summoner.id}`,
+    const response = await fetch(`${environment.apiURL}tft/ranks/${summoner.puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }

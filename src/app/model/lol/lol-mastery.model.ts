@@ -1,8 +1,11 @@
-import {LOLChampion} from "./lol-champion.model";
-
-export class LolMastery {
+export class LOLMasteries {
   puuid!: string;
+  champions!: LOLMastery[];
+}
+
+export class LOLMastery {
   level!: number;
   points!: number;
-  champion!: LOLChampion;
+  champion!: string;
+  lastPlayTime!: Date;
 }

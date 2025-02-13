@@ -1,7 +1,7 @@
-<div *ngIf="isThisComponentReady && summoner" class="profile">
+<div *ngIf="isThisComponentReady && summoner" class="profile component">
   <div class="profile-icon-level">
     <img alt="Profile icon" class="profile-icon" height="120" width="120"
-         ngSrc="{{ imageService.getProfileIconUrl(summoner.icon) }}"/>
+         ngSrc="{{ imageService.getProfileIconUrl(summoner.icon, metadata.currentPatch) }}"/>
     <h3 class="profile-level">{{ summoner.level }}</h3>
   </div>
   <div class="profile-name-and-update">
@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div *ngIf="isThisComponentReady && !summoner" class="no-profile">
+<div *ngIf="isThisComponentReady && !summoner" class="no-profile component">
   <div *ngIf="!summoner">
     <h1>Sorry, this summoner does not exist ...</h1>
     <img src="assets/logo/oops.png" alt="Oups">

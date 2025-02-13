@@ -1,0 +1,36 @@
+<div class="tft-match background-color-placement-{{ summonerParticipant.placement }}">
+
+  <div class="game-summary">
+    <div class="main-summary">{{ placement }}</div>
+    <div class="complementary-summary">{{ timeService.getStringTimeFromMs(match.datetime) }}</div>
+    <hr>
+    <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.duration) }}</div>
+    <div class="complementary-summary">{{ queueName }}</div>
+  </div>
+
+  <div class="game-traits">
+    <div *ngFor="let column of activeTraits" class="traits-column">
+      <div *ngFor="let trait of column" class="augments-and-traits-containers">
+        <div class="image trait-style-{{ patchService.getTFTTraitNomenclature(matchVersion, trait.id)!.effects[trait.tier - 1].style }}"
+             style="-webkit-mask: url('{{ imageService.getTFTTraitImageUrl(trait.id, matchVersion) }}'); -webkit-mask-size: 100%;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-units">
+    <div *ngFor="let unit of summonerParticipant.units" class="units">
+      <tft-match-unit [unit]="unit" [matchVersion]="matchVersion"></tft-match-unit>
+    </div>
+  </div>
+
+  <div class="game-augments">
+    <div *ngFor="let augment of summonerParticipant.augments" class="augments-and-traits-containers">
+      <img class="image" [src]="imageService.getTFTAugmentImageUrl(augment, matchVersion)" alt="Augment Icon">
+    </div>
+  </div>
+
+  <div (click)="toggleShowAllMatchData()" class="all-game-stats-button">
+    <div [ngClass]="{'arrow-down': !allDataIsDisplayed, 'arrow-up': allDataIsDisplayed}" class="arrow-up"></div>
+  </div>
+</div>

@@ -1,11 +1,11 @@
-<div class="subcomponent-list">
+<div class="subcomponent-list component">
   <span class="component-title">Main Masteries</span>
   <div class="small-subcomponent-list">
-    <div class="mastery small-subcomponent" *ngFor="let mastery of masteries">
+    <div class="mastery small-subcomponent" *ngFor="let mastery of masteries?.champions">
       <div class="champion-box">
-        <img src="{{ imageService.getChampionImageUrl(mastery.champion) }}" alt="Champion">
+        <img src="{{ imageService.getLOLChampionImageUrl(mastery.champion, metadata.currentPatch) }}" alt="Champion">
       </div>
-      <div>{{ mastery.champion.name }}</div>
+      <div>{{ patchService.getLOLChampionNomenclature(metadata.currentPatch, mastery.champion)?.name }}</div>
       <div class="mastery-box">
         <img src="assets/data/lol/lol-masteries/mastery-{{ Math.min(mastery.level, 10) }}.png" alt="Mastery">
         <div class="mastery-level">{{ mastery.level }}</div>

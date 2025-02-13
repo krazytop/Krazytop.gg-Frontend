@@ -1,0 +1,28 @@
+<div class="component subcomponent-list">
+  <div class="rank-container" *ngFor="let metadataRank of metadata.allRanks">
+    <div class="rank-title">{{ metadataRank.name }}</div>
+    <hr>
+    <div class="dual-column-rank-content" *ngIf="getRank(metadataRank.id)?.rankInformations?.at(-1) as rank">
+      <div class="rank-content">
+        <div class="rank-image-container">
+          <img class="rank-image" src="assets/data/tft/tft-ranks/TFT_Regalia_{{ rank.tier }}.png" alt="Rank">
+        </div>
+      </div>
+      <div class="rank-content rank-information">
+        <div>{{ rank.tier }} {{ rank.rank }}</div>
+        <div>{{ rank.leaguePoints }} LP</div>
+        <div>{{ rank.wins}}W / {{ rank.losses}}L</div>
+      </div>
+    </div>
+    <div class="dual-column-rank-content" *ngIf="!getRank(metadataRank.id)?.rankInformations?.at(-1)">
+      <div class="rank-content">
+        <div class="rank-image-container">
+          <img class="rank-image unranked-image" src="assets/data/tft/tft-ranks/TFT_Regalia_Provisional.png" alt="Solo Unranked">
+        </div>
+      </div>
+      <div class="rank-content rank-information">
+        <div>Unranked</div>
+      </div>
+    </div>
+  </div>
+</div>

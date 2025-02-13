@@ -1,4 +1,4 @@
-<div class="subcomponent-list">
+<div class="subcomponent-list component">
   <span class="component-title">Main Champions</span>
   <div *ngIf="!matches" class="no-matches-played-container">
     <img src="assets/logo/loading.gif" alt="Loading">
@@ -10,7 +10,7 @@
     <div *ngIf="matches.length > 0" class="small-subcomponent-list">
       <div *ngFor="let championResults of mainChampionsList" class="results small-subcomponent">
         <div class="champion-box">
-          <img src="{{ imageService.getChampionImageUrl(championResults.champion) }}" alt="Champion">
+          <img src="{{ imageService.getLOLChampionImageUrl(championResults.champion, metadata.currentPatch) }}" alt="Champion">
         </div>
         <div class="bar">
           <div class="defeats-bar background-color-defeat">

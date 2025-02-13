@@ -28,7 +28,8 @@
               "src/styles.css",
               "src/profile.css",
               "src/tab-selectors.css",
-              "src/ranking.css"
+              "src/ranking.css",
+              "src/component.css"
             ],
             "scripts": []
           },

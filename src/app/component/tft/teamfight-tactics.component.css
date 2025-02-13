@@ -1,15 +1,3 @@
-.tft-ranking {
-  grid-column: 1;
-}
-
-.tft-matches {
-  grid-column: 2;
-}
-
-.tft-latest-matches-placement {
-  grid-column: 3;
-}
-
 .background-color-placement-1 {
   background-color: #987c1e;
 }

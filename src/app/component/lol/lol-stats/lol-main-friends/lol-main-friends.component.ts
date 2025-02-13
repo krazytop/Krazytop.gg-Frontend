@@ -1,23 +1,25 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
-import {RiotImageService} from "../../../../service/riot/riot-image.service";
+import {RIOTImageService} from "../../../../service/riot/riot-image.service";
 import {LOLMatchService} from "../../../../service/lol/lol-match.service";
+import {RIOTMetadata} from "../../../../model/riot/riot-metadata.model";
 
 @Component({
   selector: 'lol-main-friends',
   templateUrl: './lol-main-friends.component.html',
   styleUrls: ['./lol-main-friends.component.css']
 })
-export class LolMainFriendsComponent implements OnChanges {
+export class LOLMainFriendsComponent implements OnChanges {
 
   @Input() summoner: RIOTSummoner = new RIOTSummoner();
   @Input() matches: LOLMatch[] | undefined;
+  @Input() metadata!: RIOTMetadata;
 
-  mainFriends: Map<String, LolMainFriendsInterface> = new Map();
+  mainFriends: Map<string, LolMainFriendsInterface> = new Map();
   mainFriendsList: LolMainFriendsInterface[] = [];
 
-  constructor(protected imageService: RiotImageService, protected matchService: LOLMatchService) {
+  constructor(protected imageService: RIOTImageService, protected matchService: LOLMatchService) {
   }
 
   ngOnChanges() {

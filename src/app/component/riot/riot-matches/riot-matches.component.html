@@ -1,0 +1,19 @@
+<div *ngIf="!isThisComponentReady" class="no-matches-played-container component">
+  <div class="nothing-to-show-message">Retrieval matches&nbsp;&nbsp;</div>
+  <img src="assets/logo/loading.gif" alt="Loading">
+</div>
+<ng-container *ngIf="isThisComponentReady">
+  <div *ngIf="totalMatchesCount === 0" class="no-matches-played-container component">
+    <div class="nothing-to-show-message">No matches played</div>
+  </div>
+  <div class="subcomponent-list component" *ngIf="isThisComponentReady">
+    <ng-container *ngFor="let match of matches">
+      <lol-match *ngIf="isLOLMatches" [match]="match" [summoner]="summoner"></lol-match>
+      <tft-match *ngIf="!isLOLMatches" [match]="match" [summoner]="summoner"></tft-match>
+    </ng-container>
+    <button *ngIf="matches.length < this.totalMatchesCount" (click)="getMatches()" class="tab-not-selected" style="max-width: 100%" id="more-matches-button">
+      Show more matches
+      <img id="more-matches-loading-gif" src="assets/logo/loading.gif" alt="Loading" hidden>
+    </button>
+  </div>
+</ng-container>

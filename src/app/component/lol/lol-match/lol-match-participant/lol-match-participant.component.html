@@ -1,0 +1,63 @@
+<div class="lol-match-participant"
+     [ngStyle]="{'background-color':
+     remake ? (participant.summoner.puuid === summoner.puuid ? '#3a3a3a' : '#4f4f4f') :
+                 hasWin ? (participant.summoner.puuid === summoner.puuid ? '#002349' : '#004281') :
+                 (participant.summoner.puuid === summoner.puuid ? '#3f0000' : '#770000')}">
+  <div class="participant-main-information">
+    <div class="champion">
+      <div class="champion-box">
+        <img src="{{ imageService.getLOLChampionImageUrl(participant.champion, matchVersion) }}" alt="Champion">
+      </div>
+      <div style="align-self: flex-start;">
+        <h4 class="champion-level">{{ participant.champLevel }}</h4>
+      </div>
+
+    </div>
+    <div class="summoners-runes-augments" *ngIf="participant.summonerSpell1">
+      <img src="{{ imageService.getLOLSpellImageUrl(participant.summonerSpell1, matchVersion) }}" alt="Summoner Spell">
+      <img src="{{ imageService.getLOLSpellImageUrl(participant.summonerSpell2, matchVersion) }}" alt="Summoner Spell">
+    </div>
+    <div class="summoners-runes-augments" *ngIf="participant.runes">
+      <img src="{{ imageService.getLOLRunePerkImageUrl(participant.runes.runeCategories[0]!.perks[0], matchVersion) }}" alt="Rune">
+      <img src="{{ imageService.getLOLRuneCategoryImageUrl(participant.runes.runeCategories[1]!.style, matchVersion) }}" alt="Rune">
+    </div>
+    <div class="summoners-runes-augments" *ngIf="participant.augment1">
+      <img src="{{ imageService.getLOLAugmentImageUrl(participant.augment1, matchVersion) }}" alt="Augment">
+      <img src="{{ imageService.getLOLAugmentImageUrl(participant.augment2, matchVersion) }}" alt="Augment">
+    </div>
+    <div class="summoners-runes-augments" *ngIf="participant.augment1">
+      <img src="{{ imageService.getLOLAugmentImageUrl(participant.augment3, matchVersion) }}" alt="Augment">
+      <img src="{{ imageService.getLOLAugmentImageUrl(participant.augment4, matchVersion) }}" alt="Augment">
+    </div>
+  </div>
+  <div class="summoner-name-box">
+    <div *ngIf="participant.summoner.puuid === summoner.puuid" title="{{ participant.summoner.name }}">
+      <span style="color: white; font-weight: bold">{{ participant.summoner.name }}</span>
+    </div>
+    <a *ngIf="participant.summoner.puuid !== summoner.puuid" [routerLink]="['/lol', summoner.region, participant.summoner.tag, participant.summoner.name, 'all-queues', 'all-roles']" class="other-summoner-name" title="{{ participant.summoner.name }}">
+      <span>{{ participant.summoner.name }}</span>
+    </a>
+  </div>
+  <div>
+    <div class="scores">{{ participant.kills }} / {{ participant.deaths }} / {{ participant.assists }}</div>
+    <div class="minors-stats">{{ getKDA() }} KDA</div>
+  </div>
+  <div class="damage">
+    <div>{{ formatService.formatByThousands(damage) }}</div>
+    <div class="damage-bar">
+      <div class="participant-damage" [style.width.%]="(damage/topDamage*100 < 0.1 && damage/topDamage*100 != 0) ? 10 : damage/topDamage*100"></div>
+    </div>
+  </div>
+  <div class="scores">{{ getGolds() }}</div>
+  <div class="scores">{{ participant.minions + participant.neutralMinions }}</div>
+  <div class="scores">{{ participant.visionScore }}</div>
+  <div class="items">
+    <img src="{{ imageService.getLOLItemImageUrl(participant.item0, matchVersion) }}" alt="Item">
+    <img src="{{ imageService.getLOLItemImageUrl(participant.item1, matchVersion) }}" alt="Item">
+    <img src="{{ imageService.getLOLItemImageUrl(participant.item2, matchVersion) }}" alt="Item">
+    <img src="{{ imageService.getLOLItemImageUrl(participant.item3, matchVersion) }}" alt="Item">
+    <img src="{{ imageService.getLOLItemImageUrl(participant.item4, matchVersion) }}" alt="Item">
+    <img src="{{ imageService.getLOLItemImageUrl(participant.item5, matchVersion) }}" alt="Item">
+    <img src="{{ imageService.getLOLItemImageUrl(participant.ward, matchVersion) }}" alt="Item">
+  </div>
+</div>

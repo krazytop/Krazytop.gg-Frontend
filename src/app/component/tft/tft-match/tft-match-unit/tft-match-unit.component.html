@@ -1,0 +1,23 @@
+<div *ngIf="unit.tier === 1" class="stars">
+  <span class="bronze-star">&#9733;</span>
+</div>
+<div *ngIf="unit.tier === 2" class="stars">
+  <span class="silver-star">&#9733;&#9733;</span>
+</div>
+<div *ngIf="unit.tier === 3" class="stars">
+  <span class="gold-star">&#9733;&#9733;&#9733;</span>
+</div>
+<div *ngIf="unit.tier === 4" class="stars">
+  <span class="legendary-star">&#9733;&#9733;&#9733;&#9733;</span>
+</div>
+
+<div class="units-container">
+  <div class="unit-bg rarity-{{ unit.rarity }}"></div>
+  <img [alt]="" class="unit-img" [src]="imageService.getTFTUnitImageUrl(unit.id, matchVersion)" (error)="imageService.fixTFTUnitImage($event)">
+</div>
+
+<div class="items-container">
+  <div *ngFor="let item of unit.items">
+    <img [alt]="" class="item-image" [src]="imageService.getTFTItemImageUrl(item, matchVersion)">
+  </div>
+</div>

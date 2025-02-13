@@ -1,9 +1,10 @@
 <div *ngIf="isThisComponentReady" class="game-component">
-  <riot-summoner class="component"
+  <riot-summoner
     [localSummoner]="localSummoner"
-    [remoteSummoner]="remoteSummoner">
+    [remoteSummoner]="remoteSummoner"
+    [metadata]="metadata!">
   </riot-summoner>
-  <lol-search-criteria class="component"
+  <lol-search-criteria
     *ngIf="localSummoner"
     [summoner]="localSummoner"
     [selectedQueue]="selectedQueue"
@@ -11,31 +12,35 @@
   </lol-search-criteria>
   <div *ngIf="localSummoner" class="game-data">
     <div class="column">
-      <lol-ranking class="component"
-        [summoner]="localSummoner">
-      </lol-ranking>
-      <lol-main-masteries class="component"
-        [summoner]="localSummoner">
+      <riot-ranking
+        [summoner]="localSummoner"
+        [metadata]="metadata!">
+      </riot-ranking>
+      <lol-main-masteries
+        [summoner]="localSummoner"
+        [metadata]="metadata!">
       </lol-main-masteries>
     </div>
-    <lol-matches class="component"
+    <riot-matches
       [selectedQueue]="selectedQueue"
       [selectedRole]="selectedRole"
       [summoner]="localSummoner"
       (matchesUpdateEvent)="matches = $event">
-    </lol-matches>
+    </riot-matches>
     <div class="column">
-      <lol-latest-matches-placement class="component"
+      <lol-latest-matches-placement
         [summoner]="localSummoner"
-        [matches]="matches">
+        [matches]="lolMatches">
       </lol-latest-matches-placement>
-      <lol-main-champions class="component"
+      <lol-main-champions
         [summoner]="localSummoner"
-        [matches]="matches">
+        [matches]="lolMatches"
+        [metadata]="metadata!">
       </lol-main-champions>
-      <lol-main-friends class="component"
+      <lol-main-friends
         [summoner]="localSummoner"
-        [matches]="matches">
+        [matches]="lolMatches"
+        [metadata]="metadata!">
       </lol-main-friends>
     </div>
   </div>

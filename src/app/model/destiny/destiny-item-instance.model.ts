@@ -12,6 +12,6 @@ export class DestinyItemInstanceModel {
   isEquipped!: boolean;
   itemLevel!: number;
   quality!: number;
-  primaryStat!: DestinyPrimaryStatModel;
+  primaryStat?: DestinyPrimaryStatModel;
   unlockHashesRequiredToEquip!: number[];
 }

@@ -1,12 +1,7 @@
-import {LOLQueue} from "./lol-queue.model";
 import {LOLTeam} from "./lol-team.model";
+import {RIOTMatch} from "../riot/riot-match.model";
 
-export class LOLMatch {
-  id!: string;
-  version!: string;
-  datetime!: number;
-  duration!: number;
-  queue!: LOLQueue;
+export class LOLMatch extends RIOTMatch {
   teams!: LOLTeam[];
   remake!: boolean
 }

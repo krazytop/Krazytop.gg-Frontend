@@ -1,10 +1,11 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
-import {RiotSummonerService} from "../../../service/riot/riot-summoner.service";
+import {RIOTSummonerService} from "../../../service/riot/riot-summoner.service";
 import {ActivatedRoute} from "@angular/router";
-import {RiotImageService} from "../../../service/riot/riot-image.service";
+import {RIOTImageService} from "../../../service/riot/riot-image.service";
 import {TimeService} from "../../../service/time.service";
 import {environment} from "../../../../environments/environment";
+import {RIOTMetadata} from "../../../model/riot/riot-metadata.model";
 
 @Component({
   selector: 'riot-summoner',
@@ -15,13 +16,14 @@ export class RiotSummonerComponent implements OnChanges {
 
   @Input() localSummoner: RIOTSummoner | undefined;
   @Input() remoteSummoner: RIOTSummoner | undefined;
+  @Input() metadata!: RIOTMetadata;
 
   isThisComponentReady: boolean = false;
   summoner: RIOTSummoner | undefined;
   nextAllowedUpdate: number = 0;
   currentlyUpdating = false;
 
-  constructor(private summonerService: RiotSummonerService, private route: ActivatedRoute, protected imageService: RiotImageService, protected timeService: TimeService) {
+  constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, protected imageService: RIOTImageService, protected timeService: TimeService) {
   }
 
   ngOnChanges(): void {
