@@ -2,18 +2,19 @@ import {DestinyCharacterModel} from "./destiny-character.model";
 import {DestinyCharacterInventoryModel} from "./destiny-character-inventory.model";
 import {DestinyItemInstanceModel} from "./destiny-item-instance.model";
 import {DestinyItemModel} from "./destiny-item.model";
-import {DestinyObjectiveProgressModel} from "./destiny-objective-progress.model";
-import {DestinyPresentationTreeNomenclature} from "./destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "./destiny-node-progression.model";
 import {DestinyLinkedProfilesModel} from "./destiny-linked-profiles.model";
+import {DestinyCollectibleModel} from "./destiny-collectible.model";
 
-export class DestinyProfileModel {
+export class DestinyProfileModel {//TODO map les characters
   linkedProfiles: DestinyLinkedProfilesModel[] = [];
   characters: DestinyCharacterModel[] = [];
   characterInventories: DestinyCharacterInventoryModel[] = [];
+  profileInventory: DestinyItemModel[] = [];
   characterEquipment: DestinyCharacterInventoryModel[] = [];
+  characterCollectibles: Map<number, Map<number, DestinyCollectibleModel>> = new Map();
+  profileCollectibles: Map<number, DestinyCollectibleModel> = new Map();
   itemInstances: Map<number, DestinyItemInstanceModel> = new Map();
   presentationNodeProgress: Map<number, DestinyNodeProgressionModel> = new Map();
   profileCurrencies: DestinyItemModel[] = [];
-  profileInventory: DestinyItemModel[] = [];
 }

@@ -1,27 +1,32 @@
-import {Component, Input, OnChanges} from '@angular/core';
-import {DestinyPresentationTreeNomenclature} from "../../../../model/destiny/destiny-presentation-tree.model";
+import {Component, Input} from '@angular/core';
+import {DestinyPresentationTreeModel} from "../../../../model/destiny/destiny-presentation-tree.model";
 import {DestinyComponent} from "../../destiny.component";
 import {DestinyNodeProgressionModel} from "../../../../model/destiny/destiny-node-progression.model";
 import {isRecordComplete} from "../../destiny-record/destiny-record.component";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'destiny-title',
   templateUrl: './destiny-title.component.html',
   styleUrls: ['./destiny-title.component.css', '../../destiny-record/destiny-record.component.css']
 })
-export class DestinyTitleComponent implements OnChanges {
+export class DestinyTitleComponent {
 
-  @Input() title!: DestinyPresentationTreeNomenclature;
+  @Input() title!: DestinyPresentationTreeModel;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
 
-  titleNodeProgress?: DestinyNodeProgressionModel
+  constructor(private router: Router, private route: ActivatedRoute) {
+  }
 
-  ngOnChanges() {
-    this.titleNodeProgress = this.presentationNodeProgress.get(this.title.hash);
+  redirectToTitlesList() {
+    this.route.params.subscribe(params => {
+      this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/titles`]);
+    });
   }
 
   isTitleComplete(): boolean {
-    return this.titleNodeProgress?.progressValue! >= this.titleNodeProgress?.completionValue!;
+    const presentationNodeProgress = this.presentationNodeProgress.get(this.title.hash)!;
+    return presentationNodeProgress.progressValue! >= presentationNodeProgress.completionValue!;
   }
 
   protected readonly DestinyComponent = DestinyComponent;

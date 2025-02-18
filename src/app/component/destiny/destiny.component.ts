@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {BungieAuthService} from "./bungie-authentification/bungie-auth.service";
+import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
 import {Subject} from "rxjs";
 import {DestinyProfileModel} from "../../model/destiny/destiny-profile.model";
 import {DestinyCharacterInventoryModel} from "../../model/destiny/destiny-character-inventory.model";
@@ -8,7 +8,7 @@ import {DestinyItemInstanceModel} from "../../model/destiny/destiny-item-instanc
 import {DestinyItemModel} from "../../model/destiny/destiny-item.model";
 import {DestinyLinkedProfilesModel} from "../../model/destiny/destiny-linked-profiles.model";
 import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
-import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../model/destiny/destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-progression.model";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {DestinyNomenclatureService} from "../../service/destiny/destiny-nomenclature.service";
@@ -16,19 +16,19 @@ import {DestinyComponentArgs} from "../../model/destiny/destiny-component-args";
 import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-presentation-trees.model";
 import {DestinyDatabaseUpdateService} from "../../service/destiny/destiny-database-update.service";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
+import {DestinyCollectibleModel} from "../../model/destiny/destiny-collectible.model";
 
 @Component({
   selector: 'destiny',
   templateUrl: './destiny.component.html',
   styleUrls: ['./destiny.component.css']
 })
-export class DestinyComponent implements OnInit, OnDestroy {
+export class DestinyComponent implements OnInit, OnDestroy { //TODO progression bar models & catalysts must use space-between + margin left & right
 
   componentToShow: string | undefined;
   isThisComponentReady: boolean = false;
   isFirstDisplay: boolean = true;
   requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
-  lastUpdate: Date = new Date();
   isDatabaseUpToDate = false;
 
   componentArgs: DestinyComponentArgs = new DestinyComponentArgs();
@@ -41,7 +41,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
 
   public static readonly ASSET_URL: string = "https://www.bungie.net";
 
-  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService) {}
+  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService, private changeDetectorRef: ChangeDetectorRef) {}
 
   private platform?: number;
   private membership?: string;
@@ -83,9 +83,9 @@ export class DestinyComponent implements OnInit, OnDestroy {
 
   async manageAllRequest(platform: number, membership: string) {
     await this.getLinkedProfile(platform, membership);
-    this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile);
     this.characterTitleNomenclatures = await this.nomenclatureService.getRecordNomenclatures(this.profile.characters.map(character => character.titleRecordHash));
     this.presentationTrees = await this.nomenclatureService.getPresentationTreesNomenclatures();
+    this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile, this.presentationTrees);
     this.vendorGroups = await this.getVendors(this.platform!, this.membership!, this.profile.characters[0].characterId)
     this.manageComponentArgs();
     this.isThisComponentReady = true;
@@ -94,6 +94,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   manageComponentArgs() {
     this.route.queryParams.subscribe(params => {
       if(this.componentToShow === 'titles') this.setSelectedTitle(Number(params['hash'])); //TODO ne pas set mais directement get dans l'argument du composant
+      if(this.componentToShow === 'badges') this.setSelectedBadge(Number(params['hash']));
     });
   }
 
@@ -108,7 +109,7 @@ export class DestinyComponent implements OnInit, OnDestroy {
   }
 
   async getProfile(platform: number, membership: string) {
-    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,700,900`, {headers: this.bungieAuthService.getHeaders()})
+    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,700,800,900`, {headers: this.bungieAuthService.getHeaders()})
     const json = await response.json();
     const destinyProfile: DestinyProfileModel = new DestinyProfileModel();
     destinyProfile.characters = Object.values(json['Response']['characters']['data']);
@@ -116,12 +117,17 @@ export class DestinyComponent implements OnInit, OnDestroy {
     destinyProfile.profileInventory = Object.values(json['Response']['profileInventory']['data']['items']);
     destinyProfile.characterInventories = Object.entries(json['Response']['characterInventories']['data'])
       .map(([characterHash, items]) => {
-        return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
+        return {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
       });
     destinyProfile.characterEquipment = Object.entries(json['Response']['characterEquipment']['data'])
       .map(([characterHash, items]) => {
-        return  {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
+        return {characterHash: characterHash, items: (items as { [items: string]:DestinyItemModel[] })['items']} as DestinyCharacterInventoryModel;
       });
+    Object.entries(json['Response']['characterCollectibles']['data'])
+      .map(([characterHash, collectibles]) => {
+        destinyProfile.characterCollectibles.set(Number(characterHash), (collectibles as any)['collectibles'] as Map<number, DestinyCollectibleModel>)
+      });
+    destinyProfile.profileCollectibles = json['Response']['profileCollectibles']['data']['collectibles'];
     Object.entries(json['Response']['itemComponents']['instances']['data'])
       .forEach(([itemHash, item]) => {
         destinyProfile.itemInstances.set(Number(itemHash), item as DestinyItemInstanceModel);
@@ -146,12 +152,22 @@ export class DestinyComponent implements OnInit, OnDestroy {
   }
 
   setSelectedTitle(hash: number) {
-    const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.titles?.childrenNode
+    const selectedTitle: DestinyPresentationTreeModel | undefined = this.presentationTrees.titles.childrenNode
       .find(title => title.hash === hash)
     this.componentArgs.selectedTitle = selectedTitle;
     if (selectedTitle === undefined) {
       const params = this.route.snapshot.paramMap;
       this.router.navigate([`/destiny/${params.get('platform')}/${params.get('membership')}/${params.get('character')}/titles`]);
+    }
+  }
+
+  setSelectedBadge(hash: number) {
+    const selectedBadge: DestinyPresentationTreeModel | undefined = this.presentationTrees.badges.childrenNode
+      .find(badge => badge.hash === hash)
+    this.componentArgs.selectedBadge = selectedBadge;
+    if (selectedBadge === undefined) {
+      const params = this.route.snapshot.paramMap;
+      this.router.navigate([`/destiny/${params.get('platform')}/${params.get('membership')}/${params.get('character')}/badges`]);
     }
   }
 
@@ -186,4 +202,6 @@ export class DestinyComponent implements OnInit, OnDestroy {
     this.requestDataRefreshing.unsubscribe();
   }
 
+  protected readonly console = console
+  protected readonly Math = Math;
 }

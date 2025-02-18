@@ -1,10 +1,11 @@
-import {DestinyPresentationTreeNomenclature} from "./destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "./destiny-presentation-tree.model";
 
 export class DestinyPresentationTreesModel {
-  titles?: DestinyPresentationTreeNomenclature;
-  archivedTitles?: DestinyPresentationTreeNomenclature;
-  catalysts?: DestinyPresentationTreeNomenclature;
-  kineticWeaponModels?: DestinyPresentationTreeNomenclature;
-  energyWeaponModels?: DestinyPresentationTreeNomenclature;
-  powerWeaponModels?: DestinyPresentationTreeNomenclature;
+  titles!: DestinyPresentationTreeModel;
+  archivedTitles!: DestinyPresentationTreeModel;
+  catalysts!: DestinyPresentationTreeModel;
+  kineticWeaponModels!: DestinyPresentationTreeModel;
+  energyWeaponModels!: DestinyPresentationTreeModel;
+  powerWeaponModels!: DestinyPresentationTreeModel;
+  badges!: DestinyPresentationTreeModel;
 }

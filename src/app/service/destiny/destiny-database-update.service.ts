@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {BungieAuthService} from "../../component/destiny/bungie-authentification/bungie-auth.service";
+import {BungieAuthService} from "./bungie-auth.service";
 import {DestinyDatabaseApi} from "./destiny-database.api";
 import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {DestinyObjectiveNomenclature} from "../../model/destiny/nomenclature/destiny-objective.nomenclature";
@@ -9,7 +9,7 @@ import {DestinyProgressionNomenclature} from "../../model/destiny/nomenclature/d
 import {DestinyProgressionStepModel} from "../../model/destiny/destiny-progression-step.model";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {getAllPresentationTrees} from "../../model/destiny/enum/DestinyPresentationTreeEnum";
-import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../model/destiny/destiny-presentation-tree.model";
 import {DestinyPresentationNodeNomenclature} from "../../model/destiny/nomenclature/destiny-presentation-node.nomenclature";
 import {DestinyVendorNomenclature} from "../../model/destiny/nomenclature/destiny-vendor.nomenclature";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
@@ -24,7 +24,6 @@ export class DestinyDatabaseUpdateService {
   }
 
   async manageDatabase(): Promise<void> {
-    console.log("manage database");
     const manifest = await this.downloadJson("/Platform/Destiny2/Manifest", true);
     const manifestVersion: string = manifest.get('Response')['version'];
     if (await this.checkIfDatabaseNeedToBeUpdate(manifestVersion)) {
@@ -33,7 +32,6 @@ export class DestinyDatabaseUpdateService {
     } else {
       await this.databaseApi.initDb(false);
     }
-    console.log("database is ready");
   }
 
   async checkIfDatabaseNeedToBeUpdate(manifestVersion: string): Promise<boolean> {
@@ -42,7 +40,7 @@ export class DestinyDatabaseUpdateService {
   }
 
   async updateDatabase(definitions: any, manifestVersion: string) {
-    console.log("update database")
+    console.log("Destiny database is updating")
     const objectives = await this.updateObjectives(definitions['DestinyObjectiveDefinition']);
     const presentationNodes = await this.updatePresentationNodes(definitions['DestinyPresentationNodeDefinition']);
     const collectibles = await this.updateCollectibles(definitions['DestinyCollectibleDefinition']);
@@ -175,7 +173,12 @@ export class DestinyDatabaseUpdateService {
       collectibleNomenclature.hash = Number(entryData["hash"]);
       collectibleNomenclature.sourceString = String(entryData["sourceString"]);
       collectibleNomenclature.sourceHash = Number(entryData["sourceHash"]);
+      collectibleNomenclature.itemHash = Number(entryData["itemHash"]);
       collectibleNomenclature.nodeType = Number(entryData["presentationNodeType"]);
+      const displayProperties = entryData["displayProperties"];
+      collectibleNomenclature.icon = String(displayProperties["icon"]);
+      collectibleNomenclature.name = String(displayProperties["name"]);
+      collectibleNomenclature.description = String(displayProperties["description"]);
       collectibleNomenclatures.set(Number(key), collectibleNomenclature);
     }
     console.log(`${collectibleNomenclatures.size} collectibles added`)
@@ -322,7 +325,7 @@ export class DestinyDatabaseUpdateService {
 
   private buildPresentationTree(treeHash: number, collectibles: Map<number,DestinyCollectibleNomenclature>, metrics: Map<number,DestinyMetricNomenclature>, objectives: Map<number,DestinyObjectiveNomenclature>, records: Map<number,DestinyRecordNomenclature>, presentationNodes: Map<number,DestinyPresentationNodeNomenclature>) {
     const node: DestinyPresentationNodeNomenclature = presentationNodes.get(treeHash)!;
-    const tree: DestinyPresentationTreeNomenclature = new DestinyPresentationTreeNomenclature();
+    const tree: DestinyPresentationTreeModel = new DestinyPresentationTreeModel();
     tree.hash = node.hash;
     tree.name = node.name;
     tree.nodeType = node.nodeType;

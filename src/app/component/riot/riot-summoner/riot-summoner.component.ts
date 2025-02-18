@@ -49,4 +49,5 @@ export class RiotSummonerComponent implements OnChanges {
   }
 
   protected readonly Date = Date;
+  protected readonly console = console;
 }

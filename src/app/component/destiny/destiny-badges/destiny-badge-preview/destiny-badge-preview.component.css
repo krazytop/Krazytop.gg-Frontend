@@ -1,0 +1,61 @@
+.badge {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  height: calc(100% - 40px);
+  opacity: 40%;
+}
+
+.badge-image {
+  border-radius: 10px;
+  width: 100%;
+  filter: grayscale(100%);
+}
+
+.characters {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.character {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+
+  img {
+    max-height: 15px;
+    max-width: 20px;
+    width: fit-content;
+    filter: invert(70%);
+  }
+}
+
+.icon-completed {
+  box-shadow: 0 0 9px 3px rgba(0,0,0,0.75);
+  filter: grayscale(0);
+}
+
+.fully-completed {
+  background-color: #BDAB6D33;
+  border: 2px solid #93884c;
+  height: calc(100% - 44px);
+  opacity: 100%;
+}
+
+.partially-completed {
+  border: 2px solid #8e8e8e;
+  height: calc(100% - 44px);
+  opacity: 100%;
+}
+
+.big-badge-name {
+  color: white;
+  font-size: 30px;
+  text-align: center;
+}

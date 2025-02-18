@@ -4,7 +4,7 @@ import {DestinyItemInstanceModel} from "../../../model/destiny/destiny-item-inst
 import {DestinyItemNomenclature} from "../../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
-import {BungieAuthService} from "../bungie-authentification/bungie-auth.service";
+import {BungieAuthService} from "../../../service/destiny/bungie-auth.service";
 import {AlertService} from "../../alert/alert.service";
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {
@@ -17,10 +17,11 @@ import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-re
 import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
-import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../../model/destiny/destiny-presentation-tree.model";
 import { DestinyRecordNomenclature } from '../../../model/destiny/nomenclature/destiny-record.nomenclature';
 import {DestinyCharacterItemFiltersService} from "../../../service/destiny/destiny-character-item-filters.service";
 import {DestinyComponent} from "../destiny.component";
+import {DestinyDatabaseApi} from "../../../service/destiny/destiny-database.api";
 
 @Component({
   selector: 'destiny-characters',
@@ -36,15 +37,15 @@ export class DestinyCharactersComponent implements OnChanges {
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>;
-  @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
-  @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
-  @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
+  @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
+  @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
 
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
   allItems: DestinyItemModel[] = [];
   allCraftedWeaponRecords: DestinyRecordNomenclature[] = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService, protected destinyComponent: DestinyComponent) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService, protected destinyComponent: DestinyComponent, private databaseApi: DestinyDatabaseApi) {
   }
 
   ngOnChanges(): void {
@@ -57,9 +58,10 @@ export class DestinyCharactersComponent implements OnChanges {
     this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
   }
 
-  shouldItemBeDisplayed(item: DestinyItemModel) {
+  async shouldItemBeDisplayed(item: DestinyItemModel) {
     const isItemDuplicated = this.allItems.filter(i => i.itemHash === item.itemHash).length > 1;
     const itemName = this.itemNomenclatures.get(item.itemHash)!.name;
+    //const itemName = (await this.databaseApi.getItemNomenclature(item.itemHash))!.name;
     const itemCraftedRecord = this.allCraftedWeaponRecords.find(record => record.name === itemName);
     return this.characterItemFiltersService.shouldItemBeDisplayed(item, itemCraftedRecord, isItemDuplicated);
   }

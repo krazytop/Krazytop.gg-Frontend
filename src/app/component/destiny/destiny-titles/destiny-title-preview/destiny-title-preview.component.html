@@ -1,0 +1,14 @@
+<div [ngClass]="isTitleComplete(title) ? 'completed' : 'none'" class="subcomponent title">
+  <div class="badge-image-container">
+    <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'">
+  </div>
+  <br *ngIf="showDetails">
+  <div [ngClass]="showDetails ? 'big-title-name' : 'subcomponent-title'">{{ title.name }}</div>
+  <br *ngIf="showDetails">
+  <div class="subcomponent-title" *ngIf="showDetails">{{ title.description }}</div>
+  <br *ngIf="showDetails">
+  <progress-bar
+    [completionValue]="presentationNodeProgress.get(title.hash)!.completionValue!"
+    [progressValue]="presentationNodeProgress.get(title.hash)!.progressValue!">
+  </progress-bar>
+</div>

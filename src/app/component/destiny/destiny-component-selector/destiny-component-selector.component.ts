@@ -10,6 +10,7 @@ export class DestinyComponentSelectorComponent implements OnInit {
 
   static vendors: string = 'vendors';
   static collections: string = 'collections';
+  static badges: string = 'badges';
   static titles: string = 'titles';
   static characters: string = 'characters';
   static catalysts: string = 'catalysts';

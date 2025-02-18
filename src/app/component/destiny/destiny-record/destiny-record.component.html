@@ -1,4 +1,4 @@
-<div class="objective-informations">
+<div class="objective-information">
   <img *ngIf="record.icon != null && record.icon != undefined" src="{{ DestinyComponent.ASSET_URL + record.icon }}" alt="Record '{{ record.name }}'Icon">
   <img *ngIf="record.icon == null || record.icon == undefined" src="https://www.bungie.net/img/destiny_content/collections/undiscovered.png" alt="Record '{{ record.name }}'Icon">
   <div class="record-title-and-description">
@@ -14,19 +14,16 @@
       </div>
       <div class="objective-title">{{ getCompleteObjectiveDescription(objective) }}</div>
     </div>
-    <div class="objectives" *ngIf="getSimpleObjectiveProgress(objective).completionValue > 1">
-      <div class="objective">
-        <div class="objective-progression-bar">
-          <div class="current-objective-progression-bar" [style.width.%]="Math.min(getSimpleObjectiveProgress(objective).progress / getSimpleObjectiveProgress(objective).completionValue*100, 100)" [style.background-color]="!getSimpleObjectiveProgress( objective).complete ? '#545454' : 'none'"></div>
-        </div>
-      </div>
-      <span class="current-objective-progression" style="justify-content: start">{{ getCompleteObjectiveDescription(objective) }}</span>
-      <span class="current-objective-progression" style="justify-content: end"> {{ getSimpleObjectiveProgress(objective).progress }} / {{  getSimpleObjectiveProgress(objective).completionValue }}</span>
-    </div>
+    <progress-bar *ngIf="getSimpleObjectiveProgress(objective).completionValue > 1"
+                  [allProgressAreCompleted]="isRecordComplete(recordProgress)"
+                  [description]="getCompleteObjectiveDescription(objective)"
+                  [completionValue]="getSimpleObjectiveProgress(objective).completionValue"
+                  [progressValue]="getSimpleObjectiveProgress(objective).progress">
+    </progress-bar>
   </div>
 </div>
 <div class="objectives" *ngIf="record.intervalObjectives ? record.intervalObjectives.length > 0 : false">
-  <div class="objective" *ngFor="let objective of record.intervalObjectives">
+  <div class="objective" *ngFor="let objective of record.intervalObjectives"><!-- TODO progress bar component -->
     <div class="objective-progression-bar">
       <div class="current-objective-progression-bar" [style.width.%]="Math.min(getIntervalObjectiveWidth(record, objective), 100)" [style.background-color]="!isRecordComplete(recordProgress) ? '#757575' : 'none'"></div>
     </div>

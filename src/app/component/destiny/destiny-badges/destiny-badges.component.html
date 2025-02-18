@@ -1,1 +1,13 @@
-<p>destiny-badges works!</p>
+<div class="component subcomponent-list">
+  <div class="big-component-title">Badges</div>
+  <div class="badges">
+    <destiny-badge-preview
+      class="selectable"
+      *ngFor="let badge of badgesPresentationTree.childrenNode" title="{{ badge.description }}"
+      (click)="redirectToBadgePage(badge)"
+      [badge]="badge"
+      [itemNomenclatures]="itemNomenclatures"
+      [presentationNodeProgress]="presentationNodeProgress">
+    </destiny-badge-preview>
+  </div>
+</div>

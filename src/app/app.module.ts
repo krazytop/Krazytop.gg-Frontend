@@ -54,6 +54,11 @@ import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.componen
 import { DestinyCharacterItemFiltersComponent } from './component/destiny/destiny-characters/destiny-character-item-filters/destiny-character-item-filters.component';
 import { RequestButtonComponent } from './ui/request-button/request-button.component';
 import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.component';
+import { ProgressBarComponent } from './ui/progression-bar/progress-bar.component';
+import { DestinyBadgeComponent } from './component/destiny/destiny-badges/destiny-badge/destiny-badge.component';
+import { DestinyCollectibleComponent } from './component/destiny/destiny-collectible/destiny-collectible.component';
+import { DestinyBadgePreviewComponent } from './component/destiny/destiny-badges/destiny-badge-preview/destiny-badge-preview.component';
+import { DestinyTitlePreviewComponent } from './component/destiny/destiny-titles/destiny-title-preview/destiny-title-preview.component';
 import { DropdownComponent } from './ui/dropdown/dropdown.component';
 
 @NgModule({
@@ -106,6 +111,11 @@ import { DropdownComponent } from './ui/dropdown/dropdown.component';
     DestinyCharacterItemFiltersComponent,
     RequestButtonComponent,
     LoadingScreenComponent,
+    ProgressBarComponent,
+    DestinyBadgeComponent,
+    DestinyCollectibleComponent,
+    DestinyBadgePreviewComponent,
+    DestinyTitlePreviewComponent,
     DropdownComponent
   ],
     imports: [

@@ -8,6 +8,10 @@
             [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.collections, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.collections}">
       <span>Collections</span>
     </button>
+    <button (click)="selectComponent(DestinyComponentSelectorComponent.badges)"
+            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.badges, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.badges}">
+      <span>Badges</span>
+    </button>
     <button (click)="selectComponent(DestinyComponentSelectorComponent.models)"
             [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.models, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.models}">
       <span>Models</span>

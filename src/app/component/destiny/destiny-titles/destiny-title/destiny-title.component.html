@@ -1,16 +1,15 @@
 <div class="title">
-  <div class="main-informations subcomponent-list">
-    <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete() ? 'grayscale(1)' : 'none'" class="title-icon">
-    <span class="title-name">{{ title.name }}</span>
-    <span class="title-description">{{ title.description }}</span>
-    <div class="objectives">
-      <div class="objective">
-        <div class="objective-progression-bar">
-          <div class="current-objective-progression-bar" [style.width.%]="titleNodeProgress?.progressValue!/titleNodeProgress?.completionValue!*100" [style.background-color]="isTitleComplete() ? '#93884c' : '#757575'"></div>
-        </div>
-      </div>
-      <span class="current-objective-progression" style="justify-content: center">{{ titleNodeProgress?.progressValue! }} / {{ titleNodeProgress?.completionValue! }}</span>
+  <div class="main-information subcomponent-list">
+    <div class="tab-selectors">
+      <button class="tab-not-selected" (click)="redirectToTitlesList()">
+        <span>Go back to titles</span>
+      </button>
     </div>
+    <destiny-title-preview
+      [title]="title"
+      [presentationNodeProgress]="presentationNodeProgress"
+      [showDetails]="true">
+    </destiny-title-preview>
   </div>
   <div class="records">
     <destiny-record *ngFor="let record of title.childrenRecord" class="record subcomponent-list"
