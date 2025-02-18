@@ -1,20 +1,34 @@
 <div class="badge">
-  <div class="badge-recap">
-
-  </div>
-  <div class="information">
+  <div class="row">
+    <div class="tab-selectors">
+      <button class="tab-not-selected" (click)="redirectToBadgesList()">
+        <span>Go back to badges</span>
+      </button>
+    </div>
     <div class="characters">
       <div class="character selectable" *ngFor="let character of Object.values(DestinyClassEnum)" (click)="selectCharacterClass(character)">
         <img class="character-image" src="assets/data/destiny/classes/{{ character.image }}" alt="Character">
       </div>
     </div>
-    <div class="collectibles">
-      <destiny-collectible
-        *ngFor="let collectibleNomenclature of focusedCollectibles"
-        [collectibleNomenclature]="collectibleNomenclature"
-        [collectible]="getCollectible(collectibleNomenclature.hash)"
-        [itemNomenclature]="itemNomenclatures.get(collectibleNomenclature.itemHash)!"
-      ></destiny-collectible>
+  </div>
+  <div class="row">
+    <div>
+      <destiny-badge-preview
+        [badge]="badge"
+        [itemNomenclatures]="itemNomenclatures"
+        [presentationNodeProgress]="presentationNodeProgress"
+        [showDetails]="true">
+      </destiny-badge-preview>
+    </div>
+    <div>
+      <div class="collectibles">
+        <destiny-collectible
+          *ngFor="let collectibleNomenclature of focusedCollectibles"
+          [collectibleNomenclature]="collectibleNomenclature"
+          [collectible]="getCollectible(collectibleNomenclature.hash)"
+          [itemNomenclature]="itemNomenclatures.get(collectibleNomenclature.itemHash)!"
+        ></destiny-collectible>
+      </div>
     </div>
   </div>
 </div>

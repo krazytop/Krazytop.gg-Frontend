@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../../model/destiny/destiny-presentation-tree.model";
 import {DestinyComponent} from "../destiny.component";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -11,19 +11,19 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class DestinyTitlesComponent {
 
-  @Input() titlesPresentationTree!: DestinyPresentationTreeNomenclature;
-  @Input() archivedTitlesPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() titlesPresentationTree!: DestinyPresentationTreeModel;
+  @Input() archivedTitlesPresentationTree!: DestinyPresentationTreeModel;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
 
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
-  isTitleComplete(title: DestinyPresentationTreeNomenclature): boolean {
+  isTitleComplete(title: DestinyPresentationTreeModel): boolean {
     const currentTitleNodeProgress = this.presentationNodeProgress.get(title.hash);
     return currentTitleNodeProgress?.progressValue! >= currentTitleNodeProgress?.completionValue!;
   }
 
-  redirectToTitlePage(title: DestinyPresentationTreeNomenclature) {
+  redirectToTitlePage(title: DestinyPresentationTreeModel) {
     this.route.params.subscribe(params => {
       this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/titles`], { queryParams: { hash: title.hash }});
     });

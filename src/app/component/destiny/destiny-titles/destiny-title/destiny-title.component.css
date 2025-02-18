@@ -1,13 +1,12 @@
 .title {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 4fr;
   gap: 20px;
 }
 
 .main-information {
-  color: white;
-  padding: 20px;
-  align-items: center;
+  display: flex;
+  justify-content: start;
 }
 
 .title-name {
@@ -31,4 +30,8 @@
 
 progress-bar {
   width: 190px;
+}
+
+.tab-not-selected {
+  width: 100%;
 }

@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../../model/destiny/destiny-presentation-tree.model";
 import {isRecordComplete} from "../destiny-record/destiny-record.component";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 import {DestinyRecordStateEnum} from "../../../model/destiny/enum/DestinyRecordStateEnum";
@@ -11,10 +11,10 @@ import {DestinyRecordStateEnum} from "../../../model/destiny/enum/DestinyRecordS
 })
 export class DestinyCatalystsComponent implements OnChanges {
 
-  @Input() catalystsPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() catalystsPresentationTree!: DestinyPresentationTreeModel;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
 
-  showWeaponCategories: Map<DestinyPresentationTreeNomenclature, boolean> = new Map<DestinyPresentationTreeNomenclature, boolean>();
+  showWeaponCategories: Map<DestinyPresentationTreeModel, boolean> = new Map<DestinyPresentationTreeModel, boolean>();
 
   ngOnChanges() { //TODO statinfo
     let isFirstWeaponCategory = true;

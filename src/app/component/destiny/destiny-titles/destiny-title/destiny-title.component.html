@@ -1,12 +1,15 @@
 <div class="title">
   <div class="main-information subcomponent-list">
-    <img ngSrc="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete() ? 'grayscale(1)' : 'none'" width="200" height="200">
-    <span class="title-name subcomponent-title">{{ title.name }}</span>
-    <span class="title-description subcomponent-title">{{ title.description }}</span>
-    <progress-bar
-      [completionValue]="presentationNodeProgress.get(title.hash)!.completionValue!"
-      [progressValue]="presentationNodeProgress.get(title.hash)!.progressValue!">
-    </progress-bar>
+    <div class="tab-selectors">
+      <button class="tab-not-selected" (click)="redirectToTitlesList()">
+        <span>Go back to titles</span>
+      </button>
+    </div>
+    <destiny-title-preview
+      [title]="title"
+      [presentationNodeProgress]="presentationNodeProgress"
+      [showDetails]="true">
+    </destiny-title-preview>
   </div>
   <div class="records">
     <destiny-record *ngFor="let record of title.childrenRecord" class="record subcomponent-list"

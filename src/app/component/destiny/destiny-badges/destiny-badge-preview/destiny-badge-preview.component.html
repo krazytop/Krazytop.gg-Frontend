@@ -1,0 +1,18 @@
+<div [ngClass]="isBadgeFullyCompleted(badge) ? 'fully-completed' : isBadgeCompleted(badge) ? 'partially-completed' : 'none'" class="subcomponent badge" [style.width]="showDetails ? '100%' : null">
+  <img src="{{ DestinyComponent.ASSET_URL + badge.icon }}" alt="{{ badge.name }} title icon" [ngClass]="isBadgeCompleted(badge) ? 'icon-completed' : 'none'" class="badge-image">
+  <br *ngIf="showDetails">
+  <div [ngClass]="showDetails ? 'big-badge-name' : 'subcomponent-title'">{{ badge.name }}</div>
+  <br *ngIf="showDetails">
+  <div class="subcomponent-title" *ngIf="showDetails">{{ badge.description }}</div>
+  <br *ngIf="showDetails">
+  <div class="characters">
+    <div class="character" *ngFor="let character of badge.childrenNode">
+      <img src="assets/data/destiny/classes/{{ getClassImage(character) }}"> <!-- TODO character icon component -->
+      <progress-bar
+        [allProgressAreCompleted]="isBadgeFullyCompleted(badge)"
+        [completionValue]="presentationNodeProgress.get(character.hash)!.completionValue!"
+        [progressValue]="presentationNodeProgress.get(character.hash)!.progressValue!">
+      </progress-bar>
+    </div>
+  </div>
+</div>

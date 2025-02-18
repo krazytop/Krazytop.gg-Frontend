@@ -1,6 +1,6 @@
-import {DestinyPresentationTreeNomenclature} from "./destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "./destiny-presentation-tree.model";
 
 export class DestinyComponentArgs {
-  selectedTitle?: DestinyPresentationTreeNomenclature;
-  selectedBadge?: DestinyPresentationTreeNomenclature;
+  selectedTitle?: DestinyPresentationTreeModel;
+  selectedBadge?: DestinyPresentationTreeModel;
 }

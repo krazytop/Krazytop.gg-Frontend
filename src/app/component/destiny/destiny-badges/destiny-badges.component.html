@@ -1,20 +1,13 @@
 <div class="component subcomponent-list">
-  <div class="big-component-title">Badges (TODO / TODO)</div>
+  <div class="big-component-title">Badges</div>
   <div class="badges">
-    <div *ngFor="let badge of badgesPresentationTree.childrenNode" title="{{ badge.description }}" class="badge subcomponent selectable"
-         (click)="redirectToBadgePage(badge)" [ngClass]="isBadgeFullyCompleted(badge) ? 'fully-completed' : 'none'">
-      <img src="{{ DestinyComponent.ASSET_URL + badge.icon }}" alt="{{ badge.name }} title icon" [ngClass]="isBadgeCompleted(badge) ? 'partially-completed' : 'none'" class="badge-image">
-      <div class="subcomponent-title">{{ badge.name }}</div>
-      <div class="characters">
-        <div class="character" *ngFor="let character of badge.childrenNode">
-          <img src="assets/data/destiny/classes/{{ getClassImage(character) }}"> <!-- TODO character icon component -->
-          <progress-bar
-            [allProgressAreCompleted]="isBadgeFullyCompleted(badge)"
-            [completionValue]="presentationNodeProgress.get(character.hash)!.completionValue!"
-            [progressValue]="presentationNodeProgress.get(character.hash)!.progressValue!">
-          </progress-bar>
-        </div>
-      </div>
-    </div>
+    <destiny-badge-preview
+      class="selectable"
+      *ngFor="let badge of badgesPresentationTree.childrenNode" title="{{ badge.description }}"
+      (click)="redirectToBadgePage(badge)"
+      [badge]="badge"
+      [itemNomenclatures]="itemNomenclatures"
+      [presentationNodeProgress]="presentationNodeProgress">
+    </destiny-badge-preview>
   </div>
 </div>

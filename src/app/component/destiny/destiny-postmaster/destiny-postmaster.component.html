@@ -1,5 +1,5 @@
 <div class="component-list">
-  <div *ngFor="let postmaster of postmasters" class="component subcomponent-list">
+  <div *ngFor="let postmaster of postmasters" class="component subcomponent-list" [style.background-color]="postmaster.items.length > 15 ? '#99000055' : 'null'">
     <div class="postmaster-title component-title">
       <div class="character-image-container">
         <img class="character-image" src="assets/data/destiny/classes/{{ getImageByClassHash(this.destinyComponent.profile.characters, postmaster.characterHash) }}"
@@ -8,7 +8,7 @@
       <span>Postmaster &nbsp;({{ postmaster.items.length }} / 21)</span>
       <span *ngIf="postmaster.items.length > 15" class="warning">⚠️</span>
     </div>
-    <div class="items small-subcomponent">
+    <div class="items small-subcomponent" [style.background-color]="postmaster.items.length > 15 ? '#71000055' : 'null'">
       <destiny-item *ngFor="let item of postmaster.items" [item]="item" (click)="moveItem(item, postmaster)" class="item" cdkDrag></destiny-item>
     </div>
   </div>
