@@ -98,6 +98,22 @@
   }
 }
 
+.more-matches {
+  background-color: #424242;
+  border-radius: 10px;
+  color: #dcdcdc;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+}
+
+.more-matches:hover {
+  background-color: #646464;
+}
+
 .arrow-down {
   position: absolute;
   top: 70%;
@@ -159,14 +175,4 @@ hr {
 
 progress-bar {
   width: 100%;
-}
-
-select {
-  padding: 7px;
-  font-size: 20px;
-  border: #727272 1px solid;
-  background-color: #1D1D1D;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
 }
