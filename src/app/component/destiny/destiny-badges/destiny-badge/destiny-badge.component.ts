@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {DestinyPresentationTreeNomenclature} from "../../../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../../../model/destiny/destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "../../../../model/destiny/destiny-node-progression.model";
 import {DestinyItemNomenclature} from "../../../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {
@@ -8,6 +8,7 @@ import {
 } from '../../../../model/destiny/enum/DestinyClassEnum';
 import {DestinyCollectibleNomenclature} from "../../../../model/destiny/nomenclature/destiny-collectible.nomenclature";
 import {DestinyCollectibleModel} from "../../../../model/destiny/destiny-collectible.model";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'destiny-badge',
@@ -16,7 +17,7 @@ import {DestinyCollectibleModel} from "../../../../model/destiny/destiny-collect
 })
 export class DestinyBadgeComponent implements OnChanges {
 
-  @Input() badge!: DestinyPresentationTreeNomenclature;
+  @Input() badge!: DestinyPresentationTreeModel;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>
   @Input() characterCollectibles!: Map<number, Map<number, DestinyCollectibleModel>>;
@@ -24,13 +25,17 @@ export class DestinyBadgeComponent implements OnChanges {
 
   focusedCollectibles!: DestinyCollectibleNomenclature[];
 
+  constructor(private router: Router, private route: ActivatedRoute) {
+  }
+
   ngOnChanges() {
     this.selectCharacterClass(Object.values(DestinyClassEnum)[0]);
   }
 
-  isBadgeComplete(): boolean {
-    const presentationNodeProgress = this.presentationNodeProgress.get(this.badge.hash)!;
-    return presentationNodeProgress.progressValue! >= presentationNodeProgress.completionValue!;
+  redirectToBadgesList() {
+    this.route.params.subscribe(params => {
+      this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/badges`]);
+    });
   }
 
   getCollectible(collectibleHash: number) {

@@ -17,7 +17,7 @@ import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-re
 import {throwError} from "rxjs";
 import {DestinyTierTypeEnum} from "../../../model/destiny/enum/DestinyTierTypeEnum";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
-import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../../model/destiny/destiny-presentation-tree.model";
 import { DestinyRecordNomenclature } from '../../../model/destiny/nomenclature/destiny-record.nomenclature';
 import {DestinyCharacterItemFiltersService} from "../../../service/destiny/destiny-character-item-filters.service";
 import {DestinyComponent} from "../destiny.component";
@@ -37,9 +37,9 @@ export class DestinyCharactersComponent implements OnChanges {
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>;
-  @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
-  @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
-  @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
+  @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
+  @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
 
   readonly vaultInventory: DestinyCharacterInventoryModel = {characterHash: 'vault'} as DestinyCharacterInventoryModel;
   allItems: DestinyItemModel[] = [];

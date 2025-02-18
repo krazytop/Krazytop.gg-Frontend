@@ -4,7 +4,7 @@ import {DestinyMetricNomenclature} from "./nomenclature/destiny-metric.nomenclat
 import {DestinyRecordNomenclature} from "./nomenclature/destiny-record.nomenclature";
 import {DestinyCollectibleNomenclature} from "./nomenclature/destiny-collectible.nomenclature";
 
-export class DestinyPresentationTreeNomenclature {
+export class DestinyPresentationTreeModel {
   hash!: number;
   name!: string;
   description!: string;
@@ -12,7 +12,7 @@ export class DestinyPresentationTreeNomenclature {
   nodeType!: number;
   isSeasonal!: boolean;
   objective!: DestinyObjectiveNomenclature;
-  childrenNode!: DestinyPresentationTreeNomenclature[];
+  childrenNode!: DestinyPresentationTreeModel[];
   childrenCollectible!: DestinyCollectibleNomenclature[];
   childrenRecord!: DestinyRecordNomenclature[];
   childrenMetric!: DestinyMetricNomenclature[];

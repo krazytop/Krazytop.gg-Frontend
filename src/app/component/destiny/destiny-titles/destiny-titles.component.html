@@ -2,17 +2,13 @@
   <div class="component subcomponent-list">
     <div class="big-component-title">Titles</div>
     <div class="active-titles">
-      <div *ngFor="let title of titlesPresentationTree.childrenNode" title="{{ title.description }}" class="title subcomponent selectable"
-           (click)="redirectToTitlePage(title)">
-        <div class="badge-image-container">
-          <img src="{{ DestinyComponent.ASSET_URL + title.icon }}" alt="{{ title.name }} title icon" [style.filter]="!isTitleComplete(title) ? 'grayscale(1)' : 'none'">
-        </div>
-        <div class="subcomponent-title">{{ title.name }}</div>
-        <progress-bar
-          [completionValue]="presentationNodeProgress.get(title.hash)!.completionValue!"
-          [progressValue]="presentationNodeProgress.get(title.hash)!.progressValue!">
-        </progress-bar>
-      </div>
+      <destiny-title-preview
+        class="selectable"
+        (click)="redirectToTitlePage(title)"
+        *ngFor="let title of titlesPresentationTree.childrenNode"
+        [title]="title"
+        [presentationNodeProgress]="presentationNodeProgress">
+      </destiny-title-preview>
     </div>
   </div>
   <div class="component subcomponent-list">

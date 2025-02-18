@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import {DestinyProfileModel} from "../../model/destiny/destiny-profile.model";
 import {Engrams, MainCurrencies} from "../../model/destiny/enum/DestinyMainInventoryEnum";
 import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-presentation-trees.model";
-import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../model/destiny/destiny-presentation-tree.model";
 import {
   DestinyPresentationTreeEnum,
   getAllPresentationTrees
@@ -34,7 +34,7 @@ export class DestinyNomenclatureService {
 
   async getPresentationTreesNomenclatures() {
     let treesModel: DestinyPresentationTreesModel = new DestinyPresentationTreesModel();
-    const nomenclature: Map<number, DestinyPresentationTreeNomenclature> = await this.databaseApi.getAllObjectsByIds(getAllPresentationTrees(), DestinyDatabaseApi.PRESENTATION_TREE_STORE) as unknown as  Map<number, DestinyPresentationTreeNomenclature>;
+    const nomenclature: Map<number, DestinyPresentationTreeModel> = await this.databaseApi.getAllObjectsByIds(getAllPresentationTrees(), DestinyDatabaseApi.PRESENTATION_TREE_STORE) as unknown as  Map<number, DestinyPresentationTreeModel>;
     treesModel.archivedTitles = nomenclature.get(DestinyPresentationTreeEnum.ArchivedTitles)!;
     treesModel.titles = nomenclature.get(DestinyPresentationTreeEnum.Titles)!;
     treesModel.energyWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.EnergyWeaponModels)!;

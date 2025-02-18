@@ -8,7 +8,7 @@ import {DestinyItemInstanceModel} from "../../model/destiny/destiny-item-instanc
 import {DestinyItemModel} from "../../model/destiny/destiny-item.model";
 import {DestinyLinkedProfilesModel} from "../../model/destiny/destiny-linked-profiles.model";
 import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
-import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../model/destiny/destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-progression.model";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {DestinyNomenclatureService} from "../../service/destiny/destiny-nomenclature.service";
@@ -152,7 +152,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   }
 
   setSelectedTitle(hash: number) {
-    const selectedTitle: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.titles.childrenNode
+    const selectedTitle: DestinyPresentationTreeModel | undefined = this.presentationTrees.titles.childrenNode
       .find(title => title.hash === hash)
     this.componentArgs.selectedTitle = selectedTitle;
     if (selectedTitle === undefined) {
@@ -162,7 +162,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   }
 
   setSelectedBadge(hash: number) {
-    const selectedBadge: DestinyPresentationTreeNomenclature | undefined = this.presentationTrees.badges.childrenNode
+    const selectedBadge: DestinyPresentationTreeModel | undefined = this.presentationTrees.badges.childrenNode
       .find(badge => badge.hash === hash)
     this.componentArgs.selectedBadge = selectedBadge;
     if (selectedBadge === undefined) {

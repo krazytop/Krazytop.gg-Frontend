@@ -9,7 +9,7 @@ import {DestinyProgressionNomenclature} from "../../model/destiny/nomenclature/d
 import {DestinyProgressionStepModel} from "../../model/destiny/destiny-progression-step.model";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {getAllPresentationTrees} from "../../model/destiny/enum/DestinyPresentationTreeEnum";
-import {DestinyPresentationTreeNomenclature} from "../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../model/destiny/destiny-presentation-tree.model";
 import {DestinyPresentationNodeNomenclature} from "../../model/destiny/nomenclature/destiny-presentation-node.nomenclature";
 import {DestinyVendorNomenclature} from "../../model/destiny/nomenclature/destiny-vendor.nomenclature";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
@@ -325,7 +325,7 @@ export class DestinyDatabaseUpdateService {
 
   private buildPresentationTree(treeHash: number, collectibles: Map<number,DestinyCollectibleNomenclature>, metrics: Map<number,DestinyMetricNomenclature>, objectives: Map<number,DestinyObjectiveNomenclature>, records: Map<number,DestinyRecordNomenclature>, presentationNodes: Map<number,DestinyPresentationNodeNomenclature>) {
     const node: DestinyPresentationNodeNomenclature = presentationNodes.get(treeHash)!;
-    const tree: DestinyPresentationTreeNomenclature = new DestinyPresentationTreeNomenclature();
+    const tree: DestinyPresentationTreeModel = new DestinyPresentationTreeModel();
     tree.hash = node.hash;
     tree.name = node.name;
     tree.nodeType = node.nodeType;

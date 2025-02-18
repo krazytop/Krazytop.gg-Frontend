@@ -58,6 +58,8 @@ import { DropdownComponent } from './ui/dropdown/dropdown.component';
 import { ProgressBarComponent } from './ui/progression-bar/progress-bar.component';
 import { DestinyBadgeComponent } from './component/destiny/destiny-badges/destiny-badge/destiny-badge.component';
 import { DestinyCollectibleComponent } from './component/destiny/destiny-collectible/destiny-collectible.component';
+import { DestinyBadgePreviewComponent } from './component/destiny/destiny-badges/destiny-badge-preview/destiny-badge-preview.component';
+import { DestinyTitlePreviewComponent } from './component/destiny/destiny-titles/destiny-title-preview/destiny-title-preview.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +114,9 @@ import { DestinyCollectibleComponent } from './component/destiny/destiny-collect
     ProgressBarComponent,
     DestinyCollectibleComponent,
     DestinyBadgeComponent,
-    DropdownComponent
+    DropdownComponent,
+    DestinyBadgePreviewComponent,
+    DestinyTitlePreviewComponent
   ],
     imports: [
         BrowserModule,

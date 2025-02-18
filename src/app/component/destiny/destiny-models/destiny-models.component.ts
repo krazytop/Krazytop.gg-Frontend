@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {isRecordComplete} from "../destiny-record/destiny-record.component";
-import {DestinyPresentationTreeNomenclature} from "../../../model/destiny/destiny-presentation-tree.model";
+import {DestinyPresentationTreeModel} from "../../../model/destiny/destiny-presentation-tree.model";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 
 @Component({
@@ -10,13 +10,13 @@ import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-p
 })
 export class DestinyModelsComponent implements OnChanges {
 
-  @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
-  @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
-  @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeNomenclature;
+  @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
+  @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
+  @Input() powerWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
 
-  weaponCategories: DestinyPresentationTreeNomenclature[] = [];
-  showWeaponCategories: Map<DestinyPresentationTreeNomenclature, boolean> = new Map<DestinyPresentationTreeNomenclature, boolean>();
+  weaponCategories: DestinyPresentationTreeModel[] = [];
+  showWeaponCategories: Map<DestinyPresentationTreeModel, boolean> = new Map<DestinyPresentationTreeModel, boolean>();
 
   ngOnChanges() {
     this.weaponCategories = [this.kineticWeaponModelsPresentationTree, this.energyWeaponModelsPresentationTree, this.powerWeaponModelsPresentationTree];
