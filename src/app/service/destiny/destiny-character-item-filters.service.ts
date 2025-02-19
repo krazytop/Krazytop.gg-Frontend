@@ -39,22 +39,10 @@ export class DestinyCharacterItemFiltersService {
 
   shouldItemBeDisplayed(item: DestinyItemModel, itemCraftedRecord: DestinyRecordNomenclature | undefined, isItemDuplicated: boolean) {
     let shouldBeDisplayed = true;
-    if (this.managementFilters.duplicated) {
-      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Crafted))) === 0 && isItemDuplicated;
-    }
     shouldBeDisplayed = shouldBeDisplayed && this.filterByItemRarity(item);
     shouldBeDisplayed = shouldBeDisplayed && this.filterByDamageType(item);
     shouldBeDisplayed = shouldBeDisplayed && this.filterByStatus(item);
-    if (this.managementFilters.notLocked) {
-      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Locked))) === 0;
-    }
-    if (this.managementFilters.notCrafted) {
-      if (itemCraftedRecord) {
-        shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Crafted))) === 0;
-      } else {
-        shouldBeDisplayed = false;
-      }
-    }
+    shouldBeDisplayed = shouldBeDisplayed && this.filterByManagement(item, itemCraftedRecord, isItemDuplicated);
     return shouldBeDisplayed;
   }
 
@@ -111,6 +99,24 @@ export class DestinyCharacterItemFiltersService {
     }
     if (this.statusFilters.masterwork) {
       shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Masterwork))) !== 0;
+    }
+    return shouldBeDisplayed;
+  }
+
+  filterByManagement(item: DestinyItemModel, itemCraftedRecord: DestinyRecordNomenclature | undefined, isItemDuplicated: boolean) {
+    let shouldBeDisplayed = true;
+    if (this.managementFilters.duplicated) {
+      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Crafted))) === 0 && isItemDuplicated;
+    }
+    if (this.managementFilters.notLocked) {
+      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Locked))) === 0;
+    }
+    if (this.managementFilters.notCrafted) {
+      if (itemCraftedRecord) {
+        shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Crafted))) === 0;
+      } else {
+        shouldBeDisplayed = false;
+      }
     }
     return shouldBeDisplayed;
   }

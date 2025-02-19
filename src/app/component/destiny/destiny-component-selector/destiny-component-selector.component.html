@@ -1,32 +1,39 @@
 <div class="tab-selectors">
   <div class="tab-buttons">
-    <button (click)="selectComponent(DestinyComponentSelectorComponent.vendors)"
-            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.vendors, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.vendors}">
-      <span>Vendors</span>
-    </button>
-    <button (click)="selectComponent(DestinyComponentSelectorComponent.collections)"
-            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.collections, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.collections}">
-      <span>Collections</span>
-    </button>
-    <button (click)="selectComponent(DestinyComponentSelectorComponent.badges)"
-            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.badges, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.badges}">
-      <span>Badges</span>
-    </button>
-    <button (click)="selectComponent(DestinyComponentSelectorComponent.models)"
-            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.models, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.models}">
-      <span>Models</span>
-    </button>
-    <button (click)="selectComponent(DestinyComponentSelectorComponent.catalysts)"
-            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.catalysts, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.catalysts}">
-      <span>Catalysts</span>
-    </button>
-    <button (click)="selectComponent(DestinyComponentSelectorComponent.titles)"
-            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.titles, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.titles}">
-      <span>Titles</span>
-    </button>
-    <button (click)="selectComponent(DestinyComponentSelectorComponent.characters)"
-            [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.characters, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.characters}">
-      <span>Characters</span>
-    </button>
+    <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.vendors]">
+      <button [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.vendors, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.vendors}">
+        <span>Vendors</span>
+      </button>
+    </a>
+    <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.collections]">
+      <button [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.collections, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.collections}">
+        <span>Collections</span>
+      </button>
+    </a>
+    <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.badges]">
+      <button [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.badges, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.badges}">
+        <span>Badges</span>
+      </button>
+    </a>
+    <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.models]">
+      <button [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.models, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.models}">
+        <span>Models</span>
+      </button>
+    </a>
+    <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.catalysts]">
+      <button [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.catalysts, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.catalysts}">
+        <span>Catalysts</span>
+      </button>
+    </a>
+    <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.titles]">
+      <button [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.titles, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.titles}">
+        <span>Title</span>
+      </button>
+    </a>
+    <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.characters]">
+      <button [ngClass]="{'tab-selected': actualComponent === DestinyComponentSelectorComponent.characters, 'tab-not-selected': actualComponent !== DestinyComponentSelectorComponent.characters}">
+        <span>Characters</span>
+      </button>
+    </a>
   </div>
 </div>

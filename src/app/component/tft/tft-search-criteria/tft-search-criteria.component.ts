@@ -21,7 +21,7 @@ export class TftSearchCriteriaComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    const playedSets = this.summoner.playedSeasonsOrSets;
+    const playedSets = this.summoner.playedSeasonsOrSets.sort((a,b) => b-a);
     if (!playedSets.includes(this.currentSet)) {
       playedSets.push(this.currentSet)
     }

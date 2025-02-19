@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'destiny-component-selector',
@@ -18,18 +18,19 @@ export class DestinyComponentSelectorComponent implements OnInit {
 
   actualComponent!: string;
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  protected platform!: string;
+  protected membership!: string;
+  protected character!: string;
+
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.actualComponent = params['component'];
-    });
-  }
-
-  selectComponent(component: string) {
-    this.route.params.subscribe(params => {
-      this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/${component}`]);
+      this.platform = params['platform'];
+      this.membership = params['membership'];
+      this.character = params['character'];
     });
   }
 
