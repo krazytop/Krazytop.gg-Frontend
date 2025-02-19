@@ -202,6 +202,4 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.requestDataRefreshing.unsubscribe();
   }
 
-  protected readonly console = console
-  protected readonly Math = Math;
 }

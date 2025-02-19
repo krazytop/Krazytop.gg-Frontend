@@ -1,7 +1,5 @@
 <div class="subcomponent-list">
-  <div class="subcomponent">
-    <destiny-character-item-filters class="subcomponent-list"></destiny-character-item-filters>
-  </div>
+    <destiny-character-item-filters class="subcomponent subcomponent-list"></destiny-character-item-filters>
   <div class="characters">
     <div class="character-image-container" *ngFor="let characterInventory of characterInventories">
       <img class="character-image" src="assets/data/destiny/classes/{{ getImageByClassHash(this.destinyComponent.profile.characters, characterInventory.characterHash) }}"
