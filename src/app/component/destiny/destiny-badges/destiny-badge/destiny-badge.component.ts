@@ -9,6 +9,7 @@ import {
 import {DestinyCollectibleNomenclature} from "../../../../model/destiny/nomenclature/destiny-collectible.nomenclature";
 import {DestinyCollectibleModel} from "../../../../model/destiny/destiny-collectible.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {DestinyComponentSelectorComponent} from "../../destiny-component-selector/destiny-component-selector.component";
 
 @Component({
   selector: 'destiny-badge',
@@ -25,17 +26,25 @@ export class DestinyBadgeComponent implements OnChanges {
 
   focusedCollectibles!: DestinyCollectibleNomenclature[];
 
+  protected platform!: string;
+  protected membership!: string;
+  protected character!: string;
+
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnChanges() {
     this.selectCharacterClass(Object.values(DestinyClassEnum)[0]);
+    this.route.params.subscribe(params => {
+      this.platform = params['platform'];
+      this.membership = params['membership'];
+      this.character = params['character'];
+    });
   }
 
   redirectToBadgesList() {
-    this.route.params.subscribe(params => {
-      this.router.navigate([`/destiny/${params['platform']}/${params['membership']}/${params['character']}/badges`]);
-    });
+    const params = this.route.snapshot.paramMap;
+    this.router.navigate([`/destiny/${params.get('platform')}/${params.get('membership')}/${params.get('character')}/badges`]);
   }
 
   getCollectible(collectibleHash: number) {
@@ -69,4 +78,5 @@ export class DestinyBadgeComponent implements OnChanges {
 
   protected readonly DestinyClassEnum = DestinyClassEnum;
   protected readonly Object = Object;
+  protected readonly DestinyComponentSelectorComponent = DestinyComponentSelectorComponent;
 }

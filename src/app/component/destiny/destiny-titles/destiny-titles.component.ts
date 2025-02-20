@@ -1,21 +1,34 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {DestinyPresentationTreeModel} from "../../../model/destiny/destiny-presentation-tree.model";
 import {DestinyComponent} from "../destiny.component";
 import {DestinyNodeProgressionModel} from "../../../model/destiny/destiny-node-progression.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {DestinyComponentSelectorComponent} from "../destiny-component-selector/destiny-component-selector.component";
 
 @Component({
   selector: 'destiny-titles',
   templateUrl: './destiny-titles.component.html',
   styleUrls: ['./destiny-titles.component.css']
 })
-export class DestinyTitlesComponent {
+export class DestinyTitlesComponent implements OnChanges {
 
   @Input() titlesPresentationTree!: DestinyPresentationTreeModel;
   @Input() archivedTitlesPresentationTree!: DestinyPresentationTreeModel;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
 
+  protected platform!: string;
+  protected membership!: string;
+  protected character!: string;
+
   constructor(private router: Router, private route: ActivatedRoute) {
+  }
+
+  ngOnChanges() {
+    this.route.params.subscribe(params => {
+      this.platform = params['platform'];
+      this.membership = params['membership'];
+      this.character = params['character'];
+    });
   }
 
   isTitleComplete(title: DestinyPresentationTreeModel): boolean {
@@ -30,4 +43,5 @@ export class DestinyTitlesComponent {
   }
 
   protected readonly DestinyComponent = DestinyComponent;
+  protected readonly DestinyComponentSelectorComponent = DestinyComponentSelectorComponent;
 }

@@ -1,9 +1,11 @@
 <div class="badge">
   <div class="row">
     <div class="tab-selectors">
-      <button class="tab-not-selected" (click)="redirectToBadgesList()">
-        <span>Go back to badges</span>
-      </button>
+      <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.badges]">
+        <button class="tab-not-selected">
+          <span>Go back to badges</span>
+        </button>
+      </a>
     </div>
     <div class="characters">
       <div class="character selectable" *ngFor="let character of Object.values(DestinyClassEnum)" (click)="selectCharacterClass(character)">

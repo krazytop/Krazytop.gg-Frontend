@@ -1,9 +1,11 @@
 <div class="title">
   <div class="main-information subcomponent-list">
     <div class="tab-selectors">
-      <button class="tab-not-selected" (click)="redirectToTitlesList()">
-        <span>Go back to titles</span>
-      </button>
+      <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.titles]">
+        <button class="tab-not-selected">
+          <span>Go back to titles</span>
+        </button>
+      </a>
     </div>
     <destiny-title-preview
       [title]="title"

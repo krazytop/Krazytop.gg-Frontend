@@ -50,9 +50,11 @@ export class DestinyProfileComponent implements OnChanges {
 
   selectCharacter(characterId: string) {
     const { paramMap, queryParamMap } = this.route.snapshot;
-    const title = queryParamMap.get('hash');
-    if (paramMap.get('component') === 'titles' && title) {
-      this.router.navigate([`/destiny/${paramMap.get('platform')}/${paramMap.get('membership')}/${characterId}/${paramMap.get('component')}`], { queryParams: { hash: title }});
+    const hash = queryParamMap.get('hash');
+    if (paramMap.get('component') === 'titles' && hash) {
+      this.router.navigate([`/destiny/${paramMap.get('platform')}/${paramMap.get('membership')}/${characterId}/${paramMap.get('component')}`], { queryParams: { hash: hash }});
+    } else if (paramMap.get('component') === 'badges' && hash) {
+      this.router.navigate([`/destiny/${paramMap.get('platform')}/${paramMap.get('membership')}/${characterId}/${paramMap.get('component')}`], { queryParams: { hash: hash }});
     } else {
       this.router.navigate([`/destiny/${paramMap.get('platform')}/${paramMap.get('membership')}/${characterId}/${paramMap.get('component')}`]);
     }

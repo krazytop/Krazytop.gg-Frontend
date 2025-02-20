@@ -45,12 +45,14 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
 
   private platform?: number;
   private membership?: string;
+  private character?: string;
   currentlyUpdating = false;
 
   async ngOnInit() {
     this.route.params.subscribe(params => {
       this.platform = params['platform'];
       this.membership = params['membership'];
+      this.character = params['character'];
       this.componentToShow = params['component'];
     });
     await this.databaseUpdateService.manageDatabase();
@@ -86,15 +88,22 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.characterTitleNomenclatures = await this.nomenclatureService.getRecordNomenclatures(this.profile.characters.map(character => character.titleRecordHash));
     this.presentationTrees = await this.nomenclatureService.getPresentationTreesNomenclatures();
     this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile, this.presentationTrees);
-    this.vendorGroups = await this.getVendors(this.platform!, this.membership!, this.profile.characters[0].characterId)
+    this.vendorGroups = await this.getVendors(this.platform!, this.membership!, this.profile.characters[0].characterId);
     this.manageComponentArgs();
     this.isThisComponentReady = true;
   }
 
   manageComponentArgs() {
     this.route.queryParams.subscribe(params => {
-      if(this.componentToShow === 'titles') this.setSelectedTitle(Number(params['hash'])); //TODO ne pas set mais directement get dans l'argument du composant
-      if(this.componentToShow === 'badges') this.setSelectedBadge(Number(params['hash']));
+      const component = this.route.snapshot.paramMap.get('component');
+      const hash = params['hash'];
+      if (hash) {
+        if(component === 'titles') this.setSelectedTitle(Number(hash)); //TODO ne pas set mais directement get dans l'argument du composant (apres si le hash n existe pas il est important de le voir avant ?)
+        if(component === 'badges') this.setSelectedBadge(Number(hash));
+      } else {
+        this.componentArgs.selectedTitle = undefined;
+        this.componentArgs.selectedBadge = undefined;
+      }
     });
   }
 
@@ -156,8 +165,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
       .find(title => title.hash === hash)
     this.componentArgs.selectedTitle = selectedTitle;
     if (selectedTitle === undefined) {
-      const params = this.route.snapshot.paramMap;
-      this.router.navigate([`/destiny/${params.get('platform')}/${params.get('membership')}/${params.get('character')}/titles`]);
+      this.router.navigate([`/destiny/${this.platform}/${this.membership}/${this.character}/titles`]);
     }
   }
 
@@ -166,8 +174,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
       .find(badge => badge.hash === hash)
     this.componentArgs.selectedBadge = selectedBadge;
     if (selectedBadge === undefined) {
-      const params = this.route.snapshot.paramMap;
-      this.router.navigate([`/destiny/${params.get('platform')}/${params.get('membership')}/${params.get('character')}/badges`]);
+      this.router.navigate([`/destiny/${this.platform}/${this.membership}/${this.character}/badges`]);
     }
   }
 
@@ -202,6 +209,5 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.requestDataRefreshing.unsubscribe();
   }
 
-  protected readonly console = console
   protected readonly Math = Math;
 }

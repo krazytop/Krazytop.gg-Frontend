@@ -58,10 +58,9 @@ export class DestinyCharactersComponent implements OnChanges {
     this.allCraftedWeaponRecords = [...kineticWeaponRecords, ...energyWeaponRecords, ...powerWeaponRecords];
   }
 
-  async shouldItemBeDisplayed(item: DestinyItemModel) {
+  shouldItemBeDisplayed(item: DestinyItemModel) {
     const isItemDuplicated = this.allItems.filter(i => i.itemHash === item.itemHash).length > 1;
     const itemName = this.itemNomenclatures.get(item.itemHash)!.name;
-    //const itemName = (await this.databaseApi.getItemNomenclature(item.itemHash))!.name;
     const itemCraftedRecord = this.allCraftedWeaponRecords.find(record => record.name === itemName);
     return this.characterItemFiltersService.shouldItemBeDisplayed(item, itemCraftedRecord, isItemDuplicated);
   }
