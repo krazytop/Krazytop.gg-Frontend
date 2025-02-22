@@ -21,9 +21,6 @@ export class TeamfightTacticsComponent implements OnInit {
   remoteSummoner: RIOTSummoner | undefined;
 
   protected metadata: RIOTMetadata | undefined;
-  private region!: string;
-  private tag!: string;
-  private name!: string;
   protected selectedQueue!: string;
   protected selectedSet!: string;
   protected matches: RIOTMatch[] = [];
@@ -34,13 +31,13 @@ export class TeamfightTacticsComponent implements OnInit {
   async ngOnInit() {
     this.route.params.subscribe(async params => {
       this.isThisComponentReady = false;
-      this.region = params['region'];
-      this.tag = params['tag'];
-      this.name = params['name'];
+      const region: string = params['region'];
+      const tag: string = params['tag'];
+      const name: string = params['name'];
       this.selectedQueue = params['queue'];
       this.selectedSet = params['set'];
-      if (this.localSummoner?.name !== this.name || this.localSummoner?.region !== this.region) {
-        const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(this.region, this.tag, this.name, false);
+      if (this.localSummoner?.name !== name || this.localSummoner?.region !== region) {
+        const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(region, tag, name, false);
         this.localSummoner = localSummoner;
         this.remoteSummoner = remoteSummoner
         this.metadata = await this.metadataService.getMetadata();

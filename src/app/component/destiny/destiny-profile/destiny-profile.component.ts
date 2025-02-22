@@ -48,7 +48,7 @@ export class DestinyProfileComponent implements OnChanges {
     })
   }
 
-  selectCharacter(characterId: string) {
+  selectCharacter(characterId: string) {//TODO en balise <a>
     const { paramMap, queryParamMap } = this.route.snapshot;
     const hash = queryParamMap.get('hash');
     if (paramMap.get('component') === 'titles' && hash) {

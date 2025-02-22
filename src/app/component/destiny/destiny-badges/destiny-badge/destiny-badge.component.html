@@ -1,7 +1,7 @@
 <div class="badge">
   <div class="row">
     <div class="tab-selectors">
-      <a [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.badges]">
+      <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.badges]">
         <button class="tab-not-selected">
           <span>Go back to badges</span>
         </button>
@@ -28,8 +28,8 @@
           *ngFor="let collectibleNomenclature of focusedCollectibles"
           [collectibleNomenclature]="collectibleNomenclature"
           [collectible]="getCollectible(collectibleNomenclature.hash)"
-          [itemNomenclature]="itemNomenclatures.get(collectibleNomenclature.itemHash)!"
-        ></destiny-collectible>
+          [itemNomenclature]="itemNomenclatures.get(collectibleNomenclature.itemHash)!">
+        </destiny-collectible>
       </div>
     </div>
   </div>

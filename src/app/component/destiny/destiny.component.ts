@@ -12,7 +12,7 @@ import {DestinyPresentationTreeModel} from "../../model/destiny/destiny-presenta
 import {DestinyNodeProgressionModel} from "../../model/destiny/destiny-node-progression.model";
 import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destiny-record.nomenclature";
 import {DestinyNomenclatureService} from "../../service/destiny/destiny-nomenclature.service";
-import {DestinyComponentArgs} from "../../model/destiny/destiny-component-args";
+import {DestinyUrlArgs} from "../../model/destiny/destiny-url-args";
 import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-presentation-trees.model";
 import {DestinyDatabaseUpdateService} from "../../service/destiny/destiny-database-update.service";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
@@ -25,13 +25,12 @@ import {DestinyCollectibleModel} from "../../model/destiny/destiny-collectible.m
 })
 export class DestinyComponent implements OnInit, OnDestroy { //TODO progression bar models & catalysts must use space-between + margin left & right
 
-  componentToShow: string | undefined;
   isThisComponentReady: boolean = false;
   isFirstDisplay: boolean = true;
   requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
   isDatabaseUpToDate = false;
 
-  componentArgs: DestinyComponentArgs = new DestinyComponentArgs();
+  urlArgs: DestinyUrlArgs = new DestinyUrlArgs();
 
   profile: DestinyProfileModel = new DestinyProfileModel();
   itemNomenclatures: Map<number, DestinyItemNomenclature> = new Map();
@@ -39,21 +38,18 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   vendorGroups: DestinyVendorGroupNomenclature[] = [];
   presentationTrees: DestinyPresentationTreesModel = new DestinyPresentationTreesModel();
 
+  currentlyUpdating = false;
+
   public static readonly ASSET_URL: string = "https://www.bungie.net";
 
   constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService, private changeDetectorRef: ChangeDetectorRef) {}
 
-  private platform?: number;
-  private membership?: string;
-  private character?: string;
-  currentlyUpdating = false;
-
   async ngOnInit() {
     this.route.params.subscribe(params => {
-      this.platform = params['platform'];
-      this.membership = params['membership'];
-      this.character = params['character'];
-      this.componentToShow = params['component'];
+      this.urlArgs.platform = params['platform'];
+      this.urlArgs.membership = params['membership'];
+      this.urlArgs.character = params['character'];
+      this.urlArgs.component = params['component'];
     });
     await this.databaseUpdateService.manageDatabase();
     this.isDatabaseUpToDate = true;
@@ -61,7 +57,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
       this.requestDataRefreshing.subscribe(async requestDataRefreshing => {
         if (requestDataRefreshing) {
           this.currentlyUpdating = true;
-          await this.retrieveAllDestinyData(this.platform!, this.membership!);
+          await this.retrieveAllDestinyData(this.urlArgs.platform!, this.urlArgs.membership!);
           this.currentlyUpdating = false;
         }
       });
@@ -88,7 +84,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.characterTitleNomenclatures = await this.nomenclatureService.getRecordNomenclatures(this.profile.characters.map(character => character.titleRecordHash));
     this.presentationTrees = await this.nomenclatureService.getPresentationTreesNomenclatures();
     this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile, this.presentationTrees);
-    this.vendorGroups = await this.getVendors(this.platform!, this.membership!, this.profile.characters[0].characterId);
+    this.vendorGroups = await this.getVendors(this.urlArgs.platform!, this.urlArgs.membership!, this.profile.characters[0].characterId);
     this.manageComponentArgs();
     this.isThisComponentReady = true;
   }
@@ -101,8 +97,8 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
         if(component === 'titles') this.setSelectedTitle(Number(hash)); //TODO ne pas set mais directement get dans l'argument du composant (apres si le hash n existe pas il est important de le voir avant ?)
         if(component === 'badges') this.setSelectedBadge(Number(hash));
       } else {
-        this.componentArgs.selectedTitle = undefined;
-        this.componentArgs.selectedBadge = undefined;
+        this.urlArgs.selectedTitle = undefined;
+        this.urlArgs.selectedBadge = undefined;
       }
     });
   }
@@ -163,18 +159,18 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   setSelectedTitle(hash: number) {
     const selectedTitle: DestinyPresentationTreeModel | undefined = this.presentationTrees.titles.childrenNode
       .find(title => title.hash === hash)
-    this.componentArgs.selectedTitle = selectedTitle;
+    this.urlArgs.selectedTitle = selectedTitle;
     if (selectedTitle === undefined) {
-      this.router.navigate([`/destiny/${this.platform}/${this.membership}/${this.character}/titles`]);
+      this.router.navigate([`/destiny/${this.urlArgs.platform}/${this.urlArgs.membership}/${this.urlArgs.character}/titles`]);//TODO remove ?hash plutot
     }
   }
 
   setSelectedBadge(hash: number) {
     const selectedBadge: DestinyPresentationTreeModel | undefined = this.presentationTrees.badges.childrenNode
       .find(badge => badge.hash === hash)
-    this.componentArgs.selectedBadge = selectedBadge;
+    this.urlArgs.selectedBadge = selectedBadge;
     if (selectedBadge === undefined) {
-      this.router.navigate([`/destiny/${this.platform}/${this.membership}/${this.character}/badges`]);
+      this.router.navigate([`/destiny/${this.urlArgs.platform}/${this.urlArgs.membership}/${this.urlArgs.character}/badges`]);//TODO remove ?hash plutot
     }
   }
 

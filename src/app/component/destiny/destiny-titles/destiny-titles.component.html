@@ -3,7 +3,7 @@
     <div class="big-component-title">Titles</div>
     <div class="active-titles">
       <a *ngFor="let title of titlesPresentationTree.childrenNode" title="{{ title.description }}"
-         [routerLink]="['/destiny', platform, membership, character, DestinyComponentSelectorComponent.titles]" [queryParams]="{hash: title.hash}"
+         [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.titles]" [queryParams]="{hash: title.hash}"
          class="selectable">
         <destiny-title-preview
           [title]="title"
