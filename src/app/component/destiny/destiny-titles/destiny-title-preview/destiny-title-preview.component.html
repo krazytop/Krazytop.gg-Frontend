@@ -8,6 +8,7 @@
   <div class="subcomponent-title" *ngIf="showDetails">{{ title.description }}</div>
   <br *ngIf="showDetails">
   <progress-bar
+    [color]="isTitleComplete(title) ? '#93884c' : '#757575'"
     [completionValue]="presentationNodeProgress.get(title.hash)!.completionValue!"
     [progressValue]="presentationNodeProgress.get(title.hash)!.progressValue!">
   </progress-bar>

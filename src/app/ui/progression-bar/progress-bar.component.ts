@@ -10,7 +10,8 @@ export class ProgressBarComponent {
   @Input() description?: string;
   @Input() progressValue!: number;
   @Input() completionValue!: number;
-  @Input() allProgressAreCompleted: boolean = true;
+  @Input() color: string = '#C2C2C2';
+  @Input() showNumbers: boolean = true;
 
   protected readonly Math = Math;
 }

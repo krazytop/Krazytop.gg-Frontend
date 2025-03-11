@@ -15,7 +15,7 @@
       <div class="objective-title">{{ getCompleteObjectiveDescription(objective) }}</div>
     </div>
     <progress-bar *ngIf="getSimpleObjectiveProgress(objective).completionValue > 1"
-                  [allProgressAreCompleted]="isRecordComplete(recordProgress)"
+                  [color]="isRecordComplete(recordProgress) ? '#93884c' : '#757575'"
                   [description]="getCompleteObjectiveDescription(objective)"
                   [completionValue]="getSimpleObjectiveProgress(objective).completionValue"
                   [progressValue]="getSimpleObjectiveProgress(objective).progress">

@@ -1,0 +1,29 @@
+<div class="component-list overlay">
+  <div class="header"
+       [style.background-color]="getBackgroundColor(item.itemNomenclature?.tierTypeHash!)"
+       [style.color]="getColor(item.itemNomenclature?.tierTypeHash!)">
+    <span class="item-name">{{ item.itemNomenclature!.name }}</span>
+    <span class="item-type">{{ item.itemNomenclature!.itemTypeDisplayName }}</span>
+  </div>
+  <div class="stats" *ngIf="item.itemStats">
+    <div class="stat" *ngFor="let stat of orderItemStats(item.itemStats ?? [])">
+      <span class="stat-name" [title]="statNomenclatures.get(stat.statHash!)?.description">{{ statNomenclatures.get(stat.statHash!)?.name }}</span>
+      <span [style.justify-self]="'center'">{{ stat.value }}</span>
+      <span *ngIf="needMs(stat.statHash)" [style.justify-self]="'left'">ms</span>
+      <progress-bar
+        *ngIf="needAProgressBar(stat.statHash)"
+        [color]="'#757575'"
+        [progressValue]="stat.value"
+        [completionValue]="100"
+        [showNumbers]="false">
+      </progress-bar>
+    </div>
+    <div class="stat" *ngIf="item.itemNomenclature?.itemType == 2">
+      <span class="stat-name" [style.font-weight]="'bold'">Total</span>
+      <span [style.justify-self]="'center'" [style.font-weight]="'bold'">{{ getStatsTotal(item) }}</span>
+    </div>
+  </div>
+  <div class="stats" *ngIf="!item.itemStats">
+    <span>{{ item.itemNomenclature?.description }}</span>
+  </div>
+</div>

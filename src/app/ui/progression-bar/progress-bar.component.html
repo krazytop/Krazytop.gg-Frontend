@@ -1,11 +1,14 @@
 <div class="progress">
   <div class="progress-bar">
-    <div class="current-progress" [style.width.%]="Math.min(100, progressValue / completionValue * 100)" [style.background-color]="progressValue >= completionValue && allProgressAreCompleted ? '#93884c': '#757575'"></div>
+    <div class="current-progress"
+         [style.width.%]="Math.min(100, progressValue / completionValue * 100)"
+         [style.background-color]="color">
+    </div>
     <div class="text with-description" *ngIf="description">
       <span>{{ description }}</span>
       <span>{{ progressValue }} / {{ completionValue }}</span>
     </div>
-    <div class="text without-description" *ngIf="!description">
+    <div class="text without-description" *ngIf="!description && showNumbers">
       <span>{{ progressValue }} / {{ completionValue }}</span>
     </div>
   </div>

@@ -1,4 +1,4 @@
-<div class="item" title="{{ item.itemNomenclature?.name }}">
+<div class="item" title="{{ item.itemNomenclature?.name }}" (click)="showOverlay()">
   <div class="item-images" [ngClass]="hasState(item, ItemStateEnum.HighlightedObjective) ? 'deepsight': 'none'">
     <div [ngClass]="hasState(item, ItemStateEnum.Masterwork) ? 'masterwork' : 'none'"></div>
     <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature?.icon }}" alt="item" class="item-image">

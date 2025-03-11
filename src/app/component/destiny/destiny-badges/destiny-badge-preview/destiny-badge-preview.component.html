@@ -9,7 +9,7 @@
     <div class="character" *ngFor="let character of badge.childrenNode">
       <img src="assets/data/destiny/classes/{{ getClassImage(character) }}"> <!-- TODO character icon component -->
       <progress-bar
-        [allProgressAreCompleted]="isBadgeFullyCompleted(badge)"
+        [color]="isBadgeFullyCompleted(badge) ? '#93884c' : '#757575'"
         [completionValue]="presentationNodeProgress.get(character.hash)!.completionValue!"
         [progressValue]="presentationNodeProgress.get(character.hash)!.progressValue!">
       </progress-bar>

@@ -32,6 +32,10 @@ export class DestinyNomenclatureService {
     return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.RECORD_STORE)
   }
 
+  async getStatNomenclatures() {
+    return await this.databaseApi.getAllObjects(DestinyDatabaseApi.STAT_STORE)
+  }
+
   async getPresentationTreesNomenclatures() {
     let treesModel: DestinyPresentationTreesModel = new DestinyPresentationTreesModel();
     const nomenclature: Map<number, DestinyPresentationTreeModel> = await this.databaseApi.getAllObjectsByIds(getAllPresentationTrees(), DestinyDatabaseApi.PRESENTATION_TREE_STORE) as unknown as  Map<number, DestinyPresentationTreeModel>;

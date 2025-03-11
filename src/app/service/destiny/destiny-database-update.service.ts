@@ -14,6 +14,9 @@ import {DestinyPresentationNodeNomenclature} from "../../model/destiny/nomenclat
 import {DestinyVendorNomenclature} from "../../model/destiny/nomenclature/destiny-vendor.nomenclature";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
 import {DestinyVendorModel} from "../../model/destiny/destiny-vendor.model";
+import {DestinyStatNomenclature} from "../../model/destiny/nomenclature/destiny-stat.nomenclature";
+import {DestinyItemStatModel} from "../../model/destiny/destiny-item-stat.model";
+import {DestinySocketCategoryModel} from "../../model/destiny/destiny-socket-category.model";
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +53,7 @@ export class DestinyDatabaseUpdateService {
     const vendors = await this.updateVendors(definitions['DestinyVendorDefinition']);
     await this.updateVendorGroups(definitions['DestinyVendorGroupDefinition'], vendors);
     await this.updateItems(definitions['DestinyInventoryItemDefinition']);
+    await this.updateStat(definitions['DestinyStatDefinition']);
     await this.updatePresentationTrees(collectibles, metrics, objectives, records, presentationNodes);
     localStorage.setItem(DestinyDatabaseApi.MANIFEST_VERSION, manifestVersion)
   }
@@ -131,6 +135,17 @@ export class DestinyDatabaseUpdateService {
       itemNomenclature.equippable = Boolean(entryData['equippable']);
       itemNomenclature.itemTypeDisplayName = String(entryData['itemTypeDisplayName']);
 
+      let investmentStats: any[] = entryData['investmentStats'];
+      if (investmentStats) {
+        itemNomenclature.investmentStats = investmentStats.map(stat => {
+          return {statHash: Number(stat['statTypeHash']), value: Number(stat['value'])} as DestinyItemStatModel
+        })
+      }
+
+      const socketCategories = entryData['sockets']?.['socketCategories'];
+      if (socketCategories) {
+        itemNomenclature.socketCategories = Object.values(socketCategories);
+      }
       itemNomenclatures.push(itemNomenclature);
     }
     console.log(`${itemNomenclatures.length} items added`)
@@ -315,6 +330,26 @@ export class DestinyDatabaseUpdateService {
     }
     console.log(`${presentationNodeNomenclatures.size} records added`)
     return presentationNodeNomenclatures;
+  }
+
+  private async updateStat(definition: any) {
+    const json = await this.downloadJson(definition);
+    const statNomenclatures: DestinyStatNomenclature[] = [];
+    for (let [, entryData] of json) {
+      const statNomenclature = new DestinyStatNomenclature();
+      statNomenclature.hash = Number(entryData["hash"]);
+      const displayProperties = entryData["displayProperties"];
+      statNomenclature.name = String(displayProperties["name"]);
+      statNomenclature.description = String(displayProperties["description"]);
+      statNomenclature.index = Number(entryData["index"]);
+      statNomenclature.hasComputedBlock = Boolean(entryData["hasComputedBlock"]);
+      statNomenclature.aggregationType = Number(entryData["aggregationType"]);
+      statNomenclature.statCategory = Number(entryData["statCategory"]);
+      statNomenclature.interpolate = Boolean(entryData["interpolate"]);
+      statNomenclatures.push(statNomenclature)
+    }
+    console.log(`${statNomenclatures.length} stats added`)
+    await this.databaseApi.addObjects(statNomenclatures, DestinyDatabaseApi.STAT_STORE);
   }
 
   private async updatePresentationTrees(collectibles: Map<number,DestinyCollectibleNomenclature>, metrics: Map<number,DestinyMetricNomenclature>, objectives: Map<number,DestinyObjectiveNomenclature>, records: Map<number,DestinyRecordNomenclature>, presentationNodes: Map<number,DestinyPresentationNodeNomenclature>) {

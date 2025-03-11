@@ -69,22 +69,22 @@ export class DestinyCharacterItemFiltersService {
   filterByDamageType(item: DestinyItemModel) {
     let shouldBeDisplayed = true;
     if (this.damageTypeFilters.kinetic) {
-      shouldBeDisplayed = item.itemNomenclature?.defaultDamageType === DestinyItemDamageTypeEnum.Kinetic;
+      shouldBeDisplayed = item.itemInstance?.damageType === DestinyItemDamageTypeEnum.Kinetic;
     }
     if (this.damageTypeFilters.thermal) {
-      shouldBeDisplayed = item.itemNomenclature?.defaultDamageType === DestinyItemDamageTypeEnum.Thermal;
+      shouldBeDisplayed = item.itemInstance?.damageType === DestinyItemDamageTypeEnum.Thermal;
     }
     if (this.damageTypeFilters.arc) {
-      shouldBeDisplayed = item.itemNomenclature?.defaultDamageType === DestinyItemDamageTypeEnum.Arc;
+      shouldBeDisplayed = item.itemInstance?.damageType === DestinyItemDamageTypeEnum.Arc;
     }
     if (this.damageTypeFilters.void) {
-      shouldBeDisplayed = item.itemNomenclature?.defaultDamageType === DestinyItemDamageTypeEnum.Void;
+      shouldBeDisplayed = item.itemInstance?.damageType === DestinyItemDamageTypeEnum.Void;
     }
     if (this.damageTypeFilters.stasis) {
-      shouldBeDisplayed = item.itemNomenclature?.defaultDamageType === DestinyItemDamageTypeEnum.Stasis;
+      shouldBeDisplayed = item.itemInstance?.damageType === DestinyItemDamageTypeEnum.Stasis;
     }
     if (this.damageTypeFilters.strand) {
-      shouldBeDisplayed = item.itemNomenclature?.defaultDamageType === DestinyItemDamageTypeEnum.Strand;
+      shouldBeDisplayed = item.itemInstance?.damageType === DestinyItemDamageTypeEnum.Strand;
     }
     return shouldBeDisplayed;
   }

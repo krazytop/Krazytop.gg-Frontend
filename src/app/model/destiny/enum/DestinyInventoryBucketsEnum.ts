@@ -1,5 +1,3 @@
-import {DestinyItemModel} from "../destiny-item.model";
-
 export enum DestinyInventoryBucketEnum {
   Postmaster = 215593132,
   KineticWeapon = 1498876634,
@@ -28,20 +26,4 @@ export function getAllCharacterBuckets(){
     DestinyInventoryBucketEnum.ClassObject,
     DestinyInventoryBucketEnum.Ship,
     DestinyInventoryBucketEnum.Emblem]
-}
-
-export function isWeapon(item: DestinyItemModel){
-  const bucket = item.bucketHash;
-  return bucket == DestinyInventoryBucketEnum.KineticWeapon
-    || bucket == DestinyInventoryBucketEnum.EnergyWeapon
-    || bucket == DestinyInventoryBucketEnum.PowerWeapon;
-}
-
-export function isArmor(item: DestinyItemModel){
-  const bucket = item.bucketHash;
-  return bucket == DestinyInventoryBucketEnum.Helmet
-    || bucket == DestinyInventoryBucketEnum.Gauntlets
-    || bucket == DestinyInventoryBucketEnum.ChestArmor
-    || bucket == DestinyInventoryBucketEnum.LegArmor
-    || bucket == DestinyInventoryBucketEnum.ClassObject;
 }
