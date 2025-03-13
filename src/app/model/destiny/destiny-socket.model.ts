@@ -1,5 +1,5 @@
 export class DestinySocketModel {
-  plugHash!: number;
+  plugHash?: number;
   isEnabled!: boolean;
   isVisible!: boolean;
 }

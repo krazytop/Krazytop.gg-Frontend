@@ -4,6 +4,11 @@ import {DestinyItemModel} from "../../../../model/destiny/destiny-item.model";
 import {DestinyStatNomenclature} from "../../../../model/destiny/nomenclature/destiny-stat.nomenclature";
 import {getBackgroundColor, getColor} from "../../../../model/destiny/enum/DestinyTierTypeEnum";
 import {needAProgressBar, needMs, orderItemStats} from "../../../../model/destiny/enum/DestinyStatEnum";
+import {DestinyItemOverlayModel} from "../../../../model/destiny/destiny-item-overlay.model";
+import {DestinyComponent} from "../../destiny.component";
+import {DestinySocketCategoryEnum} from "../../../../model/destiny/enum/DestinySocketCategoryEnum";
+import {DestinySocketCategoryModel} from "../../../../model/destiny/destiny-socket-category.model";
+import {DestinyItemTypeEnum} from "../../../../model/destiny/enum/DestinyItemTypeEnum";
 
 @Component({
   selector: 'destiny-item-overlay',
@@ -12,8 +17,7 @@ import {needAProgressBar, needMs, orderItemStats} from "../../../../model/destin
 })
 export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
 
-  @Input() item!: DestinyItemModel;
-  @Input() statNomenclatures!: Map<number, DestinyStatNomenclature>;
+  @Input() itemOverlay!: DestinyItemOverlayModel;
 
   private readonly clickListener: () => void;
 
@@ -26,16 +30,34 @@ export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    this.item.itemStats?.sort((a,b) => this.statNomenclatures.get(a.statHash)?.index! - this.statNomenclatures.get(b.statHash)?.index!);
-    console.log(this.item)
-  }
-
-  ngOnDestroy() {
-    if (this.clickListener) this.clickListener();
+    this.itemOverlay.item!.itemStats?.sort((a,b) => this.itemOverlay.statNomenclatures.get(a.statHash)?.index! - this.itemOverlay.statNomenclatures.get(b.statHash)?.index!);
   }
 
   getStatsTotal(item : DestinyItemModel) {
     return item.itemStats!.reduce((sum, stat) => sum + stat.value, 0)
+  }
+
+  get intrinsicTraitSocket(): DestinySocketCategoryModel{
+    return this.itemOverlay.item!.itemNomenclature.socketCategories?.find(cat => cat.socketCategoryHash === DestinySocketCategoryEnum.INTRINSIC_TRAITS)!;
+  }
+
+  get weaponPerksSocket(): DestinySocketCategoryModel{
+    return this.itemOverlay.item!.itemNomenclature.socketCategories?.find(cat => cat.socketCategoryHash === DestinySocketCategoryEnum.WEAPON_PERKS_2)!;
+  }
+
+  getCurrentPlug(socketIndex: number) {
+    return this.itemOverlay.plugsNomenclatures.get(this.itemOverlay.item!.itemSockets![socketIndex]!.plugHash!)!
+  }
+
+  getAllPlugs(socketIndex: number) {
+    const currentPlug = this.getCurrentPlug(socketIndex);
+    return Array.from(this.itemOverlay.item?.itemPlugs?.values() ?? [])
+      .find(plugs => plugs.some(plug => plug.plugItemHash === currentPlug!.hash))
+      ?.map(plugs => this.itemOverlay.plugsNomenclatures.get(plugs.plugItemHash)!) ?? [currentPlug];
+  }
+
+  ngOnDestroy() {
+    if (this.clickListener) this.clickListener();
   }
 
   protected readonly getBackgroundColor = getBackgroundColor;
@@ -43,4 +65,6 @@ export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
   protected readonly needAProgressBar = needAProgressBar;
   protected readonly needMs = needMs;
   protected readonly orderItemStats = orderItemStats;
+  protected readonly DestinyComponent = DestinyComponent;
+  protected readonly DestinyItemTypeEnum = DestinyItemTypeEnum;
 }

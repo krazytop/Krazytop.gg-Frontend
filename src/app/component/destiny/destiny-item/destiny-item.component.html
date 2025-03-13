@@ -1,8 +1,8 @@
-<div class="item" title="{{ item.itemNomenclature?.name }}" (click)="showOverlay()">
+<div class="item" title="{{ item.itemNomenclature.name }}" (click)="showOverlay()">
   <div class="item-images" [ngClass]="hasState(item, ItemStateEnum.HighlightedObjective) ? 'deepsight': 'none'">
     <div [ngClass]="hasState(item, ItemStateEnum.Masterwork) ? 'masterwork' : 'none'"></div>
-    <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature?.icon }}" alt="item" class="item-image">
-    <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature?.iconWatermark }}" alt="item watermark" class="item-watermark" *ngIf="item.itemNomenclature?.iconWatermark">
+    <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature.icon }}" alt="item" class="item-image">
+    <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature.iconWatermark }}" alt="item watermark" class="item-watermark" *ngIf="item.itemNomenclature.iconWatermark">
     <img src="/assets/data/destiny/crafted.png"  alt="crafted" *ngIf="hasState(item, ItemStateEnum.Crafted)" class="crafted">
     <div [ngClass]="hasState(item, ItemStateEnum.Crafted) ? 'crafted-aura' : 'none'"></div>
     <img src="/assets/data/destiny/lock.png"  alt="locked" *ngIf="hasState(item, ItemStateEnum.Locked)" class="locked">
@@ -11,8 +11,8 @@
     <img src="{{getDamageTypeImage(item)}}" alt="crafted" *ngIf="item.itemInstance?.damageType != ItemDamageTypeEnum.None" class="damage-type">
     <span style="margin-top: 2px">{{ item.itemInstance!.primaryStat?.value ?? 0 }}</span>
   </div>
-  <div title="Max Stack Size : {{ formatService.formatByThousands(item.itemNomenclature?.maxStackSize!) }}" *ngIf="item.itemInstanceId === undefined" class="size-or-level">
+  <div title="Max Stack Size : {{ formatService.formatByThousands(item.itemNomenclature.maxStackSize!) }}" *ngIf="item.itemInstanceId === undefined" class="size-or-level">
     <span  style="margin-top: 2px" *ngIf="item.itemInstanceId == undefined">{{ formatService.formatByThousands(item.quantity) }}</span>
-    <span *ngIf="item.quantity === item.itemNomenclature?.maxStackSize" class="warning">⚠️</span>
+    <span *ngIf="item.quantity === item.itemNomenclature.maxStackSize" class="warning">⚠️</span>
   </div>
 </div>

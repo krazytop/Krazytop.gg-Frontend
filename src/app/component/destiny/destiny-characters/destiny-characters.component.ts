@@ -85,7 +85,7 @@ export class DestinyCharactersComponent implements OnChanges {
   private getItemsByBucket(inventory: DestinyCharacterInventoryModel, bucketHash: number) {
     return inventory.items.filter(item =>  {
       if (item.bucketHash === bucketHash) {
-        item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
+        item.itemNomenclature = this.itemNomenclatures.get(item.itemHash)!;
         item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
         item.itemStats = this.itemStats.get(Number(item.itemInstanceId));
         item.itemSockets = this.itemSockets.get(Number(item.itemInstanceId));
@@ -103,7 +103,7 @@ export class DestinyCharactersComponent implements OnChanges {
     } else {
       return this.profileInventory.filter(item =>  {
         if (item.bucketHash === DestinyInventoryBucketEnum.General) {
-          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
+          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash)!;
           if (item.itemNomenclature?.bucketTypeHash === bucketHash) {
             item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
             item.itemSockets = this.itemSockets.get(Number(item.itemInstanceId));

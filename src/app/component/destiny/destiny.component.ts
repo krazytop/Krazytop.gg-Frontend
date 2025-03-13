@@ -92,6 +92,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile, this.presentationTrees);
     this.statNomenclatures = await this.nomenclatureService.getStatNomenclatures();
     this.overlayService.itemOverlay.statNomenclatures = this.statNomenclatures;
+    this.overlayService.itemOverlay.plugsNomenclatures = await this.nomenclatureService.getPlugNomenclatures(this.profile.itemPlugs, this.profile.itemSockets);
     this.vendorGroups = await this.getVendors(this.urlArgs.platform!, this.urlArgs.membership!, this.profile.characters[0].characterId);
     this.manageComponentArgs();
     this.isThisComponentReady = true;
@@ -151,7 +152,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
       });
     Object.entries(json['Response']['itemComponents']['sockets']['data'])
       .forEach(([itemHash, item]) => {
-        destinyProfile.itemSockets.set(Number(itemHash), item as DestinySocketModel[]);
+        destinyProfile.itemSockets.set(Number(itemHash), (item as any)['sockets'] as DestinySocketModel[]);
       });
     Object.entries(json['Response']['itemComponents']['reusablePlugs']['data'])
       .forEach(([itemHash, item]) => {

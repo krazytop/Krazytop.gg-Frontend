@@ -38,3 +38,30 @@
 .stat-name {
   justify-self: end;
 }
+
+.socket-categories {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.socket-category {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.plug {
+  padding: 2px;
+  width: 30px;
+  border-radius: 50%;
+  border: 1px solid white;
+}
+
+.active-plug {
+  background-color: #436cc5;
+}
+
+.intrinsic {
+  width: 36px;
+}

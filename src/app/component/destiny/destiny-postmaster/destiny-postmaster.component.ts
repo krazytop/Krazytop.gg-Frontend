@@ -37,7 +37,7 @@ export class DestinyPostmasterComponent implements OnInit { //TODO pb refresh en
     this.characterInventories.forEach(characterInventory => {
       const items = characterInventory.items.filter(item =>  {
         if (item.bucketHash === DestinyInventoryBucketEnum.Postmaster) {
-          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
+          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash)!;
           item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
           return true
         } else {

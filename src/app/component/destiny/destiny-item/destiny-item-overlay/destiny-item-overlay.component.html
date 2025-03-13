@@ -1,13 +1,13 @@
 <div class="component-list overlay">
   <div class="header"
-       [style.background-color]="getBackgroundColor(item.itemNomenclature?.tierTypeHash!)"
-       [style.color]="getColor(item.itemNomenclature?.tierTypeHash!)">
-    <span class="item-name">{{ item.itemNomenclature!.name }}</span>
-    <span class="item-type">{{ item.itemNomenclature!.itemTypeDisplayName }}</span>
+       [style.background-color]="getBackgroundColor(itemOverlay.item!.itemNomenclature.tierTypeHash!)"
+       [style.color]="getColor(itemOverlay.item!.itemNomenclature.tierTypeHash!)">
+    <span class="item-name">{{ itemOverlay.item!.itemNomenclature.name }}</span>
+    <span class="item-type">{{ itemOverlay.item!.itemNomenclature.itemTypeDisplayName }}</span>
   </div>
-  <div class="stats" *ngIf="item.itemStats">
-    <div class="stat" *ngFor="let stat of orderItemStats(item.itemStats ?? [])">
-      <span class="stat-name" [title]="statNomenclatures.get(stat.statHash!)?.description">{{ statNomenclatures.get(stat.statHash!)?.name }}</span>
+  <div class="stats" *ngIf="itemOverlay.item!.itemStats">
+    <div class="stat" *ngFor="let stat of orderItemStats(itemOverlay.item!.itemStats ?? [])">
+      <span class="stat-name" [title]="itemOverlay.statNomenclatures.get(stat.statHash!)?.description">{{ itemOverlay.statNomenclatures.get(stat.statHash!)?.name }}</span>
       <span [style.justify-self]="'center'">{{ stat.value }}</span>
       <span *ngIf="needMs(stat.statHash)" [style.justify-self]="'left'">ms</span>
       <progress-bar
@@ -18,12 +18,20 @@
         [showNumbers]="false">
       </progress-bar>
     </div>
-    <div class="stat" *ngIf="item.itemNomenclature?.itemType == 2">
+    <div class="stat" *ngIf="itemOverlay.item!.itemNomenclature.itemType == 2">
       <span class="stat-name" [style.font-weight]="'bold'">Total</span>
-      <span [style.justify-self]="'center'" [style.font-weight]="'bold'">{{ getStatsTotal(item) }}</span>
+      <span [style.justify-self]="'center'" [style.font-weight]="'bold'">{{ getStatsTotal(itemOverlay.item!) }}</span>
     </div>
   </div>
-  <div class="stats" *ngIf="!item.itemStats">
-    <span>{{ item.itemNomenclature?.description }}</span>
+  <div class="stats" *ngIf="!itemOverlay.item!.itemStats">
+    <span>{{ itemOverlay.item!.itemNomenclature.description }}</span>
+  </div>
+  <div class="socket-categories" *ngIf="itemOverlay.item!.itemNomenclature.itemType === DestinyItemTypeEnum.Weapon">
+    <div class="socket-category">
+      <img *ngFor="let socketIndex of intrinsicTraitSocket.socketIndexes" [src]="DestinyComponent.ASSET_URL + getCurrentPlug(socketIndex).icon" class="intrinsic">
+    </div>
+    <div class="socket-category" *ngFor="let socketIndex of weaponPerksSocket.socketIndexes">
+      <img *ngFor="let plug of getAllPlugs(socketIndex)" [src]="DestinyComponent.ASSET_URL + plug.icon" [class]="plug === getCurrentPlug(socketIndex)? 'active-plug' : 'none'" class="plug">
+    </div>
   </div>
 </div>

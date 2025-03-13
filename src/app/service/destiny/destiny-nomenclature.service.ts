@@ -8,6 +8,11 @@ import {
   DestinyPresentationTreeEnum,
   getAllPresentationTrees
 } from "../../model/destiny/enum/DestinyPresentationTreeEnum";
+import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
+import {DestinySocketCategoryEnum} from "../../model/destiny/enum/DestinySocketCategoryEnum";
+import {DestinyItemInstanceModel} from "../../model/destiny/destiny-item-instance.model";
+import {DestinyPlugModel} from "../../model/destiny/destiny-plug.model";
+import {DestinySocketModel} from "../../model/destiny/destiny-socket.model";
 
 @Injectable({ providedIn: 'root' })
 export class DestinyNomenclatureService {
@@ -56,6 +61,17 @@ export class DestinyNomenclatureService {
   async getProgressionNomenclatures(progressionIds: number) {
     const nomenclatures = await this.databaseApi.getAllObjectsByIds([progressionIds], DestinyDatabaseApi.PROGRESSION_STORE);
     return [...nomenclatures.values()][0];
+  }
+
+  async getPlugNomenclatures(plugsMap: Map<number, Map<number, DestinyPlugModel[]>>, itemSockets: Map<number, DestinySocketModel[]>) {
+    let hashes: number[] = Array.from(new Set([
+      ...[...plugsMap.values()].flatMap((plugsSubMap: Map<number, DestinyPlugModel[]>) =>
+        [...plugsSubMap.values()].flatMap((plugs: DestinyPlugModel[]) =>
+          plugs.map(plug => plug.plugItemHash)
+        )
+      ), ...[...itemSockets.values()].flatMap((sockets: DestinySocketModel[]) => sockets.map(socket => socket.plugHash!).filter(socket => socket != undefined))
+    ]));
+    return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE);
   }
 
 }

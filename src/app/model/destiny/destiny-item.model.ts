@@ -9,7 +9,7 @@ import {DestinyPlugModel} from "./destiny-plug.model";
 
 export class DestinyItemModel {
   itemHash!: number;
-  itemNomenclature?: DestinyItemNomenclature;
+  itemNomenclature!: DestinyItemNomenclature;
   itemInstanceId?: string;
   itemInstance?: DestinyItemInstanceModel;
   itemSockets?: DestinySocketModel[];
