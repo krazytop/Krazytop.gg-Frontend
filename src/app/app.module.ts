@@ -60,6 +60,7 @@ import { DestinyCollectibleComponent } from './component/destiny/destiny-collect
 import { DestinyBadgePreviewComponent } from './component/destiny/destiny-badges/destiny-badge-preview/destiny-badge-preview.component';
 import { DestinyTitlePreviewComponent } from './component/destiny/destiny-titles/destiny-title-preview/destiny-title-preview.component';
 import { DropdownComponent } from './ui/dropdown/dropdown.component';
+import { DestinyItemOverlayComponent } from './component/destiny/destiny-item/destiny-item-overlay/destiny-item-overlay.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,8 @@ import { DropdownComponent } from './ui/dropdown/dropdown.component';
     DestinyCollectibleComponent,
     DestinyBadgePreviewComponent,
     DestinyTitlePreviewComponent,
-    DropdownComponent
+    DropdownComponent,
+    DestinyItemOverlayComponent
   ],
     imports: [
         BrowserModule,

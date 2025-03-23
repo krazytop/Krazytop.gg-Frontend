@@ -8,6 +8,11 @@ import {
   DestinyPresentationTreeEnum,
   getAllPresentationTrees
 } from "../../model/destiny/enum/DestinyPresentationTreeEnum";
+import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
+import {DestinySocketCategoryEnum} from "../../model/destiny/enum/DestinySocketCategoryEnum";
+import {DestinyItemInstanceModel} from "../../model/destiny/destiny-item-instance.model";
+import {DestinyPlugModel} from "../../model/destiny/destiny-plug.model";
+import {DestinySocketModel} from "../../model/destiny/destiny-socket.model";
 
 @Injectable({ providedIn: 'root' })
 export class DestinyNomenclatureService {
@@ -17,11 +22,10 @@ export class DestinyNomenclatureService {
 
   async getItemNomenclatures(profile: DestinyProfileModel, presentationTrees: DestinyPresentationTreesModel) {
     const hashes: number[] = [...new Set([
-      ...profile.profileInventory.flatMap(item => item.itemHash),
+      ...profile.profileInventory.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash]),
       ...profile.profileCurrencies.flatMap(item => item.itemHash),
-      ...profile.characterEquipment.flatMap(inventory => inventory.items.flatMap(item => item.itemHash)),
-      ...profile.characterInventories.flatMap(inventory => inventory.items.flatMap(item => item.itemHash)),
-      ...profile.profileInventory.flatMap(item => item.itemHash),
+      ...profile.characterEquipment.flatMap(inventory => inventory.items.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash])),
+      ...profile.characterInventories.flatMap(inventory => inventory.items.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash])),
       ...presentationTrees.badges.childrenNode.flatMap(badge => badge.childrenNode.flatMap(character => character.childrenCollectible.map(collectible => collectible.itemHash))),
       ...MainCurrencies, ...Engrams])];
     return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE)
@@ -30,6 +34,10 @@ export class DestinyNomenclatureService {
   async getRecordNomenclatures(hashes: number[]) {
     hashes = Array.from(new Set(hashes))
     return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.RECORD_STORE)
+  }
+
+  async getStatNomenclatures() {
+    return await this.databaseApi.getAllObjects(DestinyDatabaseApi.STAT_STORE)
   }
 
   async getPresentationTreesNomenclatures() {
@@ -52,6 +60,17 @@ export class DestinyNomenclatureService {
   async getProgressionNomenclatures(progressionIds: number) {
     const nomenclatures = await this.databaseApi.getAllObjectsByIds([progressionIds], DestinyDatabaseApi.PROGRESSION_STORE);
     return [...nomenclatures.values()][0];
+  }
+
+  async getPlugNomenclatures(plugsMap: Map<number, Map<number, DestinyPlugModel[]>>, itemSockets: Map<number, DestinySocketModel[]>) {
+    let hashes: number[] = Array.from(new Set([
+      ...[...plugsMap.values()].flatMap((plugsSubMap: Map<number, DestinyPlugModel[]>) =>
+        [...plugsSubMap.values()].flatMap((plugs: DestinyPlugModel[]) =>
+          plugs.map(plug => plug.plugItemHash)
+        )
+      ), ...[...itemSockets.values()].flatMap((sockets: DestinySocketModel[]) => sockets.map(socket => socket.plugHash!).filter(socket => socket != undefined))
+    ]));
+    return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE);
   }
 
 }

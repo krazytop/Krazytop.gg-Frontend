@@ -9,8 +9,7 @@ import {AlertService} from "../../alert/alert.service";
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {
   DestinyInventoryBucketEnum,
-  getAllCharacterBuckets, isArmor,
-  isWeapon
+  getAllCharacterBuckets
 } from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
 import {getClassName, getClassImage} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyErrorResponseModel} from "../../../model/destiny/destiny-error-response.model";
@@ -21,7 +20,11 @@ import {DestinyPresentationTreeModel} from "../../../model/destiny/destiny-prese
 import { DestinyRecordNomenclature } from '../../../model/destiny/nomenclature/destiny-record.nomenclature';
 import {DestinyCharacterItemFiltersService} from "../../../service/destiny/destiny-character-item-filters.service";
 import {DestinyComponent} from "../destiny.component";
-import {DestinyDatabaseApi} from "../../../service/destiny/destiny-database.api";
+import {DestinyStatNomenclature} from "../../../model/destiny/nomenclature/destiny-stat.nomenclature";
+import {DestinyItemStatModel} from "../../../model/destiny/destiny-item-stat.model";
+import {DestinyItemTypeEnum} from "../../../model/destiny/enum/DestinyItemTypeEnum";
+import {DestinySocketModel} from "../../../model/destiny/destiny-socket.model";
+import {DestinyPlugModel} from "../../../model/destiny/destiny-plug.model";
 
 @Component({
   selector: 'destiny-characters',
@@ -35,7 +38,11 @@ export class DestinyCharactersComponent implements OnChanges {
   @Input() characterEquipment!: DestinyCharacterInventoryModel[];
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
   @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
+  @Input() itemStats!: Map<number, DestinyItemStatModel[]>;
+  @Input() itemSockets!: Map<number, DestinySocketModel[]>;
+  @Input() itemPlugs!: Map<number, Map<number, DestinyPlugModel[]>>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
+  @Input() statNomenclatures!: Map<number, DestinyStatNomenclature>;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>;
   @Input() kineticWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
   @Input() energyWeaponModelsPresentationTree!: DestinyPresentationTreeModel;
@@ -45,7 +52,7 @@ export class DestinyCharactersComponent implements OnChanges {
   allItems: DestinyItemModel[] = [];
   allCraftedWeaponRecords: DestinyRecordNomenclature[] = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService, protected destinyComponent: DestinyComponent, private databaseApi: DestinyDatabaseApi) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private alertService: AlertService, protected characterItemFiltersService: DestinyCharacterItemFiltersService, protected destinyComponent: DestinyComponent) {
   }
 
   ngOnChanges(): void {
@@ -78,8 +85,12 @@ export class DestinyCharactersComponent implements OnChanges {
   private getItemsByBucket(inventory: DestinyCharacterInventoryModel, bucketHash: number) {
     return inventory.items.filter(item =>  {
       if (item.bucketHash === bucketHash) {
-        item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
+        item.itemNomenclature = this.itemNomenclatures.get(item.itemHash)!;
         item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
+        item.itemStats = this.itemStats.get(Number(item.itemInstanceId));
+        item.itemSockets = this.itemSockets.get(Number(item.itemInstanceId));
+        item.itemPlugs = this.itemPlugs.get(Number(item.itemInstanceId));
+        item.overrideStyleItemNomenclature = item.overrideStyleItemHash ? this.itemNomenclatures.get(item.overrideStyleItemHash!) : undefined;
         return true
       } else {
         return false;
@@ -93,9 +104,13 @@ export class DestinyCharactersComponent implements OnChanges {
     } else {
       return this.profileInventory.filter(item =>  {
         if (item.bucketHash === DestinyInventoryBucketEnum.General) {
-          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash);
+          item.itemNomenclature = this.itemNomenclatures.get(item.itemHash)!;
           if (item.itemNomenclature?.bucketTypeHash === bucketHash) {
             item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
+            item.itemSockets = this.itemSockets.get(Number(item.itemInstanceId));
+            item.itemStats = this.itemStats.get(Number(item.itemInstanceId));
+            item.itemPlugs = this.itemPlugs.get(Number(item.itemInstanceId));
+            item.overrideStyleItemNomenclature = item.overrideStyleItemHash ? this.itemNomenclatures.get(item.overrideStyleItemHash!) : undefined;
             return true;
           } else {
             return false;
@@ -222,9 +237,9 @@ export class DestinyCharactersComponent implements OnChanges {
   private equipAnOtherItem(itemToMove: DestinyItemModel, inventory: DestinyCharacterInventoryModel) {
     let anExoticIsAlreadyEquipped = false;
     let bucketsToCheck: DestinyInventoryBucketEnum[] = [];
-    if (isWeapon(itemToMove)) {
+    if (itemToMove.itemNomenclature?.itemType === DestinyItemTypeEnum.Weapon) {
       bucketsToCheck = [DestinyInventoryBucketEnum.KineticWeapon, DestinyInventoryBucketEnum.EnergyWeapon, DestinyInventoryBucketEnum.PowerWeapon]
-    } else if (isArmor(itemToMove)) {
+    } else if (itemToMove.itemNomenclature?.itemType === DestinyItemTypeEnum.Armor) {
       bucketsToCheck = [DestinyInventoryBucketEnum.Helmet, DestinyInventoryBucketEnum.Gauntlets, DestinyInventoryBucketEnum.ChestArmor, DestinyInventoryBucketEnum.LegArmor, DestinyInventoryBucketEnum.ClassObject]
     }
     bucketsToCheck = bucketsToCheck.filter(bucket => bucket != itemToMove.bucketHash);

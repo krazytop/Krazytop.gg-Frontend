@@ -47,7 +47,11 @@
                         [characterEquipment]="profile.characterEquipment"
                         [characterInventories]="profile.characterInventories"
                         [itemInstances]="profile.itemInstances"
+                        [itemStats]="profile.itemStats"
+                        [itemSockets]="profile.itemSockets"
+                        [itemPlugs]="profile.itemPlugs"
                         [itemNomenclatures]="itemNomenclatures"
+                        [statNomenclatures]="statNomenclatures"
                         [kineticWeaponModelsPresentationTree]="presentationTrees.kineticWeaponModels!"
                         [energyWeaponModelsPresentationTree]="presentationTrees.energyWeaponModels!"
                         [powerWeaponModelsPresentationTree]="presentationTrees.powerWeaponModels!"
@@ -72,3 +76,8 @@
 </div>
 <loading-screen *ngIf="!isDatabaseUpToDate" [message]="'Downloading last Destiny database'" class="primary-component"></loading-screen>
 <loading-screen *ngIf="isDatabaseUpToDate && !isThisComponentReady" [message]="'Recovering your Destiny data'" class="primary-component"></loading-screen>
+<destiny-item-overlay *ngIf="overlayService.itemOverlay.item"
+                      [style.top]="overlayService.itemOverlay.top + 'px'"
+                      [style.left]="overlayService.itemOverlay.left + 'px'"
+                      [itemOverlay]="overlayService.itemOverlay">
+</destiny-item-overlay>

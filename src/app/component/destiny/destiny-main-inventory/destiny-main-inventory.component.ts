@@ -32,7 +32,7 @@ export class DestinyMainInventoryComponent implements OnChanges {
   findItem(itemHash: number){
     let item: DestinyItemModel = new DestinyItemModel();
     item.itemHash = itemHash;
-    item.itemNomenclature = this.itemNomenclatures.get(itemHash);
+    item.itemNomenclature = this.itemNomenclatures.get(itemHash)!;
     item.quantity = this.profileInventory.find(item => item.itemHash === itemHash)?.quantity ??
       this.profileCurrencies.find(item => item.itemHash === itemHash)?.quantity ?? 0
     return item;

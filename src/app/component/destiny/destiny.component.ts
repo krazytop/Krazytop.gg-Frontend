@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
 import {Subject} from "rxjs";
@@ -17,6 +17,11 @@ import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-present
 import {DestinyDatabaseUpdateService} from "../../service/destiny/destiny-database-update.service";
 import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/destiny-vendor-group.nomenclature";
 import {DestinyCollectibleModel} from "../../model/destiny/destiny-collectible.model";
+import {DestinyOverlayService} from "../../service/destiny/destiny-overlay.service";
+import {DestinyStatNomenclature} from "../../model/destiny/nomenclature/destiny-stat.nomenclature";
+import {DestinyItemStatModel} from "../../model/destiny/destiny-item-stat.model";
+import {DestinyPlugModel} from "../../model/destiny/destiny-plug.model";
+import {DestinySocketModel} from "../../model/destiny/destiny-socket.model";
 
 @Component({
   selector: 'destiny',
@@ -34,6 +39,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
 
   profile: DestinyProfileModel = new DestinyProfileModel();
   itemNomenclatures: Map<number, DestinyItemNomenclature> = new Map();
+  statNomenclatures: Map<number, DestinyStatNomenclature> = new Map();//TODO réfléchir si on garde ou pas
   characterTitleNomenclatures: Map<number, DestinyRecordNomenclature> = new Map();
   vendorGroups: DestinyVendorGroupNomenclature[] = [];
   presentationTrees: DestinyPresentationTreesModel = new DestinyPresentationTreesModel();
@@ -42,7 +48,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
 
   public static readonly ASSET_URL: string = "https://www.bungie.net";
 
-  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService, protected overlayService: DestinyOverlayService) {}
 
   async ngOnInit() {
     this.route.params.subscribe(params => {
@@ -84,6 +90,9 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.characterTitleNomenclatures = await this.nomenclatureService.getRecordNomenclatures(this.profile.characters.map(character => character.titleRecordHash));
     this.presentationTrees = await this.nomenclatureService.getPresentationTreesNomenclatures();
     this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile, this.presentationTrees);
+    this.statNomenclatures = await this.nomenclatureService.getStatNomenclatures();
+    this.overlayService.itemOverlay.statNomenclatures = this.statNomenclatures;
+    this.overlayService.itemOverlay.plugsNomenclatures = await this.nomenclatureService.getPlugNomenclatures(this.profile.itemPlugs, this.profile.itemSockets);
     this.vendorGroups = await this.getVendors(this.urlArgs.platform!, this.urlArgs.membership!, this.profile.characters[0].characterId);
     this.manageComponentArgs();
     this.isThisComponentReady = true;
@@ -114,7 +123,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   }
 
   async getProfile(platform: number, membership: string) {
-    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,700,800,900`, {headers: this.bungieAuthService.getHeaders()})
+    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,304,305,310,700,800,900`, {headers: this.bungieAuthService.getHeaders()})
     const json = await response.json();
     const destinyProfile: DestinyProfileModel = new DestinyProfileModel();
     destinyProfile.characters = Object.values(json['Response']['characters']['data']);
@@ -136,6 +145,19 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     Object.entries(json['Response']['itemComponents']['instances']['data'])
       .forEach(([itemHash, item]) => {
         destinyProfile.itemInstances.set(Number(itemHash), item as DestinyItemInstanceModel);
+      });
+    Object.entries(json['Response']['itemComponents']['stats']['data'])
+      .forEach(([itemHash, item]) => {
+        destinyProfile.itemStats.set(Number(itemHash), Object.entries((item as any)['stats']).map(([, stat]) =>  stat as DestinyItemStatModel));
+      });
+    Object.entries(json['Response']['itemComponents']['sockets']['data'])
+      .forEach(([itemHash, item]) => {
+        destinyProfile.itemSockets.set(Number(itemHash), (item as any)['sockets'] as DestinySocketModel[]);
+      });
+    Object.entries(json['Response']['itemComponents']['reusablePlugs']['data'])
+      .forEach(([itemHash, item]) => {
+        destinyProfile.itemPlugs.set(Number(itemHash), new Map(Object.entries((item as any)['plugs'])
+          .map(([plugHash, plugList]) => [Number(plugHash), plugList as DestinyPlugModel[]])));
       });
     Object.entries((json['Response']['characterRecords']['data'][destinyProfile.characters[0].characterId]['records'] as { [nodeHash: string]: DestinyNodeProgressionModel }))
       .forEach(([nodeHash, node]) => {

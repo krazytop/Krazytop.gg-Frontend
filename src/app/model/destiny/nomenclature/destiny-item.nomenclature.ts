@@ -1,7 +1,10 @@
 import {DestinyTierTypeEnum} from "../enum/DestinyTierTypeEnum";
 import {DestinyInventoryBucketEnum} from "../enum/DestinyInventoryBucketsEnum";
+import {DestinyItemTypeEnum} from "../enum/DestinyItemTypeEnum";
+import {DestinyItemStatModel} from "../destiny-item-stat.model";
+import {DestinySocketCategoryModel} from "../destiny-socket-category.model";
 
-export class DestinyItemNomenclature{
+export class DestinyItemNomenclature {
   hash!: number
   name!: string;
   description!: string;
@@ -16,11 +19,13 @@ export class DestinyItemNomenclature{
   equipmentSlotTypeHash?: number;
   summaryItemHash!: number;
   specialItemType!: number;
-  itemType!: number;
+  itemType!: DestinyItemTypeEnum;
   itemSubType!: number;
   classType!: number;
   defaultDamageType!: number;
   isInstanceItem!: boolean;
   nonTransferrable!: boolean;
   equippable!: boolean;
+  investmentStats?: DestinyItemStatModel[];
+  socketCategories?: DestinySocketCategoryModel[];
 }

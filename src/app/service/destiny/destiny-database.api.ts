@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {DestinyItemNomenclature} from "../../model/destiny/nomenclature/destiny-item.nomenclature";
+import {DestinyStatNomenclature} from "../../model/destiny/nomenclature/destiny-stat.nomenclature";
 
 @Injectable({ providedIn: 'root' })
 export class DestinyDatabaseApi {
@@ -10,6 +11,7 @@ export class DestinyDatabaseApi {
   static PRESENTATION_TREE_STORE = 'PresentationTreeNomenclature';
   static VENDOR_STORE = 'VendorNomenclature';
   static PROGRESSION_STORE = 'ProgressionNomenclature';
+  static STAT_STORE = 'StatNomenclature';
   static MANIFEST_VERSION = 'ManifestVersion';
 
   constructor() {}
@@ -34,6 +36,7 @@ export class DestinyDatabaseApi {
       db.createObjectStore(DestinyDatabaseApi.RECORD_STORE, { keyPath: 'hash' });
       db.createObjectStore(DestinyDatabaseApi.VENDOR_STORE, { keyPath: 'hash' });
       db.createObjectStore(DestinyDatabaseApi.PROGRESSION_STORE, { keyPath: 'hash' });
+      db.createObjectStore(DestinyDatabaseApi.STAT_STORE, { keyPath: 'hash' });
       db.createObjectStore(DestinyDatabaseApi.PRESENTATION_TREE_STORE, { keyPath: 'hash' });
     }
     return new Promise<void>((resolve, reject) => {
@@ -77,14 +80,23 @@ export class DestinyDatabaseApi {
     return results;
   }
 
-  async getItemNomenclature(hash: number): Promise<DestinyItemNomenclature | undefined> {
-    const transaction = this.db.transaction(DestinyDatabaseApi.ITEM_STORE, 'readonly');
-    const objectStore = transaction.objectStore(DestinyDatabaseApi.ITEM_STORE);
+  async getAllObjects(storeName: string) {
+    const transaction = this.db.transaction(storeName, 'readonly');
+    const objectStore = transaction.objectStore(storeName);
+    const results = new Map();
 
-    return new Promise((resolve, reject) => {
-      const request = objectStore.get(hash);
-      request.onsuccess = () => resolve(request.result);
+    const allObjects: DestinyStatNomenclature[] = await new Promise((resolve, reject) => {
+      const request = objectStore.getAll();
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
       request.onerror = () => reject();
     });
+    allObjects.forEach((result: any) => {
+      if (result) {
+        results.set(result.hash, result);
+      }
+    });
+    return results;
   }
 }
