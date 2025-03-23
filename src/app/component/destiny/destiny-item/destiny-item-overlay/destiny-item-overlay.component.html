@@ -28,10 +28,13 @@
   </div>
   <div class="socket-categories" *ngIf="itemOverlay.item!.itemNomenclature.itemType === DestinyItemTypeEnum.Weapon">
     <div class="socket-category">
-      <img *ngFor="let socketIndex of intrinsicTraitSocket.socketIndexes" [src]="DestinyComponent.ASSET_URL + getCurrentPlug(socketIndex).icon" class="intrinsic">
+      <img *ngFor="let socketIndex of intrinsicTraitSocket.socketIndexes" [src]="DestinyComponent.ASSET_URL + getCurrentPlug(socketIndex).icon" class="intrinsic" [title]="getCurrentPlug(socketIndex).name">
     </div>
     <div class="socket-category" *ngFor="let socketIndex of weaponPerksSocket.socketIndexes">
-      <img *ngFor="let plug of getAllPlugs(socketIndex)" [src]="DestinyComponent.ASSET_URL + plug.icon" [class]="plug === getCurrentPlug(socketIndex)? 'active-plug' : 'none'" class="plug">
+      <img *ngFor="let plug of getAllPlugs(socketIndex)" [src]="DestinyComponent.ASSET_URL + plug.icon"
+           [class]="plug === getCurrentPlug(socketIndex)? 'active-plug' : 'none'" class="plug"
+           [title]="plug.name"
+           [style.background-color]="plug.tierTypeHash === DestinyTierTypeEnum.Ordinary && plug === getCurrentPlug(socketIndex)? '#F8DE4D55' : 'none'">
     </div>
   </div>
 </div>

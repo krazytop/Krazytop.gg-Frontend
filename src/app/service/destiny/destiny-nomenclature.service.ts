@@ -22,11 +22,10 @@ export class DestinyNomenclatureService {
 
   async getItemNomenclatures(profile: DestinyProfileModel, presentationTrees: DestinyPresentationTreesModel) {
     const hashes: number[] = [...new Set([
-      ...profile.profileInventory.flatMap(item => item.itemHash),
+      ...profile.profileInventory.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash]),
       ...profile.profileCurrencies.flatMap(item => item.itemHash),
-      ...profile.characterEquipment.flatMap(inventory => inventory.items.flatMap(item => item.itemHash)),
-      ...profile.characterInventories.flatMap(inventory => inventory.items.flatMap(item => item.itemHash)),
-      ...profile.profileInventory.flatMap(item => item.itemHash),
+      ...profile.characterEquipment.flatMap(inventory => inventory.items.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash])),
+      ...profile.characterInventories.flatMap(inventory => inventory.items.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash])),
       ...presentationTrees.badges.childrenNode.flatMap(badge => badge.childrenNode.flatMap(character => character.childrenCollectible.map(collectible => collectible.itemHash))),
       ...MainCurrencies, ...Engrams])];
     return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE)

@@ -90,6 +90,7 @@ export class DestinyCharactersComponent implements OnChanges {
         item.itemStats = this.itemStats.get(Number(item.itemInstanceId));
         item.itemSockets = this.itemSockets.get(Number(item.itemInstanceId));
         item.itemPlugs = this.itemPlugs.get(Number(item.itemInstanceId));
+        item.overrideStyleItemNomenclature = item.overrideStyleItemHash ? this.itemNomenclatures.get(item.overrideStyleItemHash!) : undefined;
         return true
       } else {
         return false;
@@ -109,6 +110,7 @@ export class DestinyCharactersComponent implements OnChanges {
             item.itemSockets = this.itemSockets.get(Number(item.itemInstanceId));
             item.itemStats = this.itemStats.get(Number(item.itemInstanceId));
             item.itemPlugs = this.itemPlugs.get(Number(item.itemInstanceId));
+            item.overrideStyleItemNomenclature = item.overrideStyleItemHash ? this.itemNomenclatures.get(item.overrideStyleItemHash!) : undefined;
             return true;
           } else {
             return false;

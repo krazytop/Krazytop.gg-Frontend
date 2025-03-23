@@ -2,13 +2,14 @@ import {Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2} from '@an
 import {DestinyOverlayService} from "../../../../service/destiny/destiny-overlay.service";
 import {DestinyItemModel} from "../../../../model/destiny/destiny-item.model";
 import {DestinyStatNomenclature} from "../../../../model/destiny/nomenclature/destiny-stat.nomenclature";
-import {getBackgroundColor, getColor} from "../../../../model/destiny/enum/DestinyTierTypeEnum";
+import {DestinyTierTypeEnum, getBackgroundColor, getColor} from "../../../../model/destiny/enum/DestinyTierTypeEnum";
 import {needAProgressBar, needMs, orderItemStats} from "../../../../model/destiny/enum/DestinyStatEnum";
 import {DestinyItemOverlayModel} from "../../../../model/destiny/destiny-item-overlay.model";
 import {DestinyComponent} from "../../destiny.component";
 import {DestinySocketCategoryEnum} from "../../../../model/destiny/enum/DestinySocketCategoryEnum";
 import {DestinySocketCategoryModel} from "../../../../model/destiny/destiny-socket-category.model";
 import {DestinyItemTypeEnum} from "../../../../model/destiny/enum/DestinyItemTypeEnum";
+import {DestinyItemNomenclature} from "../../../../model/destiny/nomenclature/destiny-item.nomenclature";
 
 @Component({
   selector: 'destiny-item-overlay',
@@ -49,7 +50,7 @@ export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
     return this.itemOverlay.plugsNomenclatures.get(this.itemOverlay.item!.itemSockets![socketIndex]!.plugHash!)!
   }
 
-  getAllPlugs(socketIndex: number) {
+  getAllPlugs(socketIndex: number): DestinyItemNomenclature[] {
     const currentPlug = this.getCurrentPlug(socketIndex);
     return Array.from(this.itemOverlay.item?.itemPlugs?.values() ?? [])
       .find(plugs => plugs.some(plug => plug.plugItemHash === currentPlug!.hash))
@@ -67,4 +68,5 @@ export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
   protected readonly orderItemStats = orderItemStats;
   protected readonly DestinyComponent = DestinyComponent;
   protected readonly DestinyItemTypeEnum = DestinyItemTypeEnum;
+  protected readonly DestinyTierTypeEnum = DestinyTierTypeEnum;
 }

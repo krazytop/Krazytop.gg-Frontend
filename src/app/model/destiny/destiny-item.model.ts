@@ -21,4 +21,6 @@ export class DestinyItemModel {
   transferStatus!: number;
   lockable!: boolean;
   state!: number;
+  overrideStyleItemHash?: number;
+  overrideStyleItemNomenclature?: DestinyItemNomenclature;
 }
