@@ -20,16 +20,21 @@
     </div>
 
     <div *ngIf="selectedGame == 'tft' || selectedGame == 'lol'" class="player">
-      <form #riotForm="ngForm" (submit)="redirectToSummonerPage()">
-        <div class="player-information">
-          <select [(ngModel)]="selectedRegion" name="region">
-            <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
-          </select>
-          <input [(ngModel)]="riotName" name="riotName" type="text" placeholder="Riot Name">
-          <div class="hashtag">#</div>
-          <input [(ngModel)]="riotTag" name="riotTag" type="text" placeholder="EUW">
-        </div>
-        <button class="player-information" type="submit">Afficher</button>
+      <form #riotSummonerForm="ngForm" (submit)="redirectToRiotSummonerPage()" class="riot-form">
+        <div class="title">Summoner&nbsp;:</div>
+        <select [(ngModel)]="selectedRegion" name="region">
+          <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
+        </select>
+        <input [(ngModel)]="riotName" name="riotName" type="text" placeholder="Riot Name">
+        <div class="hashtag">#</div>
+        <input [(ngModel)]="riotTag" name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxlength]="5">
+        <button type="submit">Afficher</button>
+      </form>
+      <form #riotBoardForm="ngForm" (submit)="redirectToRiotBoard()" class="riot-form">
+        <div class="title">Board&nbsp;:</div>
+        <input [(ngModel)]="riotBoardId" name="riotBoard" type="text" placeholder="Board ID">
+        <button type="submit">Afficher</button>
+        <button (click)="redirectToNewRiotBoard(selectedGame == 'lol')">Créer</button>
       </form>
     </div>
     <div *ngIf="selectedGame == 'clash-royal'" class="player">

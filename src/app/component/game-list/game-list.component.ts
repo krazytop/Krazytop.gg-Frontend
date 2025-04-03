@@ -3,6 +3,9 @@ import {NgForm} from '@angular/forms';
 import {Router} from "@angular/router";
 import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
 import {AlertService} from "../alert/alert.service";
+import {environment} from "../../../environments/environment";
+import {HTTPRequestService} from "../../config/http-request.service";
+import {RIOTBoardService} from "../../service/riot/riot-board.service";
 
 @Component({
   selector: 'game-list',
@@ -17,25 +20,27 @@ export class GameListComponent {
   riotTag: string = '';
   riotName: string = '';
   playerName: string = '';
+  riotBoardId: string = '';
 
-  @ViewChild('riotForm') riotForm!: NgForm;
+  @ViewChild('riotSummonerForm') riotSummonerForm!: NgForm;
+  @ViewChild('riotBoardForm') riotBoardForm!: NgForm;
   @ViewChild('supercellForm') supercellForm!: NgForm;
 
-  constructor(private router: Router, private destinyAuthService: BungieAuthService, private alertService: AlertService) {
+  constructor(private router: Router, private destinyAuthService: BungieAuthService, private httpRequestService: HTTPRequestService, private riotBoardService: RIOTBoardService) {
   }
 
   selectGame(game: string) {
     this.selectedGame = game;
   }
 
-  redirectToSummonerPage() {
+  redirectToRiotSummonerPage() {
     if (this.riotTag === '') {
-      this.riotForm.value.riotTag = 'EUW';
+      this.riotSummonerForm.value.riotTag = 'EUW';
     }
-    if (this.riotForm.valid) {
-      const region = this.riotForm.value.region;
-      const tag = this.riotForm.value.riotTag;
-      const name = this.riotForm.value.riotName;
+    if (this.riotSummonerForm.valid) {
+      const region = this.riotSummonerForm.value.region;
+      const tag = this.riotSummonerForm.value.riotTag;
+      const name = this.riotSummonerForm.value.riotName;
       if (name !== "" && tag !== "") {
         if (this.selectedGame === "lol") {
           this.router.navigate([`/lol/${region}/${tag}/${name}/all-queues/all-roles`]);
@@ -43,6 +48,21 @@ export class GameListComponent {
           this.router.navigate([`/tft/${region}/${tag}/${name}/all-queues/set-13`]);
         }
       }
+    }
+  }
+
+  redirectToRiotBoard() {
+    if (this.riotSummonerForm.valid) {
+      if (this.riotBoardId !== "") {
+        this.router.navigate([`/${this.selectedGame}/board/${this.riotBoardId}`]);
+      }
+    }
+  }
+
+  async redirectToNewRiotBoard(isLOL: boolean) {
+    const newBoardId = await this.riotBoardService.createBoard(isLOL);
+    if (newBoardId) {
+      this.router.navigate([`/${this.selectedGame}/board/${newBoardId}`]);
     }
   }
 

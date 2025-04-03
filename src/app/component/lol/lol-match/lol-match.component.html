@@ -21,26 +21,25 @@
           <img src="{{ imageService.getLOLSpellImageUrl(summonerParticipant.summonerSpell1, match.version) }}" alt="Summoner Spell">
           <img src="{{ imageService.getLOLSpellImageUrl(summonerParticipant.summonerSpell2, match.version) }}" alt="Summoner Spell">
         </div>
-        <div class="summoners-runes-augments" *ngIf="summonerParticipant.runes">
+        <div class="summoners-runes-augments" *ngIf="summonerParticipant.runes.runeCategories[0].style != '0'">
           <img src="{{ imageService.getLOLRunePerkImageUrl(summonerParticipant.runes.runeCategories[0]!.perks[0], match.version) }}" alt="Rune">
           <img src="{{ imageService.getLOLRuneCategoryImageUrl(summonerParticipant.runes.runeCategories[1]!.style, match.version) }}" alt="Rune">
         </div>
         <div class="summoners-runes-augments" *ngIf="summonerParticipant.augment1">
-          <img *ngIf="summonerParticipant.augment3" src="{{ imageService.getLOLAugmentImageUrl(summonerParticipant.augment1, match.version) }}" alt="Augment">
-          <img *ngIf="summonerParticipant.augment3" src="{{ imageService.getLOLAugmentImageUrl(summonerParticipant.augment2, match.version) }}" alt="Augment">
+          <img src="{{ imageService.getLOLAugmentImageUrl(summonerParticipant.augment1, match.version) }}" alt="Augment">
+          <img src="{{ imageService.getLOLAugmentImageUrl(summonerParticipant.augment2, match.version) }}" alt="Augment">
         </div>
         <div class="summoners-runes-augments" *ngIf="summonerParticipant.augment1">
-          <img *ngIf="summonerParticipant.augment3" src="{{ imageService.getLOLAugmentImageUrl(summonerParticipant.augment3, match.version) }}" alt="Augment">
-          <img *ngIf="summonerParticipant.augment3" src="{{ imageService.getLOLAugmentImageUrl(summonerParticipant.augment4, match.version) }}" alt="Augment">
+          <img src="{{ imageService.getLOLAugmentImageUrl(summonerParticipant.augment3, match.version) }}" alt="Augment">
+          <img src="{{ imageService.getLOLAugmentImageUrl(summonerParticipant.augment4, match.version) }}" alt="Augment">
         </div>
         <div>
           <p class="scores">{{ summonerParticipant.kills }} / {{ summonerParticipant.deaths }} / {{ summonerParticipant.assists }}</p>
           <p class="minors-stats">{{ kda }} KDA</p>
           <p class="minors-stats">{{ summonerParticipant.minions + summonerParticipant.neutralMinions }} CS</p>
         </div>
-
       </div>
-      <div class="items">
+      <div class="items"><!--TODO list-->
         <img src="{{ imageService.getLOLItemImageUrl(summonerParticipant.item0, match.version) }}" alt="Item">
         <img src="{{ imageService.getLOLItemImageUrl(summonerParticipant.item1, match.version) }}" alt="Item">
         <img src="{{ imageService.getLOLItemImageUrl(summonerParticipant.item2, match.version) }}" alt="Item">

@@ -160,6 +160,10 @@
 
 .roles {
   width: 23px;
+
+  img {
+    background-image: none;
+  }
 }
 
 .summoner {
@@ -254,4 +258,8 @@ hr {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #9f9f9f;
+}
+
+img {
+  background-image: url('/assets/data/lol/empty.png');
 }

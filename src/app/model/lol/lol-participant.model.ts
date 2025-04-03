@@ -31,7 +31,7 @@ export class LOLParticipant {
   trueDamageTaken!: number;
   summonerSpell1!: string;
   summonerSpell2!: string;
-  runes?: LOLRunes;
+  runes!: LOLRunes;
   golds!: number;
   augment1?: string;
   augment2?: string;

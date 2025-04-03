@@ -1,32 +1,31 @@
 <div *ngIf="isThisComponentReady" class="game-component">
   <riot-summoner
-    [localSummoner]="localSummoner"
-    [remoteSummoner]="remoteSummoner"
+    [summoner]="summoner"
     [metadata]="metadata!">
   </riot-summoner>
   <tft-search-criteria
-    *ngIf="localSummoner"
-    [summoner]="localSummoner"
+    *ngIf="summoner && summoner.updateDate"
+    [summoner]="summoner!"
     [selectedQueue]="selectedQueue"
     [selectedSet]="selectedSet"
     [currentSet]="this.metadata!.currentTFTSet">
   </tft-search-criteria>
-  <div *ngIf="localSummoner" class="game-data">
+  <div *ngIf="summoner && summoner.updateDate" class="game-data">
     <div class="column">
       <riot-ranking
-        [summoner]="localSummoner"
+        [summoner]="summoner!"
         [metadata]="metadata!">
       </riot-ranking>
     </div>
     <riot-matches
       [selectedQueue]="selectedQueue"
       [selectedSet]="selectedSet"
-      [summoner]="localSummoner"
+      [summoner]="summoner!"
       (matchesUpdateEvent)="matches = $event">
     </riot-matches>
     <div class="column">
       <tft-latest-matches-placement
-        [summoner]="localSummoner"
+        [summoner]="summoner!"
         [matches]="tftMatches">
       </tft-latest-matches-placement>
     </div>

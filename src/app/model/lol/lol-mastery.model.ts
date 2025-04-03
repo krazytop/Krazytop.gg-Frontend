@@ -1,6 +1,6 @@
 export class LOLMasteries {
   puuid!: string;
-  champions!: LOLMastery[];
+  champions: LOLMastery[] = [];
 }
 
 export class LOLMastery {

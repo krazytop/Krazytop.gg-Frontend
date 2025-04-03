@@ -4,7 +4,7 @@ export class RIOTSummoner {
   tag?: string;
   accountId?: string;
   puuid!: string;
-  region?: string;
+  region!: string;
   level?: number;
   icon!: number;
   updateDate?: Date;

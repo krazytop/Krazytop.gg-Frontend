@@ -1,0 +1,8 @@
+<div class="bar">
+  <div class="defeats-bar background-color-defeat">
+    <div class="wins-bar background-color-victory" [style.width.%]="getWinRate()"></div>
+  </div>
+  <span class="bar-numbers" style="justify-content: start">{{ winsAndLosses[0] }} V</span>
+  <span class="bar-numbers" style="justify-content: end"> {{ winsAndLosses[1] }} D</span>
+  <span class="bar-numbers text" style="justify-content: center">({{ getWinRate() }}%)</span>
+</div>

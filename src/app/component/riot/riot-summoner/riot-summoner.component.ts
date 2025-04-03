@@ -14,12 +14,10 @@ import {RIOTMetadata} from "../../../model/riot/riot-metadata.model";
 })
 export class RiotSummonerComponent implements OnChanges {
 
-  @Input() localSummoner: RIOTSummoner | undefined;
-  @Input() remoteSummoner: RIOTSummoner | undefined;
+  @Input() summoner: RIOTSummoner | undefined;
   @Input() metadata!: RIOTMetadata;
 
   isThisComponentReady: boolean = false;
-  summoner: RIOTSummoner | undefined;
   nextAllowedUpdate: number = 0;
   currentlyUpdating = false;
 
@@ -27,16 +25,11 @@ export class RiotSummonerComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.localSummoner !== undefined) {
-      this.summoner = this.localSummoner;
+    if (this.summoner && this.summoner.updateDate) {
       this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.summoner!.updateDate!, environment.updateRIOTFrequency);
       setInterval(() => {
         this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.summoner!.updateDate!, environment.updateRIOTFrequency);
       }, 1000);
-    } else if (this.remoteSummoner !== undefined) {
-      this.summoner = this.remoteSummoner;
-    } else {
-      this.summoner = undefined;
     }
     this.isThisComponentReady = true;
   }
@@ -44,7 +37,7 @@ export class RiotSummonerComponent implements OnChanges {
   async updateData() {
     this.currentlyUpdating = true;
     let role: string | null = this.route.snapshot.paramMap.get('role');
-    role ? await this.summonerService.updateLOLData(this.summoner!) : await this.summonerService.updateTFTData(this.summoner!);
+    role ? await this.summonerService.updateLOLData(this.summoner!.region, this.summoner!.puuid, this.summoner!.id) : await this.summonerService.updateTFTData(this.summoner!.region, this.summoner!.puuid, this.summoner!.id);
     window.location.reload();
   }
 

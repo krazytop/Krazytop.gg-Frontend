@@ -1,0 +1,49 @@
+div {
+  color: white;
+}
+
+.riot-form {
+  display: flex;
+  flex-direction: row;
+}
+
+.component {
+  margin: 10px;
+}
+
+.summoners {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #2c2c2c;
+}
+
+.ranks {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.summoner {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.champion-box {
+  border-radius: 10%;
+  height: 60px;
+  width: 60px;
+  overflow: hidden;
+
+  & img {
+    width: 70px;
+    height: 70px;
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+}
+
+.matches {
+  width: 200px;
+}

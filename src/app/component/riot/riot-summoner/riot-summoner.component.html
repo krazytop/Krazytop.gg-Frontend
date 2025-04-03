@@ -6,12 +6,12 @@
   </div>
   <div class="profile-name-and-update">
     <div class="profile-name">{{ summoner.name }} #{{ summoner.tag }}</div>
-    <ng-container *ngIf="localSummoner">
+    <ng-container *ngIf="summoner && summoner.updateDate">
       <request-button (request)="updateData()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Updating' : 'Update'"></request-button>
       <span *ngIf="nextAllowedUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
       <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(summoner!.updateDate!.toString())) }}</span>
     </ng-container>
-    <request-button *ngIf="remoteSummoner" (request)="updateData()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Importing' : 'Import'"></request-button>
+    <request-button *ngIf="summoner && !summoner.updateDate" (request)="updateData()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Importing' : 'Import'"></request-button>
   </div>
 </div>
 

@@ -136,3 +136,7 @@ a {
   width: 80%;
   justify-self: center
 }
+
+img {
+  background-image: url('/assets/data/lol/empty.png');
+}

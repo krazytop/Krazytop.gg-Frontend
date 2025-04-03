@@ -1,0 +1,56 @@
+<div *ngIf="board" class="component">
+  <form (submit)="addSummoner(region.value, riotTag.value, riotName.value)" class="riot-form">
+    <div class="title">Summoner&nbsp;:</div>
+    <select #region name="region">
+      <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
+    </select>
+    <input #riotName name="riotName" type="text" placeholder="Riot Name">
+    <div class="hashtag">#</div>
+    <input #riotTag name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxLength]="5">
+    <button type="submit">Ajouter</button>
+  </form>
+
+  <div class="subcomponent-list">
+    <div *ngFor="let boardSummonerData of summoners" class="subcomponent">
+      <div class="summoner" *ngIf="boardSummonerData.summoner.updateDate">
+        <span>{{boardSummonerData.summoner.name}}</span>
+        <span>&nbsp;#</span>
+        <span>{{boardSummonerData.summoner.tag}}</span>
+        <div class="ranks">
+          <div *ngFor="let metadataRank of getAllMetadataRanks()">
+            <div *ngIf="rankService.getRank(boardSummonerData.ranks, (isLOL ? metadata?.currentLOLSeason : metadata?.currentTFTSet) ?? 0, metadataRank.id)?.rankInformations?.at(-1) as rank; else unranked">
+              <img class="rank-image" src="assets/data/tft/tft-ranks/TFT_Regalia_{{ rank.tier }}.png" alt="Rank">
+              <div>{{ rank.tier }} {{ rank.rank }}</div>
+              <div>{{ rank.leaguePoints }} LP</div>
+            </div>
+            <ng-template #unranked>
+              <img class="rank-image unranked-image" src="assets/data/tft/tft-ranks/TFT_Regalia_Provisional.png" alt="Solo Unranked">
+              <div>Unranked</div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="matches">
+          <result-bar [winsAndLosses]="getWinsAndLosses(boardSummonerData.matches, boardSummonerData.summoner)"></result-bar>
+        </div>
+        <div class="masteries">
+          <div *ngFor="let mastery of boardSummonerData.masteries" class="mastery">
+            <div class="champion-box">
+              <img [src]="imageService.getLOLChampionImageUrl(mastery.champion, metadata!.currentPatch)" alt="Champion">
+            </div>
+          </div>
+        </div>
+        <button (click)="removeSummoner(boardSummonerData.summoner.id)">Remove</button>
+      </div>
+      <div class="summoner" *ngIf="!boardSummonerData.summoner.updateDate">
+        <span>{{boardSummonerData.summoner.name}}</span>
+        <span>&nbsp;#</span>
+        <span>{{boardSummonerData.summoner.tag}}</span>
+        <button (click)="importSummoner(boardSummonerData.summoner)">Import</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="!board">
+Board doesn't exists
+</div>

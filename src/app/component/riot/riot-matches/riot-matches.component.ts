@@ -7,6 +7,8 @@ import {TFTMatch} from "../../../model/tft/tft-match.model";
 import {ActivatedRoute} from "@angular/router";
 import {RIOTMatch} from "../../../model/riot/riot-match.model";
 import {RIOTPatchService} from "../../../service/riot/riot-patch.service";
+import {LOLMatchService} from "../../../service/lol/lol-match.service";
+import {TFTMatchService} from "../../../service/tft/tft-match.service";
 
 @Component({
   selector: 'riot-matches',
@@ -21,7 +23,7 @@ export class RiotMatchesComponent implements OnChanges {
   @Input() summoner!: RIOTSummoner;
   @Output() matchesUpdateEvent = new EventEmitter<RIOTMatch[]>();
 
-  constructor(private httpRequestService: HTTPRequestService, private route: ActivatedRoute, private patchService: RIOTPatchService) {
+  constructor(private route: ActivatedRoute, private patchService: RIOTPatchService, private lolMatchService: LOLMatchService, private tftMatchService: TFTMatchService) {
   }
 
   currentPage!: number;
@@ -44,21 +46,16 @@ export class RiotMatchesComponent implements OnChanges {
     const loadingElement = document.getElementById('more-matches-loading-gif') as HTMLImageElement;
     if (moreMatchesButton) moreMatchesButton.disabled = true;
     if (loadingElement) loadingElement.hidden = false;
-    let url;
     if (this.route.snapshot.paramMap.get('role')) {
       this.isLOLMatches = true;
-      url = `${environment.apiURL}lol/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedRole}`;
-      const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
-      const newMatches: LOLMatch[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
+      const newMatches: LOLMatch[] = await this.lolMatchService.getMatches(this.summoner.id, this.currentPage, this.selectedQueue, this.selectedRole);
       for (const newMatch of newMatches) {
         await this.patchService.checkAndGetNewLOLPatchIfNeeded(newMatch.version);
       }
       this.matches = this.matches.concat(newMatches);
     } else {
       this.isLOLMatches = false;
-      url = `${environment.apiURL}tft/matches/${this.summoner.puuid}/${this.currentPage}/${this.selectedQueue}/${this.selectedSet.replace('set-', '')}`;
-      const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
-      const newMatches: TFTMatch[] = await this.httpRequestService.hasResponse(response) ? await response.json() : [];
+      const newMatches: TFTMatch[] = await this.tftMatchService.getMatches(this.summoner.id, this.currentPage, this.selectedQueue, Number(this.selectedSet.replace('set-', '')));
       for (const newMatch of newMatches) {
         await this.patchService.checkAndGetNewTFTPatchIfNeeded(newMatch.version);
       }
@@ -71,14 +68,9 @@ export class RiotMatchesComponent implements OnChanges {
   }
 
   async setMatchesCount() {
-    let url;
-    if (this.route.snapshot.paramMap.get('role')) {
-      url = `${environment.apiURL}lol/matches/count/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedRole}`;
-    } else {
-      url = `${environment.apiURL}tft/matches/count/${this.summoner.puuid}/${this.selectedQueue}/${this.selectedSet.replace('set-', '')}`;
-    }
-    const response = await fetch(url, {headers: HTTPRequestService.getBackendHeaders()});
-    this.totalMatchesCount = await this.httpRequestService.hasResponse(response) ? await response.json() : 0;
+    this.totalMatchesCount = this.isLOLMatches ?
+      await this.lolMatchService.getMatchesCount(this.summoner.id, this.selectedQueue, this.selectedRole)
+      : await this.tftMatchService.getMatchesCount(this.summoner.id, this.selectedQueue, Number(this.selectedSet.replace('set-', '')))
   }
 
 }
