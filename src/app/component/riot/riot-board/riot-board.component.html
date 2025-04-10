@@ -1,56 +1,77 @@
-<div *ngIf="board" class="component">
-  <form (submit)="addSummoner(region.value, riotTag.value, riotName.value)" class="riot-form">
-    <div class="title">Summoner&nbsp;:</div>
-    <select #region name="region">
-      <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
-    </select>
-    <input #riotName name="riotName" type="text" placeholder="Riot Name">
-    <div class="hashtag">#</div>
-    <input #riotTag name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxLength]="5">
-    <button type="submit">Ajouter</button>
-  </form>
-
+<div *ngIf="board && componentIsReady" class="component">
+  <button (click)="isEditing = !isEditing">{{ isEditing ? 'Terminer' : 'Modifier' }}</button>
   <div class="subcomponent-list">
     <div *ngFor="let boardSummonerData of summoners" class="subcomponent">
       <div class="summoner" *ngIf="boardSummonerData.summoner.updateDate">
-        <span>{{boardSummonerData.summoner.name}}</span>
-        <span>&nbsp;#</span>
-        <span>{{boardSummonerData.summoner.tag}}</span>
+        <img class="profile-icon" src="{{ imageService.getProfileIconUrl(boardSummonerData.summoner.icon, metadata!.currentPatch) }}" alt="Profile Icon">
+        <span class="component-title">{{boardSummonerData.summoner.name + ' #' + boardSummonerData.summoner.tag}}</span>
         <div class="ranks">
           <div *ngFor="let metadataRank of getAllMetadataRanks()">
-            <div *ngIf="rankService.getRank(boardSummonerData.ranks, (isLOL ? metadata?.currentLOLSeason : metadata?.currentTFTSet) ?? 0, metadataRank.id)?.rankInformations?.at(-1) as rank; else unranked">
-              <img class="rank-image" src="assets/data/tft/tft-ranks/TFT_Regalia_{{ rank.tier }}.png" alt="Rank">
-              <div>{{ rank.tier }} {{ rank.rank }}</div>
-              <div>{{ rank.leaguePoints }} LP</div>
+            <div *ngVar="rankService.getRank(boardSummonerData.ranks, (isLOL ? metadata?.currentLOLSeason : metadata?.currentTFTSet) ?? 0, metadataRank.id)?.rankInformations?.at(-1) as rank">
+                <riot-rank-image [rank]="rank" [title]="rank ? rank.leaguePoints + ' LP' : 'Unranked'" [radius]="80"></riot-rank-image>
             </div>
-            <ng-template #unranked>
-              <img class="rank-image unranked-image" src="assets/data/tft/tft-ranks/TFT_Regalia_Provisional.png" alt="Solo Unranked">
-              <div>Unranked</div>
-            </ng-template>
           </div>
         </div>
-        <div class="matches">
-          <result-bar [winsAndLosses]="getWinsAndLosses(boardSummonerData.matches, boardSummonerData.summoner)"></result-bar>
+        <div class="roles">
+          <div *ngFor="let index of [0, 1, 2, 3, 4]" class="roles-bar">
+            <img src="assets/data/lol/lol-roles/{{ roleImages[index] }}.png">
+            <ng-container *ngVar="boardSummonerData.mainRoles [index] as result">
+              <div class="role-bar-result" [style.height.%]="(result[0] + result[1]) / boardSummonerData.maxPlayedRole * 100"></div>
+              <div class="role-text-result">{{ Math.round((result[0] + result[1]) / boardSummonerData.maxPlayedRole * 100) }}%</div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="matches-recap">
+          <div>
+            <span>WR : </span>
+            <span [style.font-weight]="'bold'" [style.color]="'white'">64%</span>
+          </div>
+          <div>{{ getWinsNumber(boardSummonerData.matchesResults) }}V - {{ getLossesNumber(boardSummonerData.matchesResults) }}D</div>
+          <div class="streak {{ boardSummonerData.matchesStreak > 0 ? 'win-streak' : 'lose-streak' }}">
+            {{ boardSummonerData.matchesStreak > 0 ? '🔥' : '❄️' }} {{ Math.abs(boardSummonerData.matchesStreak) }}
+          </div>
+        </div>
+        <div class="matches-result">
+          <div *ngFor="let matchResult of boardSummonerData.matchesResults" class="placement background-color-{{ matchResult.toLowerCase() }}">
+            {{ matchResult.charAt(0) }}
+          </div>
         </div>
         <div class="masteries">
           <div *ngFor="let mastery of boardSummonerData.masteries" class="mastery">
             <div class="champion-box">
               <img [src]="imageService.getLOLChampionImageUrl(mastery.champion, metadata!.currentPatch)" alt="Champion">
             </div>
+            <div class="mastery-box" [title]="mastery.points">
+              <img src="assets/data/lol/lol-masteries/mastery-{{ Math.min(mastery.level, 10) }}.png" alt="Mastery">
+              <div class="mastery-level">{{ mastery.level }}</div>
+            </div>
           </div>
         </div>
-        <button (click)="removeSummoner(boardSummonerData.summoner.id)">Remove</button>
+        <div class="coming-soon"><span class="subcomponent-title">Coming soon ...</span></div>
+        <button (click)="removeSummoner(boardSummonerData.summoner.id)" *ngIf="isEditing">Remove</button>
       </div>
       <div class="summoner" *ngIf="!boardSummonerData.summoner.updateDate">
-        <span>{{boardSummonerData.summoner.name}}</span>
-        <span>&nbsp;#</span>
-        <span>{{boardSummonerData.summoner.tag}}</span>
-        <button (click)="importSummoner(boardSummonerData.summoner)">Import</button>
+        <img class="profile-icon" src="{{ imageService.getProfileIconUrl(boardSummonerData.summoner.icon, metadata!.currentPatch) }}" alt="Profile Icon">
+        <span class="component-title">{{boardSummonerData.summoner.name + ' #' + boardSummonerData.summoner.tag}}</span>
+        <request-button [title]="boardSummonerData.isImporting ? 'Importing' : 'Import'" [loading]="boardSummonerData.isImporting" (request)="importSummoner(boardSummonerData)"></request-button>
       </div>
     </div>
+    <div class="subcomponent" *ngIf="isEditing">
+      <form (submit)="addSummoner(region.value, riotTag.value, riotName.value)" class="add-summoner">
+        <select #region name="region">
+          <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
+        </select>
+        <input #riotName name="riotName" type="text" placeholder="Riot Name">
+        <div class="hashtag">#</div>
+        <input #riotTag name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxLength]="5">
+        <button type="submit">Ajouter</button>
+      </form>
+    </div>
   </div>
-
+<div *ngIf="!componentIsReady">
+  Board is retrieving
 </div>
-<div *ngIf="!board">
-Board doesn't exists
+</div>
+<div *ngIf="!board && componentIsReady">
+  Board doesn't exists
 </div>

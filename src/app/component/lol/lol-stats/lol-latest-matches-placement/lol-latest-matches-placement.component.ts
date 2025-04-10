@@ -24,20 +24,11 @@ export class LolLatestMatchesPlacementComponent implements OnChanges {
   }
 
   async ngOnChanges() {
-    this.setLatestMatchesResults();
+    this.latestMatchesResults = this.matchService.getLatestMatchesResults(this.matches, this.summoner);
     this.setWinsNumber();
     this.setLoosesNumber();
     this.winRate = this.matchService.getWinRate(this.matches, this.summoner);
     this.streak = this.matchService.getMatchesStreak(this.matches, this.summoner);
-  }
-
-  private setLatestMatchesResults() {
-    this.latestMatchesResults = this.matches!.map(match => {
-      if (match.remake) {
-        return 'REMAKE';
-      }
-      return this.matchService.isMatchWon(match, this.summoner) ? "VICTORY" : "DEFEAT";
-    });
   }
 
   protected setWinsNumber() {

@@ -77,4 +77,36 @@ export class LOLMatchService {
     return [wins, losses];
   }
 
+  public getRolesWinsAndLosses(matches: LOLMatch[], summoner: RIOTSummoner) {
+    let top = [0, 0];
+    let jungle = [0, 0];
+    let mid = [0, 0];
+    let adc = [0, 0];
+    let support = [0, 0];
+    let other = [0, 0];
+    matches.forEach(match => {
+      let role = this.getSummonerParticipant(match, summoner).role;
+      if (role == 'TOP') {
+        top[this.isMatchWon(match, summoner) ? 0 : 1]++;
+      } else if (role == 'JUNGLE') {
+        jungle[this.isMatchWon(match, summoner) ? 0 : 1]++;
+      } else if (role == 'MIDDLE') {
+        mid[this.isMatchWon(match, summoner) ? 0 : 1]++;
+      } else if (role == 'BOTTOM') {
+        adc[this.isMatchWon(match, summoner) ? 0 : 1]++;
+      } else if (role == 'UTILITY') {
+        support[this.isMatchWon(match, summoner) ? 0 : 1]++;
+      } else {
+        other[this.isMatchWon(match, summoner) ? 0 : 1]++;
+      }
+    });
+    return [top, jungle, mid, adc, support, other];
+  }
+
+  public getLatestMatchesResults(matches: LOLMatch[], summoner: RIOTSummoner) {
+    return matches!.map(match => {
+      return match.remake ? 'REMAKE' : this.isMatchWon(match, summoner) ? "VICTORY" : "DEFEAT";
+    });
+  }
+
 }

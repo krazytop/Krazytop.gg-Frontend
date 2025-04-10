@@ -1,0 +1,20 @@
+<div class="subcomponent-list component">
+  <span class="component-title">Main Roles</span>
+  <div *ngIf="!matches" class="no-matches-played-container">
+    <img src="assets/logo/loading.gif" alt="Loading">
+  </div>
+  <div *ngIf="matches">
+    <div *ngIf="matches.length == 0" class="no-matches-played-container">
+      <div class="nothing-to-show-message">No matches played</div>
+    </div>
+    <div *ngIf="matches.length > 0" class="results">
+      <div *ngFor="let index of [0, 1, 2, 3, 4]" class="bar">
+        <img src="assets/data/lol/lol-roles/{{ image[index] }}.png">
+        <ng-container *ngVar="roleResults [index] as result">
+          <div class="result-bar" [style.height.%]="(result[0] + result[1]) / sum * 100"></div>
+          <div class="result-text">{{ Math.round((result[0] + result[1]) / sum * 100) }} %</div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

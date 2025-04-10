@@ -1,0 +1,5 @@
+<div class="rank-image-container" [style.width.px]="radius" [style.height.px]="radius">
+  <span *ngIf="rank" class="rank-sub-tier" [style.font-size.px]="radius / 4">{{ rank.rank }}</span>
+  <img *ngIf="rank" class="rank-image" [style.width.px]="radius - 10" src="assets/data/tft/tft-ranks/TFT_Regalia_{{ rank.tier }}.png" alt="Rank">
+  <img *ngIf="!rank" class="rank-image unranked-image" [style.width.px]="radius - 20" [style.transform]="'translateY(-5px)'" src="assets/data/tft/tft-ranks/TFT_Regalia_Provisional.png" alt="Solo Unranked">
+</div>
