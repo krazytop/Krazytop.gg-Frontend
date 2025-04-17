@@ -36,4 +36,15 @@ export class RIOTBoardService {
     await this.httpRequestService.hasResponse(response);
   }
 
+  async updateBoardSummoners(boardId: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/board/${boardId}`,
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
+    await this.httpRequestService.hasResponse(response);
+  }
+
+  async updateBoardName(boardId: string, name: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/board/${boardId}/${name}`,
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
+    return await this.httpRequestService.hasResponse(response);
+  }
 }

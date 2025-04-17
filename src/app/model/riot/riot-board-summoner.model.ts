@@ -13,4 +13,5 @@ export class RIOTBoardSummoner {
   ranks?: RIOTRank;
   masteries: LOLMastery[] = [];
   isImporting: boolean = false;
+  isRemoving: boolean = false;
 }

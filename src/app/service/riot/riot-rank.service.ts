@@ -15,7 +15,7 @@ export class RIOTRankService {
 
   async getRanks(summonerId: string, isLOL: boolean) {
     const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/ranks/${summonerId}`, {headers: HTTPRequestService.getBackendHeaders()});
-    return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTRank: undefined;
+    return await this.httpRequestService.hasResponse(response, false) ? await response.json() as RIOTRank: undefined;
   }
 
   async updateRanks(region: string, summonerId: string, isLOL: boolean) {

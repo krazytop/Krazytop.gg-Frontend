@@ -57,6 +57,7 @@ export class LOLMatchService {
     const summonerTeam = this.getSummonerTeam(match, summoner);
     return summonerTeam.participants.find(participant => participant.summoner.puuid === summoner.puuid)!;
   }
+
   public getWinRate(matches: LOLMatch[], summoner: RIOTSummoner) {
     let [wins, losses] = this.getWinsAndLosses(matches, summoner);
     const winRate =  wins / (wins + losses) * 100;

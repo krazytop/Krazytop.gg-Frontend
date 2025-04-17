@@ -1,5 +1,6 @@
 html {
   background-color: #333333;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .alert {
@@ -21,4 +22,8 @@ html {
 
 body {
   margin: 0;
+}
+
+button, input, select, textarea {
+  font-family: 'Times New Roman', Times, serif;
 }

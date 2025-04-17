@@ -20,7 +20,7 @@ export class RIOTSummonerService {
     return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
-  public async getSummonerById(region: string, summonerId: string, isLOL: boolean) {
+  public async getSummonerById(region: string | null, summonerId: string, isLOL: boolean) {
     const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/summoner/${region}/${summonerId}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }

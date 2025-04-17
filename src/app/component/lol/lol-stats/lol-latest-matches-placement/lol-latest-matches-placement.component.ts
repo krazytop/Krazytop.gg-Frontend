@@ -2,6 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 import {RIOTSummoner} from "../../../../model/riot/riot-summoner.model";
 import {LOLMatch} from "../../../../model/lol/lol-match.model";
 import {LOLMatchService} from "../../../../service/lol/lol-match.service";
+import {RIOTMatch} from "../../../../model/riot/riot-match.model";
 
 @Component({
   selector: 'lol-latest-matches-placement',
@@ -11,7 +12,7 @@ import {LOLMatchService} from "../../../../service/lol/lol-match.service";
 export class LolLatestMatchesPlacementComponent implements OnChanges {
 
   @Input() summoner!: RIOTSummoner;
-  @Input() matches!: LOLMatch[];
+  @Input({transform: (matches: RIOTMatch[]): LOLMatch[] => matches as LOLMatch[]}) matches!: LOLMatch[];
 
   latestMatchesResults: string[] = [];
   wins: number = 0;

@@ -1,4 +1,4 @@
-<button (click)="request.emit()" [disabled]="loading || nextAllowedRequest > 0" [ngClass]="{'inactive': nextAllowedRequest > 0, 'active': nextAllowedRequest === 0}">
+<button (click)="request.emit()" [disabled]="loading || nextAllowedRequest > 0" [ngClass]="{'inactive': nextAllowedRequest > 0, 'loading': loading}" class="basic-button">
   <div>{{ title }}</div>
-  <img class="loading" src="assets/logo/loading.gif" alt="Loading" [hidden]="!loading">
+  <img src="assets/logo/loading.gif" alt="Loading" [hidden]="!loading">
 </button>

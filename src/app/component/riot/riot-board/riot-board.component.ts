@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {RIOTSummonerService} from "../../../service/riot/riot-summoner.service";
 import {RIOTBoardService} from "../../../service/riot/riot-board.service";
 import {RIOTBoard} from "../../../model/riot/riot-board.model";
@@ -12,8 +12,9 @@ import {LOLMasteryService} from "../../../service/lol/lol-mastery.service";
 import {RIOTImageService} from "../../../service/riot/riot-image.service";
 import {RIOTPatchService} from "../../../service/riot/riot-patch.service";
 import {LOLMatchService} from "../../../service/lol/lol-match.service";
-import {RIOTMatch} from "../../../model/riot/riot-match.model";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
+import {environment} from "../../../../environments/environment";
+import {TimeService} from "../../../service/time.service";
 
 @Component({
   selector: 'riot-board',
@@ -22,6 +23,9 @@ import {LOLMatch} from "../../../model/lol/lol-match.model";
 })
 export class RiotBoardComponent implements OnInit {
 
+  @ViewChild('addSummonerForm') addSummonerForm!: ElementRef;
+  @ViewChild('boardNameInput') boardNameInput!: ElementRef;
+
   board?: RIOTBoard;
   summoners: RIOTBoardSummoner[] = [];
   isLOL: boolean = true;
@@ -29,25 +33,31 @@ export class RiotBoardComponent implements OnInit {
   metadata?: RIOTMetadata;
   isEditing: boolean = false;
   componentIsReady: boolean = false;
+  addSummonerLoading: boolean = false;
   roleImages = ['top', 'jungle', 'middle', 'bottom', 'support'];
+  nextAllowedBoardUpdate: number = 0;
+  boardUpdating = false;
 
   constructor(private route: ActivatedRoute, private summonerService: RIOTSummonerService, private boardService: RIOTBoardService,
               protected rankService: RIOTRankService, private metadataService: RIOTMetadataService, private masteryService: LOLMasteryService, protected imageService: RIOTImageService, private patchService: RIOTPatchService,
-              protected matchService: LOLMatchService) {
+              protected matchService: LOLMatchService, protected timeService: TimeService) {
   }
 
   async ngOnInit() {
     const boardId = this.route.snapshot.paramMap.get('boardId')!;
     this.board = await this.boardService.getBoard(boardId, true);
+    this.componentIsReady = true;
     if (this.board) {
+      this.metadata = await this.metadataService.getMetadata();
+      await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch);
+      this.nextAllowedBoardUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.board!.updateDate!, environment.updateRIOTFrequency);
+      setInterval(() => {
+        this.nextAllowedBoardUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.board!.updateDate!, environment.updateRIOTFrequency);
+      }, 1000);
       for (const summonerId of this.board.summonerIds) {
-        const summoner = await this.summonerService.getSummonerById("region", summonerId, true);
-        this.metadata = await this.metadataService.getMetadata();
-        await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch);
-        await this.retrieveSummonerData(summoner);
+        await this.retrieveSummonerData(await this.summonerService.getSummonerById(null, summonerId, true));
       }
     }
-    this.componentIsReady = true;
   }
 
   async retrieveSummonerData(summoner: RIOTSummoner | undefined) {//TODO changement de region = probleme
@@ -63,32 +73,40 @@ export class RiotBoardComponent implements OnInit {
         boardSummoner.matchesResults = this.matchService.getLatestMatchesResults(boardSummoner.matches as LOLMatch[], summoner);//TODO ajouter si j'en recup + de 20 (en boucle)
         boardSummoner.mainRoles = this.matchService.getRolesWinsAndLosses(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
         boardSummoner.maxPlayedRole = boardSummoner.mainRoles.reduce((sum, result) => sum + result[0] + result[1], 0);
-        //TODO matches ...
       }
-      this.summoners.push(boardSummoner);//TODO replace si existant
+      this.summoners = this.summoners.filter(summoner => summoner.summoner.id !== boardSummoner.summoner.id);
+      this.summoners.push(boardSummoner);
     } else {
       //TODO erreur lorsqu'il n est pas retrouvé
     }
   }
 
   async addSummoner(region: string, tag: string | undefined, name: string) {
-    if (!tag) {
-      tag = 'EUW';
-    }
+    this.addSummonerLoading = true;
+    if (!tag) tag = 'EUW';
     if (name) {
       const newSummoner = await this.boardService.addSummonerToBoard(this.board!.id, region, tag, name, this.isLOL);
-      await this.retrieveSummonerData(newSummoner);
+      if (newSummoner) {
+        await this.retrieveSummonerData(newSummoner);
+        this.addSummonerForm.nativeElement.reset();
+      }
     }
+    this.addSummonerLoading = false;
   }
 
   async importSummoner(boardSummoner: RIOTBoardSummoner) {
     boardSummoner.isImporting = true;
-    //TODO
+    this.isLOL ? await this.summonerService.updateLOLData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid, boardSummoner.summoner!.id)
+      : await this.summonerService.updateTFTData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid, boardSummoner.summoner!.id);
+    await this.retrieveSummonerData(await this.summonerService.getSummonerById(null, boardSummoner.summoner.id, true));
   }
 
-  async removeSummoner(summonerId: string) {
-    await this.boardService.removeSummonerOfBoard(this.board!.id, summonerId, this.isLOL);
-    this.summoners = this.summoners.filter(sum => sum.summoner.id !== summonerId);
+  async removeSummoner(boardSummoner: RIOTBoardSummoner) {
+    if (!boardSummoner.isRemoving) {
+      boardSummoner.isRemoving = true;
+      await this.boardService.removeSummonerOfBoard(this.board!.id, boardSummoner.summoner.id, this.isLOL);
+      this.summoners = this.summoners.filter(sum => sum.summoner.id !== boardSummoner.summoner.id);
+    }
   }
 
   getAllMetadataRanks() {
@@ -103,5 +121,27 @@ export class RiotBoardComponent implements OnInit {
     return results.filter(result => result === 'DEFEAT').length;
   }
 
+  async updateBoard() {
+    this.boardUpdating = true;
+    await this.boardService.updateBoardSummoners(this.board!.id, this.isLOL);
+    window.location.reload();
+  }
+
+  async toggleEditing() {
+    this.isEditing = !this.isEditing;
+    if (!this.isEditing) {
+      const newName = this.boardNameInput.nativeElement.value;
+      if (this.board!.name !== newName) {
+        const oldName = this.board!.name;
+        this.board!.name = newName;
+        if (!await this.boardService.updateBoardName(this.board!.id, newName, this.isLOL)) {
+          this.board!.name = oldName;
+        }
+      }
+    }
+  }
+
+  protected readonly Date = Date;
   protected readonly Math = Math;
+  protected readonly console = console;
 }
