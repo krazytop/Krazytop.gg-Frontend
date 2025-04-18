@@ -1,10 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
-import {AlertService} from "../alert/alert.service";
-import {environment} from "../../../environments/environment";
-import {HTTPRequestService} from "../../config/http-request.service";
 import {RIOTBoardService} from "../../service/riot/riot-board.service";
 
 @Component({
@@ -12,21 +9,34 @@ import {RIOTBoardService} from "../../service/riot/riot-board.service";
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css'],
 })
-export class GameListComponent {
+export class GameListComponent implements OnInit {
 
   selectedGame: string = '';
-  regions: string[] = ['EUW'];
+  regions: string[] = ['EUW'];//TODO enum globale
   selectedRegion: string = this.regions[0];
   riotTag: string = '';
   riotName: string = '';
   playerName: string = '';
   riotBoardId: string = '';
+  availableGames: string[] = ['lol', 'tft', 'clash-royal', 'destiny'];
 
   @ViewChild('riotSummonerForm') riotSummonerForm!: NgForm;
   @ViewChild('riotBoardForm') riotBoardForm!: NgForm;
   @ViewChild('supercellForm') supercellForm!: NgForm;
 
-  constructor(private router: Router, private destinyAuthService: BungieAuthService, private httpRequestService: HTTPRequestService, private riotBoardService: RIOTBoardService) {
+  constructor(private router: Router, private destinyAuthService: BungieAuthService, private riotBoardService: RIOTBoardService, private route: ActivatedRoute) {
+  }
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      const selectedGame = params['game'];
+      if (this.availableGames.includes(selectedGame)) {
+        this.selectedGame = selectedGame;
+      } else {
+        this.router.navigate(['/']);
+      }
+      this.selectedGame = params['game'];
+    })
   }
 
   selectGame(game: string) {

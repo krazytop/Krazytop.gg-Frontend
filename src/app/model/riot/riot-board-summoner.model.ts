@@ -7,6 +7,8 @@ export class RIOTBoardSummoner {
   matches!: RIOTMatch[];
   matchesStreak!: number;
   matchesResults!: string[];
+  wins!: number;
+  losses!: number;
   mainRoles!: number[][];
   maxPlayedRole!: number;
   summoner!: RIOTSummoner;

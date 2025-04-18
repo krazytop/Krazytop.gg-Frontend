@@ -71,6 +71,8 @@ export class RiotBoardComponent implements OnInit {
         boardSummoner.matches.push(...await this.matchService.getMatches(summoner.id, 1, 'all-queues', 'all-roles'))
         boardSummoner.matchesStreak = this.matchService.getMatchesStreak(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
         boardSummoner.matchesResults = this.matchService.getLatestMatchesResults(boardSummoner.matches as LOLMatch[], summoner);//TODO ajouter si j'en recup + de 20 (en boucle)
+        boardSummoner.wins = this.getWinsNumber(boardSummoner.matchesResults);
+        boardSummoner.losses = this.getLossesNumber(boardSummoner.matchesResults);
         boardSummoner.mainRoles = this.matchService.getRolesWinsAndLosses(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
         boardSummoner.maxPlayedRole = boardSummoner.mainRoles.reduce((sum, result) => sum + result[0] + result[1], 0);
       }
@@ -87,6 +89,7 @@ export class RiotBoardComponent implements OnInit {
     if (name) {
       const newSummoner = await this.boardService.addSummonerToBoard(this.board!.id, region, tag, name, this.isLOL);
       if (newSummoner) {
+        this.board?.summonerIds.push(newSummoner.id);
         await this.retrieveSummonerData(newSummoner);
         this.addSummonerForm.nativeElement.reset();
       }
@@ -106,6 +109,7 @@ export class RiotBoardComponent implements OnInit {
       boardSummoner.isRemoving = true;
       await this.boardService.removeSummonerOfBoard(this.board!.id, boardSummoner.summoner.id, this.isLOL);
       this.summoners = this.summoners.filter(sum => sum.summoner.id !== boardSummoner.summoner.id);
+      this.board!.summonerIds = this.board!.summonerIds.filter(summonerId => summonerId !== boardSummoner.summoner.id);
     }
   }
 
@@ -139,6 +143,10 @@ export class RiotBoardComponent implements OnInit {
         }
       }
     }
+  }
+
+  range(n: number): number[] {
+    return Array(n).fill(0).map((_, i) => i);
   }
 
   protected readonly Date = Date;

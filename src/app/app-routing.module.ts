@@ -13,10 +13,11 @@ const routes: Routes = [
   {path: 'lol/:region/:tag/:name/:queue/:role', component: LeagueOfLegendsComponent},
   {path: 'lol/board/:boardId', component: RiotBoardComponent},
   {path: 'clash-royal/:id/:component', component: ClashRoyalComponent},
-  {path: 'bungie', component: BungieAuthComponent},
+  {path: 'bungie', component: BungieAuthComponent},//TODO check si pas d'id alors on redirige vers accueil
   {path: 'destiny/:platform/:membership/:character/:component', component: DestinyComponent},
+  {path: ':game', component: GameListComponent},
   {path: '', component: GameListComponent},
-  {path: '**', redirectTo: ''}
+  {path: '**', redirectTo: ''},
 ];
 
 @NgModule({

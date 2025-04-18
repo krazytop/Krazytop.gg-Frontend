@@ -106,14 +106,9 @@ destiny-item:active {
 }
 
 .item-being-transferred {
-  animation: item-being-transferred 0.5s infinite alternate;
+  animation: blink 0.5s infinite alternate;
 }
 
 .item-to-hide {
   opacity: 20%;
-}
-
-@keyframes item-being-transferred {
-  0% { opacity: 0.5; }
-  100% { opacity: 0.8; }
 }

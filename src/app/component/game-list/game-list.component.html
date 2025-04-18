@@ -1,22 +1,20 @@
 <div class="container primary-component">
   <div class="global-form">
     <div class="games">
-      <button (click)="selectGame('lol')"
-              [ngClass]="{'game-selected': selectedGame === 'lol', 'game-not-selected': selectedGame !== 'lol'}">
+      <a [routerLink]="['/lol']" [ngClass]="selectedGame === 'lol' ? 'game-selected': 'game-not-selected'">
         <img alt="LOL logo" src="assets/logo/lol_logo.png">
-      </button>
-      <button (click)="selectGame('tft')"
-              [ngClass]="{'game-selected': selectedGame === 'tft', 'game-not-selected': selectedGame !== 'tft'}">
+      </a>
+      <a [routerLink]="['/tft']" [ngClass]="selectedGame === 'tft' ? 'game-selected': 'game-not-selected'">
         <img alt="TFT logo" src="assets/logo/tft_logo.png">
-      </button>
-      <button (click)="selectGame('clash-royal')"
+      </a>
+      <a [routerLink]="['/clash-royal']"
               [ngClass]="{'game-selected': selectedGame === 'clash-royal', 'game-not-selected': selectedGame !== 'clash-royal'}">
         <img alt="Clash Royal logo" src="assets/logo/clash-royal_logo.png">
-      </button>
-      <button (click)="selectGame('destiny')"
+      </a>
+      <a [routerLink]="['/destiny']"
               [ngClass]="{'game-selected': selectedGame === 'destiny', 'game-not-selected': selectedGame !== 'destiny'}">
         <img alt="Destiny logo" src="assets/logo/destiny_logo.png" style="filter: invert(80%);">
-      </button>
+      </a>
     </div>
 
     <div *ngIf="selectedGame == 'tft' || selectedGame == 'lol'" class="player">
@@ -30,7 +28,7 @@
         <input [(ngModel)]="riotTag" name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxlength]="5">
         <button type="submit">Afficher</button>
       </form>
-      <form #riotBoardForm="ngForm" (submit)="redirectToRiotBoard()" class="riot-form">
+      <form #riotBoardForm="ngForm" (submit)="redirectToRiotBoard()" class="riot-form" *ngIf="selectedGame == 'lol'">
         <div class="title">Board&nbsp;:</div>
         <input [(ngModel)]="riotBoardId" name="riotBoard" type="text" placeholder="Board ID">
         <button type="submit">Afficher</button>
