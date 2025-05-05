@@ -33,7 +33,7 @@
           <button type="submit" class="basic-button">Afficher</button>
         </form>
         <form #riotBoardForm="ngForm" (submit)="redirectToRiotBoard()" class="line" *ngIf="selectedGame == 'lol'">
-          <input [(ngModel)]="riotBoardId" name="riotBoard" type="text" placeholder="Board ID" class="basic-input" required>
+          <input [(ngModel)]="riotBoardId" name="riotBoard" type="text" placeholder="Board ID" class="basic-input" required [style.width]="'-webkit-fill-available'">
           <button type="submit" class="basic-button">Afficher</button>
           <button (click)="redirectToNewRiotBoard(selectedGame == 'lol')" class="basic-button">Créer</button>
         </form>
