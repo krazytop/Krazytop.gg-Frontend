@@ -5,7 +5,7 @@
         <span>Vendors</span>
       </button>
     </a>
-    <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.collections]">
+    <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.collections]" *ngIf="false">
       <button [ngClass]="{'tab-selected': urlArgs.component === DestinyComponentSelectorComponent.collections, 'tab-not-selected': urlArgs.component !== DestinyComponentSelectorComponent.collections}">
         <span>Collections</span>
       </button>

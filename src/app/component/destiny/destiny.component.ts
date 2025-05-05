@@ -34,6 +34,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   isFirstDisplay: boolean = true;
   requestDataRefreshing: Subject<boolean> = new Subject<boolean>();
   isDatabaseUpToDate = false;
+  lastUpdate: Date = new Date();
 
   urlArgs: DestinyUrlArgs = new DestinyUrlArgs();
 
@@ -64,6 +65,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
         if (requestDataRefreshing) {
           this.currentlyUpdating = true;
           await this.retrieveAllDestinyData(this.urlArgs.platform!, this.urlArgs.membership!);
+          this.lastUpdate = new Date();
           this.currentlyUpdating = false;
         }
       });

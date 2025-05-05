@@ -4,13 +4,13 @@
     <div class="profile-name">{{ bungieProfile!.displayName + " #" + bungieProfile!.bungieGlobalDisplayNameCode }}</div>
     <request-button (request)="destinyComponent.refreshData()" [loading]="destinyComponent.currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="destinyComponent.currentlyUpdating ? 'Updating' : 'Update'"></request-button>
     <span *ngIf="nextAllowedUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
-    <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(lastUpdate.toString())) }}</span>
+    <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(destinyComponent.lastUpdate.toString())) }}</span>
   </div>
   <div class="other-platforms">
     <img *ngFor="let linkedProfile of linkedProfilesToShow" src="assets/logo/{{ linkedProfile.platformIcon }}" title="{{ linkedProfile.displayName }}" alt="Connected Platform Icon">
   </div>
   <div class="characters">
-    <div *ngFor="let character of profile.characters" class="character profile-icon" (click)="selectCharacter(character.characterId!)"
+    <div *ngFor="let character of profile.characters" class="character" (click)="selectCharacter(character.characterId!)"
       [ngClass]="{'unselected-character': character.characterId != this.selectedCharacterId}">
       <img class="banner" src="{{ DestinyComponent.ASSET_URL + character.emblemBackgroundPath }}" alt="Character Emblem">
       <div class="information">

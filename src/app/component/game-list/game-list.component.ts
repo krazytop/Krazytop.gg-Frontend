@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
 import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
 import {RIOTBoardService} from "../../service/riot/riot-board.service";
+import {DestinyComponent} from "../destiny/destiny.component";
 
 @Component({
   selector: 'game-list',
@@ -39,10 +40,6 @@ export class GameListComponent implements OnInit {
     })
   }
 
-  selectGame(game: string) {
-    this.selectedGame = game;
-  }
-
   redirectToRiotSummonerPage() {
     if (this.riotTag === '') {
       this.riotSummonerForm.value.riotTag = 'EUW';
@@ -51,21 +48,19 @@ export class GameListComponent implements OnInit {
       const region = this.riotSummonerForm.value.region;
       const tag = this.riotSummonerForm.value.riotTag;
       const name = this.riotSummonerForm.value.riotName;
-      if (name !== "" && tag !== "") {
+      if (tag !== "") {
         if (this.selectedGame === "lol") {
           this.router.navigate([`/lol/${region}/${tag}/${name}/all-queues/all-roles`]);
         } else {
-          this.router.navigate([`/tft/${region}/${tag}/${name}/all-queues/set-13`]);
+          this.router.navigate([`/tft/${region}/${tag}/${name}/all-queues/set-13`]);//TODO set X
         }
       }
     }
   }
 
   redirectToRiotBoard() {
-    if (this.riotSummonerForm.valid) {
-      if (this.riotBoardId !== "") {
-        this.router.navigate([`/${this.selectedGame}/board/${this.riotBoardId}`]);
-      }
+    if (this.riotBoardForm.valid) {
+      this.router.navigate([`/${this.selectedGame}/board/${this.riotBoardId}`]);
     }
   }
 
@@ -93,11 +88,12 @@ export class GameListComponent implements OnInit {
   }
 
   getBungieCurrentLoggedUser() {
-    return this.destinyAuthService.getLastLoggedPlayer().playerName;
+    return this.destinyAuthService.getLastLoggedPlayer();
   }
 
   async redirectToDestinyPage() {
     this.destinyAuthService.redirectToDestinyPage();
   }
 
+  protected readonly DestinyComponent = DestinyComponent;
 }

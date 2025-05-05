@@ -8,6 +8,10 @@
         <div>{{ isEditing ? 'View Mode' : 'Edit Mode' }}</div>
         <img src="assets/logo/{{ !isEditing ? 'edit' : 'view' }}.png" [ngClass]="isEditing ? 'view-icon' : 'edit-icon'">
       </button>
+      <button (click)="deleteBoard()" class="basic-button delete-board-button edit-button" [style.width]="'fit-content'" *ngIf="isEditing">
+        <div>Delete Board</div>
+        <img src="assets/logo/bin.png" class="delete-board-icon">
+      </button>
     </div>
     <span *ngIf="nextAllowedBoardUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedBoardUpdate) }}</span>
     <span *ngIf="nextAllowedBoardUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(board!.updateDate!.toString())) }}</span>
@@ -95,8 +99,8 @@
 </div>
 
 <ng-template #deleteButton let-isLoading="isLoading" let-boardSummonerData="boardSummonerData">
-  <div class="delete-icon" *ngIf="isEditing" (click)="removeSummoner(boardSummonerData)">
-    <img *ngIf="!isLoading" src="assets/logo/cross.png" title="Delete" class="delete-not-loading">
-    <img *ngIf="isLoading" src="assets/logo/loading.gif" title="Deleting" class="delete-loading">
+  <div class="delete-summoner-icon" *ngIf="isEditing" (click)="removeSummoner(boardSummonerData)">
+    <img *ngIf="!isLoading" src="assets/logo/cross.png" title="Delete" class="delete-summoner-not-loading">
+    <img *ngIf="isLoading" src="assets/logo/loading.gif" title="Deleting" class="delete-summoner-loading">
   </div>
 </ng-template>

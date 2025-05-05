@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {RIOTSummonerService} from "../../../service/riot/riot-summoner.service";
 import {RIOTBoardService} from "../../../service/riot/riot-board.service";
 import {RIOTBoard} from "../../../model/riot/riot-board.model";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RIOTBoardSummoner} from "../../../model/riot/riot-board-summoner.model";
 import {RIOTSummoner} from "../../../model/riot/riot-summoner.model";
 import {RIOTRankService} from "../../../service/riot/riot-rank.service";
@@ -40,7 +40,7 @@ export class RiotBoardComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private summonerService: RIOTSummonerService, private boardService: RIOTBoardService,
               protected rankService: RIOTRankService, private metadataService: RIOTMetadataService, private masteryService: LOLMasteryService, protected imageService: RIOTImageService, private patchService: RIOTPatchService,
-              protected matchService: LOLMatchService, protected timeService: TimeService) {
+              protected matchService: LOLMatchService, protected timeService: TimeService, private router: Router) {
   }
 
   async ngOnInit() {
@@ -131,6 +131,13 @@ export class RiotBoardComponent implements OnInit {
     window.location.reload();
   }
 
+  async deleteBoard() {
+    if (confirm('Are you sure you want to delete this board ?')) {
+      await this.boardService.deleteBoard(this.board!.id, this.isLOL);
+      this.router.navigate(['/']);
+    }
+  }
+
   async toggleEditing() {
     this.isEditing = !this.isEditing;
     if (!this.isEditing) {
@@ -151,5 +158,4 @@ export class RiotBoardComponent implements OnInit {
 
   protected readonly Date = Date;
   protected readonly Math = Math;
-  protected readonly console = console;
 }

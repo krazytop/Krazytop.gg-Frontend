@@ -26,22 +26,19 @@
   width: 355px;
   height: 72px;
   overflow: hidden;
+  border-radius: 10px;
+  border: #979797 2px solid;
 }
 
 .unselected-character {
   cursor: pointer;
-
-  & img {
-    filter: grayscale(100%);
-  }
-
+  filter: grayscale(100%);
+  border: #4b4b4b 2px solid;
 }
 
 .unselected-character:hover {
-
-  & img {
-    filter: grayscale(50%);
-  }
+  filter: grayscale(50%);
+  border: #787878 2px solid;
 }
 
 .banner {

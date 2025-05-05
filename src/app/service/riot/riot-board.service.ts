@@ -47,4 +47,10 @@ export class RIOTBoardService {
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     return await this.httpRequestService.hasResponse(response);
   }
+
+  async deleteBoard(boardId: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/board/${boardId}`,
+      {headers: HTTPRequestService.getBackendHeaders(), method: 'DELETE'});
+    return await this.httpRequestService.hasResponse(response);
+  }
 }

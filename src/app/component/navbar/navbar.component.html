@@ -1,5 +1,18 @@
 <div class="navbar">
-  <a class="home-link" [routerLink]="['/']">
-    <img src="assets/logo/home_logo.png" alt="Home" class="home-logo">
+  <a [routerLink]="'/lol'" [ngClass]="{'selected-game': currentGame === 'lol'}">
+    <img src="assets/logo/{{ currentGame !== 'lol' ? 'dark_' : '' }}lol_logo.png" [width]="30">
+    <div class="subcomponent-title">League of Legends</div>
+  </a>
+  <a [routerLink]="'/tft'" [ngClass]="{'selected-game': currentGame === 'tft'}">
+    <img src="assets/logo/tft_logo.png" class="monochrome-logo" [style.filter]="currentGame !== 'tft' ? 'brightness(0)' : 'none'">
+    <div class="subcomponent-title">Teamfight Tactics</div>
+  </a>
+  <a [routerLink]="'/clash-royal'" [ngClass]="{'selected-game': currentGame === 'clash-royal'}">
+    <img src="assets/logo/{{ currentGame !== 'clash-royal' ? 'dark_' : '' }}clash-royal_logo.png" class="clash-royal-img">
+    <div class="subcomponent-title">Clash Royale</div>
+  </a>
+  <a [routerLink]="'/destiny'" [ngClass]="{'selected-game': currentGame === 'destiny'}">
+    <img src="assets/logo/destiny_logo.png" class="monochrome-logo" [style.filter]="currentGame !== 'destiny' ? 'brightness(0)' : 'none'">
+    <div class="subcomponent-title">Destiny 2</div>
   </a>
 </div>
