@@ -1,48 +1,73 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {BungieAuthService} from "../../service/destiny/bungie-auth.service";
-import {AlertService} from "../alert/alert.service";
+import {RIOTBoardService} from "../../service/riot/riot-board.service";
+import {DestinyComponent} from "../destiny/destiny.component";
 
 @Component({
   selector: 'game-list',
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css'],
 })
-export class GameListComponent {
+export class GameListComponent implements OnInit {
 
   selectedGame: string = '';
-  regions: string[] = ['EUW'];
+  regions: string[] = ['EUW'];//TODO enum globale
   selectedRegion: string = this.regions[0];
   riotTag: string = '';
   riotName: string = '';
   playerName: string = '';
+  riotBoardId: string = '';
+  availableGames: string[] = ['lol', 'tft', 'clash-royal', 'destiny'];
 
-  @ViewChild('riotForm') riotForm!: NgForm;
+  @ViewChild('riotSummonerForm') riotSummonerForm!: NgForm;
+  @ViewChild('riotBoardForm') riotBoardForm!: NgForm;
   @ViewChild('supercellForm') supercellForm!: NgForm;
 
-  constructor(private router: Router, private destinyAuthService: BungieAuthService, private alertService: AlertService) {
+  constructor(private router: Router, private destinyAuthService: BungieAuthService, private riotBoardService: RIOTBoardService, private route: ActivatedRoute) {
   }
 
-  selectGame(game: string) {
-    this.selectedGame = game;
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      const selectedGame = params['game'];
+      if (this.availableGames.includes(selectedGame)) {
+        this.selectedGame = selectedGame;
+      } else {
+        this.router.navigate(['/']);
+      }
+      this.selectedGame = params['game'];
+    })
   }
 
-  redirectToSummonerPage() {
+  redirectToRiotSummonerPage() {
     if (this.riotTag === '') {
-      this.riotForm.value.riotTag = 'EUW';
+      this.riotSummonerForm.value.riotTag = 'EUW';
     }
-    if (this.riotForm.valid) {
-      const region = this.riotForm.value.region;
-      const tag = this.riotForm.value.riotTag;
-      const name = this.riotForm.value.riotName;
-      if (name !== "" && tag !== "") {
+    if (this.riotSummonerForm.valid) {
+      const region = this.riotSummonerForm.value.region;
+      const tag = this.riotSummonerForm.value.riotTag;
+      const name = this.riotSummonerForm.value.riotName;
+      if (tag !== "") {
         if (this.selectedGame === "lol") {
           this.router.navigate([`/lol/${region}/${tag}/${name}/all-queues/all-roles`]);
         } else {
-          this.router.navigate([`/tft/${region}/${tag}/${name}/all-queues/set-13`]);
+          this.router.navigate([`/tft/${region}/${tag}/${name}/all-queues/set-13`]);//TODO set X
         }
       }
+    }
+  }
+
+  redirectToRiotBoard() {
+    if (this.riotBoardForm.valid) {
+      this.router.navigate([`/${this.selectedGame}/board/${this.riotBoardId}`]);
+    }
+  }
+
+  async redirectToNewRiotBoard(isLOL: boolean) {
+    const newBoardId = await this.riotBoardService.createBoard(isLOL);
+    if (newBoardId) {
+      this.router.navigate([`/${this.selectedGame}/board/${newBoardId}`]);
     }
   }
 
@@ -63,11 +88,12 @@ export class GameListComponent {
   }
 
   getBungieCurrentLoggedUser() {
-    return this.destinyAuthService.getLastLoggedPlayer().playerName;
+    return this.destinyAuthService.getLastLoggedPlayer();
   }
 
   async redirectToDestinyPage() {
     this.destinyAuthService.redirectToDestinyPage();
   }
 
+  protected readonly DestinyComponent = DestinyComponent;
 }

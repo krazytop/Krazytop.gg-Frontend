@@ -16,6 +16,11 @@
   font-size: 20px;
 }
 
+.dropdown-selected:hover {
+  background-color: #c2c2c233;
+  border: 1px solid #FFFFFF99;
+}
+
 .dropdown-arrow {
   margin-left: 8px;
 }
@@ -34,6 +39,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 .dropdown-option {

@@ -9,8 +9,7 @@ export class RIOTImageService {
   constructor(private patchService: RIOTPatchService) {
   }
 
-  private defaultVersion: string = '14.24.1';
-  private static EMPTY_URL = 'assets/data/lol/empty.png';
+  private static EMPTY_URL = 'assets/data/lol/hide-empty.png';
   private static OFFICIAL_CDN_URL = "https://ddragon.leagueoflegends.com/cdn/";
   private static COMMUNITY_RAW_URL = "https://raw.communitydragon.org/";
   private static BUGGED_COMMUNITY_VERSIONS: Map<string, string> = new Map([

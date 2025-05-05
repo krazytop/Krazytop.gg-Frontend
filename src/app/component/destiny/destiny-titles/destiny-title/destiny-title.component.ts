@@ -14,7 +14,7 @@ import {DestinyUrlArgs} from "../../../../model/destiny/destiny-url-args";
 export class DestinyTitleComponent {
 
   @Input() title!: DestinyPresentationTreeModel;
-  @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
+  @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>;
   @Input() urlArgs!: DestinyUrlArgs;
 
   protected readonly DestinyComponent = DestinyComponent;

@@ -1,12 +1,8 @@
-.loading {
+img {
   width: 21px;
 }
 
-.active {
-  border: #727272 1px solid;
-  background-color: #1D1D1D;
-  color: darkgrey;
-  cursor: pointer;
+button {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,23 +11,20 @@
   max-width: fit-content;
 }
 
-.active:hover {
-  background-color: rgba(194, 194, 194, 0.25);
-  border: 1px solid #1D1D1D;
-  cursor: pointer;
-  color: #000000;
-}
-
 .inactive {
   border: #727272 1px solid;
   background-color: #1D1D1D;
+  cursor: not-allowed;
   color: darkgrey;
   opacity: 25%;
   max-width: fit-content;
 }
 
-button {
-  padding: 10px;
-  font-size: 18px;
-  border-radius: 10px;
+.loading {
+  border: #727272 1px solid;
+  background-color: #1D1D1D;
+  cursor: not-allowed;
+  color: darkgrey;
+  opacity: 50%;
+  max-width: fit-content;
 }

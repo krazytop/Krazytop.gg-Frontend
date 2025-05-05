@@ -16,7 +16,7 @@ import {DestinyObjectiveProgressModel} from "../../../model/destiny/destiny-obje
 export class DestinyRecordComponent {
 
   @Input() record!: DestinyRecordNomenclature;
-  @Input() recordProgress!: DestinyNodeProgressionModel
+  @Input() recordProgress!: DestinyNodeProgressionModel;
 
   private noDescription: string = "Terminé";
 

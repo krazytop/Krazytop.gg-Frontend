@@ -2,7 +2,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 import {DestinyItemModel} from "../../../model/destiny/destiny-item.model";
 import {DestinyItemNomenclature} from "../../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {DestinyComponent} from "../destiny.component";
-import {Engrams, MainCurrencies} from "../../../model/destiny/enum/DestinyMainInventoryEnum";
+import {Engrams, MainCurrencies, Synthweaves} from "../../../model/destiny/enum/DestinyMainInventoryEnum";
 
 @Component({
   selector: 'destiny-main-inventory',
@@ -17,15 +17,20 @@ export class DestinyMainInventoryComponent implements OnChanges {
 
   mainCurrencies: DestinyItemModel[] = [];
   engrams: DestinyItemModel[] = [];
+  synthweaves: DestinyItemModel[] = [];
 
   ngOnChanges(): void {
     this.mainCurrencies = [];
     this.engrams = [];
+    this.synthweaves = [];
     MainCurrencies.forEach(itemHash => {
       this.mainCurrencies.push(this.findItem(itemHash));
     })
     Engrams.forEach(itemHash => {
       this.engrams.push(this.findItem(itemHash));
+    })
+    Synthweaves.forEach(itemHash => {
+      this.synthweaves.push(this.findItem(itemHash));
     })
   }
 

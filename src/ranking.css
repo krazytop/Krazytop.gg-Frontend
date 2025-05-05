@@ -17,6 +17,7 @@
   grid-template-columns: 1fr 1fr;
   justify-content: center; /* Centre horizontalement le contenu dans le conteneur */
   align-items: center; /* Centre verticalement le contenu dans le conteneur */
+  padding-bottom: 10px;
 }
 
 .rank-content {
@@ -24,7 +25,6 @@
   flex-direction: column;
   justify-content: center; /* Centre horizontalement le contenu dans le conteneur */
   align-items: center; /* Centre verticalement le contenu dans le conteneur */
-  margin-bottom: 10px;
 }
 
 .rank-information {

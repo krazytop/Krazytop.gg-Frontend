@@ -1,53 +1,65 @@
 <div class="container primary-component">
   <div class="global-form">
     <div class="games">
-      <button (click)="selectGame('lol')"
-              [ngClass]="{'game-selected': selectedGame === 'lol', 'game-not-selected': selectedGame !== 'lol'}">
+      <a [routerLink]="['/lol']" [ngClass]="selectedGame === 'lol' ? 'game-selected': 'game-not-selected'">
         <img alt="LOL logo" src="assets/logo/lol_logo.png">
-      </button>
-      <button (click)="selectGame('tft')"
-              [ngClass]="{'game-selected': selectedGame === 'tft', 'game-not-selected': selectedGame !== 'tft'}">
+      </a>
+      <a [routerLink]="['/tft']" [ngClass]="selectedGame === 'tft' ? 'game-selected': 'game-not-selected'">
         <img alt="TFT logo" src="assets/logo/tft_logo.png">
-      </button>
-      <button (click)="selectGame('clash-royal')"
+      </a>
+      <a [routerLink]="['/clash-royal']"
               [ngClass]="{'game-selected': selectedGame === 'clash-royal', 'game-not-selected': selectedGame !== 'clash-royal'}">
         <img alt="Clash Royal logo" src="assets/logo/clash-royal_logo.png">
-      </button>
-      <button (click)="selectGame('destiny')"
+      </a>
+      <a [routerLink]="['/destiny']"
               [ngClass]="{'game-selected': selectedGame === 'destiny', 'game-not-selected': selectedGame !== 'destiny'}">
-        <img alt="Destiny logo" src="assets/logo/destiny_logo.png" style="filter: invert(80%);">
-      </button>
+        <img alt="Destiny logo" src="assets/logo/destiny_logo.png">
+      </a>
     </div>
 
-    <div *ngIf="selectedGame == 'tft' || selectedGame == 'lol'" class="player">
-      <form #riotForm="ngForm" (submit)="redirectToSummonerPage()">
-        <div class="player-information">
-          <select [(ngModel)]="selectedRegion" name="region">
+    <div *ngIf="selectedGame == 'tft' || selectedGame == 'lol'" class="riot-forms">
+      <div class="riot-forms-rows">
+        <div class="title">Summoner&nbsp;:</div>
+        <div class="title" *ngIf="selectedGame == 'lol'">Board&nbsp;:</div>
+      </div>
+      <div class="riot-forms-rows" [style.justify-content]="'start'">
+        <form #riotSummonerForm="ngForm" (submit)="redirectToRiotSummonerPage()" class="line">
+          <select [(ngModel)]="selectedRegion" name="region" class="basic-select">
             <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
           </select>
-          <input [(ngModel)]="riotName" name="riotName" type="text" placeholder="Riot Name">
+          <input [(ngModel)]="riotName" name="riotName" type="text" placeholder="Riot Name" class="basic-input" required>
           <div class="hashtag">#</div>
-          <input [(ngModel)]="riotTag" name="riotTag" type="text" placeholder="EUW">
-        </div>
-        <button class="player-information" type="submit">Afficher</button>
-      </form>
+          <input [(ngModel)]="riotTag" name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxlength]="5" class="basic-input">
+          <button type="submit" class="basic-button">Afficher</button>
+        </form>
+        <form #riotBoardForm="ngForm" (submit)="redirectToRiotBoard()" class="line" *ngIf="selectedGame == 'lol'">
+          <input [(ngModel)]="riotBoardId" name="riotBoard" type="text" placeholder="Board ID" class="basic-input" required [style.width]="'-webkit-fill-available'">
+          <button type="submit" class="basic-button">Afficher</button>
+          <button (click)="redirectToNewRiotBoard(selectedGame == 'lol')" class="basic-button">Créer</button>
+        </form>
+      </div>
     </div>
     <div *ngIf="selectedGame == 'clash-royal'" class="player">
-      <form #supercellForm="ngForm" (submit)="redirectToSupercellPage()">
+      <form #supercellForm="ngForm" (submit)="redirectToSupercellPage()"  class="line">
         <div class="player-information">
           <div class="hashtag">#</div>
-          <input [(ngModel)]="playerName" name="name" type="text" placeholder="Clash Royal ID">
+          <input [(ngModel)]="playerName" name="name" type="text" placeholder="Clash Royal ID" class="basic-input" required>
         </div>
-        <button class="player-information" type="submit">Afficher</button>
+        <button class="basic-button" type="submit">Afficher</button>
       </form>
     </div>
     <div *ngIf="selectedGame == 'destiny'" class="player player-information">
-      <button *ngIf="isBungieUserCurrentlyLogged()" (click)="this.redirectToDestinyPage()">
-        <span>Login as {{ getBungieCurrentLoggedUser() }}</span>
-      </button>
-      <button (click)="this.loginToBungie()">
-        <span>Login {{ isBungieUserCurrentlyLogged() ? "as another user" : "to Bungie"}}</span>
-      </button>
+      <div class="line">
+        <button *ngIf="isBungieUserCurrentlyLogged()" (click)="this.redirectToDestinyPage()" class="basic-button bungie-reconnect-button">
+          <ng-container *ngVar="getBungieCurrentLoggedUser() as currentLoggedUser">
+            <img [src]="DestinyComponent.ASSET_URL + currentLoggedUser.icon" *ngIf="currentLoggedUser.icon">
+            <span>Login as {{ currentLoggedUser.playerName }}</span>
+          </ng-container>
+        </button>
+        <button (click)="this.loginToBungie()" class="basic-button">
+          <span>Login {{ isBungieUserCurrentlyLogged() ? "as another user" : "to Bungie"}}</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

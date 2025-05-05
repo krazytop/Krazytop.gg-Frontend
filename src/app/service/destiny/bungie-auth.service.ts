@@ -119,6 +119,12 @@ export class BungieAuthService {
     localStorage.setItem('lastLoggedPlayer', JSON.stringify(player));
   }
 
+  saveLastLoggedPlayerIcon(icon: string) {
+    const player = this.getLastLoggedPlayer();
+    player.icon = icon;
+    localStorage.setItem('lastLoggedPlayer', JSON.stringify(player));
+  }
+
   getLastLoggedPlayer() {
     const storedTokens = window.localStorage.getItem('lastLoggedPlayer');
     return JSON.parse(storedTokens!) as BungieLastLoggedPlayerModel;

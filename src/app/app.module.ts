@@ -54,13 +54,18 @@ import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.componen
 import { DestinyCharacterItemFiltersComponent } from './component/destiny/destiny-characters/destiny-character-item-filters/destiny-character-item-filters.component';
 import { RequestButtonComponent } from './ui/request-button/request-button.component';
 import { LoadingScreenComponent } from './ui/loading-screen/loading-screen.component';
-import { ProgressBarComponent } from './ui/progression-bar/progress-bar.component';
+import { ProgressBarComponent } from './ui/progress-bar/progress-bar.component';
 import { DestinyBadgeComponent } from './component/destiny/destiny-badges/destiny-badge/destiny-badge.component';
 import { DestinyCollectibleComponent } from './component/destiny/destiny-collectible/destiny-collectible.component';
 import { DestinyBadgePreviewComponent } from './component/destiny/destiny-badges/destiny-badge-preview/destiny-badge-preview.component';
 import { DestinyTitlePreviewComponent } from './component/destiny/destiny-titles/destiny-title-preview/destiny-title-preview.component';
 import { DropdownComponent } from './ui/dropdown/dropdown.component';
 import { DestinyItemOverlayComponent } from './component/destiny/destiny-item/destiny-item-overlay/destiny-item-overlay.component';
+import { RiotBoardComponent } from './component/riot/riot-board/riot-board.component';
+import { ResultBarComponent } from './ui/result-bar/result-bar.component';
+import { RiotRankImageComponent } from './component/riot/riot-ranking/riot-rank-image/riot-rank-image.component';
+import {VarDirective} from "../../ng-var.directive";
+import { LolMainRolesComponent } from './component/lol/lol-stats/lol-main-roles/lol-main-roles.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +123,12 @@ import { DestinyItemOverlayComponent } from './component/destiny/destiny-item/de
     DestinyBadgePreviewComponent,
     DestinyTitlePreviewComponent,
     DropdownComponent,
-    DestinyItemOverlayComponent
+    DestinyItemOverlayComponent,
+    RiotBoardComponent,
+    ResultBarComponent,
+    RiotRankImageComponent,
+    VarDirective,
+    LolMainRolesComponent
   ],
     imports: [
         BrowserModule,

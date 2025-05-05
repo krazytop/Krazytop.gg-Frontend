@@ -13,12 +13,14 @@ export class HTTPRequestService {
     return {'Authorization' : 'Basic ' + btoa('krazytop' + ':' + 'password')};
   }
 
-  async hasResponse(response: Response) {
+  async hasResponse(response: Response, showAlert: boolean = true) {//TODO
     if (response.status === 500 || response.status === 404) {
-      this.alertService.processAlert({
-        message: "",
-        duration: 3000
-      })
+      if (showAlert) {
+        this.alertService.processAlert({
+          message: "",
+          duration: 3000
+        })
+      }
       return false;
     } else {
       return response.status === 200;

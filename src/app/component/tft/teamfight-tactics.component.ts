@@ -17,8 +17,7 @@ export class TeamfightTacticsComponent implements OnInit {
 
   isThisComponentReady: boolean = true;
 
-  localSummoner: RIOTSummoner | undefined;
-  remoteSummoner: RIOTSummoner | undefined;
+  summoner?: RIOTSummoner;
 
   protected metadata: RIOTMetadata | undefined;
   protected selectedQueue!: string;
@@ -36,12 +35,10 @@ export class TeamfightTacticsComponent implements OnInit {
       const name: string = params['name'];
       this.selectedQueue = params['queue'];
       this.selectedSet = params['set'];
-      if (this.localSummoner?.name !== name || this.localSummoner?.region !== region) {
-        const [localSummoner, remoteSummoner] = await this.summonerService.getSummoner(region, tag, name, false);
-        this.localSummoner = localSummoner;
-        this.remoteSummoner = remoteSummoner
+      if (this.summoner?.name !== name || this.summoner?.region !== region) {//TODO voir à quoi ça sert ? (sans doute à ne pas re récupérer le summoner
+        this.summoner=  await this.summonerService.getSummonerByNameAndTag(region, tag, name, false);
         this.metadata = await this.metadataService.getMetadata();
-        await this.patchService.checkAndGetNewTFTPatchIfNeeded(this.metadata!.currentPatch)
+        await this.patchService.checkAndGetNewTFTPatchIfNeeded(this.metadata!.currentPatch);
       }
       this.isThisComponentReady = true;
     });

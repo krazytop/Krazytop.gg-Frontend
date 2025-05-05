@@ -4,14 +4,55 @@
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  height: 7vh;
+  height: 5vh;
+  position: relative;
 }
 
-.home-link {
-  cursor: pointer;
-  margin-left: 10px;
+.subcomponent-title {
+  color: black;
 }
 
-.home-logo {
-  width: 40px;
+a {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 0 10px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  transition: all ease-in-out .15s;
+
+  .monochrome-logo {
+    filter: brightness(0);
+  }
+
+  img {
+    height: 30px;
+  }
+}
+
+a:hover {
+  color: white;
+
+  .monochrome-logo {
+    filter: none;
+  }
+}
+
+.clash-royal-img {
+  width: 27px;
+  height: 32px;
+}
+
+.selected-game {
+  border-bottom-color: #FFFFFF55;
+
+  .subcomponent-title {
+    color: white;
+  }
+}
+
+a:hover {
+  background-color: #93753c;
 }

@@ -1,7 +1,7 @@
 import {DestinyDatabaseApi} from "./destiny-database.api";
 import {Injectable} from "@angular/core";
 import {DestinyProfileModel} from "../../model/destiny/destiny-profile.model";
-import {Engrams, MainCurrencies} from "../../model/destiny/enum/DestinyMainInventoryEnum";
+import {Engrams, MainCurrencies, Synthweaves} from "../../model/destiny/enum/DestinyMainInventoryEnum";
 import {DestinyPresentationTreesModel} from "../../model/destiny/destiny-presentation-trees.model";
 import {DestinyPresentationTreeModel} from "../../model/destiny/destiny-presentation-tree.model";
 import {
@@ -27,7 +27,7 @@ export class DestinyNomenclatureService {
       ...profile.characterEquipment.flatMap(inventory => inventory.items.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash])),
       ...profile.characterInventories.flatMap(inventory => inventory.items.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash])),
       ...presentationTrees.badges.childrenNode.flatMap(badge => badge.childrenNode.flatMap(character => character.childrenCollectible.map(collectible => collectible.itemHash))),
-      ...MainCurrencies, ...Engrams])];
+      ...MainCurrencies, ...Engrams, ...Synthweaves])];
     return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE)
   }
 

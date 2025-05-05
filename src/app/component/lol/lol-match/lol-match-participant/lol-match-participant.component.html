@@ -17,7 +17,7 @@
       <img src="{{ imageService.getLOLSpellImageUrl(participant.summonerSpell1, matchVersion) }}" alt="Summoner Spell">
       <img src="{{ imageService.getLOLSpellImageUrl(participant.summonerSpell2, matchVersion) }}" alt="Summoner Spell">
     </div>
-    <div class="summoners-runes-augments" *ngIf="participant.runes">
+    <div class="summoners-runes-augments" *ngIf="participant.runes.runeCategories[0].style != '0'">
       <img src="{{ imageService.getLOLRunePerkImageUrl(participant.runes.runeCategories[0]!.perks[0], matchVersion) }}" alt="Rune">
       <img src="{{ imageService.getLOLRuneCategoryImageUrl(participant.runes.runeCategories[1]!.style, matchVersion) }}" alt="Rune">
     </div>

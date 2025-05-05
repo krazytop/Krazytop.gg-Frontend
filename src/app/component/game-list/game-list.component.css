@@ -10,6 +10,7 @@
   width: 100px;
   height: 100px;
   margin: 0 10px;
+  object-fit: scale-down;
 }
 
 .game-not-selected {
@@ -28,33 +29,31 @@
   cursor: pointer;
 }
 
-.player button:hover, .game-not-selected:hover {
+.game-not-selected:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid #1D1D1D;
   cursor: pointer;
 }
 
+.riot-forms {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.riot-forms-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
 .player {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.player select, .player button, .player input{
-  padding: 7px;
-  font-size: 20px;
-  border: #727272 1px solid;
-  background-color: #1D1D1D;
-  color: white;
-  border-radius: 10px;
-}
-
-.player select, .player button{
-  cursor: pointer;
-}
-
-.player button {
-  width: 100%;
+  align-self: center;
+  gap: 30px;
 }
 
 .player-information {
@@ -89,4 +88,34 @@ form {
   color: white;
   font-weight: bold;
   margin-right: -10px;
+}
+
+.title {
+  color: white;
+  font-size: 25px;
+  height: 44px;
+  align-items: center;
+  display: flex;
+  justify-content: end;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: start;
+}
+
+.bungie-reconnect-button {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  overflow: hidden;
+
+  img {
+    width: 41px;
+    margin: -10px;
+    border-right: 1px solid #727272;
+  }
 }

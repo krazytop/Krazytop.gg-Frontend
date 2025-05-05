@@ -18,6 +18,18 @@ export class DestinyComponentSelectorComponent {
   static catalysts: string = 'catalysts';
   static models: string = 'models';
 
+  get raidReportUrl() {
+    return `https://raid.report/${this.getRaidReportPlatform}/${this.urlArgs.membership}`;
+  }
+
+  get dungeonReportUrl() {
+    return `https://dungeon.report/${this.getRaidReportPlatform}/${this.urlArgs.membership}`;
+  }
+
+  get getRaidReportPlatform() {
+    return {1: 'xb', 2: 'ps'}[this.urlArgs.platform] || 'pc';
+  }
+
   protected readonly DestinyComponentSelectorComponent = DestinyComponentSelectorComponent;
 
 }

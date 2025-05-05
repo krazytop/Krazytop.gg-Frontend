@@ -33,4 +33,6 @@
   height: 12px;
   width: 12px;
   place-items: center;
+  justify-content: center;
+  display: flex;
 }
