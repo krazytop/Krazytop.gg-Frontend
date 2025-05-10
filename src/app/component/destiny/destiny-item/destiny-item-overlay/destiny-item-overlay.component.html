@@ -23,9 +23,7 @@
       <span [style.justify-self]="'center'" [style.font-weight]="'bold'">{{ getStatsTotal(itemOverlay.item!) }}</span>
     </div>
   </div>
-  <div class="stats" *ngIf="!itemOverlay.item!.itemStats">
-    <span>{{ itemOverlay.item!.itemNomenclature.description }}</span>
-  </div>
+  <span *ngIf="!itemOverlay.item!.itemStats" class="description">{{ itemOverlay.item!.itemNomenclature.description }}</span>
   <div class="socket-categories" *ngIf="itemOverlay.item!.itemNomenclature.itemType === DestinyItemTypeEnum.Weapon">
     <div class="socket-category">
       <img *ngFor="let socketIndex of intrinsicTraitSocket.socketIndexes" [src]="DestinyComponent.ASSET_URL + getCurrentPlug(socketIndex).icon" class="intrinsic" [title]="getCurrentPlug(socketIndex).name">
@@ -36,5 +34,18 @@
            [title]="plug.name"
            [style.background-color]="plug.tierTypeHash === DestinyTierTypeEnum.Ordinary && plug === getCurrentPlug(socketIndex)? '#F8DE4D55' : 'none'">
     </div>
+  </div>
+  <div class="objectives" *ngIf="itemOverlay.item!.itemObjectives?.length ?? 0 > 0">
+    <div *ngFor="let objective of itemOverlay.item!.itemObjectives">
+      <destiny-simple-objective [objective]="objective" [nomenclature]="itemOverlay.objectiveNomenclatures.get(objective.objectiveHash)!" [areAllObjectivesCompleted]="objectiveService.areAllObjectivesCompleted(itemOverlay.item!.itemObjectives!)"></destiny-simple-objective>
+    </div>
+  </div>
+  <hr *ngIf="itemOverlay.item!.itemNomenclature.rewards?.length ?? 0 > 0">
+  <div *ngIf="itemOverlay.item!.itemNomenclature.rewards?.length ?? 0 > 0" class="rewards">
+    <span class="rewards-title">Récompenses :</span>
+    <destiny-reward *ngFor="let reward of itemOverlay.item!.itemNomenclature.rewards" [item]="reward"></destiny-reward>
+  </div>
+  <div *ngIf="objectiveService.showExpiration(itemOverlay.item!)" class="rewards">
+    <span class="expire-title">{{ objectiveService.isExpired(itemOverlay.item!) ? "Expiré" : "Expire dans " + timeService.getTimeRemainingDHM(itemOverlay.item?.expirationDate!) }}</span>
   </div>
 </div>

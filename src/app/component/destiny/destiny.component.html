@@ -42,6 +42,12 @@
                    [presentationNodeProgress]="profile.presentationNodeProgress"
                    [urlArgs]="urlArgs">
     </destiny-title>
+    <destiny-contracts *ngIf="urlArgs.component === 'contracts'" class="component"
+                       [characterInventories]="profile.characterInventories"
+                       [itemNomenclatures]="itemNomenclatures"
+                       [itemInstances]="profile.itemInstances"
+                       [itemObjectives]="profile.itemObjectives">
+    </destiny-contracts>
     <destiny-characters *ngIf="urlArgs.component === 'characters'" class="component"
                         [profileInventory]="profile.profileInventory"
                         [characterEquipment]="profile.characterEquipment"

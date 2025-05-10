@@ -26,6 +26,7 @@ export class DestinyBadgeComponent implements OnChanges {
   @Input() urlArgs!: DestinyUrlArgs;
 
   focusedCollectibles!: DestinyCollectibleNomenclature[];
+  selectedCharacter: number = -1;
 
   ngOnChanges() {
     this.selectCharacterClass(Object.values(DestinyClassEnum)[0]);
@@ -57,7 +58,7 @@ export class DestinyBadgeComponent implements OnChanges {
         }
       }
     }
-    return 'none';
+    this.selectedCharacter = character.classType;
   }
 
   protected readonly DestinyClassEnum = DestinyClassEnum;

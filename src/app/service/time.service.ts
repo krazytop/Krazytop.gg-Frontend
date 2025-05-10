@@ -41,6 +41,32 @@ export class TimeService {
     }
   }
 
+  getTimeRemainingDHM(date: Date): string | undefined {
+    const now = new Date();
+    const diffInSeconds = Math.floor((new Date(date).getTime() - now.getTime()) / 1000);
+
+    if (diffInSeconds < 0) {
+      return undefined;
+    }
+
+    const secondsInMinute = 60;
+    const secondsInHour = 3600;
+    const secondsInDay = 86400;
+
+    const days = Math.floor(diffInSeconds / secondsInDay);
+    const remainingSecondsAfterDays = diffInSeconds % secondsInDay;
+    const hours = Math.floor(remainingSecondsAfterDays / secondsInHour);
+    const remainingSecondsAfterHours = remainingSecondsAfterDays % secondsInHour;
+    const minutes = Math.floor(remainingSecondsAfterHours / secondsInMinute);
+
+    const parts = [];
+    if (days > 0) parts.push(`${days} jour${days > 1 ? 's' : ''}`);
+    if (hours > 0) parts.push(`${hours} heure${hours > 1 ? 's' : ''}`);
+    if (minutes > 0) parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+
+    return parts.slice(0, 2).join(' et ');
+  }
+
   getSecondsRemainingUntilNextAllowedUpdate(date: Date, updateFrequency: number) { //TODO
     const elapsedTimeInSeconds = (new Date().getTime() - new Date(date).getTime()) / 1000;
     return Math.floor(Math.max(0, updateFrequency - elapsedTimeInSeconds + 1));

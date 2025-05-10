@@ -10,6 +10,8 @@ import {DestinySocketCategoryEnum} from "../../../../model/destiny/enum/DestinyS
 import {DestinySocketCategoryModel} from "../../../../model/destiny/destiny-socket-category.model";
 import {DestinyItemTypeEnum} from "../../../../model/destiny/enum/DestinyItemTypeEnum";
 import {DestinyItemNomenclature} from "../../../../model/destiny/nomenclature/destiny-item.nomenclature";
+import {DestinyObjectiveService} from "../../../../service/destiny/destiny-objective.service";
+import {TimeService} from "../../../../service/time.service";
 
 @Component({
   selector: 'destiny-item-overlay',
@@ -22,7 +24,7 @@ export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
 
   private readonly clickListener: () => void;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2, private overlayService: DestinyOverlayService) {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2, private overlayService: DestinyOverlayService, protected objectiveService: DestinyObjectiveService, protected timeService: TimeService) {
     this.clickListener = this.renderer.listen('document', 'click', (event: MouseEvent) => {
       if (!this.elementRef.nativeElement.contains(event.target)) {
         this.overlayService.hideItem();
@@ -32,6 +34,7 @@ export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
 
   ngOnChanges() {
     this.itemOverlay.item!.itemStats?.sort((a,b) => this.itemOverlay.statNomenclatures.get(a.statHash)?.index! - this.itemOverlay.statNomenclatures.get(b.statHash)?.index!);
+    this.itemOverlay.item!.itemNomenclature.rewards = this.itemOverlay.item?.itemNomenclature.rewards?.filter(reward => reward.itemHash != 0);
   }
 
   getStatsTotal(item : DestinyItemModel) {

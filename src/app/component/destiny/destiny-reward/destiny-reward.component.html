@@ -1,0 +1,4 @@
+<div class="reward-component">
+  <img [src]="DestinyComponent.ASSET_URL + item.itemNomenclature.icon">
+  <div>{{ getSafeString(item.itemNomenclature.name) + (item.quantity > 1 ? " +" + item.quantity : "") }}</div>
+</div>

@@ -3,7 +3,6 @@ import {DestinyCollectibleNomenclature} from "../../../model/destiny/nomenclatur
 import {DestinyComponent} from "../destiny.component";
 import {DestinyCollectibleModel} from "../../../model/destiny/destiny-collectible.model";
 import {DestinyItemNomenclature} from "../../../model/destiny/nomenclature/destiny-item.nomenclature";
-import {DestinyItemStateEnum} from "../../../model/destiny/enum/DestinyItemStateEnum";
 
 @Component({
   selector: 'destiny-collectible',
@@ -18,5 +17,4 @@ export class DestinyCollectibleComponent {
 
   protected readonly DestinyComponent = DestinyComponent;
   protected readonly console = console;
-  protected readonly ItemStateEnum = DestinyItemStateEnum;
 }

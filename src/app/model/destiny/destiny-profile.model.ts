@@ -8,6 +8,7 @@ import {DestinyCollectibleModel} from "./destiny-collectible.model";
 import {DestinyItemStatModel} from "./destiny-item-stat.model";
 import {DestinyPlugModel} from "./destiny-plug.model";
 import {DestinySocketModel} from "./destiny-socket.model";
+import {DestinyObjectiveProgressModel} from "./destiny-objective-progress.model";
 
 export class DestinyProfileModel {//TODO map les characters
   linkedProfiles: DestinyLinkedProfilesModel[] = [];
@@ -18,6 +19,7 @@ export class DestinyProfileModel {//TODO map les characters
   characterCollectibles: Map<number, Map<number, DestinyCollectibleModel>> = new Map();
   profileCollectibles: Map<number, DestinyCollectibleModel> = new Map();
   itemInstances: Map<number, DestinyItemInstanceModel> = new Map();
+  itemObjectives: Map<number, DestinyObjectiveProgressModel[]> = new Map();
   itemStats: Map<number, DestinyItemStatModel[]> = new Map();
   itemSockets: Map<number, DestinySocketModel[]> = new Map();
   itemPlugs: Map<number, Map<number, DestinyPlugModel[]>> = new Map();

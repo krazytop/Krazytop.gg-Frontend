@@ -13,6 +13,7 @@ import {DestinySocketCategoryEnum} from "../../model/destiny/enum/DestinySocketC
 import {DestinyItemInstanceModel} from "../../model/destiny/destiny-item-instance.model";
 import {DestinyPlugModel} from "../../model/destiny/destiny-plug.model";
 import {DestinySocketModel} from "../../model/destiny/destiny-socket.model";
+import {DestinyObjectiveProgressModel} from "../../model/destiny/destiny-objective-progress.model";
 
 @Injectable({ providedIn: 'root' })
 export class DestinyNomenclatureService {
@@ -27,8 +28,15 @@ export class DestinyNomenclatureService {
       ...profile.characterEquipment.flatMap(inventory => inventory.items.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash])),
       ...profile.characterInventories.flatMap(inventory => inventory.items.flatMap(item => [item.itemHash, item.overrideStyleItemHash ?? item.itemHash])),
       ...presentationTrees.badges.childrenNode.flatMap(badge => badge.childrenNode.flatMap(character => character.childrenCollectible.map(collectible => collectible.itemHash))),
-      ...MainCurrencies, ...Engrams, ...Synthweaves])];
-    return await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE)
+      ...MainCurrencies, ...Engrams, ...Synthweaves])];//TODO reward
+    const itemsBeforeRewards = await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE);
+    const rewards = [...new Set(Array.from(itemsBeforeRewards.values()).flatMap((item: DestinyItemNomenclature) => item.rewards?.flatMap(rewards => rewards.itemHash) ?? []))];
+    return new Map([...(await this.databaseApi.getAllObjectsByIds(rewards, DestinyDatabaseApi.ITEM_STORE)).entries(), ...(await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE)).entries() ]);
+  }
+
+  async getObjectiveNomenclatures(itemObjectives: Map<number, DestinyObjectiveProgressModel[]>) {
+    const hashes = Array.from(itemObjectives.values()).flat().map(o => o.objectiveHash)
+    return await this.databaseApi.getAllObjectsByIds(Array.from(new Set(hashes)), DestinyDatabaseApi.OBJECTIVE_STORE)
   }
 
   async getRecordNomenclatures(hashes: number[]) {

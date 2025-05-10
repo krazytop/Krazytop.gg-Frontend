@@ -3,16 +3,18 @@
   color: white;
   border-radius: 5px;
   box-shadow: 0 0 9px 3px rgba(0,0,0,0.75);
-  width: 300px;
+  width: 320px;
+  gap: 10px;
+  padding-bottom: 10px;
 }
 
 .header {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding: 5px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  padding: 10px;
 }
 
 .item-name {
@@ -25,7 +27,12 @@
 }
 
 .stats {
-  padding: 5px;
+  padding: 0 10px;
+}
+
+.description {
+  color: #c2c2c2;
+  padding: 0 10px;
 }
 
 .stat {
@@ -43,7 +50,7 @@
   display: flex;
   flex-direction: row;
   gap: 5px;
-  padding: 5px;
+  padding: 0 10px;
 }
 
 .socket-category {
@@ -65,4 +72,35 @@
 
 .intrinsic {
   width: 36px;
+}
+
+.objectives {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 10px;
+}
+
+.rewards-title {
+  color: #6bc181;
+  font-size: 18px;
+}
+
+.expire-title {
+  color: #c63535;
+  font-size: 14px;
+}
+
+.rewards {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 10px;
+}
+
+hr {
+  margin-top: 1px;
+  margin-bottom: -5px;
+  background-color: #c2c2c2;
+  height: 1px;
 }

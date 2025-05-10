@@ -22,6 +22,8 @@ import {DestinyStatNomenclature} from "../../model/destiny/nomenclature/destiny-
 import {DestinyItemStatModel} from "../../model/destiny/destiny-item-stat.model";
 import {DestinyPlugModel} from "../../model/destiny/destiny-plug.model";
 import {DestinySocketModel} from "../../model/destiny/destiny-socket.model";
+import {DestinyObjectiveProgressModel} from "../../model/destiny/destiny-objective-progress.model";
+import {DestinyObjectiveNomenclature} from "../../model/destiny/nomenclature/destiny-objective.nomenclature";
 
 @Component({
   selector: 'destiny',
@@ -95,6 +97,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.statNomenclatures = await this.nomenclatureService.getStatNomenclatures();
     this.overlayService.itemOverlay.statNomenclatures = this.statNomenclatures;
     this.overlayService.itemOverlay.plugsNomenclatures = await this.nomenclatureService.getPlugNomenclatures(this.profile.itemPlugs, this.profile.itemSockets);
+    this.overlayService.itemOverlay.objectiveNomenclatures = await this.nomenclatureService.getObjectiveNomenclatures(this.profile.itemObjectives);
     this.vendorGroups = await this.getVendors(this.urlArgs.platform!, this.urlArgs.membership!, this.profile.characters[0].characterId);
     this.manageComponentArgs();
     this.isThisComponentReady = true;
@@ -125,7 +128,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
   }
 
   async getProfile(platform: number, membership: string) {
-    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,304,305,310,700,800,900`, {headers: this.bungieAuthService.getHeaders()})
+    const response = await fetch(`https://www.bungie.net/Platform/Destiny2/${platform}/Profile/${membership}/?components=102,103,200,201,205,300,301,304,305,310,700,800,900`, {headers: this.bungieAuthService.getHeaders()})
     const json = await response.json();
     const destinyProfile: DestinyProfileModel = new DestinyProfileModel();
     destinyProfile.characters = Object.values(json['Response']['characters']['data']);
@@ -147,6 +150,10 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     Object.entries(json['Response']['itemComponents']['instances']['data'])
       .forEach(([itemHash, item]) => {
         destinyProfile.itemInstances.set(Number(itemHash), item as DestinyItemInstanceModel);
+      });
+    Object.entries(json['Response']['itemComponents']['objectives']['data'])
+      .forEach(([itemHash, objectives]) => {
+        destinyProfile.itemObjectives.set(Number(itemHash), (objectives as any)['objectives'] as DestinyObjectiveProgressModel[]);
       });
     Object.entries(json['Response']['itemComponents']['stats']['data'])
       .forEach(([itemHash, item]) => {

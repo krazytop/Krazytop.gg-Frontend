@@ -7,20 +7,11 @@
   </div>
 </div>
 <div class="simple-objectives" *ngIf="record.objectives ? record.objectives.length > 0 : false">
-  <div *ngFor="let objective of record.objectives">
-    <div class="simple-objective" *ngIf="getSimpleObjectiveProgress(objective).completionValue === 1">
-      <div *ngIf="getSimpleObjectiveProgress(objective).completionValue === 1" class="checkbox">
-        <div class="checkbox" [style.background-color]="isRecordComplete(recordProgress) ? '#93884c' : getSimpleObjectiveProgress(objective).complete ? '#757575' : 'black'"></div>
-      </div>
-      <div class="objective-title">{{ getCompleteObjectiveDescription(objective) }}</div>
-    </div>
-    <progress-bar *ngIf="getSimpleObjectiveProgress(objective).completionValue > 1"
-                  [color]="isRecordComplete(recordProgress) ? '#93884c' : '#757575'"
-                  [description]="getCompleteObjectiveDescription(objective)"
-                  [completionValue]="getSimpleObjectiveProgress(objective).completionValue"
-                  [progressValue]="getSimpleObjectiveProgress(objective).progress">
-    </progress-bar>
-  </div>
+  <destiny-simple-objective *ngFor="let nomenclature of record.objectives"
+                            [objective]="getSimpleObjectiveProgress(nomenclature)"
+                            [nomenclature]="nomenclature"
+                            [areAllObjectivesCompleted]="isRecordComplete(recordProgress)">
+  </destiny-simple-objective>
 </div>
 <div class="objectives" *ngIf="record.intervalObjectives ? record.intervalObjectives.length > 0 : false">
   <div class="objective" *ngFor="let objective of record.intervalObjectives"><!-- TODO progress bar component -->
@@ -28,7 +19,7 @@
       <div class="current-objective-progression-bar" [style.width.%]="Math.min(getIntervalObjectiveWidth(record, objective), 100)" [style.background-color]="!isRecordComplete(recordProgress) ? '#757575' : 'none'"></div>
     </div>
   </div>
-  <span class="current-objective-progression" style="justify-content: start">{{ getCompleteObjectiveDescription(record.intervalObjectives![record.intervalObjectives!.length - 1].objective) }}</span>
+  <span class="current-objective-progression" style="justify-content: start">{{ objectiveService.getCompleteObjectiveDescription(record.intervalObjectives![record.intervalObjectives!.length - 1].objective) }}</span>
   <span class="current-objective-progression" style="justify-content: end"> {{ getIntervalObjectivesProgress(record.intervalObjectives![record.intervalObjectives!.length - 1]).progress }} / {{ getIntervalObjectivesProgress(record.intervalObjectives![record.intervalObjectives!.length - 1]).completionValue }}</span>
 </div>
 <div class="reward" style="color: white">

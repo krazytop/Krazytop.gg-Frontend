@@ -1,0 +1,12 @@
+<div class="simple-objective" *ngIf="objective.completionValue === 1">
+  <div *ngIf="objective.completionValue === 1" class="checkbox">
+    <div class="checkbox" [style.background-color]="areAllObjectivesCompleted ? '#93884c' : objective.complete ? '#757575' : 'black'"></div>
+  </div>
+  <div class="objective-title">{{ objectiveService.getCompleteObjectiveDescription(nomenclature) }}</div>
+</div>
+<progress-bar *ngIf="objective.completionValue > 1"
+              [color]="areAllObjectivesCompleted ? '#93884c' : '#757575'"
+              [description]="objectiveService.getCompleteObjectiveDescription(nomenclature)"
+              [completionValue]="objective.completionValue"
+              [progressValue]="objective.progress">
+</progress-bar>

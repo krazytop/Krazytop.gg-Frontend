@@ -1,0 +1,12 @@
+.reward-component {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-size: 14px;
+  color: white;
+  align-items: center;
+}
+
+img {
+  height: 20px;
+}

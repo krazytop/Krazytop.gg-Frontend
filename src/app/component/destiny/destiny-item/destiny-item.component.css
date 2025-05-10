@@ -65,6 +65,22 @@
   margin-left: 30px;
 }
 
+.completed-contract {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.expired {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 .deepsight {
   border: solid 2px #b92900;
   border-radius: 5px;

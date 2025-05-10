@@ -66,6 +66,9 @@ import { ResultBarComponent } from './ui/result-bar/result-bar.component';
 import { RiotRankImageComponent } from './component/riot/riot-ranking/riot-rank-image/riot-rank-image.component';
 import {VarDirective} from "../../ng-var.directive";
 import { LolMainRolesComponent } from './component/lol/lol-stats/lol-main-roles/lol-main-roles.component';
+import { DestinyContractsComponent } from './component/destiny/destiny-contracts/destiny-contracts.component';
+import { DestinySimpleObjectiveComponent } from './component/destiny/destiny-simple-objective/destiny-simple-objective.component';
+import { DestinyRewardComponent } from './component/destiny/destiny-reward/destiny-reward.component';
 
 @NgModule({
   declarations: [
@@ -128,7 +131,10 @@ import { LolMainRolesComponent } from './component/lol/lol-stats/lol-main-roles/
     ResultBarComponent,
     RiotRankImageComponent,
     VarDirective,
-    LolMainRolesComponent
+    LolMainRolesComponent,
+    DestinyContractsComponent,
+    DestinySimpleObjectiveComponent,
+    DestinyRewardComponent
   ],
     imports: [
         BrowserModule,
