@@ -3,6 +3,7 @@ import {DestinyInventoryBucketEnum} from "../enum/DestinyInventoryBucketsEnum";
 import {DestinyItemTypeEnum} from "../enum/DestinyItemTypeEnum";
 import {DestinyItemStatModel} from "../destiny-item-stat.model";
 import {DestinySocketCategoryModel} from "../destiny-socket-category.model";
+import {DestinyRewardModel} from "../destiny-reward.model";
 
 export class DestinyItemNomenclature {
   hash!: number
@@ -26,6 +27,8 @@ export class DestinyItemNomenclature {
   isInstanceItem!: boolean;
   nonTransferrable!: boolean;
   equippable!: boolean;
+  suppressExpirationWhenObjectivesComplete?: boolean;
+  rewards?: DestinyRewardModel[];
   investmentStats?: DestinyItemStatModel[];
   socketCategories?: DestinySocketCategoryModel[];
 }

@@ -16,7 +16,7 @@ import {DestinyVendorGroupNomenclature} from "../../model/destiny/nomenclature/d
 import {DestinyVendorModel} from "../../model/destiny/destiny-vendor.model";
 import {DestinyStatNomenclature} from "../../model/destiny/nomenclature/destiny-stat.nomenclature";
 import {DestinyItemStatModel} from "../../model/destiny/destiny-item-stat.model";
-import {DestinySocketCategoryModel} from "../../model/destiny/destiny-socket-category.model";
+import {DestinyRewardModel} from "../../model/destiny/destiny-reward.model";
 
 @Injectable({
   providedIn: 'root',
@@ -120,6 +120,7 @@ export class DestinyDatabaseUpdateService {
       itemNomenclature.tierTypeHash = Number(inventory['tierTypeHash']);
       itemNomenclature.isInstanceItem = Boolean(inventory['isInstanceItem']);
       itemNomenclature.tierTypeName = String(inventory['tierTypeName']);
+      itemNomenclature.suppressExpirationWhenObjectivesComplete = Boolean(inventory['suppressExpirationWhenObjectivesComplete']);
 
       let equippingBlock = entryData['equippingBlock'];
       itemNomenclature.equipmentSlotTypeHash = equippingBlock ? Number(equippingBlock['equipmentSlotTypeHash']) : undefined;
@@ -134,6 +135,8 @@ export class DestinyDatabaseUpdateService {
       itemNomenclature.defaultDamageType = Number(entryData['defaultDamageType']);
       itemNomenclature.equippable = Boolean(entryData['equippable']);
       itemNomenclature.itemTypeDisplayName = String(entryData['itemTypeDisplayName']);
+
+      itemNomenclature.rewards = Array.from((entryData['value']?.['itemValue'] as Map<number, DestinyRewardModel> ?? new Map()).values());
 
       let investmentStats: any[] = entryData['investmentStats'];
       if (investmentStats) {
@@ -177,6 +180,7 @@ export class DestinyDatabaseUpdateService {
       objectiveNomenclatures.set(Number(key), objectiveNomenclature);
     }
     console.log(`${objectiveNomenclatures.size} objectives added`)
+    await this.databaseApi.addObjects(Array.from(objectiveNomenclatures.values()), DestinyDatabaseApi.OBJECTIVE_STORE);
     return objectiveNomenclatures;
   }
 

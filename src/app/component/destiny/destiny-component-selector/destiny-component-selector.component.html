@@ -1,37 +1,42 @@
 <div class="tab-selectors">
   <div class="tab-buttons">
     <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.vendors]">
-      <button [ngClass]="{'tab-selected': urlArgs.component === DestinyComponentSelectorComponent.vendors, 'tab-not-selected': urlArgs.component !== DestinyComponentSelectorComponent.vendors}">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.vendors ? 'tab-selected' : 'tab-not-selected'">
         <span>Vendors</span>
       </button>
     </a>
     <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.collections]" *ngIf="false">
-      <button [ngClass]="{'tab-selected': urlArgs.component === DestinyComponentSelectorComponent.collections, 'tab-not-selected': urlArgs.component !== DestinyComponentSelectorComponent.collections}">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.collections ? 'tab-selected' : 'tab-not-selected'">
         <span>Collections</span>
       </button>
     </a>
     <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.badges]">
-      <button [ngClass]="{'tab-selected': urlArgs.component === DestinyComponentSelectorComponent.badges, 'tab-not-selected': urlArgs.component !== DestinyComponentSelectorComponent.badges}">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.badges ? 'tab-selected' : 'tab-not-selected'">
         <span>Badges</span>
       </button>
     </a>
     <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.models]">
-      <button [ngClass]="{'tab-selected': urlArgs.component === DestinyComponentSelectorComponent.models, 'tab-not-selected': urlArgs.component !== DestinyComponentSelectorComponent.models}">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.models ? 'tab-selected' : 'tab-not-selected'">
         <span>Models</span>
       </button>
     </a>
     <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.catalysts]">
-      <button [ngClass]="{'tab-selected': urlArgs.component === DestinyComponentSelectorComponent.catalysts, 'tab-not-selected': urlArgs.component !== DestinyComponentSelectorComponent.catalysts}">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.catalysts ? 'tab-selected' : 'tab-not-selected'">
         <span>Catalysts</span>
       </button>
     </a>
     <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.titles]">
-      <button [ngClass]="{'tab-selected': urlArgs.component === DestinyComponentSelectorComponent.titles, 'tab-not-selected': urlArgs.component !== DestinyComponentSelectorComponent.titles}">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.titles ? 'tab-selected' : 'tab-not-selected'">
         <span>Titles</span>
       </button>
     </a>
+    <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.contracts]">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.contracts ? 'tab-selected' : 'tab-not-selected'">
+        <span>Contracts</span>
+      </button>
+    </a>
     <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.characters]">
-      <button [ngClass]="{'tab-selected': urlArgs.component === DestinyComponentSelectorComponent.characters, 'tab-not-selected': urlArgs.component !== DestinyComponentSelectorComponent.characters}">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.characters ? 'tab-selected' : 'tab-not-selected'">
         <span>Characters</span>
       </button>
     </a>

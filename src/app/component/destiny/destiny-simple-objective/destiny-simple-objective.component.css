@@ -1,0 +1,16 @@
+.checkbox {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+}
+
+.simple-objective {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.objective-title {
+  font-size: 14px;
+}

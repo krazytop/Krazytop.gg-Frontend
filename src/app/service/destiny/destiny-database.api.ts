@@ -12,6 +12,7 @@ export class DestinyDatabaseApi {
   static VENDOR_STORE = 'VendorNomenclature';
   static PROGRESSION_STORE = 'ProgressionNomenclature';
   static STAT_STORE = 'StatNomenclature';
+  static OBJECTIVE_STORE = 'ObjectiveNomenclature';
   static MANIFEST_VERSION = 'ManifestVersion';
 
   constructor() {}
@@ -37,6 +38,7 @@ export class DestinyDatabaseApi {
       db.createObjectStore(DestinyDatabaseApi.VENDOR_STORE, { keyPath: 'hash' });
       db.createObjectStore(DestinyDatabaseApi.PROGRESSION_STORE, { keyPath: 'hash' });
       db.createObjectStore(DestinyDatabaseApi.STAT_STORE, { keyPath: 'hash' });
+      db.createObjectStore(DestinyDatabaseApi.OBJECTIVE_STORE, { keyPath: 'hash' });
       db.createObjectStore(DestinyDatabaseApi.PRESENTATION_TREE_STORE, { keyPath: 'hash' });
     }
     return new Promise<void>((resolve, reject) => {

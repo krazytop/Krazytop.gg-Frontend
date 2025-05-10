@@ -1,0 +1,44 @@
+.contracts-component {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.characters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.character {
+  gap: 9px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 50px);
+}
+
+destiny-item {
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: #C2BCB3;
+  cursor: pointer;
+}
+
+.character-image-container {
+  width: 60px;
+  height: 40px;
+  justify-self: center;
+}
+
+.character-image {
+  filter: invert(70%);
+  justify-self: center;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.subcomponent-title {
+  gap: 20px;
+  font-size: 20px;
+}

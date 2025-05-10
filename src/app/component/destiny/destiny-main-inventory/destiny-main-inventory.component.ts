@@ -38,8 +38,9 @@ export class DestinyMainInventoryComponent implements OnChanges {
     let item: DestinyItemModel = new DestinyItemModel();
     item.itemHash = itemHash;
     item.itemNomenclature = this.itemNomenclatures.get(itemHash)!;
-    item.quantity = this.profileInventory.find(item => item.itemHash === itemHash)?.quantity ??
-      this.profileCurrencies.find(item => item.itemHash === itemHash)?.quantity ?? 0
+    const inventoryItems = this.profileInventory.filter(item => item.itemHash === itemHash);
+    const currencyItems = this.profileCurrencies.filter(item => item.itemHash === itemHash);
+    item.quantity = [...inventoryItems, ...currencyItems].reduce((sum, item) => sum + item.quantity, 0);
     return item;
   }
 

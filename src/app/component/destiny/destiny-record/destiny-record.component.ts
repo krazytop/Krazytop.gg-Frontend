@@ -7,6 +7,7 @@ import {
   DestinyIntervalObjectiveNomenclature
 } from "../../../model/destiny/nomenclature/destiny-interval-objective.nomenclature";
 import {DestinyObjectiveProgressModel} from "../../../model/destiny/destiny-objective-progress.model";
+import {DestinyObjectiveService} from "../../../service/destiny/destiny-objective.service";
 
 @Component({
   selector: 'destiny-record',
@@ -18,7 +19,8 @@ export class DestinyRecordComponent {
   @Input() record!: DestinyRecordNomenclature;
   @Input() recordProgress!: DestinyNodeProgressionModel;
 
-  private noDescription: string = "Terminé";
+  constructor(protected objectiveService: DestinyObjectiveService) {
+  }
 
   getSimpleObjectiveProgress(objective: DestinyObjectiveNomenclature) {
     return this.recordProgress.objectives.find(objectiveProgress => objectiveProgress.objectiveHash === objective.hash)!;
@@ -51,16 +53,6 @@ export class DestinyRecordComponent {
       }
     }
     return 0;
-  }
-
-  getCompleteObjectiveDescription(objective: DestinyObjectiveNomenclature) {
-    const progressDescription = objective.progressDescription;
-    const description = objective.description;
-    if (progressDescription != "") {
-      return progressDescription
-    } else {
-      return description != "" ? description : this.noDescription;
-    }
   }
 
   protected readonly DestinyComponent = DestinyComponent;

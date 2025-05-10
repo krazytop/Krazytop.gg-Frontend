@@ -8,7 +8,7 @@
       </a>
     </div>
     <div class="characters">
-      <div class="character selectable" *ngFor="let character of Object.values(DestinyClassEnum)" (click)="selectCharacterClass(character)">
+      <div class="character selectable" *ngFor="let character of Object.values(DestinyClassEnum)" (click)="selectCharacterClass(character)" [ngClass]="{ selected: selectedCharacter == character.classType }">
         <img class="character-image" src="assets/data/destiny/classes/{{ character.image }}" alt="Character">
       </div>
     </div>
