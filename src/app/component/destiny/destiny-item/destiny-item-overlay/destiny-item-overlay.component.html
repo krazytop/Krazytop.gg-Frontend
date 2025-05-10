@@ -24,15 +24,15 @@
     </div>
   </div>
   <span *ngIf="!itemOverlay.item!.itemStats" class="description">{{ itemOverlay.item!.itemNomenclature.description }}</span>
-  <div class="socket-categories" *ngIf="itemOverlay.item!.itemNomenclature.itemType === DestinyItemTypeEnum.Weapon">
+  <div class="socket-categories" *ngIf="itemOverlay.item!.itemNomenclature.itemType === DestinyItemTypeEnum.Weapon && intrinsicTraitSocket && itemService.getWeaponPerksSocket(itemOverlay.item!)">
     <div class="socket-category">
-      <img *ngFor="let socketIndex of intrinsicTraitSocket.socketIndexes" [src]="DestinyComponent.ASSET_URL + getCurrentPlug(socketIndex).icon" class="intrinsic" [title]="getCurrentPlug(socketIndex).name">
+      <img *ngFor="let socketIndex of intrinsicTraitSocket.socketIndexes" [src]="DestinyComponent.ASSET_URL + itemService.getCurrentPlug(itemOverlay.item!, socketIndex).icon" class="intrinsic" [title]="itemService.getCurrentPlug(itemOverlay.item!, socketIndex).name">
     </div>
-    <div class="socket-category" *ngFor="let socketIndex of weaponPerksSocket.socketIndexes">
-      <img *ngFor="let plug of getAllPlugs(socketIndex)" [src]="DestinyComponent.ASSET_URL + plug.icon"
-           [class]="plug === getCurrentPlug(socketIndex)? 'active-plug' : 'none'" class="plug"
+    <div class="socket-category" *ngFor="let socketIndex of itemService.getWeaponPerksSocket(itemOverlay.item!).socketIndexes">
+      <img *ngFor="let plug of itemService.getAllPlugs(itemOverlay.item!, socketIndex)" [src]="DestinyComponent.ASSET_URL + plug.icon"
+           [class]="plug === itemService.getCurrentPlug(itemOverlay.item!, socketIndex)? 'active-plug' : 'none'" class="plug"
            [title]="plug.name"
-           [style.background-color]="plug.tierTypeHash === DestinyTierTypeEnum.Ordinary && plug === getCurrentPlug(socketIndex)? '#F8DE4D55' : 'none'">
+           [style.background-color]="plug.tierTypeHash === DestinyTierTypeEnum.Ordinary && plug === itemService.getCurrentPlug(itemOverlay.item!, socketIndex)? '#F8DE4D55' : 'none'">
     </div>
   </div>
   <div class="objectives" *ngIf="itemOverlay.item!.itemObjectives?.length ?? 0 > 0">

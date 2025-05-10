@@ -25,6 +25,7 @@ export class DestinyContractsComponent implements OnChanges {
   constructor(protected destinyComponent: DestinyComponent) {}
 
   ngOnChanges(): void {
+    this.characterContracts = [];
     this.characterInventories.forEach(characterInventory => {
       const contracts = characterInventory.items.filter(item => {
         return this.itemNomenclatures.get(item.itemHash)!.itemType == DestinyItemTypeEnum.Bounty;

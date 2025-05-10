@@ -1,6 +1,6 @@
 <div class="item" title="{{ item.itemNomenclature.name }}" (click)="showOverlay()">
   <div class="item-images" [ngClass]="hasState(item, ItemStateEnum.HighlightedObjective) ? 'deepsight': 'none'">
-    <div [ngClass]="hasState(item, ItemStateEnum.Masterwork) ? 'masterwork' : 'none'"></div>
+    <div [ngClass]="itemService.isMasterwork(item) ? 'masterwork' : 'none'"></div>
     <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature.icon }}" alt="item" class="item-image">
     <img src="{{ DestinyComponent.ASSET_URL + item.itemNomenclature.iconWatermark }}" alt="item watermark" class="item-watermark" *ngIf="item.itemNomenclature.iconWatermark">
     <img src="/assets/data/destiny/crafted.png"  alt="crafted" *ngIf="hasState(item, ItemStateEnum.Crafted)" class="crafted">

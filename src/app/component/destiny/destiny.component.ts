@@ -24,6 +24,7 @@ import {DestinyPlugModel} from "../../model/destiny/destiny-plug.model";
 import {DestinySocketModel} from "../../model/destiny/destiny-socket.model";
 import {DestinyObjectiveProgressModel} from "../../model/destiny/destiny-objective-progress.model";
 import {DestinyObjectiveNomenclature} from "../../model/destiny/nomenclature/destiny-objective.nomenclature";
+import {DestinyItemService} from "../../service/destiny/destiny-item.service";
 
 @Component({
   selector: 'destiny',
@@ -51,7 +52,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
 
   public static readonly ASSET_URL: string = "https://www.bungie.net";
 
-  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService, protected overlayService: DestinyOverlayService) {}
+  constructor(private route: ActivatedRoute, private bungieAuthService: BungieAuthService, private router: Router, private nomenclatureService: DestinyNomenclatureService, private databaseUpdateService: DestinyDatabaseUpdateService, protected overlayService: DestinyOverlayService, private itemService: DestinyItemService) {}
 
   async ngOnInit() {
     this.route.params.subscribe(params => {
@@ -96,7 +97,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
     this.itemNomenclatures = await this.nomenclatureService.getItemNomenclatures(this.profile, this.presentationTrees);
     this.statNomenclatures = await this.nomenclatureService.getStatNomenclatures();
     this.overlayService.itemOverlay.statNomenclatures = this.statNomenclatures;
-    this.overlayService.itemOverlay.plugsNomenclatures = await this.nomenclatureService.getPlugNomenclatures(this.profile.itemPlugs, this.profile.itemSockets);
+    this.itemService.plugsNomenclatures = await this.nomenclatureService.getPlugNomenclatures(this.profile.itemPlugs, this.profile.itemSockets);
     this.overlayService.itemOverlay.objectiveNomenclatures = await this.nomenclatureService.getObjectiveNomenclatures(this.profile.itemObjectives);
     this.vendorGroups = await this.getVendors(this.urlArgs.platform!, this.urlArgs.membership!, this.profile.characters[0].characterId);
     this.manageComponentArgs();

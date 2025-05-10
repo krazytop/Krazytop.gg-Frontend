@@ -12,6 +12,7 @@ import {DestinyItemTypeEnum} from "../../../../model/destiny/enum/DestinyItemTyp
 import {DestinyItemNomenclature} from "../../../../model/destiny/nomenclature/destiny-item.nomenclature";
 import {DestinyObjectiveService} from "../../../../service/destiny/destiny-objective.service";
 import {TimeService} from "../../../../service/time.service";
+import {DestinyItemService} from "../../../../service/destiny/destiny-item.service";
 
 @Component({
   selector: 'destiny-item-overlay',
@@ -24,7 +25,7 @@ export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
 
   private readonly clickListener: () => void;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2, private overlayService: DestinyOverlayService, protected objectiveService: DestinyObjectiveService, protected timeService: TimeService) {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2, private overlayService: DestinyOverlayService, protected objectiveService: DestinyObjectiveService, protected timeService: TimeService, protected itemService: DestinyItemService) {
     this.clickListener = this.renderer.listen('document', 'click', (event: MouseEvent) => {
       if (!this.elementRef.nativeElement.contains(event.target)) {
         this.overlayService.hideItem();
@@ -43,21 +44,6 @@ export class DestinyItemOverlayComponent implements OnDestroy, OnChanges {
 
   get intrinsicTraitSocket(): DestinySocketCategoryModel{
     return this.itemOverlay.item!.itemNomenclature.socketCategories?.find(cat => cat.socketCategoryHash === DestinySocketCategoryEnum.INTRINSIC_TRAITS)!;
-  }
-
-  get weaponPerksSocket(): DestinySocketCategoryModel{
-    return this.itemOverlay.item!.itemNomenclature.socketCategories?.find(cat => cat.socketCategoryHash === DestinySocketCategoryEnum.WEAPON_PERKS_2)!;
-  }
-
-  getCurrentPlug(socketIndex: number) {
-    return this.itemOverlay.plugsNomenclatures.get(this.itemOverlay.item!.itemSockets![socketIndex]!.plugHash!)!
-  }
-
-  getAllPlugs(socketIndex: number): DestinyItemNomenclature[] {
-    const currentPlug = this.getCurrentPlug(socketIndex);
-    return Array.from(this.itemOverlay.item?.itemPlugs?.values() ?? [])
-      .find(plugs => plugs.some(plug => plug.plugItemHash === currentPlug!.hash))
-      ?.map(plugs => this.itemOverlay.plugsNomenclatures.get(plugs.plugItemHash)!) ?? [currentPlug];
   }
 
   ngOnDestroy() {

@@ -7,6 +7,7 @@ import {FormatService} from "../../../service/format.service";
 import {DestinyOverlayService} from "../../../service/destiny/destiny-overlay.service";
 import {DestinyStatNomenclature} from "../../../model/destiny/nomenclature/destiny-stat.nomenclature";
 import {DestinyObjectiveService} from "../../../service/destiny/destiny-objective.service";
+import {DestinyItemService} from "../../../service/destiny/destiny-item.service";
 
 @Component({
   selector: 'destiny-item',
@@ -17,7 +18,7 @@ export class DestinyItemComponent {
 
   @Input() item!: DestinyItemModel;
 
-  constructor(private elementRef: ElementRef, protected formatService: FormatService, private overlayService: DestinyOverlayService, protected objectiveService: DestinyObjectiveService) {
+  constructor(private elementRef: ElementRef, protected formatService: FormatService, private overlayService: DestinyOverlayService, protected objectiveService: DestinyObjectiveService, protected itemService: DestinyItemService) {
   }
 
   hasState(item: DestinyItemModel, state: DestinyItemStateEnum): boolean {

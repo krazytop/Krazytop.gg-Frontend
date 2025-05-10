@@ -4,9 +4,13 @@ import {DestinyRecordNomenclature} from "../../model/destiny/nomenclature/destin
 import {DestinyItemStateEnum} from "../../model/destiny/enum/DestinyItemStateEnum";
 import {DestinyTierTypeEnum} from "../../model/destiny/enum/DestinyTierTypeEnum";
 import {DestinyItemDamageTypeEnum} from "../../model/destiny/enum/DestinyItemDamageTypeEnum";
+import {DestinyItemService} from "./destiny-item.service";
 
 @Injectable({ providedIn: 'root' })
 export class DestinyCharacterItemFiltersService {
+
+  constructor(private itemService: DestinyItemService) {
+  }
 
   rarityFilters = {
     basic: false,
@@ -98,7 +102,7 @@ export class DestinyCharacterItemFiltersService {
       shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Locked))) !== 0;
     }
     if (this.statusFilters.masterwork) {
-      shouldBeDisplayed = shouldBeDisplayed && (item.state & (1 << Math.log2(DestinyItemStateEnum.Masterwork))) !== 0;
+      shouldBeDisplayed = shouldBeDisplayed && this.itemService.isMasterwork(item);
     }
     return shouldBeDisplayed;
   }

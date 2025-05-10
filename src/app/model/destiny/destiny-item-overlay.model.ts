@@ -6,7 +6,6 @@ import {DestinyObjectiveNomenclature} from "./nomenclature/destiny-objective.nom
 export class DestinyItemOverlayModel {
   item?: DestinyItemModel;
   statNomenclatures: Map< number, DestinyStatNomenclature> = new Map();
-  plugsNomenclatures: Map< number, DestinyItemNomenclature> = new Map();
   objectiveNomenclatures: Map< number, DestinyObjectiveNomenclature> = new Map();
   top!: number;
   left!: number;
