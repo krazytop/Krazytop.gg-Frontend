@@ -9,7 +9,7 @@
       <span *ngIf="postmaster.items.length > 15" class="warning">⚠️</span>
     </div>
     <div class="items small-subcomponent" [style.background-color]="postmaster.items.length > 15 ? '#71000055' : 'null'">
-      <destiny-item *ngFor="let item of postmaster.items" [item]="item" (click)="moveItem(item, postmaster)" class="item"></destiny-item>
+      <destiny-item *ngFor="let item of postmaster.items" [item]="item" (dblclick)="moveItem(item, postmaster)" class="item"></destiny-item>
     </div>
   </div>
 </div>

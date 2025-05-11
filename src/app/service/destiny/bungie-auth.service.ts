@@ -96,7 +96,7 @@ export class BungieAuthService {
 
   disconnectWithError(message: string) {
     localStorage.removeItem('bungie_player_tokens');
-    this.router.navigate(['/']).then(() => this.alertService.processAlert({
+    this.router.navigate(['/destiny']).then(() => this.alertService.processAlert({
       message: message,
       duration: 3000
     }));

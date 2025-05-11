@@ -24,18 +24,22 @@ export class DestinyItemService {
 
   getAllPlugs(item: DestinyItemModel, socketIndex: number): DestinyItemNomenclature[] {
     const currentPlug = this.getCurrentPlug(item, socketIndex);
+    if (!currentPlug) {
+      console.log(item)
+      console.log(socketIndex)
+    }
     return Array.from(item.itemPlugs?.values() ?? [])
       .find(plugs => plugs.some(plug => plug.plugItemHash === currentPlug!.hash))
       ?.map(plugs => this.plugsNomenclatures.get(plugs.plugItemHash)!) ?? [currentPlug];
   }
 
   isMasterwork(item: DestinyItemModel): boolean {
+    const isMarkedAsMasterwork = (item.state & (1 << Math.log2(DestinyItemStateEnum.Masterwork))) !== 0;
     if (item.itemNomenclature.itemType  === DestinyItemTypeEnum.Weapon) {
-      const isMarkedAsMasterwork = (item.state & (1 << Math.log2(DestinyItemStateEnum.Masterwork))) !== 0;
       const hasAnUpgradedPlug = this.getWeaponPerksSocket(item)?.socketIndexes.some(socketIndex => this.getCurrentPlug(item, socketIndex)?.tierTypeHash === DestinyTierTypeEnum.Ordinary);
       return isMarkedAsMasterwork || hasAnUpgradedPlug;
     } else {
-      return false;
+      return isMarkedAsMasterwork;
     }
 
   }

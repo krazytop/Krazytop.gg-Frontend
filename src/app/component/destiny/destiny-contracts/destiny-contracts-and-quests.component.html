@@ -1,0 +1,31 @@
+<div class="contracts-component">
+  <div class="characters">
+    <div class="subcomponent-title" *ngFor="let character of characters">
+      <div class="character-image-container">
+        <img class="character-image character-image-container" src="assets/data/destiny/classes/{{ getImageByClassHash(this.destinyComponent.profile.characters, character.characterHash) }}"
+             title="{{ getClassNameByGender(this.destinyComponent.profile.characters, character.characterHash) }}" alt="Class">
+      </div>
+      <span>({{ character.contracts.length + character.quests.length }} / 63)</span>
+    </div>
+  </div>
+  <div class="characters">
+    <div *ngFor="let character of characters">
+      <div *ngIf="character.contracts.length > 0" class="character subcomponent">
+        <destiny-item *ngFor="let contract of character.contracts" [item]="contract" class="contract"></destiny-item>
+      </div>
+      <div *ngIf="character.contracts.length == 0" class="subcomponent">
+        <div class="subcomponent-title">You have no contracts yet</div>
+      </div>
+    </div>
+  </div>
+  <div class="characters">
+    <div *ngFor="let character of characters">
+      <div *ngIf="character.quests.length > 0" class="character subcomponent">
+        <destiny-item *ngFor="let quest of character.quests" [item]="quest" class="quest"></destiny-item>
+      </div>
+      <div *ngIf="character.quests.length == 0" class="subcomponent">
+        <div class="subcomponent-title">You have no quests yet</div>
+      </div>
+    </div>
+  </div>
+</div>

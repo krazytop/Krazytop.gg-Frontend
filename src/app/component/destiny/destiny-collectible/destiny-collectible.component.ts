@@ -16,5 +16,4 @@ export class DestinyCollectibleComponent {
   @Input() itemNomenclature!: DestinyItemNomenclature;
 
   protected readonly DestinyComponent = DestinyComponent;
-  protected readonly console = console;
 }

@@ -16,13 +16,13 @@ export class DestinyProfileModel {//TODO map les characters
   characterInventories: DestinyCharacterInventoryModel[] = [];
   profileInventory: DestinyItemModel[] = [];
   characterEquipment: DestinyCharacterInventoryModel[] = [];
-  characterCollectibles: Map<number, Map<number, DestinyCollectibleModel>> = new Map();
+  characterCollectibles: Map<string, Map<number, DestinyCollectibleModel>> = new Map();
   profileCollectibles: Map<number, DestinyCollectibleModel> = new Map();
-  itemInstances: Map<number, DestinyItemInstanceModel> = new Map();
-  itemObjectives: Map<number, DestinyObjectiveProgressModel[]> = new Map();
-  itemStats: Map<number, DestinyItemStatModel[]> = new Map();
-  itemSockets: Map<number, DestinySocketModel[]> = new Map();
-  itemPlugs: Map<number, Map<number, DestinyPlugModel[]>> = new Map();
+  itemInstances: Map<string, DestinyItemInstanceModel> = new Map();
+  itemObjectives: Map<string, DestinyObjectiveProgressModel[]> = new Map();
+  itemStats: Map<string, DestinyItemStatModel[]> = new Map();
+  itemSockets: Map<string, DestinySocketModel[]> = new Map();
+  itemPlugs: Map<string, Map<number, DestinyPlugModel[]>> = new Map();
   presentationNodeProgress: Map<number, DestinyNodeProgressionModel> = new Map();
   profileCurrencies: DestinyItemModel[] = [];
 }

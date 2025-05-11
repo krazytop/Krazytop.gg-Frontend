@@ -43,7 +43,10 @@
 }
 
 .stat-name {
-  justify-self: end;
+  text-align: end;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .socket-categories {

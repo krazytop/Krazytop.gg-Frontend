@@ -21,7 +21,7 @@ export class DestinyBadgeComponent implements OnChanges {
   @Input() badge!: DestinyPresentationTreeModel;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>
-  @Input() characterCollectibles!: Map<number, Map<number, DestinyCollectibleModel>>;
+  @Input() characterCollectibles!: Map<string, Map<number, DestinyCollectibleModel>>;
   @Input() profileCollectibles!: Map<number, DestinyCollectibleModel>;
   @Input() urlArgs!: DestinyUrlArgs;
 

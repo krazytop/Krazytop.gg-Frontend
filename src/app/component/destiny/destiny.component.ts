@@ -86,7 +86,7 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
       await this.getProfile(platform, membership);
       await this.manageAllRequest(platform, membership);
     } else {
-      //TODO alert + deconnection
+      this.bungieAuthService.disconnectWithError("You need to login agin")
     }
   }
 
@@ -145,28 +145,35 @@ export class DestinyComponent implements OnInit, OnDestroy { //TODO progression 
       });
     Object.entries(json['Response']['characterCollectibles']['data'])
       .map(([characterHash, collectibles]) => {
-        destinyProfile.characterCollectibles.set(Number(characterHash), (collectibles as any)['collectibles'] as Map<number, DestinyCollectibleModel>)
+        destinyProfile.characterCollectibles.set(characterHash, (collectibles as any)['collectibles'] as Map<number, DestinyCollectibleModel>)
       });
     destinyProfile.profileCollectibles = json['Response']['profileCollectibles']['data']['collectibles'];
     Object.entries(json['Response']['itemComponents']['instances']['data'])
       .forEach(([itemHash, item]) => {
-        destinyProfile.itemInstances.set(Number(itemHash), item as DestinyItemInstanceModel);
+        destinyProfile.itemInstances.set(itemHash, item as DestinyItemInstanceModel);
       });
     Object.entries(json['Response']['itemComponents']['objectives']['data'])
       .forEach(([itemHash, objectives]) => {
-        destinyProfile.itemObjectives.set(Number(itemHash), (objectives as any)['objectives'] as DestinyObjectiveProgressModel[]);
+        destinyProfile.itemObjectives.set(itemHash, (objectives as any)['objectives'] as DestinyObjectiveProgressModel[]);
+      });
+    Object.entries(json['Response']['characterUninstancedItemComponents'])
+      .forEach(([, characterObjectives]) => {
+        Object.entries((characterObjectives as any)['objectives']['data'])
+          .forEach(([itemHash, objectives]) => {
+            destinyProfile.itemObjectives.set(itemHash, (objectives as any)['objectives'] as DestinyObjectiveProgressModel[]);
+          })
       });
     Object.entries(json['Response']['itemComponents']['stats']['data'])
       .forEach(([itemHash, item]) => {
-        destinyProfile.itemStats.set(Number(itemHash), Object.entries((item as any)['stats']).map(([, stat]) =>  stat as DestinyItemStatModel));
+        destinyProfile.itemStats.set(itemHash, Object.entries((item as any)['stats']).map(([, stat]) =>  stat as DestinyItemStatModel));
       });
     Object.entries(json['Response']['itemComponents']['sockets']['data'])
       .forEach(([itemHash, item]) => {
-        destinyProfile.itemSockets.set(Number(itemHash), (item as any)['sockets'] as DestinySocketModel[]);
+        destinyProfile.itemSockets.set(itemHash, (item as any)['sockets'] as DestinySocketModel[]);
       });
     Object.entries(json['Response']['itemComponents']['reusablePlugs']['data'])
       .forEach(([itemHash, item]) => {
-        destinyProfile.itemPlugs.set(Number(itemHash), new Map(Object.entries((item as any)['plugs'])
+        destinyProfile.itemPlugs.set(itemHash, new Map(Object.entries((item as any)['plugs'])
           .map(([plugHash, plugList]) => [Number(plugHash), plugList as DestinyPlugModel[]])));
       });
     Object.entries((json['Response']['characterRecords']['data'][destinyProfile.characters[0].characterId]['records'] as { [nodeHash: string]: DestinyNodeProgressionModel }))

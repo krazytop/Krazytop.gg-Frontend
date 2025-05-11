@@ -34,7 +34,7 @@ export class DestinyNomenclatureService {
     return new Map([...(await this.databaseApi.getAllObjectsByIds(rewards, DestinyDatabaseApi.ITEM_STORE)).entries(), ...(await this.databaseApi.getAllObjectsByIds(hashes, DestinyDatabaseApi.ITEM_STORE)).entries() ]);
   }
 
-  async getObjectiveNomenclatures(itemObjectives: Map<number, DestinyObjectiveProgressModel[]>) {
+  async getObjectiveNomenclatures(itemObjectives: Map<string, DestinyObjectiveProgressModel[]>) {
     const hashes = Array.from(itemObjectives.values()).flat().map(o => o.objectiveHash)
     return await this.databaseApi.getAllObjectsByIds(Array.from(new Set(hashes)), DestinyDatabaseApi.OBJECTIVE_STORE)
   }
@@ -70,7 +70,7 @@ export class DestinyNomenclatureService {
     return [...nomenclatures.values()][0];
   }
 
-  async getPlugNomenclatures(plugsMap: Map<number, Map<number, DestinyPlugModel[]>>, itemSockets: Map<number, DestinySocketModel[]>) {
+  async getPlugNomenclatures(plugsMap: Map<string, Map<number, DestinyPlugModel[]>>, itemSockets: Map<string, DestinySocketModel[]>) {
     let hashes: number[] = Array.from(new Set([
       ...[...plugsMap.values()].flatMap((plugsSubMap: Map<number, DestinyPlugModel[]>) =>
         [...plugsSubMap.values()].flatMap((plugs: DestinyPlugModel[]) =>
