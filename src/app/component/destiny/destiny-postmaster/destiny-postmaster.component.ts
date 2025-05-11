@@ -11,6 +11,9 @@ import {AlertService} from "../../alert/alert.service";
 import {DestinyInventoryBucketEnum} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
 import {getClassName, getClassImage} from "../../../model/destiny/enum/DestinyClassEnum";
 import {DestinyComponent} from "../destiny.component";
+import {DestinySocketModel} from "../../../model/destiny/destiny-socket.model";
+import {DestinyPlugModel} from "../../../model/destiny/destiny-plug.model";
+import {DestinyItemStatModel} from "../../../model/destiny/destiny-item-stat.model";
 
 @Component({
   selector: 'destiny-postmaster',
@@ -20,8 +23,11 @@ import {DestinyComponent} from "../destiny.component";
 export class DestinyPostmasterComponent implements OnInit { //TODO pb refresh en boucle
 
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
-  @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
+  @Input() itemInstances!: Map<string, DestinyItemInstanceModel>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
+  @Input() itemSockets!: Map<string, DestinySocketModel[]>;
+  @Input() itemStats!: Map<string, DestinyItemStatModel[]>;
+  @Input() itemPlugs!: Map<string, Map<number, DestinyPlugModel[]>>;
 
   postmasters: DestinyCharacterInventoryModel[] = [];
 
@@ -39,7 +45,12 @@ export class DestinyPostmasterComponent implements OnInit { //TODO pb refresh en
         if (item.bucketHash === DestinyInventoryBucketEnum.Postmaster) {
           item.itemNomenclature = this.itemNomenclatures.get(item.itemHash)!;
           item.overrideStyleItemNomenclature = item.overrideStyleItemHash ? this.itemNomenclatures.get(item.overrideStyleItemHash!) : undefined;
-          item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
+          if (item.itemInstanceId) {
+            item.itemSockets = this.itemSockets.get(item.itemInstanceId);
+            item.itemInstance = this.itemInstances.get(item.itemInstanceId);
+            item.itemPlugs = this.itemPlugs.get(item.itemInstanceId);
+            item.itemStats = this.itemStats.get(item.itemInstanceId);
+          }
           return true
         } else {
           return false;

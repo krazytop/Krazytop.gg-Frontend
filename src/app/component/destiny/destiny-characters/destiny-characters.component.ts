@@ -37,10 +37,10 @@ export class DestinyCharactersComponent implements OnChanges {
   @Input() profileInventory!: DestinyItemModel[];
   @Input() characterEquipment!: DestinyCharacterInventoryModel[];
   @Input() characterInventories!: DestinyCharacterInventoryModel[];
-  @Input() itemInstances!: Map<number, DestinyItemInstanceModel>;
-  @Input() itemStats!: Map<number, DestinyItemStatModel[]>;
-  @Input() itemSockets!: Map<number, DestinySocketModel[]>;
-  @Input() itemPlugs!: Map<number, Map<number, DestinyPlugModel[]>>;
+  @Input() itemInstances!: Map<string, DestinyItemInstanceModel>;
+  @Input() itemStats!: Map<string, DestinyItemStatModel[]>;
+  @Input() itemSockets!: Map<string, DestinySocketModel[]>;
+  @Input() itemPlugs!: Map<string, Map<number, DestinyPlugModel[]>>;
   @Input() itemNomenclatures!: Map<number, DestinyItemNomenclature>;
   @Input() statNomenclatures!: Map<number, DestinyStatNomenclature>;
   @Input() presentationNodeProgress!: Map<number, DestinyNodeProgressionModel>;
@@ -86,10 +86,12 @@ export class DestinyCharactersComponent implements OnChanges {
     return inventory.items.filter(item =>  {
       if (item.bucketHash === bucketHash) {
         item.itemNomenclature = this.itemNomenclatures.get(item.itemHash)!;
-        item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
-        item.itemStats = this.itemStats.get(Number(item.itemInstanceId));
-        item.itemSockets = this.itemSockets.get(Number(item.itemInstanceId));
-        item.itemPlugs = this.itemPlugs.get(Number(item.itemInstanceId));
+        if (item.itemInstanceId) {
+          item.itemInstance = this.itemInstances.get(item.itemInstanceId);
+          item.itemStats = this.itemStats.get(item.itemInstanceId);
+          item.itemSockets = this.itemSockets.get(item.itemInstanceId);
+          item.itemPlugs = this.itemPlugs.get(item.itemInstanceId);
+        }
         item.overrideStyleItemNomenclature = item.overrideStyleItemHash ? this.itemNomenclatures.get(item.overrideStyleItemHash!) : undefined;
         return true
       } else {
@@ -106,10 +108,12 @@ export class DestinyCharactersComponent implements OnChanges {
         if (item.bucketHash === DestinyInventoryBucketEnum.General) {
           item.itemNomenclature = this.itemNomenclatures.get(item.itemHash)!;
           if (item.itemNomenclature?.bucketTypeHash === bucketHash) {
-            item.itemInstance = this.itemInstances.get(Number(item.itemInstanceId));
-            item.itemSockets = this.itemSockets.get(Number(item.itemInstanceId));
-            item.itemStats = this.itemStats.get(Number(item.itemInstanceId));
-            item.itemPlugs = this.itemPlugs.get(Number(item.itemInstanceId));
+            if (item.itemInstanceId) {
+              item.itemInstance = this.itemInstances.get(item.itemInstanceId);
+              item.itemSockets = this.itemSockets.get(item.itemInstanceId);
+              item.itemStats = this.itemStats.get(item.itemInstanceId);
+              item.itemPlugs = this.itemPlugs.get(item.itemInstanceId);
+            }
             item.overrideStyleItemNomenclature = item.overrideStyleItemHash ? this.itemNomenclatures.get(item.overrideStyleItemHash!) : undefined;
             return true;
           } else {

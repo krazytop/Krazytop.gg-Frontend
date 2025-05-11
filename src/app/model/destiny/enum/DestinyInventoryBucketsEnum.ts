@@ -11,7 +11,8 @@ export enum DestinyInventoryBucketEnum {
   Ship = 284967655,
   Emblem = 4274335291,
   Engrams = 375726501,
-  General = 138197802
+  General = 138197802,
+  Quest = 1345459588
 }
 
 export function getAllCharacterBuckets(){

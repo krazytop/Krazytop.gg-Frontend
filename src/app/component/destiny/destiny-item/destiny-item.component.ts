@@ -8,6 +8,7 @@ import {DestinyOverlayService} from "../../../service/destiny/destiny-overlay.se
 import {DestinyStatNomenclature} from "../../../model/destiny/nomenclature/destiny-stat.nomenclature";
 import {DestinyObjectiveService} from "../../../service/destiny/destiny-objective.service";
 import {DestinyItemService} from "../../../service/destiny/destiny-item.service";
+import {DestinyInventoryBucketEnum} from "../../../model/destiny/enum/DestinyInventoryBucketsEnum";
 
 @Component({
   selector: 'destiny-item',
@@ -26,16 +27,19 @@ export class DestinyItemComponent {
   }
 
   showOverlay() {
-    const element: Element = this.elementRef.nativeElement;
-    const rect = element.getBoundingClientRect();
-    const absoluteTop =  window.scrollY + rect.top;
-    const absoluteLeft = window.scrollX + rect.left;
-    const needToBeInvert = absoluteLeft > (window.innerWidth * 5 / 6);
-    this.overlayService.showItem(this.item, absoluteTop, absoluteLeft + (needToBeInvert ? -345 : rect.width + 5));
+    if (this.overlayService.itemOverlay.item != this.item) {
+      const element: Element = this.elementRef.nativeElement;
+      const rect = element.getBoundingClientRect();
+      const absoluteTop = window.scrollY + rect.top;
+      const absoluteLeft = window.scrollX + rect.left;
+      const needToBeInvert = absoluteLeft > (window.innerWidth * 5 / 6);
+      this.overlayService.showItem(this.item, absoluteTop, absoluteLeft + (needToBeInvert ? -325 : rect.width + 5));
+    }
   }
 
   protected readonly DestinyComponent = DestinyComponent;
   protected readonly ItemStateEnum = DestinyItemStateEnum;
   protected readonly ItemDamageTypeEnum = DestinyItemDamageTypeEnum;
   protected readonly getDamageTypeImage = getDamageTypeImage;
+  protected readonly DestinyInventoryBucketEnum = DestinyInventoryBucketEnum;
 }

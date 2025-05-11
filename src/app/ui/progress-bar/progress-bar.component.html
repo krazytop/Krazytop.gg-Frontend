@@ -5,7 +5,7 @@
          [style.background-color]="color">
     </div>
     <div class="text with-description" *ngIf="description">
-      <span>{{ description }}</span>
+      <span class="description" [title]="description">{{ description }}</span>
       <span>{{ progressValue }} / {{ completionValue }}</span>
     </div>
     <div class="text without-description" *ngIf="!description && showNumbers">

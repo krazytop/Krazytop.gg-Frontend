@@ -10,7 +10,10 @@
     <destiny-postmaster
       [characterInventories]="profile.characterInventories"
       [itemInstances]="profile.itemInstances"
-      [itemNomenclatures]="itemNomenclatures">
+      [itemNomenclatures]="itemNomenclatures"
+      [itemSockets]="profile.itemSockets"
+      [itemPlugs]="profile.itemPlugs"
+      [itemStats]="profile.itemStats">
     </destiny-postmaster>
     <destiny-vendors *ngIf="urlArgs.component === 'vendors'" class="component"
                      [vendorGroups]="vendorGroups">
@@ -42,12 +45,12 @@
                    [presentationNodeProgress]="profile.presentationNodeProgress"
                    [urlArgs]="urlArgs">
     </destiny-title>
-    <destiny-contracts *ngIf="urlArgs.component === 'contracts'" class="component"
+    <destiny-contracts-and-quests *ngIf="urlArgs.component === 'contracts'" class="component"
                        [characterInventories]="profile.characterInventories"
                        [itemNomenclatures]="itemNomenclatures"
                        [itemInstances]="profile.itemInstances"
                        [itemObjectives]="profile.itemObjectives">
-    </destiny-contracts>
+    </destiny-contracts-and-quests>
     <destiny-characters *ngIf="urlArgs.component === 'characters'" class="component"
                         [profileInventory]="profile.profileInventory"
                         [characterEquipment]="profile.characterEquipment"
