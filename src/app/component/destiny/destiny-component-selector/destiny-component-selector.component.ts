@@ -17,7 +17,8 @@ export class DestinyComponentSelectorComponent {
   static characters: string = 'characters';
   static catalysts: string = 'catalysts';
   static models: string = 'models';
-  static contracts: string = 'contracts';
+  static questsAndContracts: string = 'quests-and-contracts';
+  static guardianRanks: string = 'guardian-ranks';
 
   get raidReportUrl() {
     return `https://raid.report/${this.getRaidReportPlatform}/${this.urlArgs.membership}`;

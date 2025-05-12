@@ -58,6 +58,7 @@ export class DestinyNomenclatureService {
     treesModel.powerWeaponModels = nomenclature.get(DestinyPresentationTreeEnum.PowerWeaponModels)!;
     treesModel.catalysts = nomenclature.get(DestinyPresentationTreeEnum.Catalysts)!;
     treesModel.badges = nomenclature.get(DestinyPresentationTreeEnum.Badges)!;
+    treesModel.guardianRanks = nomenclature.get(DestinyPresentationTreeEnum.GuardianRanks)!;
     return treesModel;
   }
 

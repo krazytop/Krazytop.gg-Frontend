@@ -30,8 +30,13 @@
         <span>Titles</span>
       </button>
     </a>
-    <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.contracts]">
-      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.contracts ? 'tab-selected' : 'tab-not-selected'">
+    <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.guardianRanks]">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.guardianRanks ? 'tab-selected' : 'tab-not-selected'">
+        <span>Guardian Ranks</span>
+      </button>
+    </a>
+    <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.questsAndContracts]">
+      <button [ngClass]="urlArgs.component === DestinyComponentSelectorComponent.questsAndContracts ? 'tab-selected' : 'tab-not-selected'">
         <span>Quests & Contracts</span>
       </button>
     </a>

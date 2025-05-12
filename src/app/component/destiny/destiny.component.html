@@ -34,6 +34,10 @@
                    [presentationNodeProgress]="profile.presentationNodeProgress"
                    [urlArgs]="urlArgs">
     </destiny-badge>
+    <destiny-guardian-ranks *ngIf="urlArgs.component === 'guardian-ranks'" class="component"
+                    [presentationTree]="presentationTrees.guardianRanks!"
+                    [presentationNodeProgress]="profile.presentationNodeProgress">
+    </destiny-guardian-ranks>
     <destiny-titles *ngIf="urlArgs.component === 'titles' && !urlArgs.selectedTitle"
                     [titlesPresentationTree]="presentationTrees.titles!"
                     [archivedTitlesPresentationTree]="presentationTrees.archivedTitles!"
@@ -45,7 +49,7 @@
                    [presentationNodeProgress]="profile.presentationNodeProgress"
                    [urlArgs]="urlArgs">
     </destiny-title>
-    <destiny-contracts-and-quests *ngIf="urlArgs.component === 'contracts'" class="component"
+    <destiny-contracts-and-quests *ngIf="urlArgs.component === 'quests-and-contracts'" class="component"
                        [characterInventories]="profile.characterInventories"
                        [itemNomenclatures]="itemNomenclatures"
                        [itemInstances]="profile.itemInstances"

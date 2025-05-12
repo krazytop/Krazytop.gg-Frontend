@@ -8,4 +8,5 @@ export class DestinyPresentationTreesModel {
   energyWeaponModels!: DestinyPresentationTreeModel;
   powerWeaponModels!: DestinyPresentationTreeModel;
   badges!: DestinyPresentationTreeModel;
+  guardianRanks!: DestinyPresentationTreeModel;
 }

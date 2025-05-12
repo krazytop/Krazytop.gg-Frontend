@@ -1,0 +1,33 @@
+<div class="subcomponent-list">
+  <div class="rank-buttons">
+    <div *ngFor="let rank of presentationTree.childrenNode" class="rank-button-and-bar">
+      <div class="rank-button selectable" (click)="selectRank(rank)" [ngClass]="{ 'selected': selectedRank == rank }">
+        <span>{{ presentationTree.childrenNode.indexOf(rank) + 1 }}</span>
+        <img *ngIf="presentationTree.childrenNode.indexOf(rank) > 5" [src]="'assets/data/destiny/guardian-ranks/' + getImage(presentationTree.childrenNode.indexOf(rank)) + '.png'">
+      </div>
+      <div [ngClass]="{'selected-background': rank == selectedRank }"></div>
+      <progress-bar [progressValue]="presentationNodeProgress.get(rank.hash)!.progressValue" [completionValue]="presentationNodeProgress.get(rank.hash)!.completionValue" [showNumbers]="false"></progress-bar>
+    </div>
+  </div>
+  <div class="rank-details" *ngIf="selectedRank.childrenNode.length > 0">
+    <div class="rank-categories">
+      <destiny-node-results *ngFor="let category of selectedRank.childrenNode" (click)="selectCategory(category)"
+                            [node]="category"
+                            [isSelected]="category === selectedCategory"
+                            [nodeProgress]="presentationNodeProgress.get(category.hash)!" [ngClass]="selectedCategory !== category ? 'selectable' : 'selected'">
+      </destiny-node-results>
+    </div>
+    <div>
+      <div class="records">
+        <destiny-record *ngFor="let record of selectedCategory.childrenRecord" class="record subcomponent-list"
+                        [ngClass]="isRecordComplete(presentationNodeProgress.get(record.hash)!) ? 'completeRecord' : 'none'"
+                        [record]="record"
+                        [recordProgress]="presentationNodeProgress.get(record.hash)!">
+        </destiny-record>
+      </div>
+    </div>
+  </div>
+  <div class="component-title" *ngIf="selectedRank.childrenNode.length == 0">
+    No Records here
+  </div>
+</div>

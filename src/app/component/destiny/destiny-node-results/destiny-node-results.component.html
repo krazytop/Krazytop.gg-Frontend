@@ -1,0 +1,12 @@
+<div class="progress-bar" [style.border]="nodeProgress.progressValue === nodeProgress.completionValue ? '2px solid #93884c' : '2px solid #8e8e8e'" [ngClass]="{'unselected': !isSelected}">
+  <div class="current-progress" [style.background-color]="nodeProgress.progressValue === nodeProgress.completionValue ? '#BDAB6D33' : 'none'"
+       [style.width.%]="Math.min(100, nodeProgress.progressValue / nodeProgress.completionValue * 100)">
+  </div>
+  <div class="text with-description" *ngIf="node.name">
+    <span class="description" [title]="node.name">{{ node.name }}</span>
+    <span>{{ nodeProgress.progressValue }} / {{ nodeProgress.completionValue }}</span>
+  </div>
+  <div class="text without-description" *ngIf="!node.name">
+    <span>{{ nodeProgress.progressValue }} / {{ nodeProgress.completionValue }}</span>
+  </div>
+</div>

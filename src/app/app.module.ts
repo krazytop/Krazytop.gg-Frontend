@@ -69,6 +69,8 @@ import { LolMainRolesComponent } from './component/lol/lol-stats/lol-main-roles/
 import { DestinyContractsAndQuestsComponent } from './component/destiny/destiny-contracts/destiny-contracts-and-quests.component';
 import { DestinySimpleObjectiveComponent } from './component/destiny/destiny-simple-objective/destiny-simple-objective.component';
 import { DestinyRewardComponent } from './component/destiny/destiny-reward/destiny-reward.component';
+import { DestinyGuardianRanksComponent } from './component/destiny/destiny-guardian-ranks/destiny-guardian-ranks.component';
+import { DestinyNodeResultsComponent } from './component/destiny/destiny-node-results/destiny-node-results.component';
 
 @NgModule({
   declarations: [
@@ -134,7 +136,9 @@ import { DestinyRewardComponent } from './component/destiny/destiny-reward/desti
     LolMainRolesComponent,
     DestinyContractsAndQuestsComponent,
     DestinySimpleObjectiveComponent,
-    DestinyRewardComponent
+    DestinyRewardComponent,
+    DestinyGuardianRanksComponent,
+    DestinyNodeResultsComponent
   ],
     imports: [
         BrowserModule,

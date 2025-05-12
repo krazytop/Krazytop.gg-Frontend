@@ -5,7 +5,8 @@ export enum DestinyPresentationTreeEnum {
   KineticWeaponModels = 127506319,
   EnergyWeaponModels = 3289524180,
   PowerWeaponModels = 1464475380,
-  Badges = 498211331
+  Badges = 498211331,
+  GuardianRanks = 3741753466
 }
 
 export function getAllPresentationTrees(){
@@ -16,6 +17,7 @@ export function getAllPresentationTrees(){
     DestinyPresentationTreeEnum.KineticWeaponModels,
     DestinyPresentationTreeEnum.EnergyWeaponModels,
     DestinyPresentationTreeEnum.PowerWeaponModels,
-    DestinyPresentationTreeEnum.Badges
+    DestinyPresentationTreeEnum.Badges,
+    DestinyPresentationTreeEnum.GuardianRanks,
   ]
 }

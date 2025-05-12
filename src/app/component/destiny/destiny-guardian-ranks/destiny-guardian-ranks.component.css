@@ -1,0 +1,96 @@
+.rank-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 90px);
+  padding: 30px 40px;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.rank-button {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  z-index: 8;
+
+  span {
+    display: flex;
+    border-radius: 50%;
+    background-color: #2c2c2c;
+    border: 2px solid #c2c2c2;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    color: white;
+  }
+
+  img {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    z-index: 9;
+    margin-top: 12px;
+  }
+}
+
+.rank-details {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 40px;
+  padding-left: 15px
+}
+
+.rank-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+destiny-node-results {
+  height: 50px;
+}
+
+.records {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+.selected {
+  scale: 110%;
+  box-shadow: 0 0 9px 3px rgba(0,0,0,0.75);
+}
+
+.rank-button-and-bar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .progress-bar {
+    height: 5px;
+    margin-top: 60px;
+  }
+}
+
+.selected-background {
+  position: absolute;
+  width: 100%;
+  height: 150%;
+  margin-top: -60px;
+  background: linear-gradient(to top, #C2C2C255, transparent);
+  animation: fillBackground .3s forwards;
+}
+
+@keyframes fillBackground {
+  from {
+    height: 0;
+  }
+  to {
+    height: 150%;
+  }
+}
