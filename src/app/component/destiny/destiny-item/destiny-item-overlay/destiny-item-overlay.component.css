@@ -107,3 +107,9 @@ hr {
   background-color: #c2c2c2;
   height: 1px;
 }
+
+.upgraded-plug {
+  z-index: 9;
+  box-shadow: inset 0 0 5px 2px rgb(255 204 0);
+  border-color: rgb(255 204 0);
+}

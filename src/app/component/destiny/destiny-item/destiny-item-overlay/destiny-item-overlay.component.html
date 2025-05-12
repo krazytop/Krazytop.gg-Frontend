@@ -30,9 +30,9 @@
     </div>
     <div class="socket-category" *ngFor="let socketIndex of itemService.getWeaponPerksSocket(itemOverlay.item!).socketIndexes">
       <img *ngFor="let plug of itemService.getAllPlugs(itemOverlay.item!, socketIndex)" [src]="DestinyComponent.ASSET_URL + plug.icon"
-           [class]="plug === itemService.getCurrentPlug(itemOverlay.item!, socketIndex)? 'active-plug' : 'none'" class="plug"
-           [title]="plug.name"
-           [style.background-color]="plug.tierTypeHash === DestinyTierTypeEnum.Ordinary && plug === itemService.getCurrentPlug(itemOverlay.item!, socketIndex)? '#F8DE4D55' : 'none'">
+           [ngClass]="{'active-plug': plug === itemService.getCurrentPlug(itemOverlay.item!, socketIndex),
+           'upgraded-plug': plug.tierTypeHash === DestinyTierTypeEnum.Ordinary && plug === itemService.getCurrentPlug(itemOverlay.item!, socketIndex) }" class="plug"
+           [title]="plug.name">
     </div>
   </div>
   <div class="objectives" *ngIf="itemOverlay.item!.itemObjectives?.length ?? 0 > 0">
