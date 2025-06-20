@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {HTTPRequestService} from "../config/http-request.service";
 import {AlertModel} from "../model/alert.model";
 import {AlertService} from "./alert/alert.service";
+import {CustomTranslateService} from "../service/custom-translate.service";
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,5 @@ export class AppComponent implements OnInit {
   cancelAlert() {
     this.alertService.cancelAlert();
   }
-
-
 
 }

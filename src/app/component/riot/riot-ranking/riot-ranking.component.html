@@ -9,7 +9,7 @@
           <div>{{ rank.leaguePoints }} LP</div>
           <div>{{ rank.wins }}W / {{ rank.losses }}L</div>
         </ng-container>
-        <div *ngIf="!rank">Unranked</div>
+        <div *ngIf="!rank">{{ 'GENERAL.UNRANKED' | translate }}</div>
       </div>
     </div>
   </div>

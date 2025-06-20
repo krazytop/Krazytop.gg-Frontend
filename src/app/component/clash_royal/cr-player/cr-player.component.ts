@@ -17,19 +17,17 @@ export class CrPlayerComponent implements OnChanges {
   @Input() remotePlayer: CRPlayer | undefined;
 
   player: CRPlayer | undefined;
-  nextAllowedUpdate: number = 0;
+  nextPossibleUpdateDate: Date = new Date();
   currentlyUpdating = false;
 
   constructor(private http: HttpClient, protected timeService: TimeService) {
+    setInterval(() => {}, 1000);
   }
 
   ngOnChanges(): void {
     if (this.localPlayer !== undefined) {
       this.player = this.localPlayer;
-      this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.player!.updateDate!, environment.updateClashRoyalFrequency);
-      setInterval(() => {
-        this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.player!.updateDate!, environment.updateClashRoyalFrequency);
-      }, 1000);
+      this.nextPossibleUpdateDate = new Date(new Date(this.player!.updateDate!).getTime() + environment.updateClashRoyalFrequency * 1000);
     } else if (this.remotePlayer !== undefined) {
       this.player = this.remotePlayer;
     } else {

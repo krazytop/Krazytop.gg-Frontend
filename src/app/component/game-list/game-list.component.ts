@@ -74,7 +74,7 @@ export class GameListComponent implements OnInit {
   redirectToSupercellPage() {
     if (this.supercellForm.valid) {
       const name = this.supercellForm.value.name;
-      this.router.navigate([`/clash-royal/${name}/battles`]);
+      this.router.navigate([`/clash-royal/${name}/cards`]);
     }
   }
 

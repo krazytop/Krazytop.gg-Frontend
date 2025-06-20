@@ -1,16 +1,13 @@
 <div class="component-list">
-  <div class="component subcomponent-list">
-    <div class="big-component-title">Titles</div>
-    <div class="active-titles">
-      <a *ngFor="let title of titlesPresentationTree.childrenNode" title="{{ title.description }}"
-         [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.titles]" [queryParams]="{hash: title.hash}"
-         class="selectable">
-        <destiny-title-preview
-          [title]="title"
-          [presentationNodeProgress]="presentationNodeProgress">
-        </destiny-title-preview>
-      </a>
-    </div>
+  <div class="active-titles component">
+    <a *ngFor="let title of titlesPresentationTree.childrenNode" title="{{ title.description }}"
+       [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.titles]" [queryParams]="{hash: title.hash}"
+       class="selectable">
+      <destiny-title-preview
+        [title]="title"
+        [presentationNodeProgress]="presentationNodeProgress">
+      </destiny-title-preview>
+    </a>
   </div>
   <div class="component subcomponent-list">
     <div class="big-component-title">Archived Titles</div>

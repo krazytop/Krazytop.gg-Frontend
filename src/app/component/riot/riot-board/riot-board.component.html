@@ -3,18 +3,22 @@
     <div class="board-name" *ngIf="!isEditing">{{ board.name }}</div>
     <input class="basic-input board-name-input" *ngIf="isEditing" [placeholder]="'Board Name ...'" [defaultValue]="board.name" [maxLength]="30" #boardNameInput>
     <div [style.display]="'flex'" [style.flex-direction]="'row'" [style.gap.px]="10">
-      <request-button (request)="updateBoard()" [loading]="boardUpdating" [nextAllowedRequest]="nextAllowedBoardUpdate" [title]="boardUpdating ? 'Updating Summoners' : 'Update Summoners'"></request-button>
+      <request-button (request)="updateBoard()"
+                      [loading]="boardUpdating"
+                      [nextAllowedRequestDate]="nextPossibleUpdateDate"
+                      [title]="(boardUpdating ? 'LOL.UPDATING_SUMMONERS' : 'LOL.UPDATE_SUMMONERS') | translate">
+      </request-button>
       <button (click)="toggleEditing()" class="basic-button edit-button" [style.width]="'fit-content'">
-        <div>{{ isEditing ? 'View Mode' : 'Edit Mode' }}</div>
+        <div>{{ (!isEditing ? 'GENERAL.EDIT_MODE' : 'GENERAL.VIEW_MODE') | translate }}</div>
         <img src="assets/logo/{{ !isEditing ? 'edit' : 'view' }}.png" [ngClass]="isEditing ? 'view-icon' : 'edit-icon'">
       </button>
       <button (click)="deleteBoard()" class="basic-button delete-board-button edit-button" [style.width]="'fit-content'" *ngIf="isEditing">
-        <div>Delete Board</div>
+        <div>{{ 'GENERAL.DELETE_BOARD' | translate }}</div>
         <img src="assets/logo/bin.png" class="delete-board-icon">
       </button>
     </div>
-    <span *ngIf="nextAllowedBoardUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedBoardUpdate) }}</span>
-    <span *ngIf="nextAllowedBoardUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(board!.updateDate!.toString())) }}</span>
+    <span *ngIf="timeService.getSecondsUntil(nextPossibleUpdateDate) > 0">Next possible update in {{ timeService.stringifyDateRelativeToNow(nextPossibleUpdateDate) }}</span>
+    <span *ngIf="timeService.getSecondsUntil(nextPossibleUpdateDate) === 0">{{ 'TIME.UPDATED_TIME_AGO' | translate: {message : timeService.stringifyDateRelativeToNow(board!.updateDate!)} }}</span>
   </div>
   <div class="subcomponent-list component">
     <div *ngFor="let boardSummonerData of summoners" class="subcomponent">
@@ -44,14 +48,14 @@
             <span>WR : </span>
             <span [style.font-weight]="'bold'" [style.color]="'white'">{{ Math.round(boardSummonerData.wins / (boardSummonerData.wins + boardSummonerData.losses) * 100)}}%</span><!-- TODO WR color -->
           </div>
-          <div>{{ getWinsNumber(boardSummonerData.matchesResults) }}V - {{ getLossesNumber(boardSummonerData.matchesResults) }}D</div>
+          <div>{{ getWinsNumber(boardSummonerData.matchesResults) }}{{ ('GENERAL.VICTORY' | translate).charAt(0) }} - {{ getLossesNumber(boardSummonerData.matchesResults) }}{{ ('GENERAL.DEFEAT' | translate).charAt(0) }}</div>
           <div class="streak {{ boardSummonerData.matchesStreak > 0 ? 'win-streak' : 'lose-streak' }}">
             {{ boardSummonerData.matchesStreak > 0 ? '🔥' : '❄️' }} {{ Math.abs(boardSummonerData.matchesStreak) }}
           </div>
         </div>
         <div class="matches-result">
           <div *ngFor="let matchResult of boardSummonerData.matchesResults" class="placement background-color-{{ matchResult.toLowerCase() }}">
-            {{ matchResult.charAt(0) }}
+            {{ ('GENERAL.' + matchResult | translate).charAt(0) }}
           </div>
         </div>
         <div class="masteries">
@@ -65,7 +69,7 @@
             </div>
           </div>
         </div>
-        <div class="coming-soon"><span class="subcomponent-title">Incoming ...</span></div>
+        <div class="coming-soon"><span class="subcomponent-title">{{ 'GENERAL.INCOMING' | translate }} ...</span></div>
         <ng-container *ngTemplateOutlet="deleteButton; context: { isLoading: boardSummonerData.isRemoving, boardSummonerData: boardSummonerData }"></ng-container>
       </div>
       <div class="summoner" *ngIf="!boardSummonerData.summoner.updateDate">
@@ -82,10 +86,10 @@
         <select #region name="region" class="basic-select">
           <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
         </select>
-        <input #riotName name="riotName" type="text" placeholder="Riot Name" class="basic-input">
+        <input #riotName name="riotName" type="text" [placeholder]="'LOL.SUMMONER' | translate" class="basic-input">
         <div class="hashtag">#</div>
         <input #riotTag name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxLength]="5" class="basic-input">
-        <request-button [title]="'Ajouter'" [loading]="addSummonerLoading" type="submit"></request-button>
+        <request-button [title]="'LOL.UPDATE_SUMMONERS' | translate" [loading]="addSummonerLoading" type="submit"></request-button>
       </form>
     </div>
     <div *ngFor="let i of range(board.summonerIds.length - summoners.length)" class="subcomponent waiting-summoner"></div>

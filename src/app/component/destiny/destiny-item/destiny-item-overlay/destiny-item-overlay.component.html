@@ -46,6 +46,6 @@
     <destiny-reward *ngFor="let reward of itemOverlay.item!.itemNomenclature.rewards" [item]="reward"></destiny-reward>
   </div>
   <div *ngIf="objectiveService.showExpiration(itemOverlay.item!)" class="rewards">
-    <span class="expire-title">{{ objectiveService.isExpired(itemOverlay.item!) ? "Expiré" : "Expire dans " + timeService.getTimeRemainingDHM(itemOverlay.item?.expirationDate!) }}</span>
+    <span class="expire-title">{{ objectiveService.isExpired(itemOverlay.item!) ? "Expiré" : "Expire dans " + timeService.stringifyDateRelativeToNow(itemOverlay.item?.expirationDate!, 2) }}</span>
   </div>
 </div>

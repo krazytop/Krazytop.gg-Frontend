@@ -17,32 +17,34 @@ import {DestinyVendorModel} from "../../model/destiny/destiny-vendor.model";
 import {DestinyStatNomenclature} from "../../model/destiny/nomenclature/destiny-stat.nomenclature";
 import {DestinyItemStatModel} from "../../model/destiny/destiny-item-stat.model";
 import {DestinyRewardModel} from "../../model/destiny/destiny-reward.model";
+import {CustomTranslateService} from "../custom-translate.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class DestinyDatabaseUpdateService {
 
-  constructor(private bungieAuthService: BungieAuthService, private databaseApi: DestinyDatabaseApi) {
+  constructor(private bungieAuthService: BungieAuthService, private databaseApi: DestinyDatabaseApi, private customTranslateService: CustomTranslateService) {
   }
 
   async manageDatabase(): Promise<void> {
+    const language = this.customTranslateService.translateService.currentLang;
     const manifest = await this.downloadJson("/Platform/Destiny2/Manifest", true);
     const manifestVersion: string = manifest.get('Response')['version'];
-    if (await this.checkIfDatabaseNeedToBeUpdate(manifestVersion)) {
-      await this.databaseApi.initDb(true);
-      await this.updateDatabase(manifest.get('Response')['jsonWorldComponentContentPaths']['fr'], manifestVersion);
+    if (await this.checkIfDatabaseNeedToBeUpdate(manifestVersion, language)) {
+      await this.databaseApi.initDb(true, language);
+      await this.updateDatabase(manifest.get('Response')['jsonWorldComponentContentPaths'][language.toLowerCase().slice(0,2)], manifestVersion, language);
     } else {
-      await this.databaseApi.initDb(false);
+      await this.databaseApi.initDb(false, language);
     }
   }
 
-  async checkIfDatabaseNeedToBeUpdate(manifestVersion: string): Promise<boolean> {
-    const currentVersion: string | null = localStorage.getItem(DestinyDatabaseApi.MANIFEST_VERSION);
+  async checkIfDatabaseNeedToBeUpdate(manifestVersion: string, language: string): Promise<boolean> {
+    const currentVersion: string | null = localStorage.getItem(`${DestinyDatabaseApi.MANIFEST_VERSION}_${language}`);
     return currentVersion == null || currentVersion != manifestVersion;
   }
 
-  async updateDatabase(definitions: any, manifestVersion: string) {
+  async updateDatabase(definitions: any, manifestVersion: string, language: string) {
     console.log("Destiny database is updating")
     const objectives = await this.updateObjectives(definitions['DestinyObjectiveDefinition']);
     const presentationNodes = await this.updatePresentationNodes(definitions['DestinyPresentationNodeDefinition']);
@@ -55,7 +57,7 @@ export class DestinyDatabaseUpdateService {
     await this.updateItems(definitions['DestinyInventoryItemDefinition']);
     await this.updateStat(definitions['DestinyStatDefinition']);
     await this.updatePresentationTrees(collectibles, metrics, objectives, records, presentationNodes);
-    localStorage.setItem(DestinyDatabaseApi.MANIFEST_VERSION, manifestVersion)
+    localStorage.setItem(`${DestinyDatabaseApi.MANIFEST_VERSION}_${language}`, manifestVersion)
   }
 
   async downloadJson(definition: string, header: boolean = false): Promise<Map<string,any>> {

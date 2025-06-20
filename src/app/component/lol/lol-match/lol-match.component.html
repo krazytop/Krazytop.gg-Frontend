@@ -1,11 +1,11 @@
 <div class="lol-match">
   <div class="less-data background-color-{{ result.toLowerCase() }}">
     <div class="game-summary">
-      <div class="main-summary">{{ result }}</div>
+      <div class="main-summary">{{ ('GENERAL.' + result | translate).toUpperCase() }}</div>
       <div class="main-summary" *ngIf="isArena">{{ placement }}</div>
-      <div class="complementary-summary">{{ timeService.getStringTimeFromMs(match.datetime) }}</div>
+      <div class="complementary-summary">{{ timeService.stringifyDateRelativeToNow(match.datetime) }}</div>
       <hr>
-      <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.duration) }}</div>
+      <div class="complementary-summary">{{ timeService.stringifyTimestamp(match.duration, 2, true) }}</div>
       <div class="complementary-summary">{{ queueName }}</div>
     </div>
 
@@ -134,13 +134,13 @@
 
 <ng-template #teamDataHeaderTemplate>
   <div class="team-data-header">
-    <p>Champion</p>
-    <p>Summoner</p>
+    <p>{{ 'LOL.CHAMPION' | translate }}</p>
+    <p>{{ 'LOL.SUMMONER' | translate }}</p>
     <p>KDA</p>
-    <p>Damage</p>
-    <p>Golds</p>
+    <p>{{ 'LOL.DAMAGE' | translate }}</p>
+    <p>{{ 'LOL.GOLDS' | translate }}</p>
     <p>CS</p>
-    <p>Vision</p>
-    <p>Items</p>
+    <p>{{ 'LOL.VISION' | translate }}</p>
+    <p>{{ 'LOL.ITEMS' | translate }}</p>
   </div>
 </ng-template>

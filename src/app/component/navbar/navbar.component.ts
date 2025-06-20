@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ActivationEnd, Router} from "@angular/router";
 import {filter, map} from "rxjs";
+import {CustomTranslateService} from "../../service/custom-translate.service";
 
 @Component({
   selector: 'navbar',
@@ -9,7 +10,7 @@ import {filter, map} from "rxjs";
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, protected customTranslateService: CustomTranslateService) {}
 
   currentGame?: string
 
@@ -37,4 +38,10 @@ export class NavbarComponent implements OnInit {
     return (path.startsWith(game) && path.length === game.length) || path.startsWith(`${game}/`);
   }
 
+  changeLanguage(newLanguage: string) {
+    this.customTranslateService.saveLanguageToLocalStorage(newLanguage);
+    window.location.reload();
+  }
+
+  protected readonly Object = Object;
 }

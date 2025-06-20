@@ -1,15 +1,15 @@
 <div class="subcomponent-list component">
-  <span class="component-title">Recent Results</span>
+  <span class="component-title">{{ 'LOL.RECENT_RESULTS' | translate }}</span>
   <div *ngIf="!matches" class="no-matches-played-container">
     <img src="assets/logo/loading.gif" alt="Loading">
   </div>
   <div *ngIf="matches && matches.length == 0" class="no-matches-played-container">
-    <div class="nothing-to-show-message">No matches played</div>
+    <div class="nothing-to-show-message">{{ 'LOL.NO_MATCHES_PLAYED' | translate }}</div>
   </div>
   <div *ngIf="matches && matches.length > 0" class="small-subcomponent-list">
     <div class="win-rate-box small-subcomponent">
       <div class="win-rate">
-        <span class="win-rate-title">Average Placement :</span>
+        <span class="win-rate-title">{{ 'TFT.AVERAGE_PLACEMENT' | translate}} :</span>
         <span class="win-rate-value">{{ averagePlacement }}</span>
       </div>
       <div class="streak {{ streak > 0 ? 'win-streak' : 'lose-streak' }}">

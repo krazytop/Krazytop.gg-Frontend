@@ -87,8 +87,8 @@
     </destiny-main-inventory>
   </div>
 </div>
-<loading-screen *ngIf="!isDatabaseUpToDate" [message]="'Downloading last Destiny database'" class="primary-component"></loading-screen>
-<loading-screen *ngIf="isDatabaseUpToDate && !isThisComponentReady" [message]="'Recovering your Destiny data'" class="primary-component"></loading-screen>
+<loading-screen *ngIf="!isDatabaseUpToDate" [message]="'DESTINY.DOWNLOADING_DESTINY_DATABASE' | translate" class="primary-component"></loading-screen>
+<loading-screen *ngIf="isDatabaseUpToDate && !isThisComponentReady" [message]="'DESTINY.RECOVERING_DESTINY_DATA' | translate" class="primary-component"></loading-screen>
 <destiny-item-overlay *ngIf="overlayService.itemOverlay.item"
                       [style.top]="overlayService.itemOverlay.top + 'px'"
                       [style.left]="overlayService.itemOverlay.left + 'px'"

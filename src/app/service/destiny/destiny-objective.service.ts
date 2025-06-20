@@ -2,11 +2,18 @@ import {Injectable} from "@angular/core";
 import {DestinyObjectiveNomenclature} from "../../model/destiny/nomenclature/destiny-objective.nomenclature";
 import {DestinyObjectiveProgressModel} from "../../model/destiny/destiny-objective-progress.model";
 import {DestinyItemModel} from "../../model/destiny/destiny-item.model";
+import {CustomTranslateService} from "../custom-translate.service";
 
 @Injectable({ providedIn: 'root' })
 export class DestinyObjectiveService {
 
   private noDescription: string = "Terminé";
+
+  constructor(customTranslateService: CustomTranslateService) {
+    customTranslateService.translateService.get('DESTINY.NO_DESCRIPTION').subscribe(translation => {
+      this.noDescription = translation;
+    })
+  }
 
   getCompleteObjectiveDescription(objective: DestinyObjectiveNomenclature) {
     const progressDescription = objective.progressDescription;

@@ -90,21 +90,13 @@ form {
   margin-right: -10px;
 }
 
-.title {
-  color: white;
-  font-size: 25px;
-  height: 44px;
-  align-items: center;
-  display: flex;
-  justify-content: end;
-}
-
 .line {
   display: flex;
   flex-direction: row;
   gap: 20px;
   align-items: center;
   justify-content: start;
+  width: 100%;
 }
 
 .bungie-reconnect-button {
@@ -118,4 +110,8 @@ form {
     margin: -10px;
     border-right: 1px solid #727272;
   }
+}
+
+button {
+  white-space: nowrap;
 }

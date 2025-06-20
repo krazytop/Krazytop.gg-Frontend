@@ -5,7 +5,8 @@
   </cr-player>
   <cr-tab-selector
     *ngIf="localPlayer"
-    [player]="localPlayer" class="component">
+    [player]="localPlayer"
+    [component]="component" class="component">
   </cr-tab-selector>
   <div *ngIf="localPlayer" class="game-data">
     <cr-ranking

@@ -1,7 +1,7 @@
 export class RIOTMatch {
   id!: string;
   version!: string;
-  datetime!: number;
+  datetime!: Date;
   duration!: number;
   queue!: string;
 }

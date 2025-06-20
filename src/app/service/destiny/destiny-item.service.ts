@@ -25,8 +25,6 @@ export class DestinyItemService {
   getAllPlugs(item: DestinyItemModel, socketIndex: number): DestinyItemNomenclature[] {
     const currentPlug = this.getCurrentPlug(item, socketIndex);
     if (!currentPlug) {
-      console.log(item)
-      console.log(socketIndex)
     }
     return Array.from(item.itemPlugs?.values() ?? [])
       .find(plugs => plugs.some(plug => plug.plugItemHash === currentPlug!.hash))

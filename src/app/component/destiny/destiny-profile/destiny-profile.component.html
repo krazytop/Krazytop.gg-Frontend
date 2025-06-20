@@ -2,9 +2,13 @@
   <img class="profile-icon" ngSrc="{{ DestinyComponent.ASSET_URL + bungieProfile!.iconPath }}" alt="Bungie Profile Icon" height="120" width="120">
   <div class="profile-name-and-update">
     <div class="profile-name">{{ bungieProfile!.displayName + " #" + bungieProfile!.bungieGlobalDisplayNameCode }}</div>
-    <request-button (request)="destinyComponent.refreshData()" [loading]="destinyComponent.currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="destinyComponent.currentlyUpdating ? 'Updating' : 'Update'"></request-button>
-    <span *ngIf="nextAllowedUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
-    <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(destinyComponent.lastUpdate.toString())) }}</span>
+    <request-button (request)="destinyComponent.refreshData()"
+                    [loading]="destinyComponent.currentlyUpdating"
+                    [nextAllowedRequestDate]="nextPossibleUpdateDate"
+                    [title]="(destinyComponent.currentlyUpdating ? 'GENERAL.UPDATING' : 'GENERAL.UPDATE') | translate">
+    </request-button>
+    <span *ngIf="timeService.getSecondsUntil(nextPossibleUpdateDate) > 0">Next possible update in {{ timeService.stringifyDateRelativeToNow(nextPossibleUpdateDate) }}</span>
+    <span *ngIf="timeService.getSecondsUntil(nextPossibleUpdateDate) === 0">{{ 'TIME.UPDATED_TIME_AGO' | translate: {message : timeService.stringifyDateRelativeToNow(destinyComponent.lastUpdate)} }}</span>
   </div>
   <div class="other-platforms">
     <img *ngFor="let linkedProfile of linkedProfilesToShow" src="assets/logo/{{ linkedProfile.platformIcon }}" title="{{ linkedProfile.displayName }}" alt="Connected Platform Icon">

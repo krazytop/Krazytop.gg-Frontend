@@ -1,75 +1,57 @@
 import {Injectable} from "@angular/core";
+import {CustomTranslateService} from "./custom-translate.service";
 
 @Injectable({ providedIn: 'root' })
 export class TimeService {
 
-  public getStringTimeFromMs(timeFrom: number): string {
-    const now = Date.now();
-    let elapsedMilliseconds = now - timeFrom;
+  andTranslation: string = 'and';
+
+  constructor(private customTranslateService: CustomTranslateService) {
+    customTranslateService.translateService.get('GENERAL.AND').subscribe(translation => {
+      this.andTranslation = translation;
+    })
+  }
+
+  public stringifyDateRelativeToNow(date: Date, numberOfUnits: number = 1, onlyShowInitial: boolean = false): string {
+    return this.stringifyTimestamp( Math.floor(Math.abs(new Date(date).getTime() - Date.now()) / 1000), numberOfUnits, onlyShowInitial);
+  }
+
+  public stringifyTimestamp(timestamp: number, numberOfUnits: number = 1, onlyShowInitial: boolean = false): string {
 
     const units = [
-      { name: 'year', milliseconds: 365 * 24 * 60 * 60 * 1000 },
-      { name: 'month', milliseconds: 30 * 24 * 60 * 60 * 1000 },
-      { name: 'day', milliseconds: 24 * 60 * 60 * 1000 },
-      { name: 'hour', milliseconds: 60 * 60 * 1000 },
-      { name: 'minute', milliseconds: 60 * 1000 },
-      { name: 'second', milliseconds: 1000 }
+      { singularName: 'YEAR', pluralName: 'YEARS', seconds: 365 * 24 * 60 * 60 },
+      { singularName: 'MONTH', pluralName: 'MONTHS', seconds: 30 * 24 * 60 * 60 },
+      { singularName: 'DAY', pluralName: 'DAYS', seconds: 24 * 60 * 60 },
+      { singularName: 'HOUR', pluralName: 'HOURS', seconds: 60 * 60 },
+      { singularName: 'MINUTE', pluralName: 'MINUTES', seconds: 60 },
+      { singularName: 'SECOND', pluralName: 'SECONDS', seconds: 1 }
     ];
+    let timeTab: string[] = [];
     for (const unit of units) {
-      const elapsed = Math.floor(elapsedMilliseconds / unit.milliseconds);
-      if (elapsed > 0) {
-        return `${elapsed} ${unit.name}${elapsed > 1 ? 's' : ''} ago`;
+      if (numberOfUnits > 0) {
+        const elapsed = Math.floor(timestamp / unit.seconds);
+        if (elapsed > 0) {
+          numberOfUnits --;
+          this.customTranslateService.translateService.get(`TIME.${elapsed > 1 ? unit.pluralName : unit.singularName}`).subscribe(unitTranslation => {
+            timeTab.push(`${elapsed}${onlyShowInitial ? unitTranslation[0] : ' ' + unitTranslation}`);
+          });
+        }
+        timestamp -= elapsed * unit.seconds;
       }
-      elapsedMilliseconds -= elapsed * unit.milliseconds;
     }
-    return '';
-  }
-
-  formatTimeMinSec(time: number): string {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time - minutes * 60);
-    return minutes.toString().padStart(2, '0') + 'm ' + seconds.toString().padStart(2, '0') + 's';
-  }
-
-  formatTimeOptMinSec(time: number): string {
-    if (time < 60) {
-      return `${time}s`;
-    } else {
-      const minutes = Math.floor(time / 60);
-      const remainingSeconds = time % 60;
-      return `${minutes}min ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}s`;
+    if (timeTab.length === 0) {
+      let zero = '0';
+      this.customTranslateService.translateService.get('TIME.SECOND').subscribe((translation: string) => {
+        zero += onlyShowInitial ? translation[0] : ' ' + translation;
+      });
+      return zero;
     }
+    else if (timeTab.length === 1) return timeTab[0].toLowerCase();
+    else return `${timeTab.slice(0, -1).join(onlyShowInitial ? ' ' : ', ')}${onlyShowInitial ? '' : ' ' + this.andTranslation} ${timeTab[timeTab.length - 1]}`.toLowerCase();
   }
 
-  getTimeRemainingDHM(date: Date): string | undefined {
-    const now = new Date();
-    const diffInSeconds = Math.floor((new Date(date).getTime() - now.getTime()) / 1000);
-
-    if (diffInSeconds < 0) {
-      return undefined;
-    }
-
-    const secondsInMinute = 60;
-    const secondsInHour = 3600;
-    const secondsInDay = 86400;
-
-    const days = Math.floor(diffInSeconds / secondsInDay);
-    const remainingSecondsAfterDays = diffInSeconds % secondsInDay;
-    const hours = Math.floor(remainingSecondsAfterDays / secondsInHour);
-    const remainingSecondsAfterHours = remainingSecondsAfterDays % secondsInHour;
-    const minutes = Math.floor(remainingSecondsAfterHours / secondsInMinute);
-
-    const parts = [];
-    if (days > 0) parts.push(`${days} jour${days > 1 ? 's' : ''}`);
-    if (hours > 0) parts.push(`${hours} heure${hours > 1 ? 's' : ''}`);
-    if (minutes > 0) parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
-
-    return parts.slice(0, 2).join(' et ');
-  }
-
-  getSecondsRemainingUntilNextAllowedUpdate(date: Date, updateFrequency: number) { //TODO
-    const elapsedTimeInSeconds = (new Date().getTime() - new Date(date).getTime()) / 1000;
-    return Math.floor(Math.max(0, updateFrequency - elapsedTimeInSeconds + 1));
+  getSecondsUntil(date: Date) {
+    return Math.max(date.getTime() - Date.now(), 0) / 1000;
   }
 
 }

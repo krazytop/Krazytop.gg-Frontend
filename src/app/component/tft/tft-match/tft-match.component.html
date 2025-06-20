@@ -2,9 +2,9 @@
 
   <div class="game-summary">
     <div class="main-summary">{{ placement }}</div>
-    <div class="complementary-summary">{{ timeService.getStringTimeFromMs(match.datetime) }}</div>
+    <div class="complementary-summary">{{ timeService.stringifyDateRelativeToNow(match.datetime) }}</div>
     <hr>
-    <div class="complementary-summary">{{ timeService.formatTimeMinSec(match.duration) }}</div>
+    <div class="complementary-summary">{{ timeService.stringifyTimestamp(match.duration, 2, true) }}</div>
     <div class="complementary-summary">{{ queueName }}</div>
   </div>
 

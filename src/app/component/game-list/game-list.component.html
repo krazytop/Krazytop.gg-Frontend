@@ -17,27 +17,21 @@
       </a>
     </div>
 
-    <div *ngIf="selectedGame == 'tft' || selectedGame == 'lol'" class="riot-forms">
-      <div class="riot-forms-rows">
-        <div class="title">Summoner&nbsp;:</div>
-        <div class="title" *ngIf="selectedGame == 'lol'">Board&nbsp;:</div>
-      </div>
-      <div class="riot-forms-rows" [style.justify-content]="'start'">
-        <form #riotSummonerForm="ngForm" (submit)="redirectToRiotSummonerPage()" class="line">
-          <select [(ngModel)]="selectedRegion" name="region" class="basic-select">
-            <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
-          </select>
-          <input [(ngModel)]="riotName" name="riotName" type="text" placeholder="Riot Name" class="basic-input" required>
-          <div class="hashtag">#</div>
-          <input [(ngModel)]="riotTag" name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxlength]="5" class="basic-input">
-          <button type="submit" class="basic-button">Afficher</button>
-        </form>
-        <form #riotBoardForm="ngForm" (submit)="redirectToRiotBoard()" class="line" *ngIf="selectedGame == 'lol'">
-          <input [(ngModel)]="riotBoardId" name="riotBoard" type="text" placeholder="Board ID" class="basic-input" required [style.width]="'-webkit-fill-available'">
-          <button type="submit" class="basic-button">Afficher</button>
-          <button (click)="redirectToNewRiotBoard(selectedGame == 'lol')" class="basic-button">Créer</button>
-        </form>
-      </div>
+    <div *ngIf="selectedGame == 'tft' || selectedGame == 'lol'" class="player">
+      <form #riotSummonerForm="ngForm" (submit)="redirectToRiotSummonerPage()" class="line">
+        <select [(ngModel)]="selectedRegion" name="region" class="basic-select">
+          <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
+        </select>
+        <input [(ngModel)]="riotName" name="riotName" type="text" [placeholder]="'LOL.SUMMONER' | translate" class="basic-input" required>
+        <div class="hashtag">#</div>
+        <input [(ngModel)]="riotTag" name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxlength]="5" class="basic-input">
+        <button type="submit" class="basic-button">{{ 'GAME_LIST.SHOW_SUMMONER' | translate }}</button>
+      </form>
+      <form #riotBoardForm="ngForm" (submit)="redirectToRiotBoard()" class="line" *ngIf="selectedGame == 'lol'">
+        <input [(ngModel)]="riotBoardId" name="riotBoard" type="text" placeholder="Board ID" class="basic-input" required [style.width]="'-webkit-fill-available'">
+        <button type="submit" class="basic-button">{{ 'GAME_LIST.SHOW_BOARD' | translate }}</button>
+        <button (click)="redirectToNewRiotBoard(selectedGame == 'lol')" class="basic-button">{{ 'GAME_LIST.CREATE_BOARD' | translate }}</button>
+      </form>
     </div>
     <div *ngIf="selectedGame == 'clash-royal'" class="player">
       <form #supercellForm="ngForm" (submit)="redirectToSupercellPage()"  class="line">
@@ -45,7 +39,7 @@
           <div class="hashtag">#</div>
           <input [(ngModel)]="playerName" name="name" type="text" placeholder="Clash Royal ID" class="basic-input" required>
         </div>
-        <button class="basic-button" type="submit">Afficher</button>
+        <button class="basic-button" type="submit">{{ 'GAME_LIST.SHOW_PLAYER' | translate }}</button>
       </form>
     </div>
     <div *ngIf="selectedGame == 'destiny'" class="player player-information">
@@ -53,11 +47,11 @@
         <button *ngIf="isBungieUserCurrentlyLogged()" (click)="this.redirectToDestinyPage()" class="basic-button bungie-reconnect-button">
           <ng-container *ngVar="getBungieCurrentLoggedUser() as currentLoggedUser">
             <img [src]="DestinyComponent.ASSET_URL + currentLoggedUser.icon" *ngIf="currentLoggedUser.icon">
-            <span>Login as {{ currentLoggedUser.playerName }}</span>
+            <span>{{ currentLoggedUser.playerName }}</span>
           </ng-container>
         </button>
         <button (click)="this.loginToBungie()" class="basic-button">
-          <span>Login {{ isBungieUserCurrentlyLogged() ? "as another user" : "to Bungie"}}</span>
+          <span>{{ isBungieUserCurrentlyLogged() ? ('GAME_LIST.LOGIN_AS_ANOTHER_USER' | translate) : ('GAME_LIST.LOGIN_WITH' | translate: {message: 'Bungie'}) }}</span>
         </button>
       </div>
     </div>

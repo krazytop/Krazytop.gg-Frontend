@@ -15,11 +15,20 @@
   <div class="profile-name-and-update">
     <div class="profile-name">{{ player.name }} #{{ player.id }}</div>
     <ng-container *ngIf="localPlayer">
-      <request-button (request)="updatePlayer()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Updating' : 'Update'"></request-button>
-      <span *ngIf="nextAllowedUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
-      <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(player!.updateDate!.toString())) }}</span>
+      <request-button (request)="updatePlayer()"
+                      [loading]="currentlyUpdating"
+                      [nextAllowedRequestDate]="nextPossibleUpdateDate"
+                      [title]="(currentlyUpdating ? 'GENERAL.UPDATING' : 'GENERAL.UPDATE') | translate">
+      </request-button>
+      <span *ngIf="timeService.getSecondsUntil(nextPossibleUpdateDate) > 0">Next possible update in {{ timeService.stringifyDateRelativeToNow(nextPossibleUpdateDate) }}</span>
+      <span *ngIf="timeService.getSecondsUntil(nextPossibleUpdateDate) === 0">{{ 'TIME.UPDATED_TIME_AGO' | translate: {message : timeService.stringifyDateRelativeToNow(player!.updateDate!)} }}</span>
     </ng-container>
-    <request-button *ngIf="remotePlayer" (request)="updatePlayer()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Updating' : 'Update'"></request-button>
+    <request-button *ngIf="remotePlayer"
+                    (request)="updatePlayer()"
+                    [loading]="currentlyUpdating"
+                    [nextAllowedRequestDate]="nextPossibleUpdateDate"
+                    [title]="(currentlyUpdating ? 'GENERAL.UPDATING' : 'GENERAL.UPDATE') | translate">
+    </request-button>
   </div>
 </div>
 

@@ -8,8 +8,12 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class RequestButtonComponent {
 
   @Input() loading!: boolean;
-  @Input() nextAllowedRequest: number = 0;
+  @Input() nextAllowedRequestDate: Date = new Date();
   @Input() title!: string;
   @Output() request = new EventEmitter();
+
+  get currentDate() {
+    return new Date();
+  }
 
 }

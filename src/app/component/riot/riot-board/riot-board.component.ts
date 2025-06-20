@@ -35,12 +35,13 @@ export class RiotBoardComponent implements OnInit {
   componentIsReady: boolean = false;
   addSummonerLoading: boolean = false;
   roleImages = ['top', 'jungle', 'middle', 'bottom', 'support'];
-  nextAllowedBoardUpdate: number = 0;
   boardUpdating = false;
+  nextPossibleUpdateDate: Date = new Date();
 
   constructor(private route: ActivatedRoute, private summonerService: RIOTSummonerService, private boardService: RIOTBoardService,
               protected rankService: RIOTRankService, private metadataService: RIOTMetadataService, private masteryService: LOLMasteryService, protected imageService: RIOTImageService, private patchService: RIOTPatchService,
               protected matchService: LOLMatchService, protected timeService: TimeService, private router: Router) {
+    setInterval(() => {}, 1000);
   }
 
   async ngOnInit() {
@@ -50,10 +51,6 @@ export class RiotBoardComponent implements OnInit {
     if (this.board) {
       this.metadata = await this.metadataService.getMetadata();
       await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch);
-      this.nextAllowedBoardUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.board!.updateDate!, environment.updateRIOTFrequency);
-      setInterval(() => {
-        this.nextAllowedBoardUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.board!.updateDate!, environment.updateRIOTFrequency);
-      }, 1000);
       for (const summonerId of this.board.summonerIds) {
         await this.retrieveSummonerData(await this.summonerService.getSummonerById(null, summonerId, true));
       }

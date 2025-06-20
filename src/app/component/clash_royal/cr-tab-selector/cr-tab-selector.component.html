@@ -1,20 +1,18 @@
 <div class="tab-selectors">
   <div class="tab-buttons">
-    <button (click)="selectComponent(CrTabSelectorComponent.battles)"
-            [ngClass]="component === CrTabSelectorComponent.battles ? 'tab-selected' : 'tab-not-selected'">
-    <span>Battles</span>
+    <a [routerLink]="['/clash-royal', player.id, CrTabSelectorComponent.cards]">
+      <button [ngClass]="component === CrTabSelectorComponent.cards ? 'tab-selected' : 'tab-not-selected'">
+        <span>{{ 'CR.CARDS' | translate }}</span>
+      </button>
+    </a>
+    <a [routerLink]="['/clash-royal', player.id, CrTabSelectorComponent.chests]">
+      <button [ngClass]="component === CrTabSelectorComponent.chests ? 'tab-selected' : 'tab-not-selected'">
+        <span>{{ 'CR.CHESTS' | translate }}</span>
+      </button>
+    </a><a [routerLink]="['/clash-royal', player.id, CrTabSelectorComponent.badges]">
+    <button [ngClass]="component === CrTabSelectorComponent.badges ? 'tab-selected' : 'tab-not-selected'">
+      <span>{{ 'CR.BADGES' | translate }}</span>
     </button>
-    <button (click)="selectComponent(CrTabSelectorComponent.cards)"
-            [ngClass]="component === CrTabSelectorComponent.cards ? 'tab-selected' : 'tab-not-selected'">
-      <span>Cards</span>
-    </button>
-    <button (click)="selectComponent(CrTabSelectorComponent.chests)"
-            [ngClass]="component === CrTabSelectorComponent.chests ? 'tab-selected' : 'tab-not-selected'">
-      <span>Chests</span>
-    </button>
-    <button (click)="selectComponent(CrTabSelectorComponent.badges)"
-            [ngClass]="component === CrTabSelectorComponent.badges ? 'tab-selected' : 'tab-not-selected'">
-      <span>Badges</span>
-    </button>
+  </a>
   </div>
 </div>

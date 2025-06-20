@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './component/app.component';
 import {RiotSummonerComponent} from './component/riot/riot-summoner/riot-summoner.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {NgOptimizedImage} from "@angular/common";
 import {TftMatchComponent} from './component/tft/tft-match/tft-match.component';
 import {NavbarComponent} from './component/navbar/navbar.component';
@@ -71,6 +71,8 @@ import { DestinySimpleObjectiveComponent } from './component/destiny/destiny-sim
 import { DestinyRewardComponent } from './component/destiny/destiny-reward/destiny-reward.component';
 import { DestinyGuardianRanksComponent } from './component/destiny/destiny-guardian-ranks/destiny-guardian-ranks.component';
 import { DestinyNodeResultsComponent } from './component/destiny/destiny-node-results/destiny-node-results.component';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {HttpLoaderFactory} from "./service/custom-translate.service";
 
 @NgModule({
   declarations: [
@@ -150,7 +152,14 @@ import { DestinyNodeResultsComponent } from './component/destiny/destiny-node-re
         CdkDropList,
         CdkDropListGroup,
         CdkDragHandle,
-        CdkDragPreview
+        CdkDragPreview,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+          }
+        })
     ],
   providers: [],
   bootstrap: [AppComponent]

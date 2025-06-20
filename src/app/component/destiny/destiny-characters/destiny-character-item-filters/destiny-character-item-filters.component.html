@@ -1,35 +1,35 @@
 <div class="filter-subcomponent-title component-title" (click)="showFilters = !showFilters">
-  <div>Show Filters</div>
+  <div>{{ 'GENERAL.SHOW_FILTERS' | translate }}</div>
   <div [ngClass]="showFilters ? 'arrow-down' : 'arrow-up'" style="left: 57%;"></div>
 </div>
 <div *ngIf="showFilters" class="filter-columns">
   <div class="filter-column">
-    <span class="filter-title">Rarity :</span>
-    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.basic = $event" [title]="'Basic'" [checked]="filterService.rarityFilters.basic"></toggle-switch>
-    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.ordinary = $event" [title]="'Ordinary'" [checked]="filterService.rarityFilters.ordinary"></toggle-switch>
-    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.uncommon = $event" [title]="'Uncommon'" [checked]="filterService.rarityFilters.uncommon"></toggle-switch>
-    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.legendary = $event" [title]="'Legendary'" [checked]="filterService.rarityFilters.legendary"></toggle-switch>
-    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.exotic = $event" [title]="'Exotic'" [checked]="filterService.rarityFilters.exotic"></toggle-switch>
+    <span class="filter-title">{{ 'DESTINY.RARITY' | translate }} :</span>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.basic = $event" [title]="'DESTINY.BASIC' | translate" [checked]="filterService.rarityFilters.basic"></toggle-switch>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.ordinary = $event" [title]="'DESTINY.ORDINARY' | translate" [checked]="filterService.rarityFilters.ordinary"></toggle-switch>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.uncommon = $event" [title]="'DESTINY.UNCOMMON' | translate" [checked]="filterService.rarityFilters.uncommon"></toggle-switch>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.legendary = $event" [title]="'DESTINY.LEGENDARY' | translate" [checked]="filterService.rarityFilters.legendary"></toggle-switch>
+    <toggle-switch (toggle)="resetRarityFilters(); filterService.rarityFilters.exotic = $event" [title]="'DESTINY.EXOTIC' | translate" [checked]="filterService.rarityFilters.exotic"></toggle-switch>
   </div>
   <div class="filter-column">
-    <span class="filter-title">Damage Type :</span>
-    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.kinetic = $event" [title]="'Kinetic'" [checked]="filterService.damageTypeFilters.kinetic"></toggle-switch>
-    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.thermal = $event" [title]="'Solar'" [checked]="filterService.damageTypeFilters.thermal"></toggle-switch>
-    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.arc = $event" [title]="'Arc'" [checked]="filterService.damageTypeFilters.arc"></toggle-switch>
-    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.void = $event" [title]="'Void'" [checked]="filterService.damageTypeFilters.void"></toggle-switch>
-    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.stasis = $event" [title]="'Stasis'" [checked]="filterService.damageTypeFilters.stasis"></toggle-switch>
-    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.strand = $event" [title]="'Strand'" [checked]="filterService.damageTypeFilters.strand"></toggle-switch>
+    <span class="filter-title">{{ 'DESTINY.DAMAGE_TYPE' | translate }} :</span>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.kinetic = $event" [title]="'DESTINY.KINETIC' | translate" [checked]="filterService.damageTypeFilters.kinetic"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.thermal = $event" [title]="'DESTINY.SOLAR' | translate" [checked]="filterService.damageTypeFilters.thermal"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.arc = $event" [title]="'DESTINY.ARC' | translate" [checked]="filterService.damageTypeFilters.arc"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.void = $event" [title]="'DESTINY.VOID' | translate" [checked]="filterService.damageTypeFilters.void"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.stasis = $event" [title]="'DESTINY.STASIS' | translate" [checked]="filterService.damageTypeFilters.stasis"></toggle-switch>
+    <toggle-switch (toggle)="resetDamageTypeFilters(); filterService.damageTypeFilters.strand = $event" [title]="'DESTINY.STRAND' | translate" [checked]="filterService.damageTypeFilters.strand"></toggle-switch>
   </div>
   <div class="filter-column">
-    <span class="filter-title">Status :</span>
-    <toggle-switch (toggle)="filterService.statusFilters.crafted = $event" [title]="'Crafted'" [checked]="filterService.statusFilters.crafted"></toggle-switch>
-    <toggle-switch (toggle)="filterService.statusFilters.locked = $event" [title]="'Locked'" [checked]="filterService.statusFilters.locked"></toggle-switch>
-    <toggle-switch (toggle)="filterService.statusFilters.masterwork = $event" [title]="'Masterwork'" [checked]="filterService.statusFilters.masterwork"></toggle-switch>
+    <span class="filter-title">{{ 'DESTINY.STATUS' | translate }} :</span>
+    <toggle-switch (toggle)="filterService.statusFilters.crafted = $event" [title]="'DESTINY.CRAFTED' | translate" [checked]="filterService.statusFilters.crafted"></toggle-switch>
+    <toggle-switch (toggle)="filterService.statusFilters.locked = $event" [title]="'DESTINY.LOCKED' | translate" [checked]="filterService.statusFilters.locked"></toggle-switch>
+    <toggle-switch (toggle)="filterService.statusFilters.masterwork = $event" [title]="'DESTINY.MASTERWORK' | translate" [checked]="filterService.statusFilters.masterwork"></toggle-switch>
   </div>
   <div class="filter-column">
-    <span class="filter-title">Management :</span>
-    <toggle-switch (toggle)="filterService.managementFilters.duplicated = $event" [title]="'Duplicated'" [checked]="filterService.managementFilters.duplicated"></toggle-switch>
-    <toggle-switch (toggle)="filterService.managementFilters.notLocked = $event" [title]="'Must be locked'" [checked]="filterService.managementFilters.notLocked"></toggle-switch>
-    <toggle-switch (toggle)="filterService.managementFilters.notCrafted = $event" [title]="'Must be crafted'" [checked]="filterService.managementFilters.notCrafted"></toggle-switch>
+    <span class="filter-title">{{ 'DESTINY.MANAGEMENT' | translate }} :</span>
+    <toggle-switch (toggle)="filterService.managementFilters.duplicated = $event" [title]="'DESTINY.DUPLICATED' | translate" [checked]="filterService.managementFilters.duplicated"></toggle-switch>
+    <toggle-switch (toggle)="filterService.managementFilters.notLocked = $event" [title]="'DESTINY.MUST_BE_LOCKED' | translate" [checked]="filterService.managementFilters.notLocked"></toggle-switch>
+    <toggle-switch (toggle)="filterService.managementFilters.notCrafted = $event" [title]="'DESTINY.MUST_BE_CRAFTED' | translate" [checked]="filterService.managementFilters.notCrafted"></toggle-switch>
   </div>
 </div>

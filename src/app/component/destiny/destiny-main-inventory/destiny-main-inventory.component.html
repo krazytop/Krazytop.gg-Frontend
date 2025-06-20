@@ -1,20 +1,21 @@
 <div class="component-list">
   <div class="component subcomponent-list">
-    <div class="component-title">Main Inventory</div>
+    <div class="component-title">{{ 'DESTINY.MAIN_INVENTORY' | translate }}</div>
     <div class="items small-subcomponent">
       <destiny-item class="item" *ngFor="let currency of mainCurrencies" [item]="currency"></destiny-item>
     </div>
   </div>
   <div class="component subcomponent-list">
-    <div class="component-title">Engrams</div>
+    <div class="component-title">{{ 'DESTINY.ENGRAMS' | translate }}</div>
     <div class="items small-subcomponent">
       <destiny-item class="item" *ngFor="let engram of engrams" [item]="engram"></destiny-item>
     </div>
   </div>
   <div class="component subcomponent-list">
-    <div class="component-title">Synthweaves</div>
+    <div class="component-title">{{ 'DESTINY.SYNTHWEAVES' | translate }}</div>
     <div class="items small-subcomponent">
       <destiny-item class="item" *ngFor="let currency of synthweaves" [item]="currency"></destiny-item>
     </div>
   </div>
 </div>
+Main Inventory

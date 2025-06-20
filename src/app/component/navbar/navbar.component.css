@@ -56,3 +56,16 @@ a:hover {
 a:hover {
   background-color: #93753c;
 }
+
+dropdown {
+  position: absolute;
+  right: 0;
+  background-color: #2c2c2c;
+  border-radius: 10px;
+  scale: 80%;
+  transform: translate(5px);
+
+  .custom-dropdown {
+    width: 110px;
+  }
+}

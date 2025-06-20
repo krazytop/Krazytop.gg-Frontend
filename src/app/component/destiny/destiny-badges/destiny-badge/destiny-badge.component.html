@@ -3,7 +3,7 @@
     <div class="tab-selectors">
       <a [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.badges]">
         <button class="tab-not-selected">
-          <span>Go back to badges</span>
+          <span>{{ 'GENERAL.GO_BACK_TO_THE_PLURAL' | translate: {message: 'DESTINY.BADGES' | translate} }}</span>
         </button>
       </a>
     </div>

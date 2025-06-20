@@ -1,14 +1,11 @@
-<div class="component subcomponent-list">
-  <div class="big-component-title">Badges</div>
-  <div class="badges">
-    <a *ngFor="let badge of badgesPresentationTree.childrenNode" title="{{ badge.description }}"
-       [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.badges]" [queryParams]="{hash: badge.hash}"
-       class="selectable">
-      <destiny-badge-preview
-        [badge]="badge"
-        [itemNomenclatures]="itemNomenclatures"
-        [presentationNodeProgress]="presentationNodeProgress">
-      </destiny-badge-preview>
-    </a>
-  </div>
+<div class="badges component">
+  <a *ngFor="let badge of badgesPresentationTree.childrenNode" title="{{ badge.description }}"
+     [routerLink]="['/destiny', urlArgs.platform, urlArgs.membership, urlArgs.character, DestinyComponentSelectorComponent.badges]" [queryParams]="{hash: badge.hash}"
+     class="selectable">
+    <destiny-badge-preview
+      [badge]="badge"
+      [itemNomenclatures]="itemNomenclatures"
+      [presentationNodeProgress]="presentationNodeProgress">
+    </destiny-badge-preview>
+  </a>
 </div>

@@ -64,4 +64,5 @@ export class DestinyBadgeComponent implements OnChanges {
   protected readonly DestinyClassEnum = DestinyClassEnum;
   protected readonly Object = Object;
   protected readonly DestinyComponentSelectorComponent = DestinyComponentSelectorComponent;
+    protected readonly console = console;
 }

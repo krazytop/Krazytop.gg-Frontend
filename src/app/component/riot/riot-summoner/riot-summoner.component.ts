@@ -17,21 +17,17 @@ export class RiotSummonerComponent implements OnChanges {
   @Input() summoner: RIOTSummoner | undefined;
   @Input() metadata!: RIOTMetadata;
 
-  isThisComponentReady: boolean = false;
-  nextAllowedUpdate: number = 0;
   currentlyUpdating = false;
+  nextPossibleUpdateDate: Date = new Date();
 
   constructor(private summonerService: RIOTSummonerService, private route: ActivatedRoute, protected imageService: RIOTImageService, protected timeService: TimeService) {
+    setInterval(() => {}, 1000);
   }
 
   ngOnChanges(): void {
     if (this.summoner && this.summoner.updateDate) {
-      this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.summoner!.updateDate!, environment.updateRIOTFrequency);
-      setInterval(() => {
-        this.nextAllowedUpdate = this.timeService.getSecondsRemainingUntilNextAllowedUpdate(this.summoner!.updateDate!, environment.updateRIOTFrequency);
-      }, 1000);
+      this.nextPossibleUpdateDate = new Date(new Date(this.summoner!.updateDate!).getTime() + environment.updateRIOTFrequency * 1000);
     }
-    this.isThisComponentReady = true;
   }
 
   async updateData() {
@@ -41,5 +37,4 @@ export class RiotSummonerComponent implements OnChanges {
     window.location.reload();
   }
 
-  protected readonly Date = Date;
 }

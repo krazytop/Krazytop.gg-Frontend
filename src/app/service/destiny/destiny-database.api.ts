@@ -17,19 +17,19 @@ export class DestinyDatabaseApi {
 
   constructor() {}
 
-  private async resetDB(): Promise<void> {
-    const request = indexedDB.deleteDatabase('Destiny');
+  private async resetDB(language: string): Promise<void> {
+    const request = indexedDB.deleteDatabase(`Destiny_${language}`);
       return new Promise((resolve, reject) => {
       request.onsuccess = () => resolve();
       request.onerror = () => reject();
     });
   }
 
-  async initDb(needToReset: boolean): Promise<void> {
+  async initDb(needToReset: boolean, language: string): Promise<void> {
     if (needToReset) {
-      await this.resetDB();
+      await this.resetDB(language);
     }
-    const request = indexedDB.open('Destiny');
+    const request = indexedDB.open(`Destiny_${language}`);
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result;
       db.createObjectStore(DestinyDatabaseApi.MANIFEST_VERSION, { keyPath: 'hash' });//TODO function select store
@@ -46,7 +46,7 @@ export class DestinyDatabaseApi {
         this.db = request.result;
         resolve();
       };
-      request.onerror = async () => reject(await this.initDb(true));
+      request.onerror = async () => reject(await this.initDb(true, language));
     });
   }
 

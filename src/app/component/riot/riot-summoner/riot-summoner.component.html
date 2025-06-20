@@ -1,4 +1,4 @@
-<div *ngIf="isThisComponentReady && summoner" class="profile component">
+<div *ngIf="summoner" class="profile component">
   <div class="profile-icon-level">
     <img alt="Profile icon" class="profile-icon" height="120" width="120"
          ngSrc="{{ imageService.getProfileIconUrl(summoner.icon, metadata.currentPatch) }}"/>
@@ -7,17 +7,26 @@
   <div class="profile-name-and-update">
     <div class="profile-name">{{ summoner.name }} #{{ summoner.tag }}</div>
     <ng-container *ngIf="summoner && summoner.updateDate">
-      <request-button (request)="updateData()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Updating' : 'Update'"></request-button>
-      <span *ngIf="nextAllowedUpdate > 0">Next possible update in {{ timeService.formatTimeOptMinSec(nextAllowedUpdate) }}</span>
-      <span *ngIf="nextAllowedUpdate === 0">Updated {{ timeService.getStringTimeFromMs(Date.parse(summoner!.updateDate!.toString())) }}</span>
+      <request-button (request)="updateData()"
+                      [loading]="currentlyUpdating"
+                      [nextAllowedRequestDate]="nextPossibleUpdateDate"
+                      [title]="(currentlyUpdating ? 'GENERAL.UPDATING' : 'GENERAL.UPDATE') | translate">
+      </request-button>
+      <span *ngIf="timeService.getSecondsUntil(nextPossibleUpdateDate) > 0">Next possible update in {{ timeService.stringifyDateRelativeToNow(nextPossibleUpdateDate) }}</span>
+      <span *ngIf="timeService.getSecondsUntil(nextPossibleUpdateDate) === 0">{{ 'TIME.UPDATED_TIME_AGO' | translate: {message : timeService.stringifyDateRelativeToNow(summoner!.updateDate!)} }}</span>
     </ng-container>
-    <request-button *ngIf="summoner && !summoner.updateDate" (request)="updateData()" [loading]="currentlyUpdating" [nextAllowedRequest]="nextAllowedUpdate" [title]="currentlyUpdating ? 'Importing' : 'Import'"></request-button>
+    <request-button *ngIf="summoner && !summoner.updateDate"
+                    (request)="updateData()"
+                    [loading]="currentlyUpdating"
+                    [nextAllowedRequestDate]="nextPossibleUpdateDate"
+                    [title]="(currentlyUpdating ? 'GENERAL.UPDATING' : 'GENERAL.UPDATE') | translate">
+    </request-button>
   </div>
 </div>
 
-<div *ngIf="isThisComponentReady && !summoner" class="no-profile component">
+<div *ngIf="!summoner" class="no-profile component">
   <div *ngIf="!summoner">
-    <h1>Sorry, this summoner does not exist ...</h1>
+    <h1>{{ "LOL.SUMMONER_NOT_FOUND" | translate }}</h1>
     <img src="assets/logo/oops.png" alt="Oups">
   </div>
 </div>

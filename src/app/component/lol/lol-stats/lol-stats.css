@@ -60,7 +60,7 @@
 .text {
   color: #c2c2c2;
   font-size: 14px;
-  justify-self: center;
+  text-align: center;
 }
 
 .streak {

@@ -1,14 +1,14 @@
 <div class="subcomponent-list component">
-  <span class="component-title">Main Friends</span>
+  <span class="component-title">{{ 'LOL.MAIN_FRIENDS' | translate }}</span>
   <div *ngIf="!matches" class="no-matches-played-container">
     <img src="assets/logo/loading.gif" alt="Loading">
   </div>
   <div *ngIf="matches">
     <div *ngIf="matches.length == 0" class="no-matches-played-container">
-      <div class="nothing-to-show-message">No matches played</div>
+      <div class="nothing-to-show-message">{{ 'LOL.NO_MATCHES_PLAYED' | translate }}</div>
     </div>
     <div *ngIf="matches.length > 0 && mainFriendsList.length == 0" class="no-matches-played-container">
-      <div class="nothing-to-show-message">No friends ...</div>
+      <div class="nothing-to-show-message">{{ 'LOL.NO_FRIENDS' | translate }}</div>
     </div>
     <div *ngIf="matches.length > 0 && mainFriendsList.length > 0" class="small-subcomponent-list">
       <div *ngFor="let friendResults of mainFriendsList" class="results small-subcomponent">
@@ -17,11 +17,11 @@
           <div class="defeats-bar background-color-defeat">
             <div class="wins-bar background-color-victory" [style.width.%]="getWinRate(friendResults)"></div>
           </div>
-          <span *ngIf="friendResults.wins != 0" class="bar-numbers" style="justify-content: start">{{ friendResults.wins }} V</span>
-          <span *ngIf="friendResults.losses != 0" class="bar-numbers" style="justify-content: end"> {{ friendResults.losses }} D</span>
+          <span *ngIf="friendResults.wins != 0" class="bar-numbers" style="justify-content: start">{{ friendResults.wins }} {{ ('GENERAL.VICTORY' | translate).charAt(0) }}</span>
+          <span *ngIf="friendResults.losses != 0" class="bar-numbers" style="justify-content: end"> {{ friendResults.losses }} {{ ('GENERAL.DEFEAT' | translate).charAt(0) }}</span>
           <span class="bar-numbers text" style="justify-content: center">({{ getWinRate(friendResults) }}%)</span>
         </div>
-        <span class="text">{{ friendResults.summoner.name }}</span>
+        <span class="text name" [style]="">{{ friendResults.summoner.name }}</span>
         <div class="streak {{ friendResults.streak > 0 ? 'win-streak' : 'lose-streak' }}">
           {{ friendResults.streak > 0 ? '🔥' : '❄️' }} {{ Math.abs(friendResults.streak) }}
         </div>
