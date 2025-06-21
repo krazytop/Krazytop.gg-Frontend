@@ -1,6 +1,6 @@
 export class RIOTBoard {
   id!: string;
-  summonerIds!: string[];
+  puuids!: string[];
   updateDate!: Date;
   name!: string;
 }
