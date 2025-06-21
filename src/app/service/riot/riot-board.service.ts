@@ -30,8 +30,8 @@ export class RIOTBoardService {
     return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
-  async removeSummonerOfBoard(boardId: string, summonerId: string, isLOL: boolean) {
-    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/board/${boardId}/remove/${summonerId}`,
+  async removeSummonerOfBoard(boardId: string, puuid: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/board/${boardId}/remove/${puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }

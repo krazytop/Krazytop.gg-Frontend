@@ -12,13 +12,13 @@ export class LOLMatchService {
   constructor(private httpRequestService: HTTPRequestService) {
   }
 
-  async getMatches(summonerId: string, pageNb: number, queue: string, role: string) {
-    const response = await fetch(`${environment.apiURL}lol/matches/${summonerId}/${pageNb}/${queue}/${role}`, {headers: HTTPRequestService.getBackendHeaders()});
+  async getMatches(puuid: string, pageNb: number, queue: string, role: string) {
+    const response = await fetch(`${environment.apiURL}lol/matches/${puuid}/${pageNb}/${queue}/${role}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as LOLMatch[]: [];
   }
 
-  async getMatchesCount(summonerId: string, queue: string, role: string) {
-    const response = await fetch(`${environment.apiURL}lol/matches/count/${summonerId}/${queue}/${role}`, {headers: HTTPRequestService.getBackendHeaders()});
+  async getMatchesCount(puuid: string, queue: string, role: string) {
+    const response = await fetch(`${environment.apiURL}lol/matches/count/${puuid}/${queue}/${role}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as number: 0;
   }
 

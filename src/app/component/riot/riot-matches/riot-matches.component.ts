@@ -48,14 +48,14 @@ export class RiotMatchesComponent implements OnChanges {
     if (loadingElement) loadingElement.hidden = false;
     if (this.route.snapshot.paramMap.get('role')) {
       this.isLOLMatches = true;
-      const newMatches: LOLMatch[] = await this.lolMatchService.getMatches(this.summoner.id, this.currentPage, this.selectedQueue, this.selectedRole);
+      const newMatches: LOLMatch[] = await this.lolMatchService.getMatches(this.summoner.puuid, this.currentPage, this.selectedQueue, this.selectedRole);
       for (const newMatch of newMatches) {
         await this.patchService.checkAndGetNewLOLPatchIfNeeded(newMatch.version);
       }
       this.matches = this.matches.concat(newMatches);
     } else {
       this.isLOLMatches = false;
-      const newMatches: TFTMatch[] = await this.tftMatchService.getMatches(this.summoner.id, this.currentPage, this.selectedQueue, Number(this.selectedSet.replace('set-', '')));
+      const newMatches: TFTMatch[] = await this.tftMatchService.getMatches(this.summoner.puuid, this.currentPage, this.selectedQueue, Number(this.selectedSet.replace('set-', '')));
       for (const newMatch of newMatches) {
         await this.patchService.checkAndGetNewTFTPatchIfNeeded(newMatch.version);
       }
@@ -69,8 +69,8 @@ export class RiotMatchesComponent implements OnChanges {
 
   async setMatchesCount() {
     this.totalMatchesCount = this.isLOLMatches ?
-      await this.lolMatchService.getMatchesCount(this.summoner.id, this.selectedQueue, this.selectedRole)
-      : await this.tftMatchService.getMatchesCount(this.summoner.id, this.selectedQueue, Number(this.selectedSet.replace('set-', '')))
+      await this.lolMatchService.getMatchesCount(this.summoner.puuid, this.selectedQueue, this.selectedRole)
+      : await this.tftMatchService.getMatchesCount(this.summoner.puuid, this.selectedQueue, Number(this.selectedSet.replace('set-', '')))
   }
 
 }

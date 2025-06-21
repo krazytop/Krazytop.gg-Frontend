@@ -81,7 +81,7 @@
         <ng-container *ngTemplateOutlet="deleteButton; context: { isLoading: boardSummonerData.isRemoving, boardSummonerData: boardSummonerData }"></ng-container>
       </div>
     </div>
-    <div class="subcomponent" *ngIf="isEditing || board.summonerIds.length === 0">
+    <div class="subcomponent" *ngIf="isEditing || board.puuids.length === 0">
       <form (submit)="addSummoner(region.value, riotTag.value, riotName.value)" class="add-summoner" #addSummonerForm>
         <select #region name="region" class="basic-select">
           <option *ngFor="let region of regions" [ngValue]="region">{{ region }}</option>
@@ -92,7 +92,7 @@
         <request-button [title]="'LOL.UPDATE_SUMMONERS' | translate" [loading]="addSummonerLoading" type="submit"></request-button>
       </form>
     </div>
-    <div *ngFor="let i of range(board.summonerIds.length - summoners.length)" class="subcomponent waiting-summoner"></div>
+    <div *ngFor="let i of range(board.puuids.length - summoners.length)" class="subcomponent waiting-summoner"></div>
   </div>
 <div *ngIf="!componentIsReady">
   Board is retrieving

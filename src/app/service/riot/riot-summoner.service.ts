@@ -20,40 +20,28 @@ export class RIOTSummonerService {
     return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
-  public async getSummonerById(region: string | null, summonerId: string, isLOL: boolean) {
-    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/summoner/${region}/${summonerId}`, {headers: HTTPRequestService.getBackendHeaders()});
+  public async getSummonerByPuuid(region: string | null, puuid: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/summoner/${region}/${puuid}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
-  public async updateSummoner(region: string, summonerId: string, isLOL: boolean) {
-    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/summoner/${region}/${summonerId}`,
+  public async updateSummoner(region: string, puuid: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/summoner/${region}/${puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'})
     return await this.httpRequestService.hasResponse(response) ? await response.json() as RIOTSummoner : undefined;
   }
 
-  public async updateLOLData(region: string, puuid: string, summonerId: string) {
-    await this.updateSummoner(region, summonerId, true);
+  public async updateLOLData(region: string, puuid: string) {
+    await this.updateSummoner(region, puuid, true);
     await this.masteryService.updateMasteries(region, puuid);
-    await this.rankService.updateRanks(region, summonerId, true);
+    await this.rankService.updateRanks(region, puuid, true);
     await this.lolMatchService.updateMatches(region, puuid);
   }
 
-  public async updateTFTData(region: string, puuid: string, summonerId: string) {
-    await this.updateSummoner(region, summonerId, false);
-    await this.rankService.updateRanks(region, summonerId, false);
+  public async updateTFTData(region: string, puuid: string) {
+    await this.updateSummoner(region, puuid, false);
+    await this.rankService.updateRanks(region, puuid, false);
     await this.tftMatchService.updateMatches(region, puuid);
-  }
-
-  private async updateLOLMatches(summoner: RIOTSummoner) {
-    const response = await fetch(`${environment.apiURL}lol/matches/${summoner.puuid}`,
-      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
-    await this.httpRequestService.hasResponse(response);
-  }
-
-  private async updateTFTMatches(summoner: RIOTSummoner) {
-    const response = await fetch(`${environment.apiURL}tft/matches/${summoner.puuid}`,
-      {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
-    await this.httpRequestService.hasResponse(response);
   }
 
 }

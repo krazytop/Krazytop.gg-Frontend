@@ -26,7 +26,7 @@ export class RiotRankingComponent implements OnChanges {
       const isLOL = !!this.route.snapshot.paramMap.get('role');
       this.currentSeasonOrSet = isLOL ? this.metadata.currentLOLSeason : this.metadata.currentTFTSet;
       this.metadata.allRanks = this.metadata.allRanks.filter(rank => isLOL ? rank.isLOL : !rank.isLOL);
-      this.allRanks = await this.rankService.getRanks(this.summoner.id, isLOL);
+      this.allRanks = await this.rankService.getRanks(this.summoner.puuid, isLOL);
     }
   }
 

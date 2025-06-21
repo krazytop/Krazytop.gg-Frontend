@@ -36,9 +36,9 @@ export class LOLMainFriendsComponent implements OnChanges {
       .forEach(match => {
         const summonerTeam = match.teams.find(team => team.participants.some(p => p.summoner.puuid === this.summoner.puuid))!;
         summonerTeam.participants
-          .filter(participant => participant.summoner.id != this.summoner.id)
+          .filter(participant => participant.summoner.puuid != this.summoner.puuid)
           .forEach(participant => {
-            const friendResults = this.mainFriends.get(participant.summoner.id);
+            const friendResults = this.mainFriends.get(participant.summoner.puuid);
             if (friendResults) {
               if (summonerTeam.hasWin) {
                 friendResults.wins ++;
@@ -47,7 +47,7 @@ export class LOLMainFriendsComponent implements OnChanges {
               }
               friendResults.matches.push(match)
             } else {
-              this.mainFriends.set(participant.summoner.id,
+              this.mainFriends.set(participant.summoner.puuid,
                 {wins: summonerTeam.hasWin ? 1 : 0,
                   losses: summonerTeam.hasWin ? 0 : 1,
                   summoner: participant.summoner,

@@ -51,8 +51,8 @@ export class RiotBoardComponent implements OnInit {
     if (this.board) {
       this.metadata = await this.metadataService.getMetadata();
       await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch);
-      for (const summonerId of this.board.summonerIds) {
-        await this.retrieveSummonerData(await this.summonerService.getSummonerById(null, summonerId, true));
+      for (const puuid of this.board.puuids) {
+        await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(null, puuid, true));
       }
     }
   }
@@ -62,10 +62,10 @@ export class RiotBoardComponent implements OnInit {
       const boardSummoner: RIOTBoardSummoner = new RIOTBoardSummoner();
       boardSummoner.summoner = summoner;
       if (boardSummoner.summoner.updateDate){
-        boardSummoner.ranks = await this.rankService.getRanks(summoner.id, this.isLOL);
+        boardSummoner.ranks = await this.rankService.getRanks(summoner.puuid, this.isLOL);
         boardSummoner.masteries = (await this.masteryService.getMasteries(summoner.puuid)).champions.sort((a,b) => b.points - a.points).splice(0, 5);
-        boardSummoner.matches = await this.matchService.getMatches(summoner.id, 0, 'all-queues', 'all-roles');
-        boardSummoner.matches.push(...await this.matchService.getMatches(summoner.id, 1, 'all-queues', 'all-roles'))
+        boardSummoner.matches = await this.matchService.getMatches(summoner.puuid, 0, 'all-queues', 'all-roles');
+        boardSummoner.matches.push(...await this.matchService.getMatches(summoner.puuid, 1, 'all-queues', 'all-roles'))
         boardSummoner.matchesStreak = this.matchService.getMatchesStreak(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
         boardSummoner.matchesResults = this.matchService.getLatestMatchesResults(boardSummoner.matches as LOLMatch[], summoner);//TODO ajouter si j'en recup + de 20 (en boucle)
         boardSummoner.wins = this.getWinsNumber(boardSummoner.matchesResults);
@@ -73,7 +73,7 @@ export class RiotBoardComponent implements OnInit {
         boardSummoner.mainRoles = this.matchService.getRolesWinsAndLosses(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
         boardSummoner.maxPlayedRole = boardSummoner.mainRoles.reduce((sum, result) => sum + result[0] + result[1], 0);
       }
-      this.summoners = this.summoners.filter(summoner => summoner.summoner.id !== boardSummoner.summoner.id);
+      this.summoners = this.summoners.filter(summoner => summoner.summoner.puuid !== boardSummoner.summoner.puuid);
       this.summoners.push(boardSummoner);
     } else {
       //TODO erreur lorsqu'il n est pas retrouvé
@@ -86,7 +86,7 @@ export class RiotBoardComponent implements OnInit {
     if (name) {
       const newSummoner = await this.boardService.addSummonerToBoard(this.board!.id, region, tag, name, this.isLOL);
       if (newSummoner) {
-        this.board?.summonerIds.push(newSummoner.id);
+        this.board?.puuids.push(newSummoner.puuid);
         await this.retrieveSummonerData(newSummoner);
         this.addSummonerForm.nativeElement.reset();
       }
@@ -96,17 +96,17 @@ export class RiotBoardComponent implements OnInit {
 
   async importSummoner(boardSummoner: RIOTBoardSummoner) {
     boardSummoner.isImporting = true;
-    this.isLOL ? await this.summonerService.updateLOLData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid, boardSummoner.summoner!.id)
-      : await this.summonerService.updateTFTData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid, boardSummoner.summoner!.id);
-    await this.retrieveSummonerData(await this.summonerService.getSummonerById(null, boardSummoner.summoner.id, true));
+    this.isLOL ? await this.summonerService.updateLOLData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid)
+      : await this.summonerService.updateTFTData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid);
+    await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(null, boardSummoner.summoner.puuid, true));
   }
 
   async removeSummoner(boardSummoner: RIOTBoardSummoner) {
     if (!boardSummoner.isRemoving) {
       boardSummoner.isRemoving = true;
-      await this.boardService.removeSummonerOfBoard(this.board!.id, boardSummoner.summoner.id, this.isLOL);
-      this.summoners = this.summoners.filter(sum => sum.summoner.id !== boardSummoner.summoner.id);
-      this.board!.summonerIds = this.board!.summonerIds.filter(summonerId => summonerId !== boardSummoner.summoner.id);
+      await this.boardService.removeSummonerOfBoard(this.board!.id, boardSummoner.summoner.puuid, this.isLOL);
+      this.summoners = this.summoners.filter(sum => sum.summoner.puuid !== boardSummoner.summoner.puuid);
+      this.board!.puuids = this.board!.puuids.filter(puuid => puuid !== boardSummoner.summoner.puuid);
     }
   }
 
