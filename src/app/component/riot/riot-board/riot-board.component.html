@@ -89,7 +89,7 @@
         <input #riotName name="riotName" type="text" [placeholder]="'LOL.SUMMONER' | translate" class="basic-input">
         <div class="hashtag">#</div>
         <input #riotTag name="riotTag" type="text" placeholder="EUW" [style.width]="'80px'" [maxLength]="5" class="basic-input">
-        <request-button [title]="'LOL.UPDATE_SUMMONERS' | translate" [loading]="addSummonerLoading" type="submit"></request-button>
+        <request-button [title]="'LOL.ADD_SUMMONER' | translate" [loading]="addSummonerLoading" type="submit"></request-button>
       </form>
     </div>
     <div *ngFor="let i of range(board.puuids.length - summoners.length)" class="subcomponent waiting-summoner"></div>

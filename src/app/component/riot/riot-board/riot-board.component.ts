@@ -66,9 +66,9 @@ export class RiotBoardComponent implements OnInit {
         boardSummoner.ranks = await this.rankService.getRanks(summoner.puuid, this.isLOL);
         boardSummoner.masteries = (await this.masteryService.getMasteries(summoner.puuid)).champions.sort((a,b) => b.points - a.points).splice(0, 5);
         boardSummoner.matches = await this.matchService.getMatches(summoner.puuid, 0, 'all-queues', 'all-roles');
-        boardSummoner.matches.push(...await this.matchService.getMatches(summoner.puuid, 1, 'all-queues', 'all-roles'))
+        boardSummoner.matches.push(...await this.matchService.getMatches(summoner.puuid, 1, 'all-queues', 'all-roles'))//TODO ajouter si j'en recup + de 20 (en boucle)
         boardSummoner.matchesStreak = this.matchService.getMatchesStreak(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
-        boardSummoner.matchesResults = this.matchService.getLatestMatchesResults(boardSummoner.matches as LOLMatch[], summoner);//TODO ajouter si j'en recup + de 20 (en boucle)
+        boardSummoner.matchesResults = this.matchService.getLatestMatchesResults(boardSummoner.matches as LOLMatch[], summoner);
         boardSummoner.wins = this.getWinsNumber(boardSummoner.matchesResults);
         boardSummoner.losses = this.getLossesNumber(boardSummoner.matchesResults);
         boardSummoner.mainRoles = this.matchService.getRolesWinsAndLosses(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
@@ -89,7 +89,9 @@ export class RiotBoardComponent implements OnInit {
       if (newSummoner) {
         this.board?.puuids.push(newSummoner.puuid);
         await this.retrieveSummonerData(newSummoner);
-        this.addSummonerForm.nativeElement.reset();
+        if (this.isEditing) {
+          this.addSummonerForm.nativeElement.reset();
+        }
       }
     }
     this.addSummonerLoading = false;

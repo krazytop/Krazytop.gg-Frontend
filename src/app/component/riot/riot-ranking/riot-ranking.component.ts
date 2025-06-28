@@ -30,6 +30,7 @@ export class RiotRankingComponent implements OnChanges {
       this.currentSeasonOrSet = this.metadata.currentSeasonOrSet;
       this.allRanksIds = isLOL ? Object.values(LOLAvailableRanks) : Object.values(TFTAvailableRanks);
       this.allRanks = await this.rankService.getRanks(this.summoner.puuid, isLOL);
+      console.log(this.allRanks);
     }
   }
 
