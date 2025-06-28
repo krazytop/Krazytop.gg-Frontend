@@ -1,8 +1,8 @@
 <div class="component subcomponent-list">
-  <div class="rank-container" *ngFor="let metadataRank of metadata.allRanks">
-    <div class="rank-title">{{ metadataRank.name }}</div>
+  <div class="rank-container" *ngFor="let rankId of allRanksIds">
+    <div class="rank-title">{{ 'RIOT.' + rankId | translate }}</div>
     <hr>
-    <div class="dual-column-rank-content" *ngVar="rankService.getRank(allRanks, currentSeasonOrSet, metadataRank.id)?.rankInformations?.at(-1) as rank">
+    <div class="dual-column-rank-content" *ngVar="rankService.getRank(allRanks, currentSeasonOrSet, rankId)?.rankInformations?.at(-1) as rank">
       <riot-rank-image [rank]="rank" [radius]="90"></riot-rank-image>
       <div class="rank-content rank-information">
         <ng-container *ngIf="rank">

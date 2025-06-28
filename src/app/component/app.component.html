@@ -1,11 +1,13 @@
-<header>
-  <navbar></navbar>
-</header>
-<body>
-  <router-outlet></router-outlet>
-  <div class="alert-div">
-    <alert *ngIf="alert != undefined" [alert]="this.alert!" class="component alert" (click)="cancelAlert()"></alert>
-  </div>
-</body>
-<footer>
-</footer>
+<ng-container *ngIf="appIsReady">
+  <header>
+    <navbar></navbar>
+  </header>
+  <body>
+    <router-outlet></router-outlet>
+    <div class="alert-div">
+      <alert *ngIf="alert != undefined" [alert]="this.alert!" class="component alert" (click)="cancelAlert()"></alert>
+    </div>
+  </body>
+  <footer>
+  </footer>
+</ng-container>

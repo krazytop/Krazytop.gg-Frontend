@@ -51,7 +51,7 @@ export class BungieAuthService {
   }
 
   async getPlayerTokensFromBungieCode(playerCode: string) {
-    const response = await fetch(`${environment.apiURL}destiny/get/${playerCode}`, {headers: HTTPRequestService.getBackendHeaders()})
+    const response = await fetch(`${environment.apiURL}destiny/auth/${playerCode}`, {headers: HTTPRequestService.getBackendHeaders()})
     return response.json();
   }
 
@@ -67,8 +67,7 @@ export class BungieAuthService {
       if (this.isRefreshTokenExpired()) {
         return false;
       } else {
-        const refreshToken = this.getPlayerTokens()!.refresh_token!;
-        const response = await fetch(environment.apiURL + 'destiny/update', { headers: HTTPRequestService.getBackendHeaders(), body:  refreshToken, method: 'POST' });
+        const response = await fetch(`${environment.apiURL}destiny/auth`, { headers: HTTPRequestService.getBackendHeaders(), body:  JSON.stringify(this.getPlayerTokens()), method: 'POST' });
         this.setExpirationsAndSaveTokens(await response.json());
         return true;
       }

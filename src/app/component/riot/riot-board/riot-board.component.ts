@@ -15,6 +15,7 @@ import {LOLMatchService} from "../../../service/lol/lol-match.service";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
 import {environment} from "../../../../environments/environment";
 import {TimeService} from "../../../service/time.service";
+import {LOLAvailableRanks} from "../../../model/lol/lol-available-ranks";
 
 @Component({
   selector: 'riot-board',
@@ -30,7 +31,7 @@ export class RiotBoardComponent implements OnInit {
   summoners: RIOTBoardSummoner[] = [];
   isLOL: boolean = true;
   regions: string[] = ['EUW'];
-  metadata?: RIOTMetadata;
+  lolMetadata?: RIOTMetadata;
   isEditing: boolean = false;
   componentIsReady: boolean = false;
   addSummonerLoading: boolean = false;
@@ -49,8 +50,8 @@ export class RiotBoardComponent implements OnInit {
     this.board = await this.boardService.getBoard(boardId, true);
     this.componentIsReady = true;
     if (this.board) {
-      this.metadata = await this.metadataService.getMetadata();
-      await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch);
+      this.lolMetadata = await this.metadataService.getLOLMetadata();
+      await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.lolMetadata!.currentPatch);
       for (const puuid of this.board.puuids) {
         await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(null, puuid, true));
       }
@@ -110,8 +111,8 @@ export class RiotBoardComponent implements OnInit {
     }
   }
 
-  getAllMetadataRanks() {
-    return this.metadata?.allRanks.filter(rank => this.isLOL ? rank.isLOL : !rank.isLOL);
+  getAllLOLRanks() {
+    return Object.values(LOLAvailableRanks) as string[];
   }
 
   getWinsNumber(results: string[]) {

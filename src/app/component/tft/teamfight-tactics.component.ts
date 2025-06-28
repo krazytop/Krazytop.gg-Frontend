@@ -37,7 +37,7 @@ export class TeamfightTacticsComponent implements OnInit {
       this.selectedSet = params['set'];
       if (this.summoner?.name !== name || this.summoner?.region !== region) {//TODO voir à quoi ça sert ? (sans doute à ne pas re récupérer le summoner
         this.summoner=  await this.summonerService.getSummonerByNameAndTag(region, tag, name, false);
-        this.metadata = await this.metadataService.getMetadata();
+        this.metadata = await this.metadataService.getTFTMetadata();
         await this.patchService.checkAndGetNewTFTPatchIfNeeded(this.metadata!.currentPatch);
       }
       this.isThisComponentReady = true;

@@ -104,6 +104,13 @@
   "TFT": {
     "AVERAGE_PLACEMENT": "Average Placement"
   },
+  "RIOT": {
+    "RANKED_SOLO_5x5": "Ranked Solo / Duo",
+    "RANKED_TEAM_5x5": "Ranked Flex",
+    "RANKED_TFT": "Ranked Solo",
+    "RANKED_TFT_TURBO": "Ranked Hyper Roll",
+    "RANKED_TFT_DOUBLE_UP": "Ranked Double Up"
+  },
   "CR": {
     "CARDS": "Cards",
     "CHESTS": "Chests",

@@ -37,7 +37,7 @@ export class LeagueOfLegendsComponent implements OnInit {
       this.matches = [];
       if (this.summoner?.name !== name || this.summoner?.region !== region) {//TODO voir à quoi ça sert ? (sans doute à ne pas re récupérer le summoner
         this.summoner = await this.summonerService.getSummonerByNameAndTag(region, tag, name, true);
-        this.metadata = await this.metadataService.getMetadata();
+        this.metadata = await this.metadataService.getLOLMetadata();
         await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch);
       }
       this.isThisComponentReady = true;

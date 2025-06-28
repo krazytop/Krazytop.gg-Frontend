@@ -23,13 +23,13 @@
   <div class="subcomponent-list component">
     <div *ngFor="let boardSummonerData of summoners" class="subcomponent">
       <div class="summoner" *ngIf="boardSummonerData.summoner.updateDate">
-        <img class="profile-icon" src="{{ imageService.getProfileIconUrl(boardSummonerData.summoner.icon, metadata!.currentPatch) }}" alt="Profile Icon">
+        <img class="profile-icon" src="{{ imageService.getProfileIconUrl(boardSummonerData.summoner.icon, lolMetadata!.currentPatch) }}" alt="Profile Icon">
         <a class="component-title" [routerLink]="['/lol', boardSummonerData.summoner.region, boardSummonerData.summoner.tag, boardSummonerData.summoner.name, 'all-queues', 'all-roles']">
           <span>{{ boardSummonerData.summoner.name + ' #' + boardSummonerData.summoner.tag}}</span>
         </a>
         <div class="ranks">
-          <div *ngFor="let metadataRank of getAllMetadataRanks()">
-            <div *ngVar="rankService.getRank(boardSummonerData.ranks, (isLOL ? metadata?.currentLOLSeason : metadata?.currentTFTSet) ?? 0, metadataRank.id)?.rankInformations?.at(-1) as rank">
+          <div *ngFor="let metadataRank of getAllLOLRanks()">
+            <div *ngVar="rankService.getRank(boardSummonerData.ranks, lolMetadata?.currentSeasonOrSet ?? 0, metadataRank)?.rankInformations?.at(-1) as rank">
                 <riot-rank-image [rank]="rank" [title]="rank ? rank.leaguePoints + ' LP' : 'Unranked'" [radius]="80"></riot-rank-image>
             </div>
           </div>
@@ -61,7 +61,7 @@
         <div class="masteries">
           <div *ngFor="let mastery of boardSummonerData.masteries" class="mastery">
             <div class="champion-box">
-              <img [src]="imageService.getLOLChampionImageUrl(mastery.champion, metadata!.currentPatch)" alt="Champion">
+              <img [src]="imageService.getLOLChampionImageUrl(mastery.champion, lolMetadata!.currentPatch)" alt="Champion">
             </div>
             <div class="mastery-box" [title]="mastery.points">
               <img src="assets/data/lol/lol-masteries/mastery-{{ Math.min(mastery.level, 10) }}.png" alt="Mastery">
@@ -73,7 +73,7 @@
         <ng-container *ngTemplateOutlet="deleteButton; context: { isLoading: boardSummonerData.isRemoving, boardSummonerData: boardSummonerData }"></ng-container>
       </div>
       <div class="summoner" *ngIf="!boardSummonerData.summoner.updateDate">
-        <img class="profile-icon" src="{{ imageService.getProfileIconUrl(boardSummonerData.summoner.icon, metadata!.currentPatch) }}" alt="Profile Icon">
+        <img class="profile-icon" src="{{ imageService.getProfileIconUrl(boardSummonerData.summoner.icon, lolMetadata!.currentPatch) }}" alt="Profile Icon">
         <a class="component-title" [routerLink]="['/lol', boardSummonerData.summoner.region, boardSummonerData.summoner.tag, boardSummonerData.summoner.name, 'all-queues', 'all-roles']">
           <span>{{ boardSummonerData.summoner.name + ' #' + boardSummonerData.summoner.tag}}</span>
         </a>

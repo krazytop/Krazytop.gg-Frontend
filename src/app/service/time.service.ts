@@ -1,13 +1,13 @@
 import {Injectable} from "@angular/core";
-import {CustomTranslateService} from "./custom-translate.service";
+import {LanguageService} from "./language.service";
 
 @Injectable({ providedIn: 'root' })
 export class TimeService {
 
   andTranslation: string = 'and';
 
-  constructor(private customTranslateService: CustomTranslateService) {
-    customTranslateService.translateService.get('GENERAL.AND').subscribe(translation => {
+  constructor(private languageService: LanguageService) {
+    languageService.translateService.get('GENERAL.AND').subscribe(translation => {
       this.andTranslation = translation;
     })
   }
@@ -32,7 +32,7 @@ export class TimeService {
         const elapsed = Math.floor(timestamp / unit.seconds);
         if (elapsed > 0) {
           numberOfUnits --;
-          this.customTranslateService.translateService.get(`TIME.${elapsed > 1 ? unit.pluralName : unit.singularName}`).subscribe(unitTranslation => {
+          this.languageService.translateService.get(`TIME.${elapsed > 1 ? unit.pluralName : unit.singularName}`).subscribe(unitTranslation => {
             timeTab.push(`${elapsed}${onlyShowInitial ? unitTranslation[0] : ' ' + unitTranslation}`);
           });
         }
@@ -41,7 +41,7 @@ export class TimeService {
     }
     if (timeTab.length === 0) {
       let zero = '0';
-      this.customTranslateService.translateService.get('TIME.SECOND').subscribe((translation: string) => {
+      this.languageService.translateService.get('TIME.SECOND').subscribe((translation: string) => {
         zero += onlyShowInitial ? translation[0] : ' ' + translation;
       });
       return zero;

@@ -72,7 +72,7 @@ import { DestinyRewardComponent } from './component/destiny/destiny-reward/desti
 import { DestinyGuardianRanksComponent } from './component/destiny/destiny-guardian-ranks/destiny-guardian-ranks.component';
 import { DestinyNodeResultsComponent } from './component/destiny/destiny-node-results/destiny-node-results.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
-import {HttpLoaderFactory} from "./service/custom-translate.service";
+import {HttpLoaderFactory} from "./service/language.service";
 
 @NgModule({
   declarations: [
