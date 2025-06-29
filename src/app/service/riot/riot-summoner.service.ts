@@ -33,9 +33,9 @@ export class RIOTSummonerService {
 
   public async updateLOLData(region: string, puuid: string) {
     await this.updateSummoner(region, puuid, true);
-    await this.masteryService.updateMasteries(region, puuid);
+    //await this.masteryService.updateMasteries(region, puuid);
     await this.rankService.updateRanks(region, puuid, true);
-    await this.lolMatchService.updateMatches(region, puuid);
+    //await this.lolMatchService.updateMatches(region, puuid);
   }
 
   public async updateTFTData(region: string, puuid: string) {
