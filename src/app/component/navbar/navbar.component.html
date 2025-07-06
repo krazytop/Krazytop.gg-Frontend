@@ -15,5 +15,5 @@
     <img src="assets/logo/destiny_logo.png" class="monochrome-logo" [style.filter]="currentGame !== 'destiny' ? 'brightness(0)' : 'none'">
     <div class="subcomponent-title">Destiny 2</div>
   </a>
-  <dropdown [values]="customTranslateService.availableLangs" [selectedValue]="customTranslateService.translateService.currentLang" (updateEvent)="changeLanguage($event)"></dropdown>
+  <dropdown [values]="languageService.getSupportedLanguagesNames()" [selectedValue]="languageService.currentLanguage.name" (updateEvent)="changeLanguage($event)"></dropdown>
 </div>

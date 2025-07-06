@@ -15,12 +15,12 @@ export class LOLMasteryService {
   }
 
   async getMasteries(puuid: string) {
-    const response = await fetch(`${environment.apiURL}lol/masteries/${puuid}`, {headers: HTTPRequestService.getBackendHeaders()});
+    const response = await fetch(`${environment.apiURL}lol/mastery/${puuid}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as LOLMasteries: new LOLMasteries();
   }
 
-  async updateMasteries(region: string, puuid: string) {
-    const response = await fetch(`${environment.apiURL}lol/masteries/${region}/${puuid}`,
+  async updateMasteries(puuid: string) {
+    const response = await fetch(`${environment.apiURL}lol/mastery/${puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }

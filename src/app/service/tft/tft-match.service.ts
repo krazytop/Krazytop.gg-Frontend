@@ -13,17 +13,17 @@ export class TFTMatchService {
   }
 
   async getMatches(puuid: string, pageNb: number, queue: string, set: number) {
-    const response = await fetch(`${environment.apiURL}tft/matches/${puuid}/${pageNb}/${queue}/${set}`, {headers: HTTPRequestService.getBackendHeaders()});
+    const response = await fetch(`${environment.apiURL}tft/match/${puuid}/${pageNb}/${queue}/${set}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as TFTMatch[]: [];
   }
 
   async getMatchesCount(puuid: string, queue: string, set: number) {
-    const response = await fetch(`${environment.apiURL}tft/matches/count/${puuid}/${queue}/${set}`, {headers: HTTPRequestService.getBackendHeaders()});
+    const response = await fetch(`${environment.apiURL}tft/match/count/${puuid}/${queue}/${set}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as number: 0;
   }
 
-  async updateMatches(region: string, puuid: string) {
-    const response = await fetch(`${environment.apiURL}tft/matches/${region}/${puuid}`,
+  async updateMatches(puuid: string) {
+    const response = await fetch(`${environment.apiURL}tft/match/${puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }

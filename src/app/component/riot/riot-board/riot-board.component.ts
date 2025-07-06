@@ -15,6 +15,7 @@ import {LOLMatchService} from "../../../service/lol/lol-match.service";
 import {LOLMatch} from "../../../model/lol/lol-match.model";
 import {environment} from "../../../../environments/environment";
 import {TimeService} from "../../../service/time.service";
+import {LOLAvailableRanks} from "../../../model/lol/lol-available-ranks";
 
 @Component({
   selector: 'riot-board',
@@ -30,7 +31,7 @@ export class RiotBoardComponent implements OnInit {
   summoners: RIOTBoardSummoner[] = [];
   isLOL: boolean = true;
   regions: string[] = ['EUW'];
-  metadata?: RIOTMetadata;
+  lolMetadata?: RIOTMetadata;
   isEditing: boolean = false;
   componentIsReady: boolean = false;
   addSummonerLoading: boolean = false;
@@ -49,10 +50,10 @@ export class RiotBoardComponent implements OnInit {
     this.board = await this.boardService.getBoard(boardId, true);
     this.componentIsReady = true;
     if (this.board) {
-      this.metadata = await this.metadataService.getMetadata();
-      await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch);
+      this.lolMetadata = await this.metadataService.getLOLMetadata();
+      await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.lolMetadata!.currentPatch);
       for (const puuid of this.board.puuids) {
-        await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(null, puuid, true));
+        await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(puuid, true));
       }
     }
   }
@@ -65,9 +66,9 @@ export class RiotBoardComponent implements OnInit {
         boardSummoner.ranks = await this.rankService.getRanks(summoner.puuid, this.isLOL);
         boardSummoner.masteries = (await this.masteryService.getMasteries(summoner.puuid)).champions.sort((a,b) => b.points - a.points).splice(0, 5);
         boardSummoner.matches = await this.matchService.getMatches(summoner.puuid, 0, 'all-queues', 'all-roles');
-        boardSummoner.matches.push(...await this.matchService.getMatches(summoner.puuid, 1, 'all-queues', 'all-roles'))
+        boardSummoner.matches.push(...await this.matchService.getMatches(summoner.puuid, 1, 'all-queues', 'all-roles'))//TODO ajouter si j'en recup + de 20 (en boucle)
         boardSummoner.matchesStreak = this.matchService.getMatchesStreak(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
-        boardSummoner.matchesResults = this.matchService.getLatestMatchesResults(boardSummoner.matches as LOLMatch[], summoner);//TODO ajouter si j'en recup + de 20 (en boucle)
+        boardSummoner.matchesResults = this.matchService.getLatestMatchesResults(boardSummoner.matches as LOLMatch[], summoner);
         boardSummoner.wins = this.getWinsNumber(boardSummoner.matchesResults);
         boardSummoner.losses = this.getLossesNumber(boardSummoner.matchesResults);
         boardSummoner.mainRoles = this.matchService.getRolesWinsAndLosses(boardSummoner.matches as LOLMatch[], boardSummoner.summoner);
@@ -88,7 +89,9 @@ export class RiotBoardComponent implements OnInit {
       if (newSummoner) {
         this.board?.puuids.push(newSummoner.puuid);
         await this.retrieveSummonerData(newSummoner);
-        this.addSummonerForm.nativeElement.reset();
+        if (this.isEditing) {
+          this.addSummonerForm.nativeElement.reset();
+        }
       }
     }
     this.addSummonerLoading = false;
@@ -96,9 +99,9 @@ export class RiotBoardComponent implements OnInit {
 
   async importSummoner(boardSummoner: RIOTBoardSummoner) {
     boardSummoner.isImporting = true;
-    this.isLOL ? await this.summonerService.updateLOLData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid)
-      : await this.summonerService.updateTFTData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid);
-    await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(null, boardSummoner.summoner.puuid, true));
+    this.isLOL ? await this.summonerService.updateLOLData(boardSummoner.summoner!.puuid)
+      : await this.summonerService.updateTFTData(boardSummoner.summoner!.puuid);
+    await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(boardSummoner.summoner.puuid, true));
   }
 
   async removeSummoner(boardSummoner: RIOTBoardSummoner) {
@@ -110,8 +113,8 @@ export class RiotBoardComponent implements OnInit {
     }
   }
 
-  getAllMetadataRanks() {
-    return this.metadata?.allRanks.filter(rank => this.isLOL ? rank.isLOL : !rank.isLOL);
+  getAllLOLRanks() {
+    return Object.values(LOLAvailableRanks) as string[];
   }
 
   getWinsNumber(results: string[]) {

@@ -1,5 +1,5 @@
 export class RIOTRank {
-  summonerId!: string;
+  puuid!: string;
   seasonOrSetRanks!: RIOTSeasonOrSetRanks[];
 }
 

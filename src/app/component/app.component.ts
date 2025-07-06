@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {HTTPRequestService} from "../config/http-request.service";
 import {AlertModel} from "../model/alert.model";
 import {AlertService} from "./alert/alert.service";
-import {CustomTranslateService} from "../service/custom-translate.service";
+import {LanguageService} from "../service/language.service";
 
 @Component({
   selector: 'app-root',
@@ -13,12 +11,17 @@ import {CustomTranslateService} from "../service/custom-translate.service";
 export class AppComponent implements OnInit {
 
   alert?: AlertModel;
+  appIsReady: boolean = false;
 
-  constructor(private alertService: AlertService) {
+  constructor(private alertService: AlertService, private languageService: LanguageService) {
   }
 
   ngOnInit() {
     this.alertService.setAppComponent(this);
+    this.languageService.getAllSupportedLanguages().then(() => {
+      this.languageService.initAppLanguage();
+      this.appIsReady = true
+    });
   }
 
   cancelAlert() {

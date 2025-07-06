@@ -14,12 +14,12 @@ export class RIOTRankService {
   }
 
   async getRanks(puuid: string, isLOL: boolean) {
-    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/ranks/${puuid}`, {headers: HTTPRequestService.getBackendHeaders()});
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/rank/${puuid}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response, false) ? await response.json() as RIOTRank: undefined;
   }
 
-  async updateRanks(region: string, puuid: string, isLOL: boolean) {
-    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/ranks/${region}/${puuid}`,
+  async updateRanks(puuid: string, isLOL: boolean) {
+    const response = await fetch(`${environment.apiURL}${isLOL ? 'lol' : 'tft'}/rank/${puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }

@@ -91,7 +91,7 @@
     "SHOW_MORE_MATCHES": "Show more matches",
     "RETRIEVAL_MATCHES": "Retrieval matches",
     "NO_FRIENDS": "No Friends ...",
-    "ADD_SUMMONERS": "Add Summoners",
+    "ADD_SUMMONER": "Add Summoner",
     "UPDATE_SUMMONERS": "Update Summoners",
     "UPDATING_SUMMONERS": "Updating Summoners",
     "CHAMPION": "Champion",
@@ -103,6 +103,13 @@
   },
   "TFT": {
     "AVERAGE_PLACEMENT": "Average Placement"
+  },
+  "RIOT": {
+    "RANKED_SOLO_5x5": "Ranked Solo / Duo",
+    "RANKED_TEAM_5x5": "Ranked Flex",
+    "RANKED_TFT": "Ranked Solo",
+    "RANKED_TFT_TURBO": "Ranked Hyper Roll",
+    "RANKED_TFT_DOUBLE_UP": "Ranked Double Up"
   },
   "CR": {
     "CARDS": "Cards",

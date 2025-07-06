@@ -13,17 +13,17 @@ export class LOLMatchService {
   }
 
   async getMatches(puuid: string, pageNb: number, queue: string, role: string) {
-    const response = await fetch(`${environment.apiURL}lol/matches/${puuid}/${pageNb}/${queue}/${role}`, {headers: HTTPRequestService.getBackendHeaders()});
+    const response = await fetch(`${environment.apiURL}lol/match/${puuid}/${pageNb}/${queue}/${role}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as LOLMatch[]: [];
   }
 
   async getMatchesCount(puuid: string, queue: string, role: string) {
-    const response = await fetch(`${environment.apiURL}lol/matches/count/${puuid}/${queue}/${role}`, {headers: HTTPRequestService.getBackendHeaders()});
+    const response = await fetch(`${environment.apiURL}lol/match/count/${puuid}/${queue}/${role}`, {headers: HTTPRequestService.getBackendHeaders()});
     return await this.httpRequestService.hasResponse(response) ? await response.json() as number: 0;
   }
 
-  async updateMatches(region: string, puuid: string) {
-    const response = await fetch(`${environment.apiURL}lol/matches/${region}/${puuid}`,
+  async updateMatches(puuid: string) {
+    const response = await fetch(`${environment.apiURL}lol/match/${puuid}`,
       {headers: HTTPRequestService.getBackendHeaders(), method: 'POST'});
     await this.httpRequestService.hasResponse(response);
   }

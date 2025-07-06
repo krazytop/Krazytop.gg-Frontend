@@ -10,7 +10,7 @@ export class HTTPRequestService {
   }
 
   static getBackendHeaders(): { [key: string]: string } {
-    return {'Authorization' : 'Basic ' + btoa('krazytop' + ':' + 'password')};
+    return {'Authorization' : 'Basic ' + btoa('krazytop' + ':' + 'password'), 'Content-Type': 'application/json'};
   }
 
   async hasResponse(response: Response, showAlert: boolean = true) {//TODO

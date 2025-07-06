@@ -4,6 +4,8 @@ import {RIOTRank} from "../../../model/riot/riot-rank.model";
 import {RIOTMetadata} from "../../../model/riot/riot-metadata.model";
 import {ActivatedRoute} from "@angular/router";
 import {RIOTRankService} from "../../../service/riot/riot-rank.service";
+import {TFTAvailableRanks} from "../../../model/tft/tft-available-ranks";
+import {LOLAvailableRanks} from "../../../model/lol/lol-available-ranks";
 
 @Component({
   selector: 'riot-ranking',
@@ -14,6 +16,7 @@ export class RiotRankingComponent implements OnChanges {
 
   @Input() summoner!: RIOTSummoner;
   @Input() metadata!: RIOTMetadata;
+  allRanksIds : string[] = [];
 
   constructor(private route: ActivatedRoute, protected rankService: RIOTRankService) {
   }
@@ -24,8 +27,8 @@ export class RiotRankingComponent implements OnChanges {
   async ngOnChanges() {
     if (this.metadata) {
       const isLOL = !!this.route.snapshot.paramMap.get('role');
-      this.currentSeasonOrSet = isLOL ? this.metadata.currentLOLSeason : this.metadata.currentTFTSet;
-      this.metadata.allRanks = this.metadata.allRanks.filter(rank => isLOL ? rank.isLOL : !rank.isLOL);
+      this.currentSeasonOrSet = this.metadata.currentSeasonOrSet;
+      this.allRanksIds = isLOL ? Object.values(LOLAvailableRanks) : Object.values(TFTAvailableRanks);
       this.allRanks = await this.rankService.getRanks(this.summoner.puuid, isLOL);
     }
   }

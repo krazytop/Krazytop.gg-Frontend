@@ -3,19 +3,19 @@ import {environment} from "../../../environments/environment";
 import {HTTPRequestService} from "../../config/http-request.service";
 import {LOLPatchNomenclature} from "../../model/lol/nomenclature/lol-patch.nomenclature";
 import {TFTPatchNomenclature} from "../../model/tft/nomenclature/tft-patch.nomenclature";
-import {CustomTranslateService} from "../custom-translate.service";
+import {LanguageService} from "../language.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class RIOTPatchService {
 
-  constructor(private httpRequestService: HTTPRequestService, private customTranslateService: CustomTranslateService) {
+  constructor(private httpRequestService: HTTPRequestService, private languageService: LanguageService) {
   }
 
   private lolPatches: LOLPatchNomenclature[] = [];//TODO reset function
   private tftPatches: TFTPatchNomenclature[] = [];
-  private language: string = this.customTranslateService.translateService.currentLang;
+  private language: string = this.languageService.currentLanguage.riotPatchPath;
 
   public async checkAndGetNewLOLPatchIfNeeded(patchId: string) {
     if (!this.getLOLPatch(patchId)) await this.getNewLOLPatch(patchId);
