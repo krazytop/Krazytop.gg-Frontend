@@ -29,14 +29,13 @@ export class LeagueOfLegendsComponent implements OnInit {
   async ngOnInit() {
     this.route.params.subscribe(async params => {
       this.isThisComponentReady = false;
-      const region: string = params['region'];
       const tag: string = params['tag'];
       const name: string = params['name'];
       this.selectedQueue = params['queue'];
       this.selectedRole = params['role'];
       this.matches = [];
-      if (this.summoner?.name !== name || this.summoner?.region !== region) {//TODO voir à quoi ça sert ? (sans doute à ne pas re récupérer le summoner
-        this.summoner = await this.summonerService.getSummonerByNameAndTag(region, tag, name, true);
+      if (this.summoner?.name !== name) {//TODO voir à quoi ça sert ? (sans doute à ne pas re récupérer le summoner
+        this.summoner = await this.summonerService.getSummonerByNameAndTag(tag, name, true);
         this.metadata = await this.metadataService.getLOLMetadata();
         await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.metadata!.currentPatch);
       }

@@ -53,7 +53,7 @@ export class RiotBoardComponent implements OnInit {
       this.lolMetadata = await this.metadataService.getLOLMetadata();
       await this.patchService.checkAndGetNewLOLPatchIfNeeded(this.lolMetadata!.currentPatch);
       for (const puuid of this.board.puuids) {
-        await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(null, puuid, true));
+        await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(puuid, true));
       }
     }
   }
@@ -99,9 +99,9 @@ export class RiotBoardComponent implements OnInit {
 
   async importSummoner(boardSummoner: RIOTBoardSummoner) {
     boardSummoner.isImporting = true;
-    this.isLOL ? await this.summonerService.updateLOLData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid)
-      : await this.summonerService.updateTFTData(boardSummoner.summoner!.region, boardSummoner.summoner!.puuid);
-    await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(null, boardSummoner.summoner.puuid, true));
+    this.isLOL ? await this.summonerService.updateLOLData(boardSummoner.summoner!.puuid)
+      : await this.summonerService.updateTFTData(boardSummoner.summoner!.puuid);
+    await this.retrieveSummonerData(await this.summonerService.getSummonerByPuuid(boardSummoner.summoner.puuid, true));
   }
 
   async removeSummoner(boardSummoner: RIOTBoardSummoner) {

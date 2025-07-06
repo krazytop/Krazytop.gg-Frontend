@@ -33,8 +33,8 @@ export class RiotSummonerComponent implements OnChanges {
   async updateData() {
     this.currentlyUpdating = true;
     let role: string | null = this.route.snapshot.paramMap.get('role');
-    role ? await this.summonerService.updateLOLData(this.summoner!.region, this.summoner!.puuid)
-      : await this.summonerService.updateTFTData(this.summoner!.region, this.summoner!.puuid);
+    role ? await this.summonerService.updateLOLData(this.summoner!.puuid)
+      : await this.summonerService.updateTFTData(this.summoner!.puuid);
     window.location.reload();
   }
 

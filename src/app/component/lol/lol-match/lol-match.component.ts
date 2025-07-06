@@ -30,6 +30,7 @@ export class LolMatchComponent implements OnInit {
   }
 
   toggleShowAllMatchData() {
+    console.log(this.match.datetime)
     this.allDataIsDisplayed = !this.allDataIsDisplayed;
   }
 
