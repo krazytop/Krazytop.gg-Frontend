@@ -52,7 +52,7 @@ export class GameListComponent implements OnInit {
         if (this.selectedGame === "lol") {
           this.router.navigate([`/lol/${region}/${tag}/${name}/all-queues/all-roles`]);
         } else {
-          this.router.navigate([`/tft/${region}/${tag}/${name}/all-queues/set-13`]);//TODO set X
+          this.router.navigate([`/tft/${region}/${tag}/${name}/all-queues/set-15`]);//TODO set X
         }
       }
     }

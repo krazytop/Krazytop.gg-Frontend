@@ -21,7 +21,7 @@ export class BungieAuthService {
 
   getHeaders() {
     return {
-      'Authorization': 'Bearer ' + this.getPlayerTokens()!.access_token,
+      'Authorization': 'Bearer ' + this.getPlayerTokens()!.accessToken,
       'Content-Type': 'application/json',
       'X-API-Key': environment.apiKeyBungie
     };
@@ -51,7 +51,7 @@ export class BungieAuthService {
   }
 
   async getPlayerTokensFromBungieCode(playerCode: string) {
-    const response = await fetch(`${environment.apiURL}destiny/auth/${playerCode}`, {headers: HTTPRequestService.getBackendHeaders()})
+    const response = await fetch(`${environment.apiURL}bungie/auth/${playerCode}`, {headers: HTTPRequestService.getBackendHeaders()})
     return response.json();
   }
 
@@ -67,8 +67,8 @@ export class BungieAuthService {
       if (this.isRefreshTokenExpired()) {
         return false;
       } else {
-        const response = await fetch(`${environment.apiURL}destiny/auth`, { headers: HTTPRequestService.getBackendHeaders(), body:  JSON.stringify(this.getPlayerTokens()), method: 'POST' });
-        this.setExpirationsAndSaveTokens(await response.json());
+        const response = await fetch(`${environment.apiURL}bungie/auth`, { headers: HTTPRequestService.getBackendHeaders(), body:  JSON.stringify(this.getPlayerTokens()), method: 'POST' });
+        this.saveTokens(await response.json());
         return true;
       }
     } else {
@@ -81,7 +81,7 @@ export class BungieAuthService {
     if (!tokens) {
       return true;
     } else {
-      return tokens.expires_timestamp! < Math.floor(new Date().getTime() / 1000) + 60;
+      return new Date(tokens.accessTokenExpiresAt) < new Date(Date.now() + 60 * 1000);
     }
   }
 
@@ -90,7 +90,7 @@ export class BungieAuthService {
     if (!tokens) {
       return true;
     }
-    return tokens.refresh_expires_timestamp! < Math.floor(new Date().getTime() / 1000) + 60;
+    return new Date(tokens.refreshTokenExpiresAt) < new Date(Date.now() + 60 * 1000);
   }
 
   disconnectWithError(message: string) {
@@ -106,10 +106,7 @@ export class BungieAuthService {
     return storedTokens ? JSON.parse(storedTokens) as BungieAuthModel : null;
   }
 
-  setExpirationsAndSaveTokens(playerTokens: BungieAuthModel){
-    const actualTimestamp: number = Math.floor(new Date().getTime() / 1000);
-    playerTokens.expires_timestamp = actualTimestamp + playerTokens.expires_in!;
-    playerTokens.refresh_expires_timestamp = actualTimestamp + playerTokens.refresh_expires_in!;
+  saveTokens(playerTokens: BungieAuthModel){
     window.localStorage.setItem('bungie_player_tokens', JSON.stringify(playerTokens));
   }
 

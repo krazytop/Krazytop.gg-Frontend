@@ -18,10 +18,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.alertService.setAppComponent(this);
-    this.languageService.getAllSupportedLanguages().then(() => {
-      this.languageService.initAppLanguage();
-      this.appIsReady = true
-    });
+    this.languageService.initAppLanguage();
+    this.appIsReady = true
   }
 
   cancelAlert() {

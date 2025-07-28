@@ -73,6 +73,7 @@ import { DestinyGuardianRanksComponent } from './component/destiny/destiny-guard
 import { DestinyNodeResultsComponent } from './component/destiny/destiny-node-results/destiny-node-results.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {HttpLoaderFactory} from "./service/language.service";
+import { LolArenaCompletionComponent } from './component/lol/lol-stats/lol-arena-completion/lol-arena-completion.component';
 
 @NgModule({
   declarations: [
@@ -140,7 +141,8 @@ import {HttpLoaderFactory} from "./service/language.service";
     DestinySimpleObjectiveComponent,
     DestinyRewardComponent,
     DestinyGuardianRanksComponent,
-    DestinyNodeResultsComponent
+    DestinyNodeResultsComponent,
+    LolArenaCompletionComponent
   ],
     imports: [
         BrowserModule,

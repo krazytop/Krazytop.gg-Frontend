@@ -30,7 +30,6 @@ export class LolMatchComponent implements OnInit {
   }
 
   toggleShowAllMatchData() {
-    console.log(this.match.datetime)
     this.allDataIsDisplayed = !this.allDataIsDisplayed;
   }
 
@@ -59,6 +58,10 @@ export class LolMatchComponent implements OnInit {
 
   get isArena() {
     return this.match.queue === '1700' || this.match.queue === '1710';
+  }
+
+  get isARAM() {
+    return this.match.queue === '65' || this.match.queue === '100' || this.match.queue === '450';
   }
 
   get placement() {

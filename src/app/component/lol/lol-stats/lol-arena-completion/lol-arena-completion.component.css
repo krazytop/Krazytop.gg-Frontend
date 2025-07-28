@@ -1,0 +1,8 @@
+@import "src/app/component/lol/lol-stats/lol-stats.css";
+
+.champions {
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  grid-gap: 5px;
+}

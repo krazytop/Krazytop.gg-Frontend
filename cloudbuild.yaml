@@ -1,0 +1,83 @@
+steps:
+  # 1. Installation des dépendances Node.js
+  - name: 'node:22.0.0-alpine'
+    entrypoint: 'npm'
+    args: ['ci']
+    dir: '.'
+    id: 'install-node-dependencies'
+
+  # 2. Construction de l’application Angular
+  - name: 'node:22.0.0-alpine'
+    entrypoint: 'npm'
+    args: ['run', 'build', '--', '--configuration', 'production']
+    dir: '.'
+    waitFor: ['install-node-dependencies']
+    id: 'build-angular-app'
+
+  # 3. Analyse SonarQube
+  # Si vous souhaitez analyser votre code TypeScript/JavaScript avec SonarQube,
+  # vous devrez configurer un scanner SonarQube pour Node.js.
+  # Voici un exemple, mais cela pourrait nécessiter des ajustements selon votre configuration SonarQube.
+  # - name: 'sonarsource/sonar-scanner-cli:latest' # Ou une image Docker avec le scanner SonarQube
+  #   args:
+  #     - '-Dsonar.projectKey=${_SONAR_FRONTEND_PROJECT_KEY}'
+  #     - '-Dsonar.organization=${_SONAR_ORGANIZATION}'
+  #     - '-Dsonar.host.url=${_SONAR_HOST_URL}'
+  #     - '-Dsonar.sources=src' # Chemin vers votre code source frontend
+  #     - '-Dsonar.tests=src' # Chemin vers vos tests frontend
+  #     - '-Dsonar.javascript.lcov.reportPaths=coverage/lcov.info' # Si vous avez des rapports de couverture
+  #   secretEnv:
+  #     - 'SONAR_TOKEN'
+  #   waitFor: ['build-angular-app']
+  #   id: 'run-sonarqube-analysis-frontend'
+
+  # 4. Construction de l’image Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_FRONTEND}/${_IMAGE_NAME_FRONTEND}:${COMMIT_SHA}'
+      - '.'
+    dir: '.'
+    env: [ 'DOCKER_BUILDKIT=1' ]
+    # Si SonarQube est activé pour le frontend: waitFor: ['run-sonarqube-analysis-frontend']
+    waitFor: ['build-angular-app']
+    id: 'build-docker-image-frontend'
+
+  # 5. Push de l'image Docker vers Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    env: [ 'DOCKER_BUILDKIT=1' ]
+    args:
+      - 'push'
+      - '${_GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_FRONTEND}/${_IMAGE_NAME_FRONTEND}:${COMMIT_SHA}'
+    waitFor: ['build-docker-image-frontend']
+    id: 'push-to-artifact-registry-frontend'
+
+  # 6. Déploiement sur Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME_FRONTEND}'
+      - '--image=${_GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_FRONTEND}/${_IMAGE_NAME_FRONTEND}:${COMMIT_SHA}'
+      - '--platform=managed'
+      - '--region=${_CLOUD_RUN_REGION}'
+      - '--allow-unauthenticated'
+      - '--port=4200'
+    waitFor: ['push-to-artifact-registry-frontend']
+    id: 'deploy-to-cloud-run-frontend'
+
+availableSecrets:
+  secretManager:
+    - env: SONAR_TOKEN
+      versionName: projects/${PROJECT_ID}/secrets/sonar-token/versions/latest
+
+substitutions:
+  _GAR_LOCATION: europe-west9
+  _REPOSITORY_FRONTEND: docker
+  _IMAGE_NAME_FRONTEND: frontend
+  _SERVICE_NAME_FRONTEND: frontend-service
+  _CLOUD_RUN_REGION: europe-west9
+  _SONAR_HOST_URL: https://sonarcloud.io/
+  _SONAR_ORGANIZATION: krazytop
+  _SONAR_FRONTEND_PROJECT_KEY: frontend

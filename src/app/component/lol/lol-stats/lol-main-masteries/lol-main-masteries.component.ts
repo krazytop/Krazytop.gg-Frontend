@@ -15,12 +15,11 @@ import {LOLMasteryService} from "../../../../service/lol/lol-mastery.service";
 export class LOLMainMasteriesComponent implements OnChanges {
 
   @Input() summoner!: RIOTSummoner;
-  @Input() version?: string;
   @Input() metadata!: RIOTMetadata;
 
   protected masteries?: LOLMasteries;
 
-  constructor(protected imageService: RIOTImageService, protected formatService:FormatService, protected patchService: RIOTPatchService, private masteryService: LOLMasteryService) {
+  constructor(protected imageService: RIOTImageService, protected formatService: FormatService, protected patchService: RIOTPatchService, private masteryService: LOLMasteryService) {
   }
 
   async ngOnChanges() {

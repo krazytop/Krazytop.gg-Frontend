@@ -19,6 +19,10 @@
         [summoner]="summoner!"
         [metadata]="metadata!">
       </lol-main-masteries>
+      <lol-arena-completion *ngIf="selectedQueue === 'arena'"
+        [summoner]="summoner!"
+        [metadata]="metadata!">
+      </lol-arena-completion>
     </div>
     <riot-matches
       [selectedQueue]="selectedQueue"

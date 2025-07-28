@@ -25,6 +25,7 @@ export class TftSearchCriteriaComponent implements OnChanges {
     if (!playedSets.includes(this.currentSet)) {
       playedSets.push(this.currentSet)
     }
+    playedSets.sort((a,b) => b - a);
     this.sets = playedSets.map(set => `set-${set}`)
   }
 

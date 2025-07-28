@@ -1,0 +1,10 @@
+<div class="subcomponent-list component">
+  <span class="component-title">{{ 'LOL.ARENA_COMPLETION' | translate }}</span>
+  <div class="champions">
+    <div *ngFor="let champion of allChampions">
+      <div class="champion-box">
+        <img src="{{ imageService.getLOLChampionImageUrl(champion.id, metadata.currentPatch) }}" alt="Champion" [style.filter]="isCompleted(champion.id) ? 'grayscale(0)' : 'grayscale(1)'">
+      </div>
+    </div>
+  </div>
+</div>

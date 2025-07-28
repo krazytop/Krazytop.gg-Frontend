@@ -26,22 +26,22 @@ export class RIOTPatchService {
   }
 
   private async getNewLOLPatch(patchId: string) {
-    const response = await fetch(`${environment.apiURL}lol/patch/${patchId}/${this.language}`, {headers: HTTPRequestService.getBackendHeaders()});
+    const response = await fetch(`${environment.apiURL}lol/patch/${patchId}`, {headers: {...HTTPRequestService.getBackendHeaders(), 'Accept-Language': this.language}});
     const patch = await this.httpRequestService.hasResponse(response) ? await response.json() as LOLPatchNomenclature : undefined;
     if (patch) this.lolPatches.push(patch);
   }
 
   private async getNewTFTPatch(patchId: string) {
-    const response = await fetch(`${environment.apiURL}tft/patch/${patchId}/${this.language}`, {headers: HTTPRequestService.getBackendHeaders()});
+    const response = await fetch(`${environment.apiURL}tft/patch/${patchId}`, {headers: {...HTTPRequestService.getBackendHeaders(), 'Accept-Language': this.language}});
     const patch = await this.httpRequestService.hasResponse(response) ? await response.json() as TFTPatchNomenclature : undefined;
     if (patch) this.tftPatches.push(patch);
   }
 
-  private getLOLPatch(patchId: string) {
+  public getLOLPatch(patchId: string) {
     return this.lolPatches.find(patch => patch.patchId === patchId);
   }
 
-  private getTFTPatch(patchId: string) {
+  public getTFTPatch(patchId: string) {
     return this.tftPatches.find(patch => patch.patchId === patchId);
   }
 

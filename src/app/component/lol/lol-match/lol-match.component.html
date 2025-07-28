@@ -62,7 +62,7 @@
           <ng-container *ngTemplateOutlet="championBox; context: { url: imageService.getLOLChampionImageUrl(participant.champion, match.version) }"></ng-container>
         </div>
       </div>
-      <div class="team roles">
+      <div class="team roles" *ngIf="!isARAM">
         <img src="assets/data/lol/lol-roles/top.png" alt="Top">
         <img src="assets/data/lol/lol-roles/jungle.png" alt="Jungle">
         <img src="assets/data/lol/lol-roles/middle.png" alt="Middle">
