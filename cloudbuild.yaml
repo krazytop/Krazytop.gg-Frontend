@@ -38,7 +38,7 @@ steps:
       - '-Dsonar.organization=${_SONAR_ORGANIZATION}'
       - '-Dsonar.host.url=${_SONAR_HOST_URL}'
       - '-Dsonar.javascript.lcov.reportPaths=coverage/lcov.info'
-      - '-Dsonar.testExecutionReportPaths=junit/TESTS-karma.xml'
+      - '-Dsonar.junit.reportPaths=junit/TESTS-karma.xml'
       - '-Dsonar.sources=src'
       - '-Dsonar.inclusions=**/*.ts, **/*.scss, **/*.css, **/*.html'
       - '-Dsonar.exclusions=**/node_modules/**,**/*.spec.ts'
