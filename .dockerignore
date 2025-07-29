@@ -1,0 +1,34 @@
+# Fichiers et dossiers spécifiques à Node.js/NPM
+node_modules/       # C'est le plus important ! Contient toutes les dépendances NPM.
+                    # Elles seront installées DANS le Dockerfile.
+
+npm-debug.log       # Logs de débogage de NPM.
+yarn-error.log      # Logs d'erreur de Yarn (si vous l'utilisez).
+
+# Fichiers et dossiers spécifiques à Angular
+dist/               # Le dossier de sortie de la build Angular.
+                    # Il est généré lors de la phase de build Angular DANS le Dockerfile,
+                    # donc pas besoin de l'envoyer.
+
+.angular/           # Cache de l'Angular CLI.
+coverage/           # Rapports de couverture de code des tests.
+e2e/                # Tests end-to-end (si vous ne les exécutez pas dans le conteneur).
+tmp/                # Fichiers temporaires.
+
+# Fichiers et dossiers de versionnement
+.git/               # Le répertoire de métadonnées de Git. Ne doit jamais être inclus.
+.gitignore          # Le fichier .gitignore lui-même.
+
+# Fichiers d'environnement et de configuration locaux
+.env                # Fichiers d'environnement locaux qui pourraient contenir des secrets.
+.env.* # Pour toutes les variantes de fichiers .env (ex: .env.local).
+
+# Fichiers et dossiers d'IDE et de systèmes d'exploitation
+.idea/              # Dossiers de configuration d'IntelliJ/WebStorm.
+.vscode/            # Dossiers de configuration de VS Code.
+*.iml               # Fichiers de module IntelliJ.
+.DS_Store           # Fichiers macOS spécifiques.
+Thumbs.db           # Fichiers Windows spécifiques.
+
+# Fichiers de log généraux
+*.log

@@ -6,10 +6,10 @@ const app = express();
 
 const port = process.env.PORT || 4200;
 
-app.use(express.static(path.join(__dirname, '/dist/krazytop-front')));
+app.use(express.static(path.join(__dirname, '/dist/frontend')));
 
 app.get('{/*path}', (req, res) => {
-  res.sendFile(path.join(__dirname, '/dist/krazytop-front/index.html'));
+  res.sendFile(path.join(__dirname, '/dist/frontend/index.html'));
 })
 
 const server = http.createServer(app);
