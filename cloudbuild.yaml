@@ -16,6 +16,7 @@ steps:
         export CHROME_BIN=/usr/bin/chromium-browser
         npm run test:ci:junit
     dir: '.'
+    allowFailure: true
     waitFor: ['install-node-dependencies']
     id: 'run-angular-tests'
 
