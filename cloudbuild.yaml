@@ -42,8 +42,8 @@ steps:
       - '-Dsonar.sources=src'
       - '-Dsonar.inclusions=**/*.ts, **/*.scss, **/*.css, **/*.html'
       - '-Dsonar.exclusions=**/node_modules/**,**/*.spec.ts'
-      - '-Dsonar.tests=src'
-      - '-Dsonar.tests.inclusions=**/*.spec.ts'
+      - '-Dsonar.test=src'
+      - '-Dsonar.test.inclusions=**/*.spec.ts'
     secretEnv:
       - 'SONAR_TOKEN'
     waitFor: ['build-angular-app']
