@@ -15,6 +15,9 @@ steps:
         apk add --no-cache chromium
         export CHROME_BIN=/usr/bin/chromium-browser
         npm run test:ci:junit
+        echo "--- START JUNIT XML CONTENT ---"
+        cat junit/TESTS-karma.xml || echo "File junit/TESTS-karma.xml not found or empty."
+        echo "--- END JUNIT XML CONTENT ---"
     dir: '.'
     allowFailure: true
     waitFor: ['install-node-dependencies']
