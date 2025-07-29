@@ -44,6 +44,7 @@ steps:
       - '-Dsonar.exclusions=**/node_modules/**,**/*.spec.ts'
       - '-Dsonar.test=src'
       - '-Dsonar.test.inclusions=**/*.spec.ts'
+      - '-Dsonar.typescript.tsconfigPath=src/tsconfig.app.json'
     secretEnv:
       - 'SONAR_TOKEN'
     waitFor: ['build-angular-app']
