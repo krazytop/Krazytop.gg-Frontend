@@ -1,16 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {TftLatestMatchesPlacementComponent} from "./tft-latest-matches-placement.component";
 
-import { TftLatestMatchesResultsComponent } from './tft-latest-matches-results.component';
-
-describe('TftLatestMatchesResultsComponent', () => {
-  let component: TftLatestMatchesResultsComponent;
-  let fixture: ComponentFixture<TftLatestMatchesResultsComponent>;
+describe('TftLatestMatchesPlacementComponent', () => {
+  let component: TftLatestMatchesPlacementComponent;
+  let fixture: ComponentFixture<TftLatestMatchesPlacementComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TftLatestMatchesResultsComponent]
+      declarations: [TftLatestMatchesPlacementComponent]
     });
-    fixture = TestBed.createComponent(TftLatestMatchesResultsComponent);
+    fixture = TestBed.createComponent(TftLatestMatchesPlacementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

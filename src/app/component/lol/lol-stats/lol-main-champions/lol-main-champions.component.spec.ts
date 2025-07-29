@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LolMainChampionsComponent } from './lol-main-champions.component';
+import { LOLMainChampionsComponent } from './lol-main-champions.component';
 
-describe('LolMainChampionsComponent', () => {
-  let component: LolMainChampionsComponent;
-  let fixture: ComponentFixture<LolMainChampionsComponent>;
+describe('LOLMainChampionsComponent', () => {
+  let component: LOLMainChampionsComponent;
+  let fixture: ComponentFixture<LOLMainChampionsComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LolMainChampionsComponent]
+      declarations: [LOLMainChampionsComponent]
     });
-    fixture = TestBed.createComponent(LolMainChampionsComponent);
+    fixture = TestBed.createComponent(LOLMainChampionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

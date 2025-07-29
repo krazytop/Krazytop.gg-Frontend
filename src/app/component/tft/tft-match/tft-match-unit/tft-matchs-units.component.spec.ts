@@ -1,16 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {TftMatchUnitComponent} from "./tft-match-unit.component";
 
-import { TftMatchsUnitsComponent } from './tft-matchs-units.component';
-
-describe('TftMatchsUnitsComponent', () => {
-  let component: TftMatchsUnitsComponent;
-  let fixture: ComponentFixture<TftMatchsUnitsComponent>;
+describe('TftMatchUnitComponent', () => {
+  let component: TftMatchUnitComponent;
+  let fixture: ComponentFixture<TftMatchUnitComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TftMatchsUnitsComponent]
+      declarations: [TftMatchUnitComponent]
     });
-    fixture = TestBed.createComponent(TftMatchsUnitsComponent);
+    fixture = TestBed.createComponent(TftMatchUnitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

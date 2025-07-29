@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LolStatsComponent } from './lol-stats.component';
+import { AlertComponent } from './alert.component';
 
-describe('LolStatsComponent', () => {
-  let component: LolStatsComponent;
-  let fixture: ComponentFixture<LolStatsComponent>;
+describe('AlertComponent', () => {
+  let component: AlertComponent;
+  let fixture: ComponentFixture<AlertComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LolStatsComponent]
+      declarations: [AlertComponent]
     });
-    fixture = TestBed.createComponent(LolStatsComponent);
+    fixture = TestBed.createComponent(AlertComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
