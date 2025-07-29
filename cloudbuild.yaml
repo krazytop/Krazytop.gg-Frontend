@@ -91,4 +91,4 @@ substitutions:
   _CLOUD_RUN_REGION: europe-west9
   _SONAR_HOST_URL: https://sonarcloud.io/
   _SONAR_ORGANIZATION: krazytop
-  _SONAR_FRONTEND_PROJECT_KEY: frontend
+  _SONAR_FRONTEND_PROJECT_KEY: krazytop_frontend
