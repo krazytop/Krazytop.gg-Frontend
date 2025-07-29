@@ -36,6 +36,11 @@ steps:
       - '-Dsonar.host.url=${_SONAR_HOST_URL}'
       - '-Dsonar.javascript.lcov.reportPaths=coverage/lcov.info'
       - '-Dsonar.testExecutionReportPaths=junit/TESTS-karma.xml'
+      - '-Dsonar.sources=src'
+      - '-Dsonar.inclusions=**/*.ts, **/*.scss, **/*.css, **/*.html'
+      - '-Dsonar.exclusions=**/node_modules/**,**/*.spec.ts'
+      - '-Dsonar.tests=src'
+      - '-Dsonar.tests.inclusions=**/*.spec.ts'
     secretEnv:
       - 'SONAR_TOKEN'
     waitFor: ['build-angular-app']
