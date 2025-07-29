@@ -8,8 +8,12 @@ steps:
 
   # 2. Exécution des tests Angular et génération des rapports de couverture/JUnit
   - name: 'node:22.0.0-alpine'
-    entrypoint: 'npm'
-    args: ['run', 'test:ci:junit']
+    entrypoint: '/bin/sh'
+    args:
+      - '-c'
+      - |
+        apk add --no-cache chromium
+        npm run test:ci:junit
     dir: '.'
     waitFor: ['install-node-dependencies']
     id: 'run-angular-tests'
