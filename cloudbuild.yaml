@@ -34,8 +34,6 @@ steps:
       - '-Dsonar.projectKey=${_SONAR_FRONTEND_PROJECT_KEY}'
       - '-Dsonar.organization=${_SONAR_ORGANIZATION}'
       - '-Dsonar.host.url=${_SONAR_HOST_URL}'
-      - '-Dsonar.sources=src'
-      - '-Dsonar.tests=src'
       - '-Dsonar.javascript.lcov.reportPaths=coverage/lcov.info'
       - '-Dsonar.testExecutionReportPaths=junit/TESTS-karma.xml'
     secretEnv:
