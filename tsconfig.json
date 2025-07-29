@@ -29,8 +29,8 @@
     "src/**/*.d.ts"
   ],
   "exclude": [
-    "src/**/*.spec.ts",
-    "src/**/*.ts"
+    "node_modules",
+    "dist"
   ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
