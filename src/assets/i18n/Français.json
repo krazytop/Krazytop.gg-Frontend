@@ -82,7 +82,8 @@
   },
   "LOL": {
     "RECENT_RESULTS": "Résultats Précedents",
-    "ARENA_COMPLETION": "Achèvements d'Arena",
+    "ARENA_COMPLETION": "Arena",
+    "SEARCH_CHAMPION": "Rechercher un champion",
     "MAIN_CHAMPIONS": "Principaux Champions",
     "MAIN_FRIENDS": "Amis Récents",
     "MAIN_MASTERIES": "Principales Maîtrises",

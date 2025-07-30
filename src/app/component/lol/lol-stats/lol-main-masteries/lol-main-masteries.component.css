@@ -36,3 +36,28 @@
   justify-content: center;
   display: flex;
 }
+
+.small-subcomponent-list {
+  height: 350px;
+  overflow: auto;
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+  background: transparent;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C2C2C2;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9f9f9f;
+}

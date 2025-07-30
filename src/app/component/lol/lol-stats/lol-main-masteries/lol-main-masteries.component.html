@@ -1,7 +1,11 @@
 <div class="subcomponent-list component">
   <span class="component-title">{{ 'LOL.MAIN_MASTERIES' | translate }}</span>
+  <div class="filter">
+    <input [(ngModel)]="filter" (ngModelChange)="filterMasteries()" class="basic-input" [placeholder]="'LOL.SEARCH_CHAMPION' | translate">
+    <img *ngIf="filter.trim()" (click)="resetFilter()" [src]="'assets/logo/red-cross.png'">
+  </div>
   <div class="small-subcomponent-list">
-    <div class="mastery small-subcomponent" *ngFor="let mastery of masteries?.champions">
+    <div class="mastery small-subcomponent" *ngFor="let mastery of filteredMasteries">
       <div class="champion-box">
         <img src="{{ imageService.getLOLChampionImageUrl(mastery.champion, metadata.currentPatch) }}" alt="Champion">
       </div>

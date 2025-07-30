@@ -80,3 +80,22 @@
   background-color: #54b3b455;
   color: dodgerblue;
 }
+
+.filter {
+  position: relative;
+
+  img {
+    height: 15px;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    align-self: center;
+  }
+
+  input {
+    height: 30px;
+    width: 100%;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+}

@@ -19,6 +19,8 @@ export class LolArenaCompletionComponent implements OnChanges {
 
   protected arenaCompletion?: LOLArenaCompletion;
   protected allChampions: LOLChampionNomenclature[] = [];
+  protected filteredChampions: LOLChampionNomenclature[] = [];
+  protected filter: string = "";
 
   constructor(protected imageService: RIOTImageService, private arenaCompletionService: LOLArenaCompletionService, protected patchService: RIOTPatchService) {
   }
@@ -41,6 +43,21 @@ export class LolArenaCompletionComponent implements OnChanges {
           return 0;
         }
       });
+    this.filteredChampions = this.allChampions;
+  }
+
+  filterChampions(): void {
+    if (this.filter.trim() === '') {
+      this.filteredChampions = this.allChampions;
+    } else {
+      this.filteredChampions = this.allChampions
+        .filter(champion => champion.name.toLowerCase().startsWith(this.filter.trim().toLowerCase()));
+    }
+  }
+
+  resetFilter(): void {
+    this.filter = '';
+    this.filteredChampions = this.allChampions;
   }
 
 }

@@ -1,9 +1,13 @@
 <div class="subcomponent-list component">
-  <span class="component-title">{{ 'LOL.ARENA_COMPLETION' | translate }}</span>
+  <span class="component-title">{{ 'LOL.ARENA_COMPLETION' | translate }} ({{ arenaCompletion?.champions?.length }} / {{ allChampions.length }})</span>
+  <div class="filter">
+    <input [(ngModel)]="filter" (ngModelChange)="filterChampions()" class="basic-input" [placeholder]="'LOL.SEARCH_CHAMPION' | translate">
+    <img *ngIf="filter.trim()" (click)="resetFilter()" [src]="'assets/logo/red-cross.png'">
+  </div>
   <div class="champions">
-    <div *ngFor="let champion of allChampions">
+    <div *ngFor="let champion of filteredChampions">
       <div class="champion-box">
-        <img src="{{ imageService.getLOLChampionImageUrl(champion.id, metadata.currentPatch) }}" alt="Champion" [style.filter]="isCompleted(champion.id) ? 'grayscale(0)' : 'grayscale(1)'">
+        <img src="{{ imageService.getLOLChampionImageUrl(champion.id, metadata.currentPatch) }}" alt="Champion" [style.filter]="isCompleted(champion.id) ? 'grayscale(0)' : 'grayscale(1) brightness(0.5)'">
       </div>
     </div>
   </div>
